@@ -1,0 +1,1547 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.catalystcenter.application_health_score_definitions module -- Resource module for Application Health Score Definitions
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.catalystcenter.application_health_score_definitions_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.catalystcenter.application_health_score_definitions`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.catalystcenter 2.11.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operation update of the resource Application Health Score Definitions.
+- Update application health score definition for the given id.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- catalystcentersdk \>= 3.2.3.0.0
+- python \>= 3.12
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-badDefaultValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-baddefaultvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **badDefaultValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-badDefaultValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The default upper threshold value of the KPI for poor (1-3) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-badMaxValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-badmaxvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **badMaxValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-badMaxValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Maximum value allowed for upper threshold value of the KPI for poor (1-3) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-badMinValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-badminvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **badMinValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-badMinValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Minimum value allowed for upper threshold value of the KPI for poor (1-3) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-badValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-badvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **badValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-badValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The upper threshold value of the KPI for poor (1-3) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-catalystcenter_debug:
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_debug`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-catalystcenter_host:
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_host`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-catalystcenter_password:
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_password`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-catalystcenter_api_port:
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-catalystcenter_port:
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_port, catalystcenter_api_port`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_username, user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-catalystcenter_verify:
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_verify`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-catalystcenter_version:
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_version`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco Catalyst Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-definitionType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-definitiontype:
+
+      .. rst-class:: ansible-option-title
+
+      **definitionType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-definitionType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Definition type to indicate whether the health score definition has been customized or not.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-goodDefaultValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-gooddefaultvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **goodDefaultValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-goodDefaultValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The default lower threshold value of the KPI for fair (4-7) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-goodMaxValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-goodmaxvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **goodMaxValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-goodMaxValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Maximum value allowed for lower threshold value of the KPI for fair (4-7) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-goodMinValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-goodminvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **goodMinValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-goodMinValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Minimum value allowed for lower threshold value of the KPI for fair (4-7) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-goodValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-goodvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **goodValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-goodValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The lower threshold value of the KPI for fair (4-7) health score. This would be same as the upper threshold value of the KPI for good (8-10) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-greatDefaultValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-greatdefaultvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **greatDefaultValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-greatDefaultValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The default lower threshold value of the KPI for good (8-10) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-greatMaxValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-greatmaxvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **greatMaxValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-greatMaxValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Maximum value allowed for the lower threshold value of the KPI for good (8-10) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-greatMinValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-greatminvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **greatMinValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-greatMinValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Minimum value allowed for the lower threshold value of the KPI for good (8-10) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-greatValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-greatvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **greatValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-greatValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The lower threshold value of the KPI for good (8-10) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-headers:
+
+      .. rst-class:: ansible-option-title
+
+      **headers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Application health score definition id.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-includeForHealthScore"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-includeforhealthscore:
+
+      .. rst-class:: ansible-option-title
+
+      **includeForHealthScore**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-includeForHealthScore" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to indicate whether the KPI is included for the application health score calulation or not.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-includeForHealthScoreDefault"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-includeforhealthscoredefault:
+
+      .. rst-class:: ansible-option-title
+
+      **includeForHealthScoreDefault**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-includeForHealthScoreDefault" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Default flag to indicate whether the KPI is included for application health calulation or not.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-kpiName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-kpiname:
+
+      .. rst-class:: ansible-option-title
+
+      **kpiName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-kpiName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Application health KPI name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lastModified"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-lastmodified:
+
+      .. rst-class:: ansible-option-title
+
+      **lastModified**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lastModified" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Last modification time in milliseconds since UNIX epoch. This is applicable only for modified thresholds.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-poorDefaultValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-poordefaultvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **poorDefaultValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-poorDefaultValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The default lower threshold value of the KPI for poor (1-3) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-poorMaxValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-poormaxvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **poorMaxValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-poorMaxValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Maximum value allowed for lower threshold value of the KPI for poor (1-3) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-poorMinValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-poorminvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **poorMinValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-poorMinValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Minimum value allowed for lower threshold value of the KPI for poor (1-3) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-poorValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-poorvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **poorValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-poorValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The lower threshold value of the KPI for poor (1-3) health score. This would be same as the upper threshold value of the KPI for fair (4-7) health score.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-trafficClass"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-trafficclass:
+
+      .. rst-class:: ansible-option-title
+
+      **trafficClass**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-trafficClass" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Traffic class for application health score definition.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-unit"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-unit:
+
+      .. rst-class:: ansible-option-title
+
+      **unit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-unit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Application Health score definition unit.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-weightDefaultValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-weightdefaultvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **weightDefaultValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-weightDefaultValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The default weightage of the KPI used for application health score calculation.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-weightValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__parameter-weightvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **weightValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-weightValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The weightage of the KPI used for application health score calculation.
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are applications.Applications.update\_application\_health\_score\_definition\_for\_the\_given\_id,
+   - Paths used are put /dna/intent/api/v1/applicationHealthScoreDefinitions/{id},
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins,
+   - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco Catalyst Center documentation for Applications UpdateApplicationHealthScoreDefinitionForTheGivenId <https://developer.cisco.com/docs/dna-center/#!update-application-health-score-definition-for-the-given-id>`_
+       Complete reference of the UpdateApplicationHealthScoreDefinitionForTheGivenId API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Update by id
+      cisco.catalystcenter.application_health_score_definitions:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        badValue: 10
+        goodValue: 1
+        greatValue: 0.1
+        headers: '{{my_headers | from_json}}'
+        id: string
+        includeForHealthScore: true
+        poorValue: 4
+        weightValue: 10
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.application_health_score_definitions_module__return-catalystcenter_response:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"badDefaultValue": 0, "badMaxValue": 0, "badMinValue": 0, "badValue": 0, "definitionType": "string", "goodDefaultValue": 0, "goodMaxValue": 0, "goodMinValue": 0, "goodValue": 0, "greatDefaultValue": 0, "greatMaxValue": 0, "greatMinValue": 0, "greatValue": 0, "id": "string", "includeForHealthScore": true, "includeForHealthScoreDefault": true, "kpiName": "string", "lastModified": 0, "poorDefaultValue": 0, "poorMaxValue": 0, "poorMinValue": 0, "poorValue": 0, "trafficClass": "string", "unit": "string", "weightDefaultValue": 0, "weightValue": 0}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Bryan Vargas (@bvargasre)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

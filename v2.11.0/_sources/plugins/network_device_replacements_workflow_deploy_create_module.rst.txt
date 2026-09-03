@@ -1,0 +1,1600 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.catalystcenter.network_device_replacements_workflow_deploy_create module -- Resource module for Network Device Replacements Workflow Deploy Create
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.catalystcenter.network_device_replacements_workflow_deploy_create`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.catalystcenter 2.11.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operation create of the resource Network Device Replacements Workflow Deploy Create. - \> API to trigger RMA workflow that will replace faulty device with replacement device with same configuration and images.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- catalystcentersdk \>= 3.2.3.0.0
+- python \>= 3.12
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-catalystcenter_debug:
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_debug`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-catalystcenter_host:
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_host`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-catalystcenter_password:
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_password`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-catalystcenter_api_port:
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-catalystcenter_port:
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_port, catalystcenter_api_port`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_username, user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-catalystcenter_verify:
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_verify`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-catalystcenter_version:
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_version`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco Catalyst Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-configKey"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-configkey:
+
+      .. rst-class:: ansible-option-title
+
+      **configKey**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-configKey" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      If the faulty device was configured with AES password encryption, please provide the same master encryption config key to enable encryption on the replacement device. \`Failing to provide the Master Encryption Configuration Key or providing an incorrect one will result in the RMA process transferring only a partial configuration to the replacement device. Configurations such as encrypted passwords or keys would fail to restore without the correct encryption key.\`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-configureSso"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-configuresso:
+
+      .. rst-class:: ansible-option-title
+
+      **configureSso**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-configureSso" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to configure HA SSO (High Availability Stateful Switchover) .
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-faultyDeviceSerialNumber"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-faultydeviceserialnumber:
+
+      .. rst-class:: ansible-option-title
+
+      **faultyDeviceSerialNumber**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-faultyDeviceSerialNumber" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Serial number of the faulty device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-haSsoDetail"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-hassodetail:
+
+      .. rst-class:: ansible-option-title
+
+      **haSsoDetail**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-haSsoDetail" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Network Device Replacements Workflow Deploy Create's haSsoDetail.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-haSsoDetail/haInterfaceName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-hassodetail/hainterfacename:
+
+      .. rst-class:: ansible-option-title
+
+      **haInterfaceName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-haSsoDetail/haInterfaceName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      An optional HA interface for the primary device, required only for \`9800 CL\` device type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-haSsoDetail/localRedundancyIp"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-hassodetail/localredundancyip:
+
+      .. rst-class:: ansible-option-title
+
+      **localRedundancyIp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-haSsoDetail/localRedundancyIp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The IP address assigned to the HA interface on the primary device (either the active or standby device).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-haSsoDetail/peerDeviceSerialNumber"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-hassodetail/peerdeviceserialnumber:
+
+      .. rst-class:: ansible-option-title
+
+      **peerDeviceSerialNumber**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-haSsoDetail/peerDeviceSerialNumber" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Serial number of the peer device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-haSsoDetail/peerHaInterfaceName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-hassodetail/peerhainterfacename:
+
+      .. rst-class:: ansible-option-title
+
+      **peerHaInterfaceName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-haSsoDetail/peerHaInterfaceName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      An optional HA interface for the peer device, required only for \`9800 CL\` device type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-haSsoDetail/redundancyIp"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-hassodetail/redundancyip:
+
+      .. rst-class:: ansible-option-title
+
+      **redundancyIp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-haSsoDetail/redundancyIp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the IP address of the HA interface on the peer device (the other device in the HA pair).
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-outOfBand"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-outofband:
+
+      .. rst-class:: ansible-option-title
+
+      **outOfBand**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-outOfBand" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates that device replacement was performed manually outside the system (out-of-band). Set to true to complete remaining configuration and integration steps and bring device to managed state.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-primaryGatewayIp"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-primarygatewayip:
+
+      .. rst-class:: ansible-option-title
+
+      **primaryGatewayIp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-primaryGatewayIp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Primary gateway IP address of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-primaryGatewayIpv6"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-primarygatewayipv6:
+
+      .. rst-class:: ansible-option-title
+
+      **primaryGatewayIpv6**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-primaryGatewayIpv6" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Primary gateway IPv6 address of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-primaryIpInterfaceName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-primaryipinterfacename:
+
+      .. rst-class:: ansible-option-title
+
+      **primaryIpInterfaceName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-primaryIpInterfaceName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Primary IP interface name of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-primaryNetmask"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-primarynetmask:
+
+      .. rst-class:: ansible-option-title
+
+      **primaryNetmask**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-primaryNetmask" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Primary netmask of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-primaryPrefixLength"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-primaryprefixlength:
+
+      .. rst-class:: ansible-option-title
+
+      **primaryPrefixLength**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-primaryPrefixLength" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IPv6 Primary Prefix Length.Mandatory for IPv6, default is 'null' otherwise.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-primaryVlanId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-primaryvlanid:
+
+      .. rst-class:: ansible-option-title
+
+      **primaryVlanId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-primaryVlanId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Primary VLAN ID of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-primaryWirelessManagementIp"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-primarywirelessmanagementip:
+
+      .. rst-class:: ansible-option-title
+
+      **primaryWirelessManagementIp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-primaryWirelessManagementIp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Primary wireless management IP address of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-primaryWirelessManagementIpv6"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-primarywirelessmanagementipv6:
+
+      .. rst-class:: ansible-option-title
+
+      **primaryWirelessManagementIpv6**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-primaryWirelessManagementIpv6" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Primary wireless management IPv6 address of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-replacementDeviceSerialNumber"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-replacementdeviceserialnumber:
+
+      .. rst-class:: ansible-option-title
+
+      **replacementDeviceSerialNumber**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-replacementDeviceSerialNumber" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Serial number of the replacement device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-secondaryGatewayIp"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-secondarygatewayip:
+
+      .. rst-class:: ansible-option-title
+
+      **secondaryGatewayIp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-secondaryGatewayIp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Secondary gateway IP address of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-secondaryGatewayIpv6"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-secondarygatewayipv6:
+
+      .. rst-class:: ansible-option-title
+
+      **secondaryGatewayIpv6**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-secondaryGatewayIpv6" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Secondary gateway IPv6 address of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-secondaryIpInterfaceName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-secondaryipinterfacename:
+
+      .. rst-class:: ansible-option-title
+
+      **secondaryIpInterfaceName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-secondaryIpInterfaceName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Secondary IP interface name of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-secondaryNetmask"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-secondarynetmask:
+
+      .. rst-class:: ansible-option-title
+
+      **secondaryNetmask**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-secondaryNetmask" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Secondary netmask of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-secondaryPrefixLength"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-secondaryprefixlength:
+
+      .. rst-class:: ansible-option-title
+
+      **secondaryPrefixLength**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-secondaryPrefixLength" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IPv6 Secondary Prefix Length.Mandatory for IPv6, default is 'null' otherwise.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-secondaryVlanId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-secondaryvlanid:
+
+      .. rst-class:: ansible-option-title
+
+      **secondaryVlanId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-secondaryVlanId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Secondary VLAN ID of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-secondaryWirelessManagementIp"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-secondarywirelessmanagementip:
+
+      .. rst-class:: ansible-option-title
+
+      **secondaryWirelessManagementIp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-secondaryWirelessManagementIp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Secondary wireless management IP address of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-secondaryWirelessManagementIpv6"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-secondarywirelessmanagementipv6:
+
+      .. rst-class:: ansible-option-title
+
+      **secondaryWirelessManagementIpv6**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-secondaryWirelessManagementIpv6" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Secondary wireless management IPv6 address of PnP device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-type"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-type:
+
+      .. rst-class:: ansible-option-title
+
+      **type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Type of the device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are device\_replacement.DeviceReplacement.deploy\_device\_replacement\_workflow\_site\_management,
+   - Paths used are post /dna/intent/api/v1/networkDeviceReplacements/workflow/deploy,
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins,
+   - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco Catalyst Center documentation for Device Replacement DeployDeviceReplacementWorkflowSiteManagement <https://developer.cisco.com/docs/dna-center/#!deploy-device-replacement-workflow-site-management>`_
+       Complete reference of the DeployDeviceReplacementWorkflowSiteManagement API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Create
+      cisco.catalystcenter.network_device_replacements_workflow_deploy_create:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        configKey: string
+        configureSso: true
+        faultyDeviceSerialNumber: string
+        haSsoDetail:
+          haInterfaceName: string
+          localRedundancyIp: string
+          peerDeviceSerialNumber: string
+          peerHaInterfaceName: string
+          redundancyIp: string
+        outOfBand: true
+        primaryGatewayIp: string
+        primaryGatewayIpv6: string
+        primaryIpInterfaceName: string
+        primaryNetmask: string
+        primaryPrefixLength: 0
+        primaryVlanId: 0
+        primaryWirelessManagementIp: string
+        primaryWirelessManagementIpv6: string
+        replacementDeviceSerialNumber: string
+        secondaryGatewayIp: string
+        secondaryGatewayIpv6: string
+        secondaryIpInterfaceName: string
+        secondaryNetmask: string
+        secondaryPrefixLength: 0
+        secondaryVlanId: 0
+        secondaryWirelessManagementIp: string
+        secondaryWirelessManagementIpv6: string
+        type: string
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_replacements_workflow_deploy_create_module__return-catalystcenter_response:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Bryan Vargas (@bvargasre)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

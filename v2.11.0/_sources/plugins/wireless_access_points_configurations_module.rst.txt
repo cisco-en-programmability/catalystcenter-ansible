@@ -1,0 +1,2603 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.catalystcenter.wireless_access_points_configurations module -- Resource module for Wireless Access Points Configurations
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.catalystcenter.wireless_access_points_configurations`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.catalystcenter 2.11.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operation create of the resource Wireless Access Points Configurations.
+- This API submits an asynchronous bulk configuration request for wireless access points.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- catalystcentersdk \>= 3.2.3.0.0
+- python \>= 3.12
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-accelerometerStateEnabled"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-accelerometerstateenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **accelerometerStateEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-accelerometerStateEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      To configure the access point's accelerometer, set this parameter's value to 'true' to enable and 'false' to disable the accelerometer.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-accessPoints"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-accesspoints:
+
+      .. rst-class:: ansible-option-title
+
+      **accessPoints**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-accessPoints" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of target APs and AP-specific attributes. Each item must include macAddress and may include per-AP attributes such as newName and geolocationConfiguration.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-accessPoints/geolocationConfiguration"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-accesspoints/geolocationconfiguration:
+
+      .. rst-class:: ansible-option-title
+
+      **geolocationConfiguration**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-accessPoints/geolocationConfiguration" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Parameters to configure geolocation settings for an access point, such as its height, height uncertainty, and cable length.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-accessPoints/geolocationConfiguration/cableLength"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-accesspoints/geolocationconfiguration/cablelength:
+
+      .. rst-class:: ansible-option-title
+
+      **cableLength**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-accessPoints/geolocationConfiguration/cableLength" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      To configure 'cableLength', specify the cable length in meters for the access point. The value of 'cableLength' must lie within the range 1, 100.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-accessPoints/geolocationConfiguration/geolocationHeight"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-accesspoints/geolocationconfiguration/geolocationheight:
+
+      .. rst-class:: ansible-option-title
+
+      **geolocationHeight**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-accessPoints/geolocationConfiguration/geolocationHeight" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      To configure 'geolocationHeight', specify the height of the access point in meters. This parameter becomes mandatory if 'geolocationHeightUncertainty' is provided. The value of 'geolocationHeight' must lie within the range -100, 1000.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-accessPoints/geolocationConfiguration/geolocationHeightUncertainty"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-accesspoints/geolocationconfiguration/geolocationheightuncertainty:
+
+      .. rst-class:: ansible-option-title
+
+      **geolocationHeightUncertainty**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-accessPoints/geolocationConfiguration/geolocationHeightUncertainty" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      To configure 'geolocationHeightUncertainty', specify the uncertainty in the height of the access point in meters. This parameter becomes mandatory if 'geolocationHeight' is provided.The value of 'geolocationHeightUncertainty' must lie within the range 1, 100.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-accessPoints/macAddress"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-accesspoints/macaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **macAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-accessPoints/macAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The unique Ethernet MAC address of the access point, used for unambiguous identification within the network. This parameter is mandatory and must be provided.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-accessPoints/name"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-accesspoints/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-accessPoints/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The current hostname of the access point, used to identify it in the system.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-accessPoints/newName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-accesspoints/newname:
+
+      .. rst-class:: ansible-option-title
+
+      **newName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-accessPoints/newName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The new hostname for the access point. This parameter is optional and should be provided only if the hostname needs to be updated.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-adminStatus"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-adminstatus:
+
+      .. rst-class:: ansible-option-title
+
+      **adminStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-adminStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configures the administrative status of the access point. Set this parameter to 'true' to enable the admin status or 'false' to disable it.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-assignSiteAsLocation"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-assignsiteaslocation:
+
+      .. rst-class:: ansible-option-title
+
+      **assignSiteAsLocation**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-assignSiteAsLocation" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines whether the assigned site should be used as the access point's location. Set this parameter to 'true' to use the assigned site as the location of the access point. If no site is assigned to the access point, or if you wish to manually configure a custom location, set this parameter to 'false' and use the 'location' parameter to specify the location.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-catalystcenter_debug:
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_debug`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-catalystcenter_host:
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_host`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-catalystcenter_password:
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_password`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-catalystcenter_api_port:
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-catalystcenter_port:
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_port, catalystcenter_api_port`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_username, user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-catalystcenter_verify:
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_verify`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-catalystcenter_version:
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_version`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco Catalyst Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cleanAirSI24"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-cleanairsi24:
+
+      .. rst-class:: ansible-option-title
+
+      **cleanAirSI24**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cleanAirSI24" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      To configure clean air status for 2.4 GHz band, set this parameter's value to 'true' to enable or 'false' to disable clean air.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cleanAirSI5"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-cleanairsi5:
+
+      .. rst-class:: ansible-option-title
+
+      **cleanAirSI5**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cleanAirSI5" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      To configure clean air status for 5 GHz band, set this parameter's value to 'true' to enable or 'false' to disable clean air.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cleanAirSI6"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-cleanairsi6:
+
+      .. rst-class:: ansible-option-title
+
+      **cleanAirSI6**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cleanAirSI6" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      To configure clean air status for 6 GHz band, set this parameter's value to 'true' to enable or 'false' to disable clean air.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnsIpAddress"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-dnsipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **dnsIpAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnsIpAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configure DNS IPv4 or IPv6 Address for the access point. The IP Address should be reachable from the static IP Address configured on the access point.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-domainname:
+
+      .. rst-class:: ansible-option-title
+
+      **domainName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configure domain name for the access point.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-failoverPriority"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-failoverpriority:
+
+      .. rst-class:: ansible-option-title
+
+      **failoverPriority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-failoverPriority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configure the failover priority for the access point. Allowed values are 'LOW', 'MEDIUM', 'HIGH', and 'CRITICAL', where 'LOW' is the lowest priority and 'CRITICAL' is the highest.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lanPortConfigurations"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-lanportconfigurations:
+
+      .. rst-class:: ansible-option-title
+
+      **lanPortConfigurations**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lanPortConfigurations" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      LAN port configuration for all ports.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lanPortConfigurations/poeStatus"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-lanportconfigurations/poestatus:
+
+      .. rst-class:: ansible-option-title
+
+      **poeStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lanPortConfigurations/poeStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      To configure the PoE status on the specified LAN port for an access point, set this parameter's value to "true" to enable it and "false" to disable it. For PoE status to be enabled, "portStatus" attribute should be configured as "true".
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lanPortConfigurations/portId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-lanportconfigurations/portid:
+
+      .. rst-class:: ansible-option-title
+
+      **portId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lanPortConfigurations/portId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The unique identifier for the LAN port on the access point. This parameter specifies which port is being configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lanPortConfigurations/portStatus"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-lanportconfigurations/portstatus:
+
+      .. rst-class:: ansible-option-title
+
+      **portStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lanPortConfigurations/portStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      To configure the port status, set this parameter's value to "true" to enable it and "false" to disable it.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ledBrightnessLevel"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-ledbrightnesslevel:
+
+      .. rst-class:: ansible-option-title
+
+      **ledBrightnessLevel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ledBrightnessLevel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configures the brightness level of the access point's LED. Set this parameter to a value within the range 1, 8, where '1' represents the lowest brightness and '8' represents the highest brightness.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ledStatus"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-ledstatus:
+
+      .. rst-class:: ansible-option-title
+
+      **ledStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ledStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      To configure the access point's LED status, set this parameter's value to 'true' to enable or 'false' to disable the LED status.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-location"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-location:
+
+      .. rst-class:: ansible-option-title
+
+      **location**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-location" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configures the location for all selected access points. For access points associated with AireOS/AireOS-ME controllers, the maximum supported length of the 'location' string is 255 characters. For access points associated with other controllers, the maximum supported length of the 'location' string is 128 characters. Ensure the string length adheres to these limits based on the type of controller managing the access point.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-meshRole"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-meshrole:
+
+      .. rst-class:: ansible-option-title
+
+      **meshRole**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-meshRole" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Use the meshRole variable to configure the bridge role for an access point. - Configure meshRole as 'RAP' for Root Access Point, or 'MAP' for Mesh Access Point. Please note Mode, VLAN Tag, and Mesh Role configurations cannot be configured together. This configuration will only be applied to access points that are in bridge mode. This configuration is not available for Site-based Network Profile managed access points (also known as intent-based APs). If your selection includes a mix of intent-based and non-intent-based access points, Mesh Role configuration will only be provisioned to the non-intent-based access points.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mode"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-mode:
+
+      .. rst-class:: ansible-option-title
+
+      **mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configure the access point mode. - 'LOCAL' The access point operates in local mode. - 'MONITOR' The access point operates in monitoring mode. - 'SNIFFER' The access point operates in sniffer mode. - 'BRIDGE' The access point operates in bridge mode. - 'FLEX\_LOCAL' The access point operates in flexconnect-local mode. Choose one of the above values to set the desired mode.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-primaryControllerIpAddress"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-primarycontrolleripaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **primaryControllerIpAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-primaryControllerIpAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      To configure this parameter, specify the IPv4 or IPv6 address of the primary controller for the access point.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-primaryControllerName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-primarycontrollername:
+
+      .. rst-class:: ansible-option-title
+
+      **primaryControllerName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-primaryControllerName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      To configure this parameter, specify the hostname of the primary controller for the access point.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations:
+
+      .. rst-class:: ansible-option-title
+
+      **radioConfigurations**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies radio configurations for the selected access points. This allows you to configure individual radio parameters, such as the radio type, administrative status, role assignment, and more.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/adminStatus"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/adminstatus:
+
+      .. rst-class:: ansible-option-title
+
+      **adminStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/adminStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      To configure admin status on the radio, set this parameter's value to "true" to enable it and "false" to disable it.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/antennaCableName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/antennacablename:
+
+      .. rst-class:: ansible-option-title
+
+      **antennaCableName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/antennaCableName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure antenna cable name. Set this parameter's value to "other", if cable loss needs to be configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/antennaGain"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/antennagain:
+
+      .. rst-class:: ansible-option-title
+
+      **antennaGain**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/antennaGain" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure the antenna gain on the specified radio for an access point by setting a decimal value (in dBi). To configure "antennaGain", set "antennaPatternName" value to "other". The External Antenna Gain value will be applied in 0.5 dBi increments on the controller. Therefore, the value entered will be multiplied by 2 to configure the absolute gain value. AntennaGain should be in range 0, 20.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/antennaName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/antennaname:
+
+      .. rst-class:: ansible-option-title
+
+      **antennaName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/antennaName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specify the antenna name on the specified radio for an access point. The antenna name is used to calculate the gain on the radio slot.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/bssColor"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/bsscolor:
+
+      .. rst-class:: ansible-option-title
+
+      **bssColor**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/bssColor" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure BSS color of the radio. BssColor should be in range of 0, 63. This attribute can be set only if bssColorAssignmentMode is set to "CUSTOM".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/bssColorAssignmentMode"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/bsscolorassignmentmode:
+
+      .. rst-class:: ansible-option-title
+
+      **bssColorAssignmentMode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/bssColorAssignmentMode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure BSS Color Assignment mode. Set the parameter's value to 'GLOBAL' to assign bssColor by a dynamic algorithm, making bssColor read-only. Or, Set the parameter's value to 'CUSTOM' to make bssColor read-write, allowing it to be set manually.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/bssColorRadioAdminStatus"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/bsscolorradioadminstatus:
+
+      .. rst-class:: ansible-option-title
+
+      **bssColorRadioAdminStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/bssColorRadioAdminStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set this parameter's value to "false", if bssColorAssignmentMode is set to 'GLOBAL'. Or, set this parameter's value to "true" or "false" if bssColorRadioAdminStatus is set to "CUSTOM".
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/cableLoss"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/cableloss:
+
+      .. rst-class:: ansible-option-title
+
+      **cableLoss**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/cableLoss" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure cable loss (in dBi) in the range 0, 20.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/channelAssignmentMode"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/channelassignmentmode:
+
+      .. rst-class:: ansible-option-title
+
+      **channelAssignmentMode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/channelAssignmentMode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure channel assignment mode as 'GLOBAL' or 'CUSTOM'. 'CUSTOM' allows manual selection of a specific channel.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/channelNumber"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/channelnumber:
+
+      .. rst-class:: ansible-option-title
+
+      **channelNumber**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/channelNumber" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure channel number. This is applicable only when 'channelAssignmentMode' is set to 'CUSTOM'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/channelWidth"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/channelwidth:
+
+      .. rst-class:: ansible-option-title
+
+      **channelWidth**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/channelWidth" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure channel width as '20MHZ' for 20 MHz, '40MHZ' for 40 MHz, '80MHZ' for 80 MHz, '160MHZ' for 160 MHz, '320MHZ' for 320 MHz.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/dualRadioMode"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/dualradiomode:
+
+      .. rst-class:: ansible-option-title
+
+      **dualRadioMode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/dualRadioMode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      To configure the dual radio mode, set this parameter's value as 'true' to enable, and 'false' to disable dual radio mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/powerAssignmentMode"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/powerassignmentmode:
+
+      .. rst-class:: ansible-option-title
+
+      **powerAssignmentMode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/powerAssignmentMode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure power assignment mode as 'GLOBAL' or 'CUSTOM'. 'CUSTOM' allows manual configuration of the power level for the radio.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/powerLevel"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/powerlevel:
+
+      .. rst-class:: ansible-option-title
+
+      **powerLevel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/powerLevel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure power level in range 1,8 when powerAssignmentMode is CUSTOM.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/radioBand"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/radioband:
+
+      .. rst-class:: ansible-option-title
+
+      **radioBand**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/radioBand" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This parameter must be configured if the 'radioRoleAssignment' parameter is set as "SERVING". Set this parameter's value as "2\_4GHZ" for 2.4 GHz radio band, "5GHZ" for 5 GHz radio band, "6GHZ" for 6 GHz radio band.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/radioRoleAssignment"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/radioroleassignment:
+
+      .. rst-class:: ansible-option-title
+
+      **radioRoleAssignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/radioRoleAssignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure radio role as "AUTO", "SERVING", or "MONITOR". "SERVING" maps to client-serving mode on the controller. If 'radioRoleAssignment' is set to 'SERVING', you must also provide 'radioBand'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/radioType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/radiotype:
+
+      .. rst-class:: ansible-option-title
+
+      **radioType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/radioType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This parameter uniquely identifies the radio to be configured. If you need to configure any other radio configuration parameters, you must configure this parameter. Specify 'radioType' as '2\_4GHZ' for 2.4 GHz radio, or '5GHZ' for 5 GHz radio, or '6GHZ' for 6 GHz radio, or 'XOR\_2\_4GHZ\_5GHZ' for dual-band radio with XOR on 2.4GHz and 5Ghz radio band, or 'XOR\_5GHZ\_6GHZ' for dual-band radio with XOR on 5GHz and 6Ghz radio band, or 'XOR\_2\_4GHZ\_6GHZ' for dual-band radio with XOR on 2.4GHz and 6Ghz radio band.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/slotId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-radioconfigurations/slotid:
+
+      .. rst-class:: ansible-option-title
+
+      **slotId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/slotId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specify slot ID of the radio band. This parameter must be configured if you need to configure radio parameters for Tri-radio.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rapDownlinkBackhaul"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-rapdownlinkbackhaul:
+
+      .. rst-class:: ansible-option-title
+
+      **rapDownlinkBackhaul**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rapDownlinkBackhaul" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the downlink backhaul band for a Root Access Point (RAP). Allowed values are '2.4 GHz' and '5 GHz'. The default is '5 GHz'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-secondaryControllerIpAddress"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-secondarycontrolleripaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **secondaryControllerIpAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-secondaryControllerIpAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      To configure this parameter, specify the IPv4 or IPv6 address of the secondary controller for the access point.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-secondaryControllerName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-secondarycontrollername:
+
+      .. rst-class:: ansible-option-title
+
+      **secondaryControllerName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-secondaryControllerName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      To configure this parameter, specify the hostname of the secondary controller for the access point.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tertiaryControllerIpAddress"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-tertiarycontrolleripaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **tertiaryControllerIpAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tertiaryControllerIpAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      To configure this parameter, specify the IPv4 or IPv6 address of the tertiary controller for the access point.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tertiaryControllerName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-tertiarycontrollername:
+
+      .. rst-class:: ansible-option-title
+
+      **tertiaryControllerName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tertiaryControllerName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      To configure this parameter, specify the hostname of the tertiary controller for the access point.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-vlanTagId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-vlantagid:
+
+      .. rst-class:: ansible-option-title
+
+      **vlanTagId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-vlanTagId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configure VLAN Tag Id for the access point. VlanTagId should be in the range 1, 4094. Access point mode and vlan tag configurations should be configured in separate API requests as they both cause the access point to reboot. VLAN tag configuration will not take effect for the access points in bridge mode.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-vlanTagStatus"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__parameter-vlantagstatus:
+
+      .. rst-class:: ansible-option-title
+
+      **vlanTagStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-vlanTagStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      To configure the access point's VLAN tag status, set this parameter's value to 'true' to enable and 'false' to disable vlan tag status.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are wireless.Wireless.configure\_access\_points,
+   - Paths used are post /dna/intent/api/v1/wirelessAccessPoints/configurations,
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins,
+   - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco Catalyst Center documentation for Wireless ConfigureAccessPoints <https://developer.cisco.com/docs/dna-center/#!configure-access-points>`_
+       Complete reference of the ConfigureAccessPoints API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Create
+      cisco.catalystcenter.wireless_access_points_configurations:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        accelerometerStateEnabled: true
+        accessPoints:
+          - geolocationConfiguration:
+              cableLength: 0
+              geolocationHeight: 0
+              geolocationHeightUncertainty: 0
+            macAddress: string
+            name: string
+            newName: string
+        adminStatus: true
+        assignSiteAsLocation: true
+        cleanAirSI24: true
+        cleanAirSI5: true
+        cleanAirSI6: true
+        dnsIpAddress: {}
+        domainName: string
+        failoverPriority: string
+        lanPortConfigurations:
+          - poeStatus: true
+            portId: 0
+            portStatus: true
+        ledBrightnessLevel: 0
+        ledStatus: true
+        location: string
+        meshRole: string
+        mode: string
+        primaryControllerIpAddress: {}
+        primaryControllerName: string
+        radioConfigurations:
+          - adminStatus: true
+            antennaCableName: string
+            antennaGain: 0
+            antennaName: string
+            bssColor: 0
+            bssColorAssignmentMode: string
+            bssColorRadioAdminStatus: true
+            cableLoss: 0
+            channelAssignmentMode: string
+            channelNumber: 0
+            channelWidth: string
+            dualRadioMode: true
+            powerAssignmentMode: string
+            powerLevel: 0
+            radioBand: string
+            radioRoleAssignment: string
+            radioType: string
+            slotId: 0
+        rapDownlinkBackhaul: string
+        secondaryControllerIpAddress: {}
+        secondaryControllerName: string
+        tertiaryControllerIpAddress: {}
+        tertiaryControllerName: string
+        vlanTagId: 0
+        vlanTagStatus: true
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_access_points_configurations_module__return-catalystcenter_response:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Bryan Vargas (@bvargasre)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

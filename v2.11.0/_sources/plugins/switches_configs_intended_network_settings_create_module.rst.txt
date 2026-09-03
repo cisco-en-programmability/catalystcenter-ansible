@@ -1,0 +1,4961 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.catalystcenter.switches_configs_intended_network_settings_create module -- Resource module for Switches Configs Intended Network Settings Create
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.catalystcenter.switches_configs_intended_network_settings_create`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.catalystcenter 2.11.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operation create of the resource Switches Configs Intended Network Settings Create. - \> This API creates configurations for an intended feature on a switch. Once all the updates to intended features are complete, they can be deployed to a device using the API /api/v1/switches/{id}/configs/intended/deploy. When the intended features are deployed, they are applied on top of the existing configurations on the device. Any existing configurations on the device which are not included in the intended features, are retained on the device. The device config learning must have enabled for the switch using the API /dna/campus/api/v1/switches/configs/deployed/enable and Error code NCCO15475 can be observed if not enabled.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- catalystcentersdk \>= 3.2.3.0.0
+- python \>= 3.12
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-catalystcenter_debug:
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_debug`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-catalystcenter_host:
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_host`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-catalystcenter_password:
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_password`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-catalystcenter_api_port:
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-catalystcenter_port:
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_port, catalystcenter_api_port`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_username, user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-catalystcenter_verify:
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_verify`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-catalystcenter_version:
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_version`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco Catalyst Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpExcludedAddressConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpexcludedaddressconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **dhcpExcludedAddressConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpExcludedAddressConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Feature configures mapping to Excluded addresses, both excluded low-address IP and excluded low-high IP ranges.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpExcludedAddressConfig/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpexcludedaddressconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpExcludedAddressConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of intended DHCP excluded address configuration entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpExcludedAddressConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpexcludedaddressconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpExcludedAddressConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Either a excluded low address or an excluded low high address range.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowAddressConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpexcludedaddressconfig/items/ipdhcpexcludedlowaddressconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **ipDhcpExcludedLowAddressConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowAddressConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Contains a list of low-address configurations.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowAddressConfig/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpexcludedaddressconfig/items/ipdhcpexcludedlowaddressconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowAddressConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of low-address configurations.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowAddressConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpexcludedaddressconfig/items/ipdhcpexcludedlowaddressconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowAddressConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The operation and management of a list of low IP addresses available for Dynamic Host Configuration Protocol (DHCP) allocation.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowAddressConfig/items/excludedAddressLow"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpexcludedaddressconfig/items/ipdhcpexcludedlowaddressconfig/items/excludedaddresslow:
+
+      .. rst-class:: ansible-option-title
+
+      **excludedAddressLow**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowAddressConfig/items/excludedAddressLow" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Lowest IP address to exclude from DHCP assignment. Use this to reserve addresses that should not be assigned to clients.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowHighAddressConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpexcludedaddressconfig/items/ipdhcpexcludedlowhighaddressconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **ipDhcpExcludedLowHighAddressConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowHighAddressConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Contains a list of low-high address configurations.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowHighAddressConfig/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpexcludedaddressconfig/items/ipdhcpexcludedlowhighaddressconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowHighAddressConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of low-high address configurations.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowHighAddressConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpexcludedaddressconfig/items/ipdhcpexcludedlowhighaddressconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowHighAddressConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configures lists of addresses with specified lower and upper limits in the network settings.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowHighAddressConfig/items/excludedAddressHigh"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpexcludedaddressconfig/items/ipdhcpexcludedlowhighaddressconfig/items/excludedaddresshigh:
+
+      .. rst-class:: ansible-option-title
+
+      **excludedAddressHigh**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowHighAddressConfig/items/excludedAddressHigh" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Highest IP address to exclude from DHCP assignment. Use this to define the upper end of an exclusion range for reserved addresses.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowHighAddressConfig/items/excludedAddressLow"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpexcludedaddressconfig/items/ipdhcpexcludedlowhighaddressconfig/items/excludedaddresslow:
+
+      .. rst-class:: ansible-option-title
+
+      **excludedAddressLow**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpExcludedAddressConfig/items/ipDhcpExcludedLowHighAddressConfig/items/excludedAddressLow" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Lowest IP address in the exclusion range for DHCP assignment. This marks the start of a block of addresses that will not be assigned by DHCP.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpGeneralConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpgeneralconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **dhcpGeneralConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpGeneralConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This feature is for configuring DHCP BOOTP protocol.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpGeneralConfig/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpgeneralconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpGeneralConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of intended DHCP BOOTP configuration entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpGeneralConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpgeneralconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpGeneralConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Lease parameters and settings for IP address allocation using DHCP or BOOTP within a network.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpGeneralConfig/items/isBootpIgnoreEnabled"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-dhcpgeneralconfig/items/isbootpignoreenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isBootpIgnoreEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpGeneralConfig/items/isBootpIgnoreEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Ignores BOOTP packets in DHCP processing. Enable this to prevent BOOTP requests from being processed by the DHCP server, reducing unnecessary traffic. Unconfigure Value - use false to revert to default settings.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **domainConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This feature is for configuring IP domain.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of intended IP domain configuration entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type IP\_DOMAIN\_CONFIG is for configuring domain generation algorithm parameters used for dynamic domain name generation.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/domainName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/domainname:
+
+      .. rst-class:: ansible-option-title
+
+      **domainName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/domainName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Default domain name for DNS resolution. This domain name is appended to unqualified hostnames during DNS lookups, facilitating proper name resolution within the specified domain. Supported IOS-XE versions - This property is viewable only (read-only) on Cisco switches running IOS version earlier than 17.15.1. Since IOS version 17.15.1 or later, configuration for this property is supported. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainList"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainlist:
+
+      .. rst-class:: ansible-option-title
+
+      **ipDomainList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Container for additional IP domain list entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainList/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainlist/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainList/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of IP domain list.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainList/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainlist/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainList/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of IP domain list entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainList/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainlist/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainList/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configurable lists of IP domains that are utilized for setting domain-based parameters and policies within a network.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainList/items/domainNameList"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainlist/items/domainnamelist:
+
+      .. rst-class:: ansible-option-title
+
+      **domainNameList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainList/items/domainNameList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the domain for DNS resolution. Assign a domain name to be used for DNS lookups and network identification. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainname:
+
+      .. rst-class:: ansible-option-title
+
+      **ipDomainName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Container for IP domain name entries associated with VRFs.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainName/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainname/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainName/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of IP domain name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainName/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainname/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainName/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of IP domain name entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainName/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainname/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainName/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Resolving and assigning IP domain names to network devices and interfaces.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainName/items/domainWithVrf"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainname/items/domainwithvrf:
+
+      .. rst-class:: ansible-option-title
+
+      **domainWithVrf**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainName/items/domainWithVrf" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Container for IP domain entries scoped to specific VRFs.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainName/items/domainWithVrf/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainname/items/domainwithvrf/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainName/items/domainWithVrf/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of IP domain VRF configs.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainName/items/domainWithVrf/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainname/items/domainwithvrf/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainName/items/domainWithVrf/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of VRF-scoped IP domain entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainName/items/domainWithVrf/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainname/items/domainwithvrf/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainName/items/domainWithVrf/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configurations related to IP domain and virtual routing and forwarding settings.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainName/items/domainWithVrf/items/domainName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainname/items/domainwithvrf/items/domainname:
+
+      .. rst-class:: ansible-option-title
+
+      **domainName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainName/items/domainWithVrf/items/domainName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the domain container for a specific VRF. Use this to configure DNS settings for a particular VRF instance. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/ipDomainName/items/domainWithVrf/items/vrfName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/ipdomainname/items/domainwithvrf/items/vrfname:
+
+      .. rst-class:: ansible-option-title
+
+      **vrfName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/ipDomainName/items/domainWithVrf/items/vrfName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      VRF name for the domain container. Specify the VRF to associate with the domain container for segmented DNS resolution. Derived From - The available VRF names include both VRF Definition and IPv4 VRF configurations from the device.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/isLookupEnabled"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/islookupenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isLookupEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/isLookupEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable IP Domain Name System hostname translation. Unconfigure Value - use true to revert to default settings.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/sourceLoopbackInterface"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/sourceloopbackinterface:
+
+      .. rst-class:: ansible-option-title
+
+      **sourceLoopbackInterface**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/sourceLoopbackInterface" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Loopback interface used as the source for domain name system packets. Specify which loopback interface should be used for outgoing DNS messages, helping with source address consistency and security. Derived From - The available loopback interface numbers include those defined in the current profile and those configured on the device. Unconfigure Value - use -1 to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-domainConfig/items/timeout"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-domainconfig/items/timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-domainConfig/items/timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Timeout value in seconds for DNS domain name resolution attempts. This setting determines how long the device waits for a DNS response before considering the attempt failed. Adjusting this value can help optimize DNS performance and reliability in your network. Unconfigure Value - use 5 to revert to default settings.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-feature"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-feature:
+
+      .. rst-class:: ansible-option-title
+
+      **feature**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-feature" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Feature path parameter. Name of the feature to configure. The API /api/v1/switches/{id}/configs/su... can be used to get the list of features supported on a device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Network device id of the switch to configure. The Network device id is identified from the GET network device API /dna/intent/api/v1/network-device response.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **ipV4DhcpPoolConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This feature is for configuring IP DHCP pools.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of intended IPv4 DHCP pool configuration entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type IPV4\_DHCP\_POOL\_CONFIG is for configuring resource allocation and management within a dynamically generated pool architecture.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/defaultRouterList"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/defaultrouterlist:
+
+      .. rst-class:: ansible-option-title
+
+      **defaultRouterList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/defaultRouterList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of default router IP addresses for DHCP clients. Specify one or more gateway addresses that will be provided to DHCP clients for network routing. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/dnsServerList"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/dnsserverlist:
+
+      .. rst-class:: ansible-option-title
+
+      **dnsServerList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/dnsServerList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of DNS server IP addresses for DHCP clients. Enter the DNS servers that DHCP clients should use for name resolution. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/domainName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/domainname:
+
+      .. rst-class:: ansible-option-title
+
+      **domainName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/domainName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Domain name assigned to DHCP clients. This value is provided to clients for DNS search domains and network identification. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/leaseDays"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/leasedays:
+
+      .. rst-class:: ansible-option-title
+
+      **leaseDays**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/leaseDays" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Number of days for DHCP lease duration. Set how long a DHCP client can keep its assigned IP address before renewal is required. Unconfigure Value - use 1 to revert to default settings.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/leaseHours"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/leasehours:
+
+      .. rst-class:: ansible-option-title
+
+      **leaseHours**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/leaseHours" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Number of hours for DHCP lease duration. Use this to fine-tune the lease period for DHCP clients. Unconfigure Value - use 0 to revert to default settings.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/leaseMinutes"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/leaseminutes:
+
+      .. rst-class:: ansible-option-title
+
+      **leaseMinutes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/leaseMinutes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Number of minutes for DHCP lease duration. Specify the lease time in minutes for more granular control. Unconfigure Value - use 0 to revert to default settings.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/optionCode"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/optioncode:
+
+      .. rst-class:: ansible-option-title
+
+      **optionCode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/optionCode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Custom DHCP options for advanced configuration. Use this to define additional DHCP options such as vendor-specific settings.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/optionCode/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/optioncode/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/optionCode/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of option range.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/optionCode/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/optioncode/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/optionCode/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of DHCP option code entries for the IPv4 DHCP pool.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/optionCode/items/asciiString"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/optioncode/items/asciistring:
+
+      .. rst-class:: ansible-option-title
+
+      **asciiString**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/optionCode/items/asciiString" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ASCII string for DHCP option configuration. Use this to set custom DHCP options using text values. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/optionCode/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/optioncode/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/optionCode/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type OPTION\_RANGE\_CONFIG is for configuring options within a specified range for generating feasible network settings.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/optionCode/items/hexadecimalString"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/optioncode/items/hexadecimalstring:
+
+      .. rst-class:: ansible-option-title
+
+      **hexadecimalString**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/optionCode/items/hexadecimalString" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Hexadecimal string for DHCP option configuration. Enter custom DHCP options in hexadecimal format for advanced settings. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/optionCode/items/ipAddresses"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/optioncode/items/ipaddresses:
+
+      .. rst-class:: ansible-option-title
+
+      **ipAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/optionCode/items/ipAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Ordered list of IP addresses for DHCP option configuration. Provide multiple IP addresses in a specific order for DHCP options. Supported IOS-XE versions - This property is viewable only (read-only) on Cisco switches running IOS version earlier than 17.15.1. Since IOS version 17.15.1 or later, configuration for this property is supported. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/optionCode/items/ipAddressString"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/optioncode/items/ipaddressstring:
+
+      .. rst-class:: ansible-option-title
+
+      **ipAddressString**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/optionCode/items/ipAddressString" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address for DHCP option configuration. Specify an IP address for custom DHCP options. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/optionCode/items/optionCode"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/optioncode/items/optioncode:
+
+      .. rst-class:: ansible-option-title
+
+      **optionCode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/optionCode/items/optionCode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Range of values for DHCP option configuration. Use this to define a set of possible values for a DHCP option. Derived From - The available DHCP option codes are determined by the device's IOS-XE software version, providing options 43, 60, 66, 67, and 150 for version 17.15.1 or later, and only options 43, 60, and 67 for earlier versions.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/poolName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/poolname:
+
+      .. rst-class:: ansible-option-title
+
+      **poolName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/poolName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Unique identifier for the DHCP pool. Assign a name or ID to distinguish different DHCP pools for various network segments.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/primaryNetworkMask"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/primarynetworkmask:
+
+      .. rst-class:: ansible-option-title
+
+      **primaryNetworkMask**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/primaryNetworkMask" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Subnet mask for the primary DHCP pool network. Define the network mask to specify the size of the DHCP pool. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/primaryNetworkNumber"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/primarynetworknumber:
+
+      .. rst-class:: ansible-option-title
+
+      **primaryNetworkNumber**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/primaryNetworkNumber" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Network number for the primary DHCP pool. Enter the base network address for the DHCP pool. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4DhcpPoolConfig/items/vrfName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv4dhcppoolconfig/items/vrfname:
+
+      .. rst-class:: ansible-option-title
+
+      **vrfName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4DhcpPoolConfig/items/vrfName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      VRF name for DHCP pool, enabling logical network segmentation. Assign a VRF to the DHCP pool to support multi-tenant or segmented networks. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **ipV6DhcpPoolConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This feature is for configuring IPv6 DHCP pools.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of intended IPv6 DHCP pool configuration entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type IPV6\_DHCP\_POOL\_CONFIG is for configuring IPv6 DHCP address pools and related settings for automated network address management.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig/items/dnsServer"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig/items/dnsserver:
+
+      .. rst-class:: ansible-option-title
+
+      **dnsServer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig/items/dnsServer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of DNS server IPv6 addresses for DHCPv6 clients. Specify one or more DNS servers to be provided to clients for IPv6 name resolution. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig/items/domainNames"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig/items/domainnames:
+
+      .. rst-class:: ansible-option-title
+
+      **domainNames**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig/items/domainNames" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of domain names assigned to DHCPv6 clients. These domains are provided to clients for DNS search and network identification. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig/items/poolName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig/items/poolname:
+
+      .. rst-class:: ansible-option-title
+
+      **poolName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig/items/poolName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the DHCPv6 pool. Assign a unique name to identify and manage the pool for IPv6 address assignments.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig/items/prefix"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig/items/prefix:
+
+      .. rst-class:: ansible-option-title
+
+      **prefix**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig/items/prefix" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Container for IPv6 DHCP pool prefix entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig/items/prefix/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig/items/prefix/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig/items/prefix/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Ipv6 prefix for DHCP.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig/items/prefix/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig/items/prefix/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig/items/prefix/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of IPv6 DHCP pool prefix entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig/items/prefix/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig/items/prefix/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig/items/prefix/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Global IPv6 address prefixes for general use within the network.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig/items/prefix/items/ipV6Prefix"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig/items/prefix/items/ipv6prefix:
+
+      .. rst-class:: ansible-option-title
+
+      **ipV6Prefix**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig/items/prefix/items/ipV6Prefix" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IPv6 address prefix for DHCPv6 pool assignment. This prefix defines the range of IPv6 addresses that can be dynamically assigned to clients from the pool. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig/items/prefix/items/poolName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig/items/prefix/items/poolname:
+
+      .. rst-class:: ansible-option-title
+
+      **poolName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig/items/prefix/items/poolName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the DHCPv6 pool. Assign a unique name to identify and manage the pool for IPv6 address assignments. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig/items/prefix/items/preferredLifetime"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig/items/prefix/items/preferredlifetime:
+
+      .. rst-class:: ansible-option-title
+
+      **preferredLifetime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig/items/prefix/items/preferredLifetime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Preferred lifetime in seconds for the DHCPv6 pool prefix. This value sets how long an IPv6 address is preferred for use before renewal is recommended. Unconfigure Value - use 86400 to revert to default settings.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6DhcpPoolConfig/items/prefix/items/validLifetime"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ipv6dhcppoolconfig/items/prefix/items/validlifetime:
+
+      .. rst-class:: ansible-option-title
+
+      **validLifetime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6DhcpPoolConfig/items/prefix/items/validLifetime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Valid lifetime in seconds for the DHCPv6 pool prefix. This value determines how long an IPv6 address remains valid before it must be released or renewed. Unconfigure Value - use 172800 to revert to default settings.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nameServerConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-nameserverconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **nameServerConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nameServerConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This feature is for configuring name server.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nameServerConfig/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-nameserverconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nameServerConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of intended name server configuration entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nameServerConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-nameserverconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nameServerConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type NAME\_SERVER\_CONFIG is for configuring DNS server generation parameters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nameServerConfig/items/nameServers"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-nameserverconfig/items/nameservers:
+
+      .. rst-class:: ansible-option-title
+
+      **nameServers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nameServerConfig/items/nameServers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of DNS server IP addresses used for global name resolution. Enter up to 6 IPv4 or IPv6 addresses separated by spaces or commas. These servers resolve hostnames for all traffic not associated with a VRF. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nameServerConfig/items/nameServerWithVrf"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-nameserverconfig/items/nameserverwithvrf:
+
+      .. rst-class:: ansible-option-title
+
+      **nameServerWithVrf**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nameServerConfig/items/nameServerWithVrf" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Container for name server entries associated with specific VRFs.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nameServerConfig/items/nameServerWithVrf/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-nameserverconfig/items/nameserverwithvrf/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nameServerConfig/items/nameServerWithVrf/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of name servers with vrf.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nameServerConfig/items/nameServerWithVrf/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-nameserverconfig/items/nameserverwithvrf/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nameServerConfig/items/nameServerWithVrf/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of VRF-specific name server entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nameServerConfig/items/nameServerWithVrf/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-nameserverconfig/items/nameserverwithvrf/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nameServerConfig/items/nameServerWithVrf/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DNS settings across the entire network.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nameServerConfig/items/nameServerWithVrf/items/nameServers"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-nameserverconfig/items/nameserverwithvrf/items/nameservers:
+
+      .. rst-class:: ansible-option-title
+
+      **nameServers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nameServerConfig/items/nameServerWithVrf/items/nameServers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of DNS server IP addresses for name resolution within a specific VRF. This allows different DNS servers for different network segments, supporting multi-tenancy. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nameServerConfig/items/nameServerWithVrf/items/vrfName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-nameserverconfig/items/nameserverwithvrf/items/vrfname:
+
+      .. rst-class:: ansible-option-title
+
+      **vrfName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nameServerConfig/items/nameServerWithVrf/items/vrfName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the VRF instance for which DNS servers are configured. VRF provides logical network segmentation and isolation for enhanced security. Derived From - The available VRF names include both VRF Definition and IPv4 VRF configurations from the device.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpAuthenticationKeyConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpauthenticationkeyconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **ntpAuthenticationKeyConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpAuthenticationKeyConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This feature is for configuring NTP which synchronizes the system clock with network time servers to ensure accurate timekeeping.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpAuthenticationKeyConfig/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpauthenticationkeyconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpAuthenticationKeyConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of intended NTP authentication key configuration entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpAuthenticationKeyConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpauthenticationkeyconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpAuthenticationKeyConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality configured for NTP. Config type NTP\_AUTH\_KEY\_CONFIG is for configuring NTP authentication key.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpAuthenticationKeyConfig/items/encryptionType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpauthenticationkeyconfig/items/encryptiontype:
+
+      .. rst-class:: ansible-option-title
+
+      **encryptionType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpAuthenticationKeyConfig/items/encryptionType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Encryption type for NTP authentication key. Choose the algorithm used to secure NTP authentication keys, enhancing security for time synchronization.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpAuthenticationKeyConfig/items/keyNumber"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpauthenticationkeyconfig/items/keynumber:
+
+      .. rst-class:: ansible-option-title
+
+      **keyNumber**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpAuthenticationKeyConfig/items/keyNumber" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Key number for NTP authentication. Assign a unique number to each authentication key for NTP, allowing multiple keys to be managed and referenced.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpAuthenticationKeyConfig/items/md5"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpauthenticationkeyconfig/items/md5:
+
+      .. rst-class:: ansible-option-title
+
+      **md5**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpAuthenticationKeyConfig/items/md5" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MD5 authentication. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpAuthenticationKeyConfig/items/md5Config"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpauthenticationkeyconfig/items/md5config:
+
+      .. rst-class:: ansible-option-title
+
+      **md5Config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpAuthenticationKeyConfig/items/md5Config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MD5 configuration string for NTP authentication key. Enter the MD5 hash or string used for authenticating NTP messages, ensuring only trusted sources are accepted. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpGeneralConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpgeneralconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **ntpGeneralConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpGeneralConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This feature is for configuring NTP which synchronizes the system clock with network time servers to ensure accurate timekeeping.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpGeneralConfig/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpgeneralconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpGeneralConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of intended NTP global configuration entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpGeneralConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpgeneralconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpGeneralConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality configured for NTP. Config type NTP\_GENERAL\_CONFIG is for configuring settings for NTP.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpGeneralConfig/items/isAuthenticateEnabled"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpgeneralconfig/items/isauthenticateenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthenticateEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpGeneralConfig/items/isAuthenticateEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enables NTP authentication. When enabled, the device will verify NTP messages using authentication keys to ensure time synchronization is secure and trusted. Unconfigure Value - use false to revert to default settings.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpGeneralConfig/items/isLoggingEnabled"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpgeneralconfig/items/isloggingenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isLoggingEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpGeneralConfig/items/isLoggingEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enables logging for NTP events. When enabled, the system records NTP synchronization events and errors, aiding in troubleshooting and auditing time-related issues. Unconfigure Value - use false to revert to default settings.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpGeneralConfig/items/sourceLoopbackInterface"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpgeneralconfig/items/sourceloopbackinterface:
+
+      .. rst-class:: ansible-option-title
+
+      **sourceLoopbackInterface**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpGeneralConfig/items/sourceLoopbackInterface" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Loopback interface used as the source for NTP packets. Specify which loopback interface should be used for outgoing NTP messages, helping with source address consistency and security. Derived From - The available loopback interface numbers include those defined in the current profile and those configured on the device. Unconfigure Value - use -1 to unconfigure. Restrictions – Source Loopback Interface must exist in the Layer 3 profile or on the device before it can be used as this configuration.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpGeneralConfig/items/stratum"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpgeneralconfig/items/stratum:
+
+      .. rst-class:: ansible-option-title
+
+      **stratum**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpGeneralConfig/items/stratum" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Stratum number for NTP authoritative source configuration. Set the stratum level to define the device's position in the NTP hierarchy, affecting how other devices prioritize it as a time source. Unconfigure Value - use 8 to revert to default settings.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpPerVrfServerConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntppervrfserverconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **ntpPerVrfServerConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpPerVrfServerConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This feature is for configuring NTP which synchronizes the system clock with network time servers to ensure accurate timekeeping.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpPerVrfServerConfig/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntppervrfserverconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpPerVrfServerConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of intended per-VRF NTP server configuration entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpPerVrfServerConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntppervrfserverconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpPerVrfServerConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The network time protocol server within a virtual routing and forwarding instance.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpPerVrfServerConfig/items/ntpVrfServerList"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntppervrfserverconfig/items/ntpvrfserverlist:
+
+      .. rst-class:: ansible-option-title
+
+      **ntpVrfServerList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpPerVrfServerConfig/items/ntpVrfServerList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Container for NTP server entries associated with the specified VRF.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpPerVrfServerConfig/items/ntpVrfServerList/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntppervrfserverconfig/items/ntpvrfserverlist/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpPerVrfServerConfig/items/ntpVrfServerList/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of name servers with vrf.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpPerVrfServerConfig/items/ntpVrfServerList/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntppervrfserverconfig/items/ntpvrfserverlist/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpPerVrfServerConfig/items/ntpVrfServerList/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of NTP server entries for the specified VRF.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpPerVrfServerConfig/items/ntpVrfServerList/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntppervrfserverconfig/items/ntpvrfserverlist/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpPerVrfServerConfig/items/ntpVrfServerList/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ConfigType NTP\_VRF\_SERVER\_LIST\_CONFIG is for configuring NTP servers within a specified VRF server list for network operations.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpPerVrfServerConfig/items/ntpVrfServerList/items/ipAddress"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntppervrfserverconfig/items/ntpvrfserverlist/items/ipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **ipAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpPerVrfServerConfig/items/ntpVrfServerList/items/ipAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of the NTP server in the VRF. Specify the server address used for time synchronization within a particular VRF context.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpPerVrfServerConfig/items/ntpVrfServerList/items/isPreferred"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntppervrfserverconfig/items/ntpvrfserverlist/items/ispreferred:
+
+      .. rst-class:: ansible-option-title
+
+      **isPreferred**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpPerVrfServerConfig/items/ntpVrfServerList/items/isPreferred" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Marks the NTP server in the VRF as preferred. This prioritizes the server for time synchronization within the VRF. Unconfigure Value - use false to revert to default settings.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpPerVrfServerConfig/items/ntpVrfServerList/items/peerAuthenticationKey"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntppervrfserverconfig/items/ntpvrfserverlist/items/peerauthenticationkey:
+
+      .. rst-class:: ansible-option-title
+
+      **peerAuthenticationKey**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpPerVrfServerConfig/items/ntpVrfServerList/items/peerAuthenticationKey" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Authentication key number for the NTP server in the VRF. Enter the key number for secure NTP communication within the VRF. Unconfigure Value - use 0 to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpPerVrfServerConfig/items/vrfName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntppervrfserverconfig/items/vrfname:
+
+      .. rst-class:: ansible-option-title
+
+      **vrfName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpPerVrfServerConfig/items/vrfName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the VRF for NTP server configuration. Assign a VRF to the NTP server to support network segmentation and multi-tenancy for time services. Derived From - The available VRF names include both VRF Definition and IPv4 VRF configurations from the device, sorted alphabetically.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpServerConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpserverconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **ntpServerConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpServerConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This feature is for configuring NTP which synchronizes the system clock with network time servers to ensure accurate timekeeping.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpServerConfig/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpserverconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpServerConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of intended NTP server configuration entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpServerConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpserverconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpServerConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type NTP\_SERVER\_LIST\_CONFIG is for configuring a comprehensive list of NTP servers that can be accessed globally across the network.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpServerConfig/items/ipAddress"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpserverconfig/items/ipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **ipAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpServerConfig/items/ipAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The NTP Server is the network device or service that provides accurate time synchronization using the Network Time Protocol. It can be identified by a hostname or an IPv4/IPv6 address.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpServerConfig/items/isPreferred"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpserverconfig/items/ispreferred:
+
+      .. rst-class:: ansible-option-title
+
+      **isPreferred**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpServerConfig/items/isPreferred" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Marks the NTP server as preferred. When enabled, this server is prioritized for time synchronization over others in the list. Unconfigure Value - use false to revert to default settings.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpServerConfig/items/peerAuthenticationKey"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpserverconfig/items/peerauthenticationkey:
+
+      .. rst-class:: ansible-option-title
+
+      **peerAuthenticationKey**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpServerConfig/items/peerAuthenticationKey" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Authentication key number for the NTP server. Enter the key number used to authenticate NTP messages from this server, ensuring secure time synchronization. Unconfigure Value - use 0 to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpServerConfig/items/sourceInterface"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntpserverconfig/items/sourceinterface:
+
+      .. rst-class:: ansible-option-title
+
+      **sourceInterface**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpServerConfig/items/sourceInterface" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Interface for source address. Unconfigure Value - use "" to unconfigure.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpTrustedKeyConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntptrustedkeyconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **ntpTrustedKeyConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpTrustedKeyConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This feature is for configuring NTP which synchronizes the system clock with network time servers to ensure accurate timekeeping.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpTrustedKeyConfig/items"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntptrustedkeyconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpTrustedKeyConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of intended NTP trusted key configuration entries.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpTrustedKeyConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntptrustedkeyconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpTrustedKeyConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A set of trusted keys for secure NTP communications.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ntpTrustedKeyConfig/items/trustedKey"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-ntptrustedkeyconfig/items/trustedkey:
+
+      .. rst-class:: ansible-option-title
+
+      **trustedKey**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ntpTrustedKeyConfig/items/trustedKey" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Trusted key number for NTP authentication. Enter the key number that is considered trusted for authenticating NTP messages, ensuring only authorized sources are accepted.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are wired.Wired.add\_intended\_network\_settings\_configurations,
+   - Paths used are post /dna/campus/api/v1/switches/{id}/configs/intended/networkSettings/{feature},
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins,
+   - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco Catalyst Center documentation for Wired AddIntendedNetworkSettingsConfigurations <https://developer.cisco.com/docs/dna-center/#!add-intended-network-settings-configurations>`_
+       Complete reference of the AddIntendedNetworkSettingsConfigurations API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Create
+      cisco.catalystcenter.switches_configs_intended_network_settings_create:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        dhcpExcludedAddressConfig:
+          items:
+            - configType: string
+              ipDhcpExcludedLowAddressConfig:
+                items:
+                  - configType: string
+                    excludedAddressLow: string
+              ipDhcpExcludedLowHighAddressConfig:
+                items:
+                  - configType: string
+                    excludedAddressHigh: string
+                    excludedAddressLow: string
+        dhcpGeneralConfig:
+          items:
+            - configType: string
+              isBootpIgnoreEnabled: true
+        domainConfig:
+          items:
+            - configType: string
+              domainName: string
+              ipDomainList:
+                configType: string
+                items:
+                  - configType: string
+                    domainNameList: string
+              ipDomainName:
+                configType: string
+                items:
+                  - configType: string
+                    domainWithVrf:
+                      configType: string
+                      items:
+                        - configType: string
+                          domainName: string
+                          vrfName: string
+              isLookupEnabled: true
+              sourceLoopbackInterface: 0
+              timeout: 0
+        feature: string
+        id: string
+        ipV4DhcpPoolConfig:
+          items:
+            - configType: string
+              defaultRouterList: string
+              dnsServerList: string
+              domainName: string
+              leaseDays: 0
+              leaseHours: 0
+              leaseMinutes: 0
+              optionCode:
+                configType: string
+                items:
+                  - asciiString: string
+                    configType: string
+                    hexadecimalString: string
+                    ipAddressString: string
+                    ipAddresses: string
+                    optionCode: 0
+              poolName: string
+              primaryNetworkMask: string
+              primaryNetworkNumber: string
+              vrfName: string
+        ipV6DhcpPoolConfig:
+          items:
+            - configType: string
+              dnsServer: string
+              domainNames: string
+              poolName: string
+              prefix:
+                configType: string
+                items:
+                  - configType: string
+                    ipV6Prefix: string
+                    poolName: string
+                    preferredLifetime: 0
+                    validLifetime: 0
+        nameServerConfig:
+          items:
+            - configType: string
+              nameServerWithVrf:
+                configType: string
+                items:
+                  - configType: string
+                    nameServers: string
+                    vrfName: string
+              nameServers: string
+        ntpAuthenticationKeyConfig:
+          items:
+            - configType: string
+              encryptionType: 0
+              keyNumber: 0
+              md5: string
+              md5Config: string
+        ntpGeneralConfig:
+          items:
+            - configType: string
+              isAuthenticateEnabled: true
+              isLoggingEnabled: true
+              sourceLoopbackInterface: 0
+              stratum: 0
+        ntpPerVrfServerConfig:
+          items:
+            - configType: string
+              ntpVrfServerList:
+                configType: string
+                items:
+                  - configType: string
+                    ipAddress: string
+                    isPreferred: true
+                    peerAuthenticationKey: 0
+              vrfName: string
+        ntpServerConfig:
+          items:
+            - configType: string
+              ipAddress: string
+              isPreferred: true
+              peerAuthenticationKey: 0
+              sourceInterface: string
+        ntpTrustedKeyConfig:
+          items:
+            - configType: string
+              trustedKey: 0
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.switches_configs_intended_network_settings_create_module__return-catalystcenter_response:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Bryan Vargas (@bvargasre)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+
