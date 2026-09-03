@@ -1330,7 +1330,7 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                 "Port assignments API call failed for {0}.{1}: {2}".format(
                     api_family, api_function, e
                 )
-            ) from e
+            )
 
         self.log(
             "Port assignments API calls completed successfully. Retrieved {0} "
@@ -1453,7 +1453,7 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                         "Device lookup failed for device ID '{0}': {1}".format(
                             network_device_id, e
                         )
-                    ) from e
+                    )
 
                 device_info = device_response.get("response", {})
                 management_ip = device_info.get("managementIpAddress", "")
@@ -1590,7 +1590,7 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                 "Port channels API call failed for {0}.{1}: {2}".format(
                     api_family, api_function, e
                 )
-            ) from e
+            )
 
         self.log(
             "Port channels API calls completed successfully. Retrieved {0} "
@@ -1709,7 +1709,7 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                         "Device lookup failed for device ID '{0}': {1}".format(
                             network_device_id, e
                         )
-                    ) from e
+                    )
 
                 device_info = device_response.get("response", {})
                 management_ip = device_info.get("managementIpAddress", "")
