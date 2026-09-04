@@ -34888,6 +34888,24 @@
     "version": "1.0",
     "deviceUuid": "99b62ead-51d6-4bfc-9b0c-dab087f184e9"
   },
+  "compliance_details_of_device_compliant": {
+    "response": [
+      {
+        "deviceUuid": "aa11bb22-cc33-dd44-ee55-ff6677889900",
+        "complianceType": "IMAGE",
+        "status": "COMPLIANT",
+        "state": "SUCCESS",
+        "lastSyncTime": 1742382451740,
+        "lastUpdateTime": 1742896856788,
+        "remediationSupported": false,
+        "sourceInfoList": [],
+        "additionalDataURL": "/api/v2/device-image/device?id=aa11bb22-cc33-dd44-ee55-ff6677889900",
+        "ackStatus": "UNACKNOWLEDGED"
+      }
+    ],
+    "version": "1.0",
+    "deviceUuid": "aa11bb22-cc33-dd44-ee55-ff6677889900"
+  },
   "get_device_list_13": {
     "response": [
       {
