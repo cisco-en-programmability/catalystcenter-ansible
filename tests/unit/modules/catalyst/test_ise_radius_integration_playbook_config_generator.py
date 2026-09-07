@@ -116,6 +116,12 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestCatalystModule):
                     "get_authentication_and_policy_servers_with_empty_keywrap_keys"
                 ),
             ]
+        if "keywrap_populated_keys" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get(
+                    "get_authentication_and_policy_servers_with_populated_keywrap_keys"
+                ),
+            ]
         if "trusted_server_from_trust_state" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get(
@@ -198,7 +204,11 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestCatalystModule):
         self, mock_exists, mock_file
     ):
         """
-        Test that empty KEYWRAP secrets become placeholders only for KEYWRAP.
+        Test that KEYWRAP servers generate placeholders for encryption keys.
+
+        Verifies that KEYWRAP servers include placeholders for
+        encryption_key and message_authenticator_code_key, while RADSEC
+        servers omit these KEYWRAP-specific fields.
         """
         mock_exists.return_value = True
 
@@ -231,9 +241,56 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestCatalystModule):
             keywrap_server["message_authenticator_code_key"],
             "{{ message_authenticator_code_key }}",
         )
+        self.assertEqual(keywrap_server["shared_secret"], "{{ shared_secret }}")
         self.assertEqual(radsec_server["encryption_scheme"], "RADSEC")
         self.assertNotIn("encryption_key", radsec_server)
         self.assertNotIn("message_authenticator_code_key", radsec_server)
+        self.assertEqual(radsec_server["shared_secret"], "{{ shared_secret }}")
+
+        for server in [keywrap_server, radsec_server]:
+            self.assertIn("server_ip_address", server)
+            self.assertIn("protocol", server)
+            self.assertIn("encryption_scheme", server)
+            self.assertIn("shared_secret", server)
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_ise_radius_integration_playbook_config_generator_keywrap_populated_keys(
+        self, mock_exists, mock_file
+    ):
+        """
+        Test that KEYWRAP secrets are represented by placeholders even when
+        unexpected populated values are returned by the API.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=False,
+                state="gathered",
+                file_path="/tmp/ise_radius_populated_keywrap_keys.yaml",
+                config=self.playbook_config_no_filters,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        written_yaml = self._get_written_yaml(mock_file)
+        generated_config = yaml.safe_load(written_yaml)
+        auth_servers = generated_config["config"][0]["authentication_policy_server"]
+        keywrap_server = {
+            server["server_ip_address"]: server for server in auth_servers
+        }["10.197.156.60"]
+
+        self.assertEqual(str(result.get("response").get("status")), "success")
+        self.assertEqual(keywrap_server["encryption_scheme"], "KEYWRAP")
+        self.assertEqual(keywrap_server["encryption_key"], "{{ encryption_key }}")
+        self.assertEqual(
+            keywrap_server["message_authenticator_code_key"],
+            "{{ message_authenticator_code_key }}",
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")

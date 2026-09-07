@@ -330,6 +330,17 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
         values_to_nullify (list): List of values to treat as null/empty in
             configurations.
 
+    Mapping Specification Keys (used in reverse_mapping_temp_spec):
+        The reverse mapping specification dictionaries support the following
+        keys:
+        - type (str): Expected data type ('str', 'int', 'bool', 'list', 'dict').
+        - source_key (str): API response key to extract value from.
+        - special_handling (bool, optional): When True, the transform function
+          receives the entire detail dict instead of a single source value.
+        - transform (callable, optional): Function to transform values. When
+          special_handling is True, it receives the entire detail dict;
+          otherwise it receives the extracted source value.
+
     Methods:
         validate_input(): Validates input configuration parameters.
         transform_cisco_ise_dtos(): Transforms cisco_ise_dtos from API to YAML.
@@ -662,8 +673,8 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
 
         Catalyst Center does not return KEYWRAP secret values. When the server
         uses KEYWRAP, keep the corresponding field in generated YAML as a
-        placeholder. For other encryption schemes, preserve the existing
-        direct-mapping behavior.
+        placeholder. These fields are not applicable to other encryption
+        schemes, so return None for them.
 
         Args:
             ise_radius_integration_details (dict): Authentication server response.
@@ -671,7 +682,7 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
             parameter_string (str): Generated YAML parameter name.
 
         Returns:
-            str or None: Placeholder, original API value, or None.
+            str or None: Placeholder for KEYWRAP, otherwise None.
         """
         if not isinstance(ise_radius_integration_details, dict):
             self.log(
@@ -700,11 +711,22 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
             )
             return placeholder
 
-        return ise_radius_integration_details.get(source_key)
+        return None
 
     def transform_encryption_key(self, ise_radius_integration_details):
         """
-        Transforms encryptionKey, masking it with a placeholder for KEYWRAP.
+        Transforms encryptionKey for KEYWRAP servers.
+
+        For KEYWRAP servers, generates a user-fillable placeholder variable.
+        For other encryption schemes, returns None because this field is
+        KEYWRAP-specific.
+
+        Args:
+            ise_radius_integration_details (dict): Server configuration from
+                the API response.
+
+        Returns:
+            str or None: KEYWRAP placeholder, otherwise None.
         """
         return self.transform_keywrap_secret(
             ise_radius_integration_details,
@@ -716,7 +738,18 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
         self, ise_radius_integration_details
     ):
         """
-        Transforms messageKey, masking it with a placeholder for KEYWRAP.
+        Transforms messageKey for KEYWRAP servers.
+
+        For KEYWRAP servers, generates a user-fillable placeholder variable.
+        For other encryption schemes, returns None because this field is
+        KEYWRAP-specific.
+
+        Args:
+            ise_radius_integration_details (dict): Server configuration from
+                the API response.
+
+        Returns:
+            str or None: KEYWRAP placeholder, otherwise None.
         """
         return self.transform_keywrap_secret(
             ise_radius_integration_details,
