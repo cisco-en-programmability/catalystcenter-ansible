@@ -711,6 +711,21 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
             )
             return placeholder
 
+        if encryption_scheme:
+            self.log(
+                "Non-KEYWRAP encryption scheme detected ('{0}'). Omitting "
+                "KEYWRAP-only parameter '{1}'.".format(
+                    encryption_scheme, parameter_string
+                ),
+                "DEBUG",
+            )
+        else:
+            self.log(
+                "No encryption scheme detected. Omitting KEYWRAP-only "
+                "parameter '{0}'.".format(parameter_string),
+                "DEBUG",
+            )
+
         return None
 
     def transform_encryption_key(self, ise_radius_integration_details):
