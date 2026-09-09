@@ -551,28 +551,32 @@ options:
             type: bool
             default: false
           force_distribution:
-            description: |
-              Flag to force image distribution even when the device is already compliant.
-
-              Background:
-              By default the module distributes an image only to devices the controller reports as
-              NON_COMPLIANT for IMAGE. That compliance status is derived from the golden image tagged
-              for the device's site, family and role - not from the specific image_name you request.
-              A device that is COMPLIANT (already at its golden image) or NOT_APPLICABLE (no golden image
-              tagged) is therefore skipped by default, even if you are asking for a different image.
-
-              When set to True:
-              - Skips the compliance check and distributes the requested image regardless of status
-              - Use to push a specific or non-golden image (for example a downgrade) to a device the
-                controller already considers compliant
-
-              When set to False (default):
-              - Honors the golden-image compliance check and skips already-compliant devices
-
-              Recommendation:
-              Prefer tagging the intended image as golden and letting the compliance check drive
-              distribution. Only use force_distribution for deliberate, targeted overrides such as
-              downgrades or pushing a non-golden image to specific devices.
+            description:
+              - Flag to force image distribution even when the device is already
+                compliant.
+              - By default the module distributes an image only to devices that
+                Cisco Catalyst Center reports as C(NON_COMPLIANT) for C(IMAGE).
+                That compliance status is derived from the golden image tagged
+                for the device's site, family and role - not from the specific
+                C(image_name) you request.
+              - A device that is C(COMPLIANT) (already at its golden image) or
+                C(NOT_APPLICABLE) (no golden image tagged) is therefore skipped
+                by default, even when you request a different image.
+              - When set to C(true), the compliance check is skipped and the
+                requested image is distributed regardless of the reported
+                compliance status. Use this to push a specific or non-golden
+                image (for example a downgrade) to a device that Cisco Catalyst
+                Center already considers compliant.
+              - When set to C(false) (default), the golden-image compliance check
+                is honored and already-compliant devices are skipped.
+              - This differs from C(convert_to_wlc), which bypasses the compliance
+                check specifically for Wireless LAN Controller (WLC) conversion.
+                C(force_distribution) is intended for deliberate image overrides.
+              - Recommendation - prefer tagging the intended image as golden and
+                letting the compliance check drive distribution. Use
+                C(force_distribution) only for deliberate, targeted overrides
+                such as downgrades or pushing a non-golden image to specific
+                devices.
             type: bool
             default: false
           site_name:
@@ -805,28 +809,32 @@ options:
             type: bool
             default: false
           force_activation:
-            description: |
-              Flag to force image activation even when the device is already compliant.
-
-              Background:
-              By default the module activates an image only on devices the controller reports as
-              NON_COMPLIANT for IMAGE. That compliance status is derived from the golden image tagged
-              for the device's site, family and role - not from the specific image_name you request.
-              A device that is COMPLIANT (already at its golden image) or NOT_APPLICABLE (no golden image
-              tagged) is therefore skipped by default, even if you are asking for a different image.
-
-              When set to True:
-              - Skips the compliance check and activates the requested image regardless of status
-              - Use to activate a specific or non-golden image (for example a downgrade) on a device the
-                controller already considers compliant
-
-              When set to False (default):
-              - Honors the golden-image compliance check and skips already-compliant devices
-
-              Recommendation:
-              Prefer tagging the intended image as golden and letting the compliance check drive
-              activation. Only use force_activation for deliberate, targeted overrides such as
-              downgrades or activating a non-golden image on specific devices.
+            description:
+              - Flag to force image activation even when the device is already
+                compliant.
+              - By default the module activates an image only on devices that
+                Cisco Catalyst Center reports as C(NON_COMPLIANT) for C(IMAGE).
+                That compliance status is derived from the golden image tagged
+                for the device's site, family and role - not from the specific
+                C(image_name) you request.
+              - A device that is C(COMPLIANT) (already at its golden image) or
+                C(NOT_APPLICABLE) (no golden image tagged) is therefore skipped
+                by default, even when you request a different image.
+              - When set to C(true), the compliance check is skipped and the
+                requested image is activated regardless of the reported
+                compliance status. Use this to activate a specific or non-golden
+                image (for example a downgrade) on a device that Cisco Catalyst
+                Center already considers compliant.
+              - When set to C(false) (default), the golden-image compliance check
+                is honored and already-compliant devices are skipped.
+              - This differs from C(convert_to_wlc), which bypasses the compliance
+                check specifically for Wireless LAN Controller (WLC) conversion.
+                C(force_activation) is intended for deliberate image overrides.
+              - Recommendation - prefer tagging the intended image as golden and
+                letting the compliance check drive activation. Use
+                C(force_activation) only for deliberate, targeted overrides such
+                as downgrades or activating a non-golden image on specific
+                devices.
             type: bool
             default: false
           image_name:
@@ -905,25 +913,32 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 notes:
-  - Image distribution and activation eligibility is driven by the controller's per-device IMAGE
-    compliance status (compliance_details_of_device, category IMAGE). That status compares the device's
-    installed image against the golden image tagged for the device's site, family and role. Only devices
-    reported as NON_COMPLIANT are distributed/activated by default; COMPLIANT and NOT_APPLICABLE (no
-    golden image tagged) devices are skipped as already aligned.
-  - Recommended approach - tag the intended image as golden for the target site/family/role and let the
-    compliance check drive distribution and activation. This keeps runs idempotent and avoids pushing
-    images to devices that already have them.
-  - Use force_distribution / force_activation only for deliberate overrides, for example a downgrade or
-    pushing a specific non-golden image to devices the controller already reports as compliant. These
-    flags bypass the compliance check for the requested image.
-  - Set 'image_distribution_timeout' and 'image_activation_timeout' (both in seconds) large enough to
-    cover the full operation, otherwise the module can time out and interrupt an upgrade that is still
-    progressing on the controller, reporting a failure for what is actually a slow but successful
-    operation. The actual duration depends on factors outside the module's control - the resources Cisco
-    Catalyst Center currently has available, image size, network throughput, and the number and type of
-    devices - so no exact value can be guaranteed. Prefer a generously higher value for smoother,
-    uninterrupted runs (for example, raise it further for large images, slow links, or many/complex
-    devices). If not set, each timeout defaults to 3600 seconds.
+  - Image distribution and activation eligibility is driven by the controller's
+    per-device IMAGE compliance status (C(compliance_details_of_device),
+    category C(IMAGE)). That status compares the device's installed image
+    against the golden image tagged for the device's site, family and role.
+    Only devices reported as C(NON_COMPLIANT) are distributed/activated by
+    default; C(COMPLIANT) and C(NOT_APPLICABLE) (no golden image tagged) devices
+    are skipped as already aligned.
+  - Recommended approach - tag the intended image as golden for the target
+    site/family/role and let the compliance check drive distribution and
+    activation. This keeps runs idempotent and avoids pushing images to devices
+    that already have them.
+  - Use C(force_distribution) / C(force_activation) only for deliberate
+    overrides, for example a downgrade or pushing a specific non-golden image to
+    devices the controller already reports as compliant. These flags bypass the
+    compliance check for the requested image.
+  - Set C(image_distribution_timeout) and C(image_activation_timeout) (both in
+    seconds) large enough to cover the full operation, otherwise the module can
+    time out and interrupt an upgrade that is still progressing on the
+    controller, reporting a failure for what is actually a slow but successful
+    operation. The actual duration depends on factors outside the module's
+    control - the resources Cisco Catalyst Center currently has available, image
+    size, network throughput, and the number and type of devices - so no exact
+    value can be guaranteed. Prefer a generously higher value for smoother,
+    uninterrupted runs (for example, raise it further for large images, slow
+    links, or many/complex devices). If not set, each timeout defaults to 3600
+    seconds.
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url,
     software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image,
@@ -6970,18 +6985,115 @@ class Swim(CatalystCenterBase):
 
         return self.poll_swim_task_status(task_id, api_name, poll_interval)
 
+    def build_task_tree_index(self, parent_task_id):
+        """
+        Index a SWIM task tree into lookup maps shared by both the old and new flows.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            parent_task_id (str): The task ID whose tree ('/task/{id}/tree') is fetched and indexed.
+        Returns:
+            tuple: (tasks_by_id, children_by_parent, reason_by_task_id) where tasks_by_id maps a task
+            ID to its task dict, children_by_parent maps a parentId to its list of child task dicts,
+            and reason_by_task_id maps a task ID to its 'failureReason' (only for tasks that carry one).
+        Description:
+            The task tree endpoint is present in every Catalyst Center version and returns the same
+            nested structure for both SWIM flows, so it is the single universal source for failure
+            reasons. This builds the lookup maps once (one API call) so callers can walk the subtree
+            (see get_deepest_failure_reason) without re-parsing the tree. Best-effort: any lookup
+            failure returns empty maps so callers degrade gracefully.
+        """
+        tasks_by_id = {}
+        children_by_parent = {}
+        reason_by_task_id = {}
+        if not parent_task_id:
+            return tasks_by_id, children_by_parent, reason_by_task_id
+
+        try:
+            task_tree = self.catalystcenter._exec(
+                family="task",
+                function="get_task_tree",
+                params={"task_id": parent_task_id},
+            )
+            self.log(
+                "Received API response from 'get_task_tree' for task ID '{0}': {1}".format(
+                    parent_task_id, task_tree
+                ),
+                "DEBUG",
+            )
+            child_tasks = (
+                task_tree.get("response") if isinstance(task_tree, dict) else None
+            )
+
+            if not isinstance(child_tasks, list):
+                # An empty/malformed tree here is the usual reason a failure has no device-level reason downstream.
+                self.log(
+                    "Task tree for task ID '{0}' is empty or malformed (response type: {1}); "
+                    "no per-device failure reasons can be derived.".format(
+                        parent_task_id, type(child_tasks).__name__
+                    ),
+                    "WARNING",
+                )
+                return tasks_by_id, children_by_parent, reason_by_task_id
+
+            for child_task in child_tasks:
+                if not isinstance(child_task, dict):
+                    continue
+                node_id = child_task.get("id")
+                if node_id:
+                    tasks_by_id[node_id] = child_task
+                    children_by_parent.setdefault(
+                        child_task.get("parentId"), []
+                    ).append(child_task)
+                if child_task.get("failureReason"):
+                    reason_by_task_id[node_id] = child_task.get("failureReason")
+            self.log(
+                "Parsed task tree for task ID '{0}': indexed {1} task node(s), "
+                "{2} carrying a failureReason.".format(
+                    parent_task_id, len(tasks_by_id), len(reason_by_task_id)
+                ),
+                "DEBUG",
+            )
+
+            # Dump every failure-carrying node so a customer log shows all candidate reasons + error codes at once.
+            for failed_id, failed_reason in reason_by_task_id.items():
+                failed_node = tasks_by_id.get(failed_id, {})
+                self.log(
+                    "Task tree failure node under task ID '{0}': id='{1}', parentId='{2}', "
+                    "errorCode='{3}', serviceType='{4}', data='{5}', failureReason: {6}".format(
+                        parent_task_id,
+                        failed_id,
+                        failed_node.get("parentId"),
+                        failed_node.get("errorCode"),
+                        failed_node.get("serviceType"),
+                        failed_node.get("data"),
+                        failed_reason,
+                    ),
+                    "DEBUG",
+                )
+        except Exception as e:
+            self.log(
+                "Unable to retrieve task tree for task ID '{0}': {1}".format(
+                    parent_task_id, str(e)
+                ),
+                "DEBUG",
+            )
+
+        return tasks_by_id, children_by_parent, reason_by_task_id
+
     def get_failed_task_diagnostics(self, task_id):
         """
         Best-effort diagnostics for a failed SWIM task.
         Args:
             task_id (str): The failed task ID.
         Returns:
-            str or None: The most specific device-level failure reason found in the legacy
-            task or its child tasks, or None if unavailable.
+            str or None: The most specific (deepest) device-level failure reason found in the
+            task tree, or None if unavailable.
         Description:
-            The v2 task-detail API returns only aggregate counts for old-flow SWIM failures.
-            This queries the legacy task and its child tasks (which carry the per-device
-            'failureReason') and logs them so the exact failure is always captured.
+            The task tree ('/task/{id}/tree') is the same in both SWIM flows and nests the specific
+            device-level error several levels below the generic rollup carried on the root/parent
+            nodes (the new flow stamps 'partial success' on the root; the old flow leaves it blank).
+            This walks the tree to the deepest node that carries a 'failureReason' so the exact,
+            actionable failure is surfaced identically for both flows.
         """
         self.log(
             "Starting best-effort diagnostics for failed SWIM task ID '{0}'.".format(
@@ -6989,61 +7101,28 @@ class Swim(CatalystCenterBase):
             ),
             "DEBUG",
         )
-        reason = None
-        try:
-            legacy_task = self.catalystcenter._exec(
-                family="task",
-                function="get_task_by_id",
-                params={"task_id": task_id},
-            )
-            self.log(
-                "Diagnostics - legacy task detail for failed task ID '{0}': {1}".format(
-                    task_id, legacy_task
-                ),
-                "ERROR",
-            )
-            legacy_response = (
-                legacy_task.get("response") if isinstance(legacy_task, dict) else None
-            )
-            if isinstance(legacy_response, dict):
-                reason = legacy_response.get("failureReason") or reason
-        except Exception as e:
-            self.log(
-                "Diagnostics - unable to retrieve legacy task detail for task ID "
-                "'{0}': {1}".format(task_id, str(e)),
-                "DEBUG",
-            )
+        tasks_by_id, children_by_parent, reason_by_task_id = self.build_task_tree_index(
+            task_id
+        )
 
-        try:
-            task_tree = self.catalystcenter._exec(
-                family="task",
-                function="get_task_tree",
-                params={"task_id": task_id},
-            )
+        reason = self.get_deepest_failure_reason(
+            task_id, tasks_by_id, children_by_parent
+        ) or reason_by_task_id.get(task_id)
+        if not reason:
+            # Distinguish 'tree unavailable/empty' from 'tree present but no reason' so customer logs are actionable.
             self.log(
-                "Diagnostics - task tree (child tasks) for failed task ID '{0}': {1}".format(
-                    task_id, task_tree
+                "No device-level failureReason found for failed SWIM task ID '{0}' "
+                "(indexed {1} tree node(s), {2} with a failureReason); caller will fall back "
+                "to the task-level message.".format(
+                    task_id, len(tasks_by_id), len(reason_by_task_id)
                 ),
-                "ERROR",
-            )
-            child_tasks = (
-                task_tree.get("response") if isinstance(task_tree, dict) else None
-            )
-            if isinstance(child_tasks, list):
-                for child_task in child_tasks:
-                    if isinstance(child_task, dict) and child_task.get("failureReason"):
-                        reason = child_task.get("failureReason")
-                        break
-        except Exception as e:
-            self.log(
-                "Diagnostics - unable to retrieve task tree for task ID "
-                "'{0}': {1}".format(task_id, str(e)),
-                "DEBUG",
+                "WARNING",
             )
 
         self.log(
-            "Completed diagnostics for failed SWIM task ID '{0}'; resolved reason: {1}".format(
-                task_id, reason or "Unknown"
+            "Completed diagnostics for failed SWIM task ID '{0}' (indexed {1} tree node(s), "
+            "{2} with a failureReason); resolved reason: {3}".format(
+                task_id, len(tasks_by_id), len(reason_by_task_id), reason or "Unknown"
             ),
             "DEBUG",
         )
@@ -7065,10 +7144,17 @@ class Swim(CatalystCenterBase):
             node that the per-device status API points at. Walking down to the deepest node that carries a
             failureReason surfaces that actionable root cause instead of the generic parent message.
         """
+        self.log(
+            "Searching task subtree of root task ID '{0}' for the deepest failureReason.".format(
+                root_task_id
+            ),
+            "DEBUG",
+        )
         best_reason = None
         best_depth = -1
         visited = set()
         stack = [(root_task_id, 0)]
+
         while stack:
             task_id, depth = stack.pop()
             if not task_id or task_id in visited:
@@ -7161,52 +7247,10 @@ class Swim(CatalystCenterBase):
             )
             return reason_by_device
 
-        # Build a child-task-id -> failureReason map from the parent task tree in a single call.
-        reason_by_task_id = {}
-        tasks_by_id = {}
-        children_by_parent = {}
-        try:
-            task_tree = self.catalystcenter._exec(
-                family="task",
-                function="get_task_tree",
-                params={"task_id": parent_task_id},
-            )
-            self.log(
-                "Received API response from 'get_task_tree' for parent task ID '{0}': {1}".format(
-                    parent_task_id, task_tree
-                ),
-                "DEBUG",
-            )
-
-            child_tasks = (
-                task_tree.get("response") if isinstance(task_tree, dict) else None
-            )
-            if isinstance(child_tasks, list):
-                for child_task in child_tasks:
-                    if not isinstance(child_task, dict):
-                        continue
-                    task_id = child_task.get("id")
-                    if task_id:
-                        tasks_by_id[task_id] = child_task
-                        children_by_parent.setdefault(
-                            child_task.get("parentId"), []
-                        ).append(child_task)
-                    if child_task.get("failureReason"):
-                        reason_by_task_id[task_id] = child_task.get("failureReason")
-            self.log(
-                "Parsed task tree for parent task ID '{0}': indexed {1} child task(s), "
-                "{2} carrying a failureReason.".format(
-                    parent_task_id, len(tasks_by_id), len(reason_by_task_id)
-                ),
-                "DEBUG",
-            )
-        except Exception as e:
-            self.log(
-                "Unable to retrieve task tree for parent task ID '{0}': {1}".format(
-                    parent_task_id, str(e)
-                ),
-                "DEBUG",
-            )
+        # Build the child-task lookup maps from the parent task tree (shared by both SWIM flows).
+        tasks_by_id, children_by_parent, reason_by_task_id = self.build_task_tree_index(
+            parent_task_id
+        )
 
         total_failed = len(failed_devices)
         self.log(
@@ -7238,15 +7282,24 @@ class Swim(CatalystCenterBase):
             ) or reason_by_task_id.get(device_task_id)
 
             self.log(
-                "Resolved failure reason for device {0} of {1} (IP: {2}) under parent task ID "
-                "'{3}': {4}".format(
-                    index, total_failed, device_ip, parent_task_id, reason or "Unknown"
+                "Resolved failure reason for device {0} of {1} (IP: {2}, deviceTaskId: {3}) under "
+                "parent task ID '{4}': {5}".format(
+                    index, total_failed, device_ip, device_task_id, parent_task_id, reason or "Unknown"
                 ),
                 "DEBUG",
             )
 
             if device_ip:
                 reason_by_device[device_ip] = reason
+            else:
+                # No usable IP means this failed device is dropped from the map; surface it for debugging.
+                self.log(
+                    "Failed device record {0} of {1} under parent task ID '{2}' has no usable IP "
+                    "(deviceTaskId: {3}); its reason will not be mapped: {4}".format(
+                        index, total_failed, parent_task_id, device_task_id, reason or "Unknown"
+                    ),
+                    "WARNING",
+                )
 
         self.log(
             "Completed per-device failure-reason lookup for parent task ID '{0}': {1} device(s) "
