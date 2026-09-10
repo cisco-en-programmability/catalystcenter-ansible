@@ -4589,8 +4589,8 @@ class Swim(CatalystCenterBase):
             list: A list of device UUIDs that match the specified device tag.
         Description:
             This function filters the provided list of device UUIDs based on the specified device tag.
-            It uses the 'Retrieve tags associated with network devices' API which provides near real-time
-            tag updates, avoiding the delayed visibility issue with the 'Get Device Detail' API.
+            It queries only the tag's network-device members via the 'Get Tag Members by Id' API
+            (paginated), avoiding a whole-inventory scan while still reflecting near real-time tag updates.
         """
         self.log(
             "Starting device UUID filtering based on tag criteria for SWIM operations",
@@ -4641,121 +4641,101 @@ class Swim(CatalystCenterBase):
 
             self.log("Successfully retrieved tag ID '{0}' for tag '{1}'".format(tag_id, device_tag), "DEBUG")
 
-            # Fetch all tag associations from the API with pagination
+            # Fetch only this tag's network-device members directly, avoiding a whole-inventory scan
             self.log(
-                "Fetching all tag associations using 'retrieve_tags_associated_with_network_devices' API with pagination",
+                "Fetching network device members for tag ID '{0}' using 'get_tag_members_by_id' API with pagination".format(
+                    tag_id
+                ),
                 "DEBUG"
             )
 
             limit = 500
             offset = 1
-            all_tag_associations = []
+            tagged_device_ids = set()
 
             while True:
                 try:
                     response = self.catalystcenter._exec(
                         family="tag",
-                        function="retrieve_tags_associated_with_network_devices",
-                        op_modifies=True,
-                        params={"offset": offset, "limit": limit}
+                        function="get_tag_members_by_id",
+                        op_modifies=False,
+                        params={
+                            "id": tag_id,
+                            "member_type": "networkdevice",
+                            "offset": offset,
+                            "limit": limit
+                        }
                     )
 
                     self.log(
-                        "Received API response from 'retrieve_tags_associated_with_network_devices' (offset: {0}, limit: {1}): {2}".format(
+                        "Received API response from 'get_tag_members_by_id' (offset: {0}, limit: {1}): {2}".format(
                             offset, limit, str(response)
                         ),
                         "DEBUG"
                     )
 
-                    tag_associations = response.get("response", [])
+                    tag_members = response.get("response", []) if response else []
 
-                    if not tag_associations:
+                    if not tag_members:
                         self.log(
-                            "No more device-tag associations returned at offset {0}".format(offset),
+                            "No more tag members returned at offset {0}".format(offset),
                             "DEBUG"
                         )
                         break
 
-                    all_tag_associations.extend(tag_associations)
+                    for member in tag_members:
+                        member_id = member.get("instanceUuid") or member.get("id")
+                        if member_id:
+                            tagged_device_ids.add(member_id)
+                        else:
+                            self.log(
+                                "Skipping tag member entry with missing device ID: {0}".format(member),
+                                "WARNING"
+                            )
 
                     self.log(
-                        "Retrieved {0} device-tag association entries in this batch (offset: {1})".format(
-                            len(tag_associations), offset
+                        "Retrieved {0} tag member entries in this batch (offset: {1}); "
+                        "cumulative unique tagged device IDs collected: {2}".format(
+                            len(tag_members), offset, len(tagged_device_ids)
                         ),
                         "DEBUG"
                     )
 
-                    # Check if we received fewer results than the limit (indicates last page)
-                    if len(tag_associations) < limit:
+                    # Fewer results than the limit indicates the last page
+                    if len(tag_members) < limit:
                         self.log(
-                            "Received fewer associations ({0}) than limit ({1}), reached end of results".format(
-                                len(tag_associations), limit
+                            "Received fewer members ({0}) than limit ({1}), reached end of results".format(
+                                len(tag_members), limit
                             ),
                             "DEBUG"
                         )
                         break
 
-                    # Move to next page
+                    self.log(
+                        "Advancing to next page of tag members (next offset: {0})".format(
+                            offset + limit
+                        ),
+                        "DEBUG"
+                    )
                     offset += limit
 
                 except Exception as e:
                     self.log(
-                        "Exception occurred while fetching tag associations at offset {0}: {1}".format(
+                        "Exception occurred while fetching tag members at offset {0}: {1}".format(
                             offset, str(e)
                         ),
                         "ERROR"
                     )
                     break
 
-            if not all_tag_associations:
+            if not tagged_device_ids:
                 self.log(
-                    "No device-tag associations found in Cisco Catalyst Center after fetching all pages",
+                    "No network device members found for tag '{0}' (ID: {1}) in Cisco Catalyst Center".format(
+                        device_tag, tag_id
+                    ),
                     "INFO"
                 )
                 return []
-
-            self.log(
-                "Successfully retrieved {0} total device-tag association entries from API".format(
-                    len(all_tag_associations)
-                ),
-                "INFO"
-            )
-
-            # Build a mapping of device IDs to their associated tag IDs
-            device_tag_map = {}
-
-            for association in all_tag_associations:
-                device_id = association.get("id")
-                tags = association.get("tags", [])
-
-                if not device_id:
-                    self.log(
-                        "Skipping association entry with missing device ID: {0}".format(association),
-                        "WARNING"
-                    )
-                    continue
-
-                # Store all tag IDs for this device
-                if device_id not in device_tag_map:
-                    device_tag_map[device_id] = set()
-
-                for tag in tags:
-                    tag_entry_id = tag.get("id")
-                    if tag_entry_id:
-                        device_tag_map[device_id].add(tag_entry_id)
-
-            self.log(
-                "Built device-to-tags mapping for {0} unique devices".format(
-                    len(device_tag_map)
-                ),
-                "DEBUG"
-            )
-
-            # Create a set of device IDs that have the target tag
-            tagged_device_ids = set()
-            for device_id, tag_ids in device_tag_map.items():
-                if tag_id in tag_ids:
-                    tagged_device_ids.add(device_id)
 
             self.log(
                 "Found {0} devices associated with tag '{1}' (ID: {2})".format(
