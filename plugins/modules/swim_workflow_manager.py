@@ -962,7 +962,6 @@ notes:
     post /dna/intent/api/v1/image/activation/device,
     delete /dna/intent/api/v1/images/{id},
 
-  - Added the parameter 'catalystcenter_api_task_timeout', 'catalystcenter_task_poll_interval' options in v6.13.2.
 
 """
 EXAMPLES = r"""

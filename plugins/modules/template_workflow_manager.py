@@ -670,7 +670,6 @@ options:
                     are provided, the 'project_file'
                     will be given priority.
                 type: str
-                version_added: 6.17.0
               payload:
                 description:
                   - Directly imports configuration data

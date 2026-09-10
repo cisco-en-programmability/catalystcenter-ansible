@@ -343,9 +343,6 @@ notes:
     post /dna/intent/api/v1/applicationVisibility/networkDevices/disableAppTelemetry
   - When C(state=deleted) targets a device that is not present in Cisco Catalyst Center,
     the operation succeeds without changes because the device is already un-provisioned.
-  - Added 'provisioning' option in v6.16.0
-  - Added provisioning and reprovisioning of wireless
-    devices in v6.16.0
 """
 EXAMPLES = r"""
 ---
