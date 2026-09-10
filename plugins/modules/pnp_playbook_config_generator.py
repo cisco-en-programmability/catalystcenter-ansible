@@ -83,7 +83,6 @@ Usage Patterns:
     - Disaster recovery documentation for PnP infrastructure state
 
 Author: Syed Khadeer Ahmed, Madhan Sankaranarayanan
-Version: 6.40.0
 """
 
 from __future__ import absolute_import, division, print_function
@@ -223,8 +222,7 @@ notes:
   generated output, with the unavailable config-level field omitted.
 - Module supports both check mode and normal execution mode with identical
   behavior.
-- Generated playbooks are compatible with pnp_workflow_manager module
-  v6.40.0+.
+- Generated playbooks are compatible with the pnp_workflow_manager module.
 - Device transformation skips devices missing required fields
   (serial_number, pid).
 - Operation tracking includes success and failure details for all processed
