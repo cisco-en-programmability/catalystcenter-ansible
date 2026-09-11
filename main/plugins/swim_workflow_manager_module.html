@@ -1652,7 +1652,7 @@
 <h1>cisco.catalystcenter.swim_workflow_manager module -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center<a class="headerlink" href="#cisco-catalystcenter-swim-workflow-manager-module-module-to-manage-swim-software-image-management-operations-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.11.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.12.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1661,16 +1661,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <p class="ansible-version-added">New in cisco.catalystcenter 1.0.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id89">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id90">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id91">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id92">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id93">Examples</a></p></li>
-<li><p><a class="reference internal" href="#return-values" id="id94">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id97">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id98">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id99">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id100">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id101">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id102">Return Values</a></p></li>
 </ul>
 </nav>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id89" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id97" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Manages operations for image importation, distribution, activation, and tagging images as golden.</p></li>
 <li><p>Provides an API to fetch a software image from a remote file system via HTTP/FTP and upload it to Catalyst Center. Supported file extensions - bin, img, tar, smu, pie, aes, iso, ova, tar.gz, qcow2.</p></li>
@@ -1683,7 +1683,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id90" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id98" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>catalystcentersdk &gt;= 3.1.6.0.2</p></li>
@@ -1691,7 +1691,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id91" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id99" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -1706,7 +1706,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <td><div class="ansible-option-cell"><p>Number of devices included in each bulk image activation API request.</p>
 <p>The Cisco Catalyst Center bulk API accepts at most 500 devices per request, so this value must be between 1 and 500.</p>
 <p>Lower this value to reduce the load per request on very large jobs.</p>
-<p>Applicable only to Cisco Catalyst Center version 3.1.3.0 and later. Earlier versions use the legacy sequential workflow, so this value has no effect.</p>
 <p>Each batch is processed as a separate API call with its own task ID, enabling independent monitoring and status tracking of each batch.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id1"><span class="problematic" id="id2">:ansible-option-default:`50`</span></a></p>
 </div></td>
@@ -2115,6 +2114,24 @@ in 'device_ip_address' is merged into this list and duplicate entries are remove
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/force_activation"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-activation-details-force-activation"><strong>force_activation</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details/force_activation" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Flag to force image activation even when the device is already compliant.</p>
+<p>By default the module activates an image only on devices that Cisco Catalyst Center reports as <code class="docutils literal notranslate"><span class="pre">NON_COMPLIANT</span></code> for <code class="docutils literal notranslate"><span class="pre">IMAGE</span></code>. That compliance status is derived from the golden image tagged for the device's site, family and role - not from the specific <code class="docutils literal notranslate"><span class="pre">image_name</span></code> you request.</p>
+<p>A device that is <code class="docutils literal notranslate"><span class="pre">COMPLIANT</span></code> (already at its golden image) or <code class="docutils literal notranslate"><span class="pre">NOT_APPLICABLE</span></code> (no golden image tagged) is therefore skipped by default, even when you request a different image.</p>
+<p>When set to <code class="docutils literal notranslate"><span class="pre">true</span></code>, the compliance check is skipped and the requested image is activated regardless of the reported compliance status. Use this to activate a specific or non-golden image (for example a downgrade) on a device that Cisco Catalyst Center already considers compliant.</p>
+<p>When set to <code class="docutils literal notranslate"><span class="pre">false</span></code> (default), the golden-image compliance check is honored and already-compliant devices are skipped.</p>
+<p>This differs from <code class="docutils literal notranslate"><span class="pre">convert_to_wlc</span></code>, which bypasses the compliance check specifically for Wireless LAN Controller (WLC) conversion. <code class="docutils literal notranslate"><span class="pre">force_activation</span></code> is intended for deliberate image overrides.</p>
+<p>Recommendation - prefer tagging the intended image as golden and letting the compliance check drive activation. Use <code class="docutils literal notranslate"><span class="pre">force_activation</span></code> only for deliberate, targeted overrides such as downgrades or activating a non-golden image on specific devices.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/image_activation_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-activation-details-image-activation-timeout"><strong>image_activation_timeout</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/image_activation_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2127,58 +2144,66 @@ before timing out, including device reboot and startup verification.</p>
 - Device reboot and startup sequence (if required)
 - Post-activation connectivity and status verification
 - Golden image validation (if applicable)</p>
-<p>Default of 1800 seconds (30 minutes) accommodates:
+<p>Default of 3600 seconds (60 minutes) accommodates:
 - Device boot time variations (switches: 5-15 min, routers: 10-20 min)
 - Image installation and verification processes
 - Network convergence and connectivity restoration
 - Multiple devices in concurrent activation scenarios</p>
-<p>Recommended timeout values by device type:
-- Access switches: 1200-1800 seconds (20-30 minutes)
-- Distribution/Core switches: 1800-2700 seconds (30-45 minutes)
-- Routers and complex devices: 2700-3600 seconds (45-60 minutes)</p>
+<p>Choosing a value:
+- The value is in seconds.
+- Activation runs on whatever resources Cisco Catalyst Center currently has available,</p>
+<blockquote>
+<div><p>and also depends on device reboot/startup time and the number and type of devices,
+so no exact duration can be guaranteed.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Prefer a generously higher value to avoid interrupting a slow but successful operation;
+increase it further for routers or other devices that take longer to reboot.</p></li>
+</ul>
 <p>Warning: Setting timeout too low may cause premature failure reporting
 for successful but slow activation processes.</p>
-<p>Note: This timeout is independent of the global 'catalystcenter_api_task_timeout' parameter</p>
+<p>Note: If not set, this timeout defaults to 3600 seconds and applies to image
+activation operations only.</p>
 <p>type: int
-default: 1800</p>
+default: 3600</p>
 </dd>
 </dl>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/image_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-activation-details-image-name"><strong>image_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/image_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the name of the SWIM image to be activated.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/schedule_validate"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-activation-details-schedule-validate"><strong>schedule_validate</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/schedule_validate" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ScheduleValidate query parameter. ScheduleValidate, validates data before schedule (optional).</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/site_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-activation-details-site-name"><strong>site_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/site_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Used to get device details associated to this site.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/sub_package_images"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-activation-details-sub-package-images"><strong>sub_package_images</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/sub_package_images" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies a list of SWIM sub-package image names.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details"><strong>image_distribution_details</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
@@ -2227,7 +2252,7 @@ available for every device.</p>
 </div></blockquote>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/convert_to_wlc"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-convert-to-wlc"><strong>convert_to_wlc</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/convert_to_wlc" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2251,26 +2276,26 @@ checks. Ensure device compatibility before enabling this option.</p>
 </div></blockquote>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_family_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-device-family-name"><strong>device_family_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_family_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specify the name of the device family such as Switches and Hubs, etc.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_hostname"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-device-hostname"><strong>device_hostname</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_hostname" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device hostname where the image needs to be distributed</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_hostnames"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-device-hostnames"><strong>device_hostnames</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_hostnames" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
@@ -2280,14 +2305,14 @@ checks. Ensure device compatibility before enabling this option.</p>
 </dl>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_ip_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-device-ip-address"><strong>device_ip_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device IP address where the image needs to be distributed</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_ip_addresses"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-device-ip-addresses"><strong>device_ip_addresses</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_ip_addresses" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
@@ -2298,14 +2323,14 @@ in 'device_ip_address' is merged into this list and duplicate entries are remove
 </dl>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_mac_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-device-mac-address"><strong>device_mac_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_mac_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device MAC address where the image needs to be distributed</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_mac_addresses"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-device-mac-addresses"><strong>device_mac_addresses</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_mac_addresses" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
@@ -2315,21 +2340,21 @@ in 'device_ip_address' is merged into this list and duplicate entries are remove
 </dl>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_role"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-device-role"><strong>device_role</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_role" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device Role and  permissible Values are ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION and CORE. ALL - This role typically represents all devices within the network, regardless of their specific roles or functions. UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalyst Center. This could happen if the platform is unable to determine the device's role based on available information. ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network. These devices are often located at the edge of the network and provide connectivity to end-user devices. BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as gateways between different networks, such as connecting an enterprise network to the internet or connecting multiple branch offices. DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic from access switches and route it toward the core of the network or toward other distribution switches. CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes of traffic and provide connectivity between different parts of network, such as connecting distribution switches or providing interconnection between different network segments.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_serial_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-device-serial-number"><strong>device_serial_number</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_serial_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device serial number where the image needs to be distributed</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_serial_numbers"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-device-serial-numbers"><strong>device_serial_numbers</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_serial_numbers" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
@@ -2339,18 +2364,36 @@ in 'device_ip_address' is merged into this list and duplicate entries are remove
 </dl>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_series_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-device-series-name"><strong>device_series_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_series_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>This parameter specifies the name of the device series. It is used to identify a specific series of devices, such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_tag"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-device-tag"><strong>device_tag</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_tag" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device tag for filtering the target device(s)</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/force_distribution"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-image-distribution-details-force-distribution"><strong>force_distribution</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/force_distribution" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Flag to force image distribution even when the device is already compliant.</p>
+<p>By default the module distributes an image only to devices that Cisco Catalyst Center reports as <code class="docutils literal notranslate"><span class="pre">NON_COMPLIANT</span></code> for <code class="docutils literal notranslate"><span class="pre">IMAGE</span></code>. That compliance status is derived from the golden image tagged for the device's site, family and role - not from the specific <code class="docutils literal notranslate"><span class="pre">image_name</span></code> you request.</p>
+<p>A device that is <code class="docutils literal notranslate"><span class="pre">COMPLIANT</span></code> (already at its golden image) or <code class="docutils literal notranslate"><span class="pre">NOT_APPLICABLE</span></code> (no golden image tagged) is therefore skipped by default, even when you request a different image.</p>
+<p>When set to <code class="docutils literal notranslate"><span class="pre">true</span></code>, the compliance check is skipped and the requested image is distributed regardless of the reported compliance status. Use this to push a specific or non-golden image (for example a downgrade) to a device that Cisco Catalyst Center already considers compliant.</p>
+<p>When set to <code class="docutils literal notranslate"><span class="pre">false</span></code> (default), the golden-image compliance check is honored and already-compliant devices are skipped.</p>
+<p>This differs from <code class="docutils literal notranslate"><span class="pre">convert_to_wlc</span></code>, which bypasses the compliance check specifically for Wireless LAN Controller (WLC) conversion. <code class="docutils literal notranslate"><span class="pre">force_distribution</span></code> is intended for deliberate image overrides.</p>
+<p>Recommendation - prefer tagging the intended image as golden and letting the compliance check drive distribution. Use <code class="docutils literal notranslate"><span class="pre">force_distribution</span></code> only for deliberate, targeted overrides such as downgrades or pushing a non-golden image to specific devices.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -2365,18 +2408,25 @@ including image transfer to target devices, network propagation, and distributio
 - Network transfer to target devices
 - Installation verification on target devices
 - Distribution status confirmation</p>
-<p>Default of 1800 seconds (30 minutes) accounts for:
+<p>Default of 3600 seconds (60 minutes) accounts for:
 - Large image files (up to several GB)
 - Multiple target devices in site-based operations
 - Network latency and bandwidth constraints
 - Device processing and storage capabilities</p>
-<p>Recommended timeout values:
-- Small networks (1-10 devices): 900-1800 seconds
-- Medium networks (10-50 devices): 1800-3600 seconds
-- Large networks (50+ devices): 3600-7200 seconds</p>
-<p>Note: This timeout is independent of the global 'catalystcenter_api_task_timeout' parameter
-and specifically applies to distribution operations only.</p>
-<p>default: 1800
+<p>Choosing a value:
+- The value is in seconds.
+- Distribution runs on whatever resources Cisco Catalyst Center currently has available,</p>
+<blockquote>
+<div><p>and also depends on image size, network throughput and the number of target devices,
+so no exact duration can be guaranteed.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Prefer a generously higher value to avoid interrupting a slow but successful operation;
+increase it further for large images, constrained links or many devices.</p></li>
+</ul>
+<p>Note: If not set, this timeout defaults to 3600 seconds and applies to image
+distribution operations only.</p>
+<p>default: 3600
 type: int</p>
 </dd>
 </dl>
@@ -2459,8 +2509,8 @@ type: int</p>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Query parameter to determine if the image is from a third party (optional).</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id65"><span class="problematic" id="id66">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -2527,8 +2577,8 @@ type: int</p>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Flag indicates whether the image is uploaded from a third party (optional).</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id67"><span class="problematic" id="id68">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id69"><span class="problematic" id="id70">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -2575,8 +2625,8 @@ type: int</p>
 <p>Applicable for v3.1.3.0 and later.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id65"><span class="problematic" id="id66">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id71"><span class="problematic" id="id72">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id73"><span class="problematic" id="id74">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -2661,8 +2711,8 @@ already untagged.</p></li>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Boolean value to tag/untag the SWIM image as golden. If True, the given image is tagged as golden. If False, the given image is un-tagged as golden.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id67"><span class="problematic" id="id68">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id69"><span class="problematic" id="id70">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id75"><span class="problematic" id="id76">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id77"><span class="problematic" id="id78">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -2673,8 +2723,8 @@ already untagged.</p></li>
 <td><div class="ansible-option-cell"><p>Set to True to verify the Cisco Catalyst Center config after applying the playbook config.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id71"><span class="problematic" id="id72">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id73"><span class="problematic" id="id74">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id79"><span class="problematic" id="id80">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id81"><span class="problematic" id="id82">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -2685,9 +2735,8 @@ already untagged.</p></li>
 <td><div class="ansible-option-cell"><p>Number of devices included in each bulk image distribution API request.</p>
 <p>The Cisco Catalyst Center bulk API accepts at most 500 devices per request, so this value must be between 1 and 500.</p>
 <p>Lower this value to reduce the load per request on very large jobs.</p>
-<p>Applicable only to Cisco Catalyst Center version 3.1.3.0 and later. Earlier versions use the legacy sequential workflow, so this value has no effect.</p>
 <p>Each batch is processed as a separate API call with its own task ID, enabling independent monitoring and status tracking of each batch.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id75"><span class="problematic" id="id76">:ansible-option-default:`50`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id83"><span class="problematic" id="id84">:ansible-option-default:`50`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -2698,7 +2747,7 @@ already untagged.</p></li>
 <p>The value must be at least 1 second.</p>
 <p>Also applies to the distribution phase that runs implicitly during an activation when <code class="docutils literal notranslate"><span class="pre">distribute_if_needed</span></code> is set.</p>
 <p>Increase this value to lower the API request frequency and help avoid rate-limiting (HTTP 429) during large or long-running distributions.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id77"><span class="problematic" id="id78">:ansible-option-default:`30`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id85"><span class="problematic" id="id86">:ansible-option-default:`30`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2708,8 +2757,8 @@ already untagged.</p></li>
 <td><div class="ansible-option-cell"><p>The state of Catalyst Center after module completion.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id79"><span class="problematic" id="id80">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id81"><span class="problematic" id="id82">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
+<li><p><a href="#id87"><span class="problematic" id="id88">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id89"><span class="problematic" id="id90">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -2720,8 +2769,8 @@ already untagged.</p></li>
 <td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id83"><span class="problematic" id="id84">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id85"><span class="problematic" id="id86">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id91"><span class="problematic" id="id92">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id93"><span class="problematic" id="id94">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -2729,10 +2778,14 @@ already untagged.</p></li>
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id92" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id100" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
+<li><p>Image distribution and activation eligibility is driven by the controller's per-device IMAGE compliance status (<code class="docutils literal notranslate"><span class="pre">compliance_details_of_device</span></code>, category <code class="docutils literal notranslate"><span class="pre">IMAGE</span></code>). That status compares the device's installed image against the golden image tagged for the device's site, family and role. Only devices reported as <code class="docutils literal notranslate"><span class="pre">NON_COMPLIANT</span></code> are distributed/activated by default; <code class="docutils literal notranslate"><span class="pre">COMPLIANT</span></code> and <code class="docutils literal notranslate"><span class="pre">NOT_APPLICABLE</span></code> (no golden image tagged) devices are skipped as already aligned.</p></li>
+<li><p>Recommended approach - tag the intended image as golden for the target site/family/role and let the compliance check drive distribution and activation. This keeps runs idempotent and avoids pushing images to devices that already have them.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">force_distribution</span></code> / <code class="docutils literal notranslate"><span class="pre">force_activation</span></code> only for deliberate overrides, for example a downgrade or pushing a specific non-golden image to devices the controller already reports as compliant. These flags bypass the compliance check for the requested image.</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">image_distribution_timeout</span></code> and <code class="docutils literal notranslate"><span class="pre">image_activation_timeout</span></code> (both in seconds) large enough to cover the full operation, otherwise the module can time out and interrupt an upgrade that is still progressing on the controller, reporting a failure for what is actually a slow but successful operation. The actual duration depends on factors outside the module's control - the resources Cisco Catalyst Center currently has available, image size, network throughput, and the number and type of devices - so no exact value can be guaranteed. Prefer a generously higher value for smoother, uninterrupted runs (for example, raise it further for large images, slow links, or many/complex devices). If not set, each timeout defaults to 3600 seconds.</p></li>
 <li><p>SDK Method used are software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url, software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image, software_image_management_swim.SoftwareImageManagementSwim.remove_golden_tag_for_image, software_image_management_swim.SoftwareImageManagementSwim.get_golden_tag_status_of_an_image, software_image_management_swim.SoftwareImageManagementSwim.tagging_golden_image, software_image_management_swim.SoftwareImageManagementSwim.untagging_golden_image, software_image_management_swim.SoftwareImageManagementSwim.returns_network_device_product_names_for_a_site, software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution, software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation, software_image_management_swim.SoftwareImageManagementSwim.delete_image_v1,</p></li>
 <li><p>Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, get /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId}, post /dna/intent/api/v1/images/{id}/sites/{siteId}/tagGolden, post /dna/intent/api/v1/images/{id}/sites/{siteId}/untagGolden, get /dna/intent/api/v1/siteWiseProductNames, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device, delete /dna/intent/api/v1/images/{id},</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
@@ -2742,7 +2795,7 @@ already untagged.</p></li>
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id93" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id101" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import an image from a URL, tag it as golden</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">and load it on device</span>
@@ -3233,7 +3286,7 @@ already untagged.</p></li>
 </div>
 </section>
 <section id="return-values">
-<h2><a class="toc-backref" href="#id94" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id102" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v14)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
@@ -3248,7 +3301,7 @@ already untagged.</p></li>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with activation details as returned by the Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id87"><span class="problematic" id="id88">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;: {\\n                    \\&quot;additionalStatusURL\\&quot;: String,\\n                    \\&quot;data\\&quot;: String,\\n                    \\&quot;endTime\\&quot;: 0,\\n                    \\&quot;id\\&quot;: String,\\n                    \\&quot;instanceTenantId\\&quot;: String,\\n                    \\&quot;isError\\&quot;: bool,\\n                    \\&quot;lastUpdate\\&quot;: 0,\\n                    \\&quot;progress\\&quot;: String,\\n                    \\&quot;rootId\\&quot;: String,\\n                    \\&quot;serviceType\\&quot;: String,\\n                    \\&quot;startTime\\&quot;: 0,\\n                    \\&quot;version\\&quot;: 0\\n              },\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id95"><span class="problematic" id="id96">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;: {\\n                    \\&quot;additionalStatusURL\\&quot;: String,\\n                    \\&quot;data\\&quot;: String,\\n                    \\&quot;endTime\\&quot;: 0,\\n                    \\&quot;id\\&quot;: String,\\n                    \\&quot;instanceTenantId\\&quot;: String,\\n                    \\&quot;isError\\&quot;: bool,\\n                    \\&quot;lastUpdate\\&quot;: 0,\\n                    \\&quot;progress\\&quot;: String,\\n                    \\&quot;rootId\\&quot;: String,\\n                    \\&quot;serviceType\\&quot;: String,\\n                    \\&quot;startTime\\&quot;: 0,\\n                    \\&quot;version\\&quot;: 0\\n              },\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>

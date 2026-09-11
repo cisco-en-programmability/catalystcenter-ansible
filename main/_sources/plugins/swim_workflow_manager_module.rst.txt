@@ -42,7 +42,7 @@ cisco.catalystcenter.swim_workflow_manager module -- Module to manage SWIM (Soft
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.12.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -144,8 +144,6 @@ Parameters
       The Cisco Catalyst Center bulk API accepts at most 500 devices per request, so this value must be between 1 and 500.
 
       Lower this value to reduce the load per request on very large jobs.
-
-      Applicable only to Cisco Catalyst Center version 3.1.3.0 and later. Earlier versions use the legacy sequential workflow, so this value has no effect.
 
       Each batch is processed as a separate API call with its own task ID, enabling independent monitoring and status tracking of each batch.
 
@@ -1619,6 +1617,60 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/force_activation"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/force_activation:
+
+      .. rst-class:: ansible-option-title
+
+      **force_activation**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/force_activation" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Flag to force image activation even when the device is already compliant.
+
+      By default the module activates an image only on devices that Cisco Catalyst Center reports as \ :literal:`NON\_COMPLIANT`\  for \ :literal:`IMAGE`\ . That compliance status is derived from the golden image tagged for the device's site, family and role - not from the specific \ :literal:`image\_name`\  you request.
+
+      A device that is \ :literal:`COMPLIANT`\  (already at its golden image) or \ :literal:`NOT\_APPLICABLE`\  (no golden image tagged) is therefore skipped by default, even when you request a different image.
+
+      When set to \ :literal:`true`\ , the compliance check is skipped and the requested image is activated regardless of the reported compliance status. Use this to activate a specific or non-golden image (for example a downgrade) on a device that Cisco Catalyst Center already considers compliant.
+
+      When set to \ :literal:`false`\  (default), the golden-image compliance check is honored and already-compliant devices are skipped.
+
+      This differs from \ :literal:`convert\_to\_wlc`\ , which bypasses the compliance check specifically for Wireless LAN Controller (WLC) conversion. \ :literal:`force\_activation`\  is intended for deliberate image overrides.
+
+      Recommendation - prefer tagging the intended image as golden and letting the compliance check drive activation. Use \ :literal:`force\_activation`\  only for deliberate, targeted overrides such as downgrades or activating a non-golden image on specific devices.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/image_activation_timeout"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/image_activation_timeout:
@@ -1654,24 +1706,28 @@ Parameters
           - Post-activation connectivity and status verification
           - Golden image validation (if applicable)
           
-          Default of 1800 seconds (30 minutes) accommodates:
+          Default of 3600 seconds (60 minutes) accommodates:
           - Device boot time variations (switches: 5-15 min, routers: 10-20 min)
           - Image installation and verification processes
           - Network convergence and connectivity restoration
           - Multiple devices in concurrent activation scenarios
           
-          Recommended timeout values by device type:
-          - Access switches: 1200-1800 seconds (20-30 minutes)
-          - Distribution/Core switches: 1800-2700 seconds (30-45 minutes)
-          - Routers and complex devices: 2700-3600 seconds (45-60 minutes)
+          Choosing a value:
+          - The value is in seconds.
+          - Activation runs on whatever resources Cisco Catalyst Center currently has available,
+            and also depends on device reboot/startup time and the number and type of devices,
+            so no exact duration can be guaranteed.
+          - Prefer a generously higher value to avoid interrupting a slow but successful operation;
+            increase it further for routers or other devices that take longer to reboot.
           
           Warning: Setting timeout too low may cause premature failure reporting
           for successful but slow activation processes.
           
-          Note: This timeout is independent of the global 'catalystcenter\_api\_task\_timeout' parameter
+          Note: If not set, this timeout defaults to 3600 seconds and applies to image
+          activation operations only.
           
           type: int
-          default: 1800
+          default: 3600
           
 
 
@@ -2378,6 +2434,60 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/force_distribution"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/force_distribution:
+
+      .. rst-class:: ansible-option-title
+
+      **force_distribution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/force_distribution" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Flag to force image distribution even when the device is already compliant.
+
+      By default the module distributes an image only to devices that Cisco Catalyst Center reports as \ :literal:`NON\_COMPLIANT`\  for \ :literal:`IMAGE`\ . That compliance status is derived from the golden image tagged for the device's site, family and role - not from the specific \ :literal:`image\_name`\  you request.
+
+      A device that is \ :literal:`COMPLIANT`\  (already at its golden image) or \ :literal:`NOT\_APPLICABLE`\  (no golden image tagged) is therefore skipped by default, even when you request a different image.
+
+      When set to \ :literal:`true`\ , the compliance check is skipped and the requested image is distributed regardless of the reported compliance status. Use this to push a specific or non-golden image (for example a downgrade) to a device that Cisco Catalyst Center already considers compliant.
+
+      When set to \ :literal:`false`\  (default), the golden-image compliance check is honored and already-compliant devices are skipped.
+
+      This differs from \ :literal:`convert\_to\_wlc`\ , which bypasses the compliance check specifically for Wireless LAN Controller (WLC) conversion. \ :literal:`force\_distribution`\  is intended for deliberate image overrides.
+
+      Recommendation - prefer tagging the intended image as golden and letting the compliance check drive distribution. Use \ :literal:`force\_distribution`\  only for deliberate, targeted overrides such as downgrades or pushing a non-golden image to specific devices.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/image_distribution_timeout"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/image_distribution_timeout:
@@ -2412,21 +2522,24 @@ Parameters
           - Installation verification on target devices
           - Distribution status confirmation
           
-          Default of 1800 seconds (30 minutes) accounts for:
+          Default of 3600 seconds (60 minutes) accounts for:
           - Large image files (up to several GB)
           - Multiple target devices in site-based operations
           - Network latency and bandwidth constraints
           - Device processing and storage capabilities
           
-          Recommended timeout values:
-          - Small networks (1-10 devices): 900-1800 seconds
-          - Medium networks (10-50 devices): 1800-3600 seconds
-          - Large networks (50+ devices): 3600-7200 seconds
+          Choosing a value:
+          - The value is in seconds.
+          - Distribution runs on whatever resources Cisco Catalyst Center currently has available,
+            and also depends on image size, network throughput and the number of target devices,
+            so no exact duration can be guaranteed.
+          - Prefer a generously higher value to avoid interrupting a slow but successful operation;
+            increase it further for large images, constrained links or many devices.
           
-          Note: This timeout is independent of the global 'catalystcenter\_api\_task\_timeout' parameter
-          and specifically applies to distribution operations only.
+          Note: If not set, this timeout defaults to 3600 seconds and applies to image
+          distribution operations only.
           
-          default: 1800
+          default: 3600
           type: int
           
 
@@ -3681,8 +3794,6 @@ Parameters
 
       Lower this value to reduce the load per request on very large jobs.
 
-      Applicable only to Cisco Catalyst Center version 3.1.3.0 and later. Earlier versions use the legacy sequential workflow, so this value has no effect.
-
       Each batch is processed as a separate API call with its own task ID, enabling independent monitoring and status tracking of each batch.
 
 
@@ -3832,6 +3943,10 @@ Notes
 -----
 
 .. note::
+   - Image distribution and activation eligibility is driven by the controller's per-device IMAGE compliance status (\ :literal:`compliance\_details\_of\_device`\ , category \ :literal:`IMAGE`\ ). That status compares the device's installed image against the golden image tagged for the device's site, family and role. Only devices reported as \ :literal:`NON\_COMPLIANT`\  are distributed/activated by default; \ :literal:`COMPLIANT`\  and \ :literal:`NOT\_APPLICABLE`\  (no golden image tagged) devices are skipped as already aligned.
+   - Recommended approach - tag the intended image as golden for the target site/family/role and let the compliance check drive distribution and activation. This keeps runs idempotent and avoids pushing images to devices that already have them.
+   - Use \ :literal:`force\_distribution`\  / \ :literal:`force\_activation`\  only for deliberate overrides, for example a downgrade or pushing a specific non-golden image to devices the controller already reports as compliant. These flags bypass the compliance check for the requested image.
+   - Set \ :literal:`image\_distribution\_timeout`\  and \ :literal:`image\_activation\_timeout`\  (both in seconds) large enough to cover the full operation, otherwise the module can time out and interrupt an upgrade that is still progressing on the controller, reporting a failure for what is actually a slow but successful operation. The actual duration depends on factors outside the module's control - the resources Cisco Catalyst Center currently has available, image size, network throughput, and the number and type of devices - so no exact value can be guaranteed. Prefer a generously higher value for smoother, uninterrupted runs (for example, raise it further for large images, slow links, or many/complex devices). If not set, each timeout defaults to 3600 seconds.
    - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.import\_software\_image\_via\_url, software\_image\_management\_swim.SoftwareImageManagementSwim.tag\_as\_golden\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.remove\_golden\_tag\_for\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.get\_golden\_tag\_status\_of\_an\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.tagging\_golden\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.untagging\_golden\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.returns\_network\_device\_product\_names\_for\_a\_site, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_distribution, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_activation, software\_image\_management\_swim.SoftwareImageManagementSwim.delete\_image\_v1,
    - Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, get /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId}, post /dna/intent/api/v1/images/{id}/sites/{siteId}/tagGolden, post /dna/intent/api/v1/images/{id}/sites/{siteId}/untagGolden, get /dna/intent/api/v1/siteWiseProductNames, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device, delete /dna/intent/api/v1/images/{id},
    - Does not support \ :literal:`check\_mode`\ 
