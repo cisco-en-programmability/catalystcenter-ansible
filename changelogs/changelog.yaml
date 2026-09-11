@@ -447,3 +447,11 @@ releases:
         - Fixed ``required_if`` argument specs in 28 action plugins where a single hard-required field (typically ``id``) incorrectly blocked valid create-only calls.
         - Fixed a malformed module description that broke ``ansible-doc`` for the entire collection.
         - Restored the stricter ``catalystcenter_compare_equality2`` comparison in ``sites_telemetry_settings``, which had been silently downgraded during a resync.
+  2.12.0:
+    release_date: "2026-09-11"
+    changes:
+      release_summary: Changes in workflow, config generator modules
+      bugfixes:
+        - Changes in swim_workflow_manager module
+        - Changes in ise_radius_integration_playbook_config_generator module
+        - Added attributes 'force_distribution', 'force_activation' in swim_workflow_manager module
