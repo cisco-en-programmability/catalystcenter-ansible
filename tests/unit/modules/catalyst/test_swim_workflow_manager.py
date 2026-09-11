@@ -500,6 +500,38 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_details_11"),
             ]
 
+        elif "old_flow_distribution_mixed_eligibility" in self._testMethodName:
+            # Legacy (<3.1.3.0) batched distribution, site-based, two devices:
+            #   1. get_sites                     (site_exists)
+            #   2. get_software_image_details    (get_image_id_v1 in get_have)
+            #   3. get_software_image_details    (get_image_id_v1 in get_diff)
+            #   4. compliance_details_of_device  (d1 NON_COMPLIANT -> eligible)
+            #   5. compliance_details_of_device  (d2 COMPLIANT     -> not eligible)
+            #   6. trigger_software_image_distribution (single eligible batch)
+            #   7. get_tasks_by_id               (poll -> SUCCESS)
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_10"),
+                self.test_data.get("get_software_image_details_10"),
+                self.test_data.get("get_software_image_details_11"),
+                self.test_data.get("compliance_details_of_device_10"),
+                self.test_data.get("compliance_details_of_device_compliant"),
+                self.test_data.get("task_10"),
+                self.test_data.get("task_details_11"),
+            ]
+
+        elif "old_flow_distribution_all_not_eligible" in self._testMethodName:
+            # Legacy (<3.1.3.0) batched distribution, site-based, single already-compliant device:
+            #   1. get_sites                     (site_exists)
+            #   2. get_software_image_details    (get_image_id_v1 in get_have)
+            #   3. get_software_image_details    (get_image_id_v1 in get_diff)
+            #   4. compliance_details_of_device  (COMPLIANT -> not eligible, no distribution)
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_10"),
+                self.test_data.get("get_software_image_details_10"),
+                self.test_data.get("get_software_image_details_11"),
+                self.test_data.get("compliance_details_of_device_compliant"),
+            ]
+
         elif "bulk_activation_batches" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_software_image_details_without_device_tags"),
@@ -1018,6 +1050,95 @@ class TestswimWorkflowManager(TestCatalystModule):
             "Successfully distributed: cat9k_iosxe.17.12.03.SPA.bin to 204.1.1.2",
         )
 
+    def test_swim_workflow_manager_old_flow_distribution_mixed_eligibility(self):
+        """
+        Legacy (<3.1.3.0) batched distribution where one device is distributed and one is
+        already compliant.
+
+        Regression guard: the run must report changed=True, mark a partial success, and keep
+        both the success and not-eligible details in the message. Previously this case dropped
+        the success text and verify_diff_distributed reported a false 'failed to distribute'.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                catalystcenter_version="2.3.7.9",
+                config_verify=False,
+                state="merged",
+                config=[
+                    {
+                        "image_distribution_details": {
+                            "device_family_name": "Switches and Hubs",
+                            "device_role": "ALL",
+                            "device_series_name": "Cisco Catalyst 9300 Series Switches",
+                            "image_name": "cat9k_iosxe.17.12.03.SPA.bin",
+                            "site_name": "Global/Chennai/LTTS/FLOOR11",
+                        }
+                    }
+                ],
+            )
+        )
+        ip_by_id = {"d1": "204.1.1.1", "d2": "204.1.1.2"}
+        with patch.object(
+            swim_workflow_manager.Swim, "get_device_uuids", return_value=["d1", "d2"]
+        ), patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_ip_from_id",
+            side_effect=lambda dev_id: ip_by_id.get(dev_id, "204.1.1.9"),
+        ):
+            result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get("msg"),
+            "Successfully distributed: cat9k_iosxe.17.12.03.SPA.bin to 204.1.1.1. "
+            "Devices already compliant with their assigned golden image (skipped, not distributed; "
+            "set force_distribution to override): 204.1.1.2.",
+        )
+
+    def test_swim_workflow_manager_old_flow_distribution_all_not_eligible(self):
+        """
+        Legacy (<3.1.3.0) batched distribution where every targeted device is already compliant.
+
+        This is an idempotent no-op: changed must be False while still reporting success.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                catalystcenter_version="2.3.7.9",
+                config_verify=False,
+                state="merged",
+                config=[
+                    {
+                        "image_distribution_details": {
+                            "device_family_name": "Switches and Hubs",
+                            "device_role": "ALL",
+                            "device_series_name": "Cisco Catalyst 9300 Series Switches",
+                            "image_name": "cat9k_iosxe.17.12.03.SPA.bin",
+                            "site_name": "Global/Chennai/LTTS/FLOOR11",
+                        }
+                    }
+                ],
+            )
+        )
+        with patch.object(
+            swim_workflow_manager.Swim, "get_device_uuids", return_value=["d2"]
+        ), patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_ip_from_id",
+            return_value="204.1.1.2",
+        ):
+            result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get("msg"),
+            "Devices already compliant with their assigned golden image (skipped, not distributed; "
+            "set force_distribution to override): 204.1.1.2.",
+        )
+
     def test_swim_workflow_manager_playbook_image_activation(self):
         """
         Test SWIM workflow manager's image activation process.
@@ -1288,9 +1409,10 @@ class TestswimWorkflowManager(TestCatalystModule):
         self.assertEqual(
             result.get("msg"),
             "Image distribution completed with batch failures. "
+            "Successfully distributed on 1 device(s): 204.1.1.2. "
             "Successful task IDs: 01997ad6-f6f4-75a7-8227-508d56a067ca. "
             "Failed task IDs: 0195ccbf-d3bb-777e-831e-4549ffb7e578. "
-            "Check the failed tasks in Catalyst Center before retrying.",
+            "Check the tasks in Catalyst Center before retrying.",
         )
         self.assertTrue(result.get("changed"))
         bulk_calls = [
@@ -1421,9 +1543,10 @@ class TestswimWorkflowManager(TestCatalystModule):
         self.assertEqual(
             result.get("msg"),
             "Image activation completed with batch failures. "
+            "Successfully activated on 1 device(s): 204.1.2.1. "
             "Successful task IDs: 0195ccbf-d3bb-777e-831e-4549ffb7e578. "
             "Failed task IDs: 01997ad6-f6f4-75a7-8227-508d56a067ca. "
-            "Check the failed tasks in Catalyst Center before retrying.",
+            "Check the tasks in Catalyst Center before retrying.",
         )
         self.assertTrue(result.get("changed"))
         bulk_calls = [
@@ -1803,3 +1926,237 @@ class TestswimWorkflowManager(TestCatalystModule):
             result.get("msg"),
             "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already Golden tagged for device role(s) ACCESS, DISTRIBUTION. Skipping operation.",
         )
+
+    def _swim_instance(self):
+        # Build a Swim instance without running __init__ to unit-test pure helpers.
+        swim = swim_workflow_manager.Swim.__new__(swim_workflow_manager.Swim)
+        swim.log = lambda *args, **kwargs: None
+        return swim
+
+    def test_normalize_failure_reason_strips_device_suffix(self):
+        """The controller's per-device IP suffix is removed so reasons group and don't duplicate the IP."""
+        swim = self._swim_instance()
+        reason = (
+            "NCSW10079: Failed to execute flash: flash verification for the image: "
+            "cat9k_iosxe.17.15.06.SPA.bin on device: 204.1.2.8"
+        )
+        self.assertEqual(
+            swim.normalize_failure_reason(reason),
+            "NCSW10079: Failed to execute flash: flash verification for the image: "
+            "cat9k_iosxe.17.15.06.SPA.bin",
+        )
+        self.assertEqual(
+            swim.normalize_failure_reason("Workflow Distribute Image failed."),
+            "Workflow Distribute Image failed.",
+        )
+
+    def test_build_swim_operation_response_all_buckets(self):
+        """Structured response exposes every outcome bucket with correct counts and normalized reasons."""
+        swim = self._swim_instance()
+        swim.activation_ineligible_devices = {"204.1.2.99": "Unreachable"}
+        response = swim.build_swim_operation_response(
+            "activate",
+            ["204.1.2.162"],
+            {"204.1.2.8": "NCSW10079: flash verify failed on device: 204.1.2.8"},
+            ["204.1.2.20"],
+            ["204.1.3.10"],
+            "flat summary",
+        )
+        self.assertEqual(response["operation"], "activate")
+        self.assertEqual(response["summary"], "flat summary")
+        self.assertEqual(response["succeeded"], ["204.1.2.162"])
+        self.assertEqual(response["timed_out"], ["204.1.2.20"])
+        self.assertEqual(response["skipped"], ["204.1.3.10"])
+        self.assertEqual(
+            response["failed"],
+            [{"reason": "NCSW10079: flash verify failed", "devices": ["204.1.2.8"]}],
+        )
+        self.assertEqual(
+            response["ineligible"],
+            [{"reason": "Unreachable", "devices": ["204.1.2.99"]}],
+        )
+        self.assertEqual(
+            response["counts"],
+            {"succeeded": 1, "failed": 1, "timed_out": 1, "skipped": 1, "ineligible": 1},
+        )
+
+    def test_build_swim_operation_response_empty(self):
+        """No devices in any bucket yields empty lists and zero counts."""
+        swim = self._swim_instance()
+        response = swim.build_swim_operation_response("distribute", [], {}, [], [], "")
+        self.assertEqual(response["succeeded"], [])
+        self.assertEqual(response["failed"], [])
+        self.assertEqual(response["timed_out"], [])
+        self.assertEqual(response["skipped"], [])
+        self.assertEqual(response["ineligible"], [])
+        self.assertEqual(
+            response["counts"],
+            {"succeeded": 0, "failed": 0, "timed_out": 0, "skipped": 0, "ineligible": 0},
+        )
+
+    def test_append_ineligible_summary_no_devices_unchanged(self):
+        """With no ineligible devices the summary is returned unchanged."""
+        swim = self._swim_instance()
+        swim.distribution_ineligible_devices = {}
+        self.assertEqual(
+            swim.append_ineligible_summary("distribute", "Distribution done."),
+            "Distribution done.",
+        )
+
+    def test_append_ineligible_summary_groups_by_reason(self):
+        """Excluded devices are appended to the summary, grouped by reason and counted."""
+        swim = self._swim_instance()
+        swim.distribution_ineligible_devices = {
+            "172.27.248.224": "Unreachable",
+            "10.1.2.3": "Access Point",
+        }
+        result = swim.append_ineligible_summary(
+            "distribute", "Bulk image distribution completed successfully - 204.1.1.25"
+        )
+        self.assertIn(
+            "Bulk image distribution completed successfully - 204.1.1.25.", result
+        )
+        self.assertIn("Excluded 2 ineligible device(s):", result)
+        self.assertIn("172.27.248.224 (Unreachable)", result)
+        self.assertIn("10.1.2.3 (Access Point)", result)
+
+    def test_append_ineligible_summary_uses_operation_specific_map(self):
+        """The activation summary reads the activation ineligible map, not the distribution one."""
+        swim = self._swim_instance()
+        swim.distribution_ineligible_devices = {"9.9.9.9": "Unreachable"}
+        swim.activation_ineligible_devices = {"8.8.8.8": "Access Point"}
+        result = swim.append_ineligible_summary("activate", "Activation done.")
+        self.assertIn("8.8.8.8 (Access Point)", result)
+        self.assertNotIn("9.9.9.9", result)
+
+    def test_format_batch_outcome_header_variants(self):
+        """The bulk outcome header reflects failures, timeouts, or both without mislabeling."""
+        swim = self._swim_instance()
+        self.assertEqual(
+            swim.format_batch_outcome_header("activation", True, True),
+            "Image activation completed with batch failures and timeouts.",
+        )
+        self.assertEqual(
+            swim.format_batch_outcome_header("distribution", True, False),
+            "Image distribution completed with batch failures.",
+        )
+        self.assertEqual(
+            swim.format_batch_outcome_header("activation", False, True),
+            "Image activation completed with batch timeouts.",
+        )
+
+    def test_format_task_ids_clause_omits_empty_categories(self):
+        """The task-ID clause lists only non-empty categories and drops the rest."""
+        swim = self._swim_instance()
+        self.assertEqual(
+            swim.format_task_ids_clause([], [], ["t1"]),
+            "Timed out task IDs (may still be in progress on Catalyst Center): t1.",
+        )
+        self.assertEqual(
+            swim.format_task_ids_clause(["s1"], ["f1"], []),
+            "Successful task IDs: s1. Failed task IDs: f1.",
+        )
+        self.assertEqual(swim.format_task_ids_clause([], [], []), "")
+
+    def test_format_succeeded_devices_clause_variants(self):
+        """The succeeded-devices clause uses the operation verb and omits empty lists."""
+        swim = self._swim_instance()
+        self.assertEqual(
+            swim.format_succeeded_devices_clause("activate", ["204.1.1.1"]),
+            "Successfully activated on 1 device(s): 204.1.1.1.",
+        )
+        self.assertEqual(
+            swim.format_succeeded_devices_clause("distribute", ["204.1.1.1", "204.1.1.2"]),
+            "Successfully distributed on 2 device(s): 204.1.1.1, 204.1.1.2.",
+        )
+        self.assertEqual(swim.format_succeeded_devices_clause("activate", []), "")
+
+    def test_collect_and_reconcile_reclassifies_partial_success(self):
+        """A device that succeeded inside a partially-failed batch moves from failed to succeeded."""
+        swim = self._swim_instance()
+        swim.get_failed_device_reasons = lambda task_id: {"204.1.1.25": "boom"}
+        swim.get_succeeded_device_ips = lambda task_id: {"204.1.1.26"}
+        reasons, failed_ips, success_ips = swim.collect_and_reconcile_batch_failures(
+            "activation",
+            [(1, "task-1")],
+            ["204.1.1.25", "204.1.1.26"],
+            ["204.1.2.3"],
+        )
+        self.assertEqual(reasons, {"204.1.1.25": "boom"})
+        self.assertEqual(failed_ips, ["204.1.1.25"])
+        self.assertEqual(sorted(success_ips), ["204.1.1.26", "204.1.2.3"])
+
+    def test_collect_and_reconcile_keeps_unconfirmed_as_failed(self):
+        """A device with neither a confirmed failure nor a confirmed success stays failed (safe fallback)."""
+        swim = self._swim_instance()
+        swim.get_failed_device_reasons = lambda task_id: {}
+        swim.get_succeeded_device_ips = lambda task_id: set()
+        reasons, failed_ips, success_ips = swim.collect_and_reconcile_batch_failures(
+            "distribution",
+            [(1, "task-1")],
+            ["204.1.1.25", "204.1.1.26"],
+            [],
+        )
+        self.assertEqual(reasons, {})
+        self.assertEqual(failed_ips, ["204.1.1.25", "204.1.1.26"])
+        self.assertEqual(success_ips, [])
+
+    def test_get_succeeded_device_ips_parses_management_addresses(self):
+        """SUCCESS per-device records are reduced to a set of management IPs, tolerating the typo key."""
+        swim = self._swim_instance()
+
+        class _FakeSdk:
+            def _exec(self, *args, **kwargs):
+                return {
+                    "response": [
+                        {"managementAddress": "204.1.1.26"},
+                        {"mangementAddress": "204.1.2.3"},
+                        {"status": "SUCCESS"},
+                    ]
+                }
+
+        swim.catalystcenter = _FakeSdk()
+        self.assertEqual(
+            swim.get_succeeded_device_ips("task-1"),
+            {"204.1.1.26", "204.1.2.3"},
+        )
+        self.assertEqual(swim.get_succeeded_device_ips(""), set())
+
+    def test_build_swim_operation_response_groups_failed_by_reason(self):
+        """failed groups devices sharing a root cause (IP suffix normalized away)."""
+        swim = self._swim_instance()
+        response = swim.build_swim_operation_response(
+            "distribute",
+            [],
+            {
+                "204.1.2.8": "NCSW10079: flash verification failed on device: 204.1.2.8",
+                "204.1.2.9": "NCSW10079: flash verification failed on device: 204.1.2.9",
+                "204.1.2.10": "NCSW10408: sub-package missing on device: 204.1.2.10",
+            },
+            [],
+            [],
+            "summary",
+        )
+        by_reason = {g["reason"]: g["devices"] for g in response["failed"]}
+        self.assertEqual(
+            by_reason["NCSW10079: flash verification failed"],
+            ["204.1.2.8", "204.1.2.9"],
+        )
+        self.assertEqual(
+            by_reason["NCSW10408: sub-package missing"], ["204.1.2.10"]
+        )
+        self.assertEqual(response["counts"]["failed"], 3)
+
+    def test_summarize_failures_groups_same_root_cause(self):
+        """Devices failing for the same root cause group into one entry even when the IP is embedded."""
+        swim = self._swim_instance()
+        reason_by_device = {
+            "204.1.2.8": "NCSW10079: flash verification failed on device: 204.1.2.8",
+            "204.1.2.9": "NCSW10079: flash verification failed on device: 204.1.2.9",
+        }
+        summary = swim.summarize_failures_by_reason("distribute", reason_by_device)
+        self.assertIn("on 2 device(s)", summary)
+        self.assertIn("NCSW10079: flash verification failed", summary)
+        self.assertIn("204.1.2.8", summary)
+        self.assertIn("204.1.2.9", summary)
+        self.assertNotIn("on device: 204.1.2.8", summary)

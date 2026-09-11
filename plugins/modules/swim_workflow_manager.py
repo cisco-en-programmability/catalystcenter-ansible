@@ -75,9 +75,6 @@ options:
       - The Cisco Catalyst Center bulk API accepts at most 500 devices per
         request, so this value must be between 1 and 500.
       - Lower this value to reduce the load per request on very large jobs.
-      - Applicable only to Cisco Catalyst Center version 3.1.3.0 and later.
-        Earlier versions use the legacy sequential workflow, so this value
-        has no effect.
       - Each batch is processed as a separate API call with its own task ID,
         enabling independent monitoring and status tracking of each batch.
     type: int
@@ -88,9 +85,6 @@ options:
       - The Cisco Catalyst Center bulk API accepts at most 500 devices per
         request, so this value must be between 1 and 500.
       - Lower this value to reduce the load per request on very large jobs.
-      - Applicable only to Cisco Catalyst Center version 3.1.3.0 and later.
-        Earlier versions use the legacy sequential workflow, so this value
-        has no effect.
       - Each batch is processed as a separate API call with its own task ID,
         enabling independent monitoring and status tracking of each batch.
     type: int
@@ -513,21 +507,24 @@ options:
               - Installation verification on target devices
               - Distribution status confirmation
 
-              Default of 1800 seconds (30 minutes) accounts for:
+              Default of 3600 seconds (60 minutes) accounts for:
               - Large image files (up to several GB)
               - Multiple target devices in site-based operations
               - Network latency and bandwidth constraints
               - Device processing and storage capabilities
 
-              Recommended timeout values:
-              - Small networks (1-10 devices): 900-1800 seconds
-              - Medium networks (10-50 devices): 1800-3600 seconds
-              - Large networks (50+ devices): 3600-7200 seconds
+              Choosing a value:
+              - The value is in seconds.
+              - Distribution runs on whatever resources Cisco Catalyst Center currently has available,
+                and also depends on image size, network throughput and the number of target devices,
+                so no exact duration can be guaranteed.
+              - Prefer a generously higher value to avoid interrupting a slow but successful operation;
+                increase it further for large images, constrained links or many devices.
 
-              Note: This timeout is independent of the global 'catalystcenter_api_task_timeout' parameter
-              and specifically applies to distribution operations only.
+              Note: If not set, this timeout defaults to 3600 seconds and applies to image
+              distribution operations only.
 
-              default: 1800
+              default: 3600
               type: int
           convert_to_wlc:
             description: |
@@ -551,6 +548,35 @@ options:
               Security Note:
               Use this parameter with caution as it bypasses standard compliance
               checks. Ensure device compatibility before enabling this option.
+            type: bool
+            default: false
+          force_distribution:
+            description:
+              - Flag to force image distribution even when the device is already
+                compliant.
+              - By default the module distributes an image only to devices that
+                Cisco Catalyst Center reports as C(NON_COMPLIANT) for C(IMAGE).
+                That compliance status is derived from the golden image tagged
+                for the device's site, family and role - not from the specific
+                C(image_name) you request.
+              - A device that is C(COMPLIANT) (already at its golden image) or
+                C(NOT_APPLICABLE) (no golden image tagged) is therefore skipped
+                by default, even when you request a different image.
+              - When set to C(true), the compliance check is skipped and the
+                requested image is distributed regardless of the reported
+                compliance status. Use this to push a specific or non-golden
+                image (for example a downgrade) to a device that Cisco Catalyst
+                Center already considers compliant.
+              - When set to C(false) (default), the golden-image compliance check
+                is honored and already-compliant devices are skipped.
+              - This differs from C(convert_to_wlc), which bypasses the compliance
+                check specifically for Wireless LAN Controller (WLC) conversion.
+                C(force_distribution) is intended for deliberate image overrides.
+              - Recommendation - prefer tagging the intended image as golden and
+                letting the compliance check drive distribution. Use
+                C(force_distribution) only for deliberate, targeted overrides
+                such as downgrades or pushing a non-golden image to specific
+                devices.
             type: bool
             default: false
           site_name:
@@ -678,24 +704,28 @@ options:
               - Post-activation connectivity and status verification
               - Golden image validation (if applicable)
 
-              Default of 1800 seconds (30 minutes) accommodates:
+              Default of 3600 seconds (60 minutes) accommodates:
               - Device boot time variations (switches: 5-15 min, routers: 10-20 min)
               - Image installation and verification processes
               - Network convergence and connectivity restoration
               - Multiple devices in concurrent activation scenarios
 
-              Recommended timeout values by device type:
-              - Access switches: 1200-1800 seconds (20-30 minutes)
-              - Distribution/Core switches: 1800-2700 seconds (30-45 minutes)
-              - Routers and complex devices: 2700-3600 seconds (45-60 minutes)
+              Choosing a value:
+              - The value is in seconds.
+              - Activation runs on whatever resources Cisco Catalyst Center currently has available,
+                and also depends on device reboot/startup time and the number and type of devices,
+                so no exact duration can be guaranteed.
+              - Prefer a generously higher value to avoid interrupting a slow but successful operation;
+                increase it further for routers or other devices that take longer to reboot.
 
               Warning: Setting timeout too low may cause premature failure reporting
               for successful but slow activation processes.
 
-              Note: This timeout is independent of the global 'catalystcenter_api_task_timeout' parameter
+              Note: If not set, this timeout defaults to 3600 seconds and applies to image
+              activation operations only.
 
               type: int
-              default: 1800
+              default: 3600
 
           device_family_name:
             description: Specify the name of the device
@@ -778,6 +808,35 @@ options:
               checks. Ensure device compatibility before enabling this option.
             type: bool
             default: false
+          force_activation:
+            description:
+              - Flag to force image activation even when the device is already
+                compliant.
+              - By default the module activates an image only on devices that
+                Cisco Catalyst Center reports as C(NON_COMPLIANT) for C(IMAGE).
+                That compliance status is derived from the golden image tagged
+                for the device's site, family and role - not from the specific
+                C(image_name) you request.
+              - A device that is C(COMPLIANT) (already at its golden image) or
+                C(NOT_APPLICABLE) (no golden image tagged) is therefore skipped
+                by default, even when you request a different image.
+              - When set to C(true), the compliance check is skipped and the
+                requested image is activated regardless of the reported
+                compliance status. Use this to activate a specific or non-golden
+                image (for example a downgrade) on a device that Cisco Catalyst
+                Center already considers compliant.
+              - When set to C(false) (default), the golden-image compliance check
+                is honored and already-compliant devices are skipped.
+              - This differs from C(convert_to_wlc), which bypasses the compliance
+                check specifically for Wireless LAN Controller (WLC) conversion.
+                C(force_activation) is intended for deliberate image overrides.
+              - Recommendation - prefer tagging the intended image as golden and
+                letting the compliance check drive activation. Use
+                C(force_activation) only for deliberate, targeted overrides such
+                as downgrades or activating a non-golden image on specific
+                devices.
+            type: bool
+            default: false
           image_name:
             description: Specifies the name of the SWIM
               image to be activated.
@@ -854,6 +913,32 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 notes:
+  - Image distribution and activation eligibility is driven by the controller's
+    per-device IMAGE compliance status (C(compliance_details_of_device),
+    category C(IMAGE)). That status compares the device's installed image
+    against the golden image tagged for the device's site, family and role.
+    Only devices reported as C(NON_COMPLIANT) are distributed/activated by
+    default; C(COMPLIANT) and C(NOT_APPLICABLE) (no golden image tagged) devices
+    are skipped as already aligned.
+  - Recommended approach - tag the intended image as golden for the target
+    site/family/role and let the compliance check drive distribution and
+    activation. This keeps runs idempotent and avoids pushing images to devices
+    that already have them.
+  - Use C(force_distribution) / C(force_activation) only for deliberate
+    overrides, for example a downgrade or pushing a specific non-golden image to
+    devices the controller already reports as compliant. These flags bypass the
+    compliance check for the requested image.
+  - Set C(image_distribution_timeout) and C(image_activation_timeout) (both in
+    seconds) large enough to cover the full operation, otherwise the module can
+    time out and interrupt an upgrade that is still progressing on the
+    controller, reporting a failure for what is actually a slow but successful
+    operation. The actual duration depends on factors outside the module's
+    control - the resources Cisco Catalyst Center currently has available, image
+    size, network throughput, and the number and type of devices - so no exact
+    value can be guaranteed. Prefer a generously higher value for smoother,
+    uninterrupted runs (for example, raise it further for large images, slow
+    links, or many/complex devices). If not set, each timeout defaults to 3600
+    seconds.
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url,
     software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image,
@@ -1391,6 +1476,20 @@ response:
                   },
       "msg": String
     }
+#Case: Bulk site/family based distribution or activation returns a per-outcome breakdown so a single
+#      task can render every combination (succeeded, skipped, timed_out, failed grouped by reason).
+#    {
+#      "response": {
+#          "operation": "activate",
+#          "summary": "Successfully activated: ... Failed to activate on 1 device(s): ... [10.1.1.3]",
+#          "succeeded": ["10.1.1.1"],
+#          "failed": [{"reason": "NCSW10079: Failed to execute flash: ...", "devices": ["10.1.1.3"]}],
+#          "timed_out": [],
+#          "skipped": ["10.1.1.2"],
+#          "counts": {"succeeded": 1, "failed": 1, "timed_out": 0, "skipped": 1}
+#      },
+#      "msg": "Successfully activated: ... Failed to activate on 1 device(s): ... [10.1.1.3]"
+#    }
 """
 
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
@@ -1417,6 +1516,9 @@ class Swim(CatalystCenterBase):
         self.activation_poll_interval = 30
         self.distribution_batch_size = 50
         self.activation_batch_size = 50
+        # Devices excluded before the operation (unreachable/AP) keyed by IP -> reason, surfaced in the response.
+        self.distribution_ineligible_devices = {}
+        self.activation_ineligible_devices = {}
 
     def validate_input(self):
         """
@@ -1986,7 +2088,7 @@ class Swim(CatalystCenterBase):
             device_details (dict): Distribution or activation configuration containing device identifiers.
         Returns:
             tuple: Whether plural identifiers were supplied, resolved unique device IDs, unresolved
-            identifiers, and ineligible identifiers.
+            identifiers, ineligible identifiers, and a map of ineligible device IP to exclusion reason.
         Description:
             When any plural field is provided, traverses all singular and plural device identifier
             fields, resolves each value independently, excludes AP and unreachable devices, and
@@ -2012,7 +2114,7 @@ class Swim(CatalystCenterBase):
                 "site-based selection.",
                 "DEBUG",
             )
-            return False, [], [], []
+            return False, [], [], [], {}
 
         identifier_fields = (
             ("device_ip_addresses", "managementIpAddress", "IP address"),
@@ -2038,6 +2140,7 @@ class Swim(CatalystCenterBase):
         resolved_device_ids = []
         unresolved_identifiers = []
         ineligible_identifiers = []
+        ineligible_devices = {}
         seen_identifiers = set()
         seen_device_ids = set()
         identifier_counts = {}
@@ -2137,6 +2240,9 @@ class Swim(CatalystCenterBase):
                             identifier_name, normalized_identifier
                         )
                     )
+                    ineligible_devices[
+                        device.get("managementIpAddress") or normalized_identifier
+                    ] = "Access Point"
                     self.log(
                         "Skipping {0} '{1}' from field '{2}' because the resolved device is an "
                         "Access Point and is not eligible for SWIM operations.".format(
@@ -2155,6 +2261,9 @@ class Swim(CatalystCenterBase):
                             reachability_status or "Unknown",
                         )
                     )
+                    ineligible_devices[
+                        device.get("managementIpAddress") or normalized_identifier
+                    ] = reachability_status or "Unreachable"
                     self.log(
                         "Skipping {0} '{1}' from field '{2}' because the resolved device "
                         "reachability status is '{3}'.".format(
@@ -2249,6 +2358,7 @@ class Swim(CatalystCenterBase):
             resolved_device_ids,
             unresolved_identifiers,
             ineligible_identifiers,
+            ineligible_devices,
         )
 
     def get_validated_batch_size(self, param_name, operation):
@@ -2701,7 +2811,7 @@ class Swim(CatalystCenterBase):
                             break
 
                 for device_id in device_id_list:
-                    self.log("Processing device_id: {0}".format(device_id))
+                    self.log("Processing device_id: {0}".format(device_id), "DEBUG")
                     try:
                         device_list_response = self.catalystcenter._exec(
                             family="devices",
@@ -3090,8 +3200,10 @@ class Swim(CatalystCenterBase):
                 resolved_ids,
                 unresolved_identifiers,
                 ineligible_identifiers,
+                ineligible_devices,
             ) = self.resolve_bulk_device_ids(distribution_details)
             if bulk_identifiers_provided:
+                self.distribution_ineligible_devices = ineligible_devices
                 if unresolved_identifiers:
                     self.msg = (
                         "The following device identifier(s) for distribution could not be found "
@@ -3192,8 +3304,10 @@ class Swim(CatalystCenterBase):
                 resolved_ids,
                 unresolved_identifiers,
                 ineligible_identifiers,
+                ineligible_devices,
             ) = self.resolve_bulk_device_ids(activation_details)
             if bulk_identifiers_provided:
+                self.activation_ineligible_devices = ineligible_devices
                 if unresolved_identifiers:
                     self.msg = (
                         "The following device identifier(s) for activation could not be found "
@@ -3371,11 +3485,10 @@ class Swim(CatalystCenterBase):
 
             if not import_type:
                 self.status = "success"
-                self.msg = "Error: Details required for importing SWIM image. Please provide the necessary information."
+                self.msg = "No image import requested; skipping image import."
                 self.result["response"] = self.msg
                 self.result["msg"] = self.msg
-                self.log(self.msg, "WARNING")
-                self.result["response"] = self.msg
+                self.log(self.msg, "DEBUG")
                 self.result["changed"] = False
                 return self
 
@@ -4465,74 +4578,6 @@ class Swim(CatalystCenterBase):
             self.log(error_message, "ERROR")
             raise Exception(error_message)
 
-    def check_swim_task_status(self, swim_task_dict, swim_task_name):
-        """
-        Check the status of the SWIM (Software Image Management) task for each device.
-        Args:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            swim_task_dict (dict): A dictionary containing the mapping of device IP address to the respective task ID.
-            swim_task_name (str): The name of the SWIM task being checked which is either Distribution or Activation.
-        Returns:
-            tuple: A tuple containing two elements:
-                - device_ips_list (list): A list of device IP addresses for which the SWIM task failed.
-                - device_count (int): The count of devices for which the SWIM task was successful.
-        Description:
-            This function iterates through the distribution_task_dict, which contains the mapping of
-            device IP address to their respective task ID. It checks the status of the SWIM task for each device by
-            repeatedly querying for task details until the task is either completed successfully or fails. If the task
-            is successful, the device count is incremented. If the task fails, an error message is logged, and the device
-            IP is appended to the device_ips_list and return a tuple containing the device_ips_list and device_count.
-        """
-
-        device_ips_list = []
-        device_count = 0
-
-        for device_ip, task_id in swim_task_dict.items():
-            start_time = time.time()
-
-            while True:
-                end_time = time.time()
-                max_timeout = self.params.get("catalystcenter_api_task_timeout")
-
-                if (end_time - start_time) >= max_timeout:
-                    self.log(
-                        """Max timeout of {0} has reached for the task id '{1}' for the device '{2}' and unexpected
-                                 task status so moving out to next task id""".format(
-                            max_timeout, task_id, device_ip
-                        ),
-                        "WARNING",
-                    )
-                    device_ips_list.append(device_ip)
-                    break
-
-                task_details = self.get_task_details(task_id)
-
-                if not task_details.get("isError") and (
-                    "completed successfully" in task_details.get("progress")
-                ):
-                    self.result["changed"] = True
-                    self.status = "success"
-                    self.log(
-                        "Image {0} successfully for the device '{1}".format(
-                            swim_task_name, device_ip
-                        ),
-                        "INFO",
-                    )
-                    device_count += 1
-                    break
-
-                if task_details.get("isError"):
-                    error_msg = "Image {0} gets failed for the device '{1}'".format(
-                        swim_task_name, device_ip
-                    )
-                    self.log(error_msg, "ERROR")
-                    self.result["response"] = task_details
-                    device_ips_list.append(device_ip)
-                    break
-                time.sleep(self.params.get("catalystcenter_task_poll_interval"))
-
-        return device_ips_list, device_count
-
     def filter_device_uuids_by_tag(self, device_uuid_list, device_tag):
         """
         Filter device UUIDs based on a specified device tag using real-time tag association API.
@@ -4544,8 +4589,8 @@ class Swim(CatalystCenterBase):
             list: A list of device UUIDs that match the specified device tag.
         Description:
             This function filters the provided list of device UUIDs based on the specified device tag.
-            It uses the 'Retrieve tags associated with network devices' API which provides near real-time
-            tag updates, avoiding the delayed visibility issue with the 'Get Device Detail' API.
+            It queries only the tag's network-device members via the 'Get Tag Members by Id' API
+            (paginated), avoiding a whole-inventory scan while still reflecting near real-time tag updates.
         """
         self.log(
             "Starting device UUID filtering based on tag criteria for SWIM operations",
@@ -4596,121 +4641,101 @@ class Swim(CatalystCenterBase):
 
             self.log("Successfully retrieved tag ID '{0}' for tag '{1}'".format(tag_id, device_tag), "DEBUG")
 
-            # Fetch all tag associations from the API with pagination
+            # Fetch only this tag's network-device members directly, avoiding a whole-inventory scan
             self.log(
-                "Fetching all tag associations using 'retrieve_tags_associated_with_network_devices' API with pagination",
+                "Fetching network device members for tag ID '{0}' using 'get_tag_members_by_id' API with pagination".format(
+                    tag_id
+                ),
                 "DEBUG"
             )
 
             limit = 500
             offset = 1
-            all_tag_associations = []
+            tagged_device_ids = set()
 
             while True:
                 try:
                     response = self.catalystcenter._exec(
                         family="tag",
-                        function="retrieve_tags_associated_with_network_devices",
-                        op_modifies=True,
-                        params={"offset": offset, "limit": limit}
+                        function="get_tag_members_by_id",
+                        op_modifies=False,
+                        params={
+                            "id": tag_id,
+                            "member_type": "networkdevice",
+                            "offset": offset,
+                            "limit": limit
+                        }
                     )
 
                     self.log(
-                        "Received API response from 'retrieve_tags_associated_with_network_devices' (offset: {0}, limit: {1}): {2}".format(
+                        "Received API response from 'get_tag_members_by_id' (offset: {0}, limit: {1}): {2}".format(
                             offset, limit, str(response)
                         ),
                         "DEBUG"
                     )
 
-                    tag_associations = response.get("response", [])
+                    tag_members = response.get("response", []) if response else []
 
-                    if not tag_associations:
+                    if not tag_members:
                         self.log(
-                            "No more device-tag associations returned at offset {0}".format(offset),
+                            "No more tag members returned at offset {0}".format(offset),
                             "DEBUG"
                         )
                         break
 
-                    all_tag_associations.extend(tag_associations)
+                    for member in tag_members:
+                        member_id = member.get("instanceUuid") or member.get("id")
+                        if member_id:
+                            tagged_device_ids.add(member_id)
+                        else:
+                            self.log(
+                                "Skipping tag member entry with missing device ID: {0}".format(member),
+                                "WARNING"
+                            )
 
                     self.log(
-                        "Retrieved {0} device-tag association entries in this batch (offset: {1})".format(
-                            len(tag_associations), offset
+                        "Retrieved {0} tag member entries in this batch (offset: {1}); "
+                        "cumulative unique tagged device IDs collected: {2}".format(
+                            len(tag_members), offset, len(tagged_device_ids)
                         ),
                         "DEBUG"
                     )
 
-                    # Check if we received fewer results than the limit (indicates last page)
-                    if len(tag_associations) < limit:
+                    # Fewer results than the limit indicates the last page
+                    if len(tag_members) < limit:
                         self.log(
-                            "Received fewer associations ({0}) than limit ({1}), reached end of results".format(
-                                len(tag_associations), limit
+                            "Received fewer members ({0}) than limit ({1}), reached end of results".format(
+                                len(tag_members), limit
                             ),
                             "DEBUG"
                         )
                         break
 
-                    # Move to next page
+                    self.log(
+                        "Advancing to next page of tag members (next offset: {0})".format(
+                            offset + limit
+                        ),
+                        "DEBUG"
+                    )
                     offset += limit
 
                 except Exception as e:
                     self.log(
-                        "Exception occurred while fetching tag associations at offset {0}: {1}".format(
+                        "Exception occurred while fetching tag members at offset {0}: {1}".format(
                             offset, str(e)
                         ),
                         "ERROR"
                     )
                     break
 
-            if not all_tag_associations:
+            if not tagged_device_ids:
                 self.log(
-                    "No device-tag associations found in Cisco Catalyst Center after fetching all pages",
+                    "No network device members found for tag '{0}' (ID: {1}) in Cisco Catalyst Center".format(
+                        device_tag, tag_id
+                    ),
                     "INFO"
                 )
                 return []
-
-            self.log(
-                "Successfully retrieved {0} total device-tag association entries from API".format(
-                    len(all_tag_associations)
-                ),
-                "INFO"
-            )
-
-            # Build a mapping of device IDs to their associated tag IDs
-            device_tag_map = {}
-
-            for association in all_tag_associations:
-                device_id = association.get("id")
-                tags = association.get("tags", [])
-
-                if not device_id:
-                    self.log(
-                        "Skipping association entry with missing device ID: {0}".format(association),
-                        "WARNING"
-                    )
-                    continue
-
-                # Store all tag IDs for this device
-                if device_id not in device_tag_map:
-                    device_tag_map[device_id] = set()
-
-                for tag in tags:
-                    tag_entry_id = tag.get("id")
-                    if tag_entry_id:
-                        device_tag_map[device_id].add(tag_entry_id)
-
-            self.log(
-                "Built device-to-tags mapping for {0} unique devices".format(
-                    len(device_tag_map)
-                ),
-                "DEBUG"
-            )
-
-            # Create a set of device IDs that have the target tag
-            tagged_device_ids = set()
-            for device_id, tag_ids in device_tag_map.items():
-                if tag_id in tag_ids:
-                    tagged_device_ids.add(device_id)
 
             self.log(
                 "Found {0} devices associated with tag '{1}' (ID: {2})".format(
@@ -4812,6 +4837,70 @@ class Swim(CatalystCenterBase):
 
         return filtered_device_uuids
 
+    def resolve_compliance_eligibility(
+        self, device_uuid, device_ip, image_name, bypass_compliance, bypass_reason, compliance_image=None
+    ):
+        """
+        Resolve whether a device should receive an image operation, honoring compliance-bypass overrides.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_uuid (str): The device UUID to evaluate.
+            device_ip (str): The device management IP, used only for logging.
+            image_name (str): The image name shown in the eligibility log messages.
+            bypass_compliance (bool): When True, skip the compliance check and treat the device as eligible.
+            bypass_reason (str): Human-readable reason for the bypass, used only for logging.
+            compliance_image (str): Optional image name passed to the compliance check (per-image flows).
+        Returns:
+            tuple: (eligible_device_ip, resolved_device_uuid); eligible_device_ip is None when the device is
+            already compliant with its golden image and nothing needs to be pushed.
+        """
+        if bypass_compliance:
+            self.log(
+                "{0} enabled - bypassing compliance validation for image '{1}' on device {2}".format(
+                    bypass_reason, image_name, device_ip
+                ),
+                "WARNING",
+            )
+            return device_ip, device_uuid
+
+        self.log(
+            "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                image_name, device_ip
+            ),
+            "DEBUG",
+        )
+        return self.check_device_compliance(device_uuid, compliance_image)
+
+    def resolve_distribution_eligibility(
+        self, device_uuid, device_ip, image_name, convert_to_wlc, compliance_image=None, force_distribution=False
+    ):
+        """
+        Resolve distribution eligibility, honoring the convert_to_wlc and force_distribution bypasses.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_uuid (str): The device UUID to evaluate.
+            device_ip (str): The device management IP, used only for logging.
+            image_name (str): The image name shown in the eligibility log messages.
+            convert_to_wlc (bool): When True, skip the compliance check for WLC conversion.
+            compliance_image (str): Optional image name passed to the compliance check (per-image flows).
+            force_distribution (bool): When True, skip the compliance check to force (re)distribution.
+        Returns:
+            tuple: (eligible_device_ip, resolved_device_uuid); eligible_device_ip is None when the
+            device is already compliant and nothing needs to be distributed.
+        """
+        bypass_reason = "WLC conversion mode" if convert_to_wlc else "force_distribution override"
+        self.log(
+            "Resolving distribution eligibility for device {0} (image '{1}'): convert_to_wlc={2}, "
+            "force_distribution={3} -> compliance check {4}.".format(
+                device_ip, image_name, convert_to_wlc, force_distribution,
+                "bypassed ({0})".format(bypass_reason) if (convert_to_wlc or force_distribution) else "enforced",
+            ),
+            "DEBUG",
+        )
+        return self.resolve_compliance_eligibility(
+            device_uuid, device_ip, image_name, convert_to_wlc or force_distribution, bypass_reason, compliance_image
+        )
+
     def get_diff_distribution(self):
         """
         Get image distribution parameters from the playbook and trigger image distribution.
@@ -4839,12 +4928,21 @@ class Swim(CatalystCenterBase):
         device_tag = distribution_details.get("device_tag")
         device_role = distribution_details.get("device_role", "ALL")
         device_series_name = distribution_details.get("device_series_name")
-        self.max_timeout = distribution_details.get("image_distribution_timeout", 1800)
+        self.max_timeout = distribution_details.get("image_distribution_timeout", 3600)
         self.distribution_poll_interval = self.get_validated_poll_interval(
             "distribution_poll_interval",
             "image distribution",
         )
         convert_to_wlc = distribution_details.get("convert_to_wlc", False)
+        force_distribution = distribution_details.get("force_distribution", False)
+        self.log(
+            "Image distribution run configuration - timeout: {0}s, poll interval: {1}s, convert_to_wlc: {2}, "
+            "force_distribution: {3} (compliance check {4} for this run).".format(
+                self.max_timeout, self.distribution_poll_interval, convert_to_wlc, force_distribution,
+                "bypassed" if (convert_to_wlc or force_distribution) else "enforced",
+            ),
+            "INFO",
+        )
 
         image_id = self.have.get("distribution_image_id")
         distribution_device_id = self.have.get("distribution_device_id")
@@ -4959,33 +5057,17 @@ class Swim(CatalystCenterBase):
             elg_device_ip = None
             device_id = distribution_device_id
 
-            if not convert_to_wlc:
+            elg_device_ip, device_id = self.resolve_distribution_eligibility(
+                distribution_device_id, device_ip, image_name, convert_to_wlc,
+                compliance_image=image_name, force_distribution=force_distribution,
+            )
+            if elg_device_ip:
                 self.log(
-                    "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
-                        image_name, device_ip
+                    "Device {0} passed compliance validation for image '{1}'".format(
+                        elg_device_ip, image_name
                     ),
-                    "DEBUG"
+                    "INFO"
                 )
-                self.log("Convert to WLC is set to False", "DEBUG")
-                elg_device_ip, device_id = self.check_device_compliance(
-                    distribution_device_id, image_name
-                )
-                if elg_device_ip:
-                    self.log(
-                        "Device {0} passed compliance validation for image '{1}'".format(
-                            elg_device_ip, image_name
-                        ),
-                        "INFO"
-                    )
-            else:
-                self.log(
-                    "WLC conversion mode enabled - bypassing compliance validation "
-                    "for image '{0}' on device {1}".format(image_name, device_ip),
-                    "WARNING"
-                )
-                # When convert_to_wlc is True, skip compliance check and use the device as eligible
-                elg_device_ip = device_ip
-                device_id = distribution_device_id
 
             self.log(
                 "Device compliance check completed. IP: {0}, Device ID: {1}".format(
@@ -4996,11 +5078,14 @@ class Swim(CatalystCenterBase):
 
             if not elg_device_ip:
                 self.msg = (
-                    "The image '{0}' is already distributed on device {1}".format(
-                        image_name, device_ip
-                    )
+                    "Device {1} is already compliant with its assigned golden image, so image '{0}' "
+                    "is not distributed. Set force_distribution to distribute '{0}' regardless of "
+                    "compliance.".format(image_name, device_ip)
                 )
-                self.set_operation_result("success", False, self.msg, "INFO")
+                distribution_response = self.build_swim_operation_response(
+                    "distribute", [], {}, [], [device_ip], self.msg
+                )
+                self.set_operation_result("success", False, self.msg, "INFO", distribution_response)
                 return self
 
             if (
@@ -5039,7 +5124,6 @@ class Swim(CatalystCenterBase):
                         ),
                         "DEBUG",
                     )
-                    deviceip = self.get_device_ip_from_id
                     if (
                         not response
                         or "response" not in response
@@ -5140,21 +5224,32 @@ class Swim(CatalystCenterBase):
                         self.distribution_poll_interval,
                     )
 
-                    if self.status not in ["failed", "exited"]:
+                    if self.status not in ["failed", "exited", "timeout"]:
                         self.msg = (
                             "Image distribution completed successfully for the device IP {0} "
                             "(ID: {1}).".format(elg_device_ip, device_id)
                         )
-                        self.set_operation_result("success", True, self.msg, "INFO")
+                        distribution_response = self.build_swim_operation_response(
+                            "distribute", [elg_device_ip], {}, [], [], self.msg
+                        )
+                        self.set_operation_result("success", True, self.msg, "INFO", distribution_response)
                         return self
 
-                    if self.status == "failed":
+                    if self.status in ["failed", "timeout"]:
                         fail_reason = self.msg
                         self.msg = (
                             "Image distribution failed due to - {0}".format(fail_reason)
                         )
+                        if self.status == "timeout":
+                            distribution_response = self.build_swim_operation_response(
+                                "distribute", [], {}, [elg_device_ip], [], self.msg
+                            )
+                        else:
+                            distribution_response = self.build_swim_operation_response(
+                                "distribute", [], {elg_device_ip: fail_reason}, [], [], self.msg
+                            )
                         self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
+                            "failed", False, self.msg, "ERROR", distribution_response
                         ).check_return_status()
 
                 except Exception as e:
@@ -5162,8 +5257,11 @@ class Swim(CatalystCenterBase):
                         "Error occurred while distributing image: {0}".format(str(e)),
                         "ERROR",
                     )
+                    distribution_response = self.build_swim_operation_response(
+                        "distribute", [], {device_ip: str(e)}, [], [], str(e)
+                    )
                     self.set_operation_result(
-                        "failed", False, str(e), "ERROR"
+                        "failed", False, str(e), "ERROR", distribution_response
                     ).check_return_status()
 
             if success_msg_parts:
@@ -5177,17 +5275,32 @@ class Swim(CatalystCenterBase):
 
             if not success_distribution_list and failed_distribution_list:
                 self.msg = final_msg
+                distribution_response = self.build_swim_operation_response(
+                    "distribute", [], {elg_device_ip: final_msg}, [], [], final_msg
+                )
                 self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
+                    "failed", False, self.msg, "ERROR", distribution_response
                 ).check_return_status()
             elif success_distribution_list and failed_distribution_list:
+                # Some images distributed, others failed: fail the task to match the >=3.1.3.0 flow.
                 self.msg = final_msg
-                self.set_operation_result("success", True, self.msg, "INFO")
-                self.partial_successful_distribution = True
+                distribution_response = self.build_swim_operation_response(
+                    "distribute", [], {elg_device_ip: final_msg}, [], [], final_msg
+                )
+                self.set_operation_result("failed", True, self.msg, "ERROR", distribution_response)
+                self.module.fail_json(
+                    msg=self.msg,
+                    response=self.result.get("response", []),
+                    changed=self.result.get("changed", False),
+                )
             else:
                 self.msg = final_msg
-                self.set_operation_result("success", True, self.msg, "INFO")
+                distribution_response = self.build_swim_operation_response(
+                    "distribute", [elg_device_ip], {}, [], [], final_msg
+                )
+                self.set_operation_result("success", True, self.msg, "INFO", distribution_response)
                 self.complete_successful_distribution = True
+                self.single_device_distribution = True
 
             return self
         self.log("Starting SWIM image distribution process", "INFO")
@@ -5206,120 +5319,216 @@ class Swim(CatalystCenterBase):
             "INFO",
         )
 
-        distribution_task_dict = {}
         success_distribution_list = []
         failed_distribution_list = []
+        timeout_distribution_list = []
         already_distributed_devices = []
         elg_device_list = []
         device_ip_for_not_elg_list = []
+        failed_reason_by_device = {}
         bulk_payload = []
 
         if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0:
-            # -------- OLD VERSION (Sequential Distribution) -------- #
+            # -------- OLD VERSION (Batched Distribution) -------- #
             self.log(
-                "Using old version of SWIM API for image distribution (before 3.1.3.0)"
+                "Using old version of SWIM API for image distribution (before 3.1.3.0) "
+                "with request batching.",
+                "INFO",
             )
-            for device_uuid in device_uuid_list:
+
+            # Parallel to bulk_payload; maps each payload entry to its (device_ip, image_name).
+            payload_device_map = []
+            total_devices = len(device_uuid_list)
+
+            for device_index, device_uuid in enumerate(device_uuid_list, start=1):
                 device_ip = self.get_device_ip_from_id(device_uuid)
-                self.log("Processing device: {0}".format(device_ip), "DEBUG")
+                self.log(
+                    "Processing device {0} of {1}: {2}".format(
+                        device_index, total_devices, device_ip
+                    ),
+                    "DEBUG",
+                )
                 distributed = False
 
                 for img_name, img_id in image_ids.items():
-                    # Initialize variables
-                    elg_device_ip = None
-                    device_id = device_uuid
-
-                    if not convert_to_wlc:
-                        self.log(
-                            "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
-                                image_name, device_ip
-                            ),
-                            "DEBUG"
-                        )
-                        self.log("Convert to WLC is set to False", "DEBUG")
-                        elg_device_ip, device_id = self.check_device_compliance(device_uuid, img_name)
-                    else:
-                        self.log(
-                            "WLC conversion mode enabled - bypassing compliance validation "
-                            "for image '{0}' on device {1}".format(image_name, device_ip),
-                            "WARNING"
-                        )
-                        # When convert_to_wlc is True, skip compliance check and use the device as eligible
-                        elg_device_ip = device_ip
-                        device_id = device_uuid
+                    elg_device_ip, device_id = self.resolve_distribution_eligibility(
+                        device_uuid, device_ip, image_name, convert_to_wlc, img_name,
+                        force_distribution=force_distribution,
+                    )
 
                     if not elg_device_ip:
                         device_ip_for_not_elg_list.append(device_ip)
-                        self.log("Device {0} is not eligible for image '{1}'".format(device_ip, img_name), "WARNING")
+                        self.log(
+                            "Device {0} is already compliant with its assigned golden image, so image '{1}' "
+                            "is not distributed. Set force_distribution to distribute regardless of "
+                            "compliance.".format(device_ip, img_name),
+                            "INFO",
+                        )
                         continue
 
                     self.log("Device {0} is eligible for distribution of image {1}".format(elg_device_ip, img_name), "INFO")
                     elg_device_list.append(elg_device_ip)
+                    bulk_payload.append({"deviceUuid": device_id, "imageUuid": img_id})
+                    payload_device_map.append((device_ip, img_name))
+                    distributed = True
+                    self.log(
+                        "Queued distribution request for device {0} (image '{1}'); "
+                        "pending batch payload size is now {2}.".format(
+                            device_ip, img_name, len(bulk_payload)
+                        ),
+                        "DEBUG",
+                    )
 
-                    distribution_params = {"payload": [{"deviceUuid": device_id, "imageUuid": img_id}]}
-                    self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
+                if not distributed:
+                    already_distributed_devices.append(device_ip)
+                    self.log(
+                        "Device {0} produced no distribution request; it is already compliant with "
+                        "all target image(s), so nothing was queued for it.".format(device_ip),
+                        "DEBUG",
+                    )
 
+            # -------- Batched Submit + Task Status Tracking --------
+            distribution_bulk_request_limit = self.distribution_batch_size
+            distribution_total_batches = (
+                (len(bulk_payload) + distribution_bulk_request_limit - 1)
+                // distribution_bulk_request_limit
+                if bulk_payload
+                else 0
+            )
+
+            if bulk_payload:
+                self.log(
+                    "Starting batched image distribution with batch size {0}; total requests: {1}; "
+                    "total batches: {2}.".format(
+                        distribution_bulk_request_limit,
+                        len(bulk_payload),
+                        distribution_total_batches,
+                    ),
+                    "INFO",
+                )
+
+            for i in range(0, len(bulk_payload), distribution_bulk_request_limit):
+                batch_number = (i // distribution_bulk_request_limit) + 1
+                batch_payload = bulk_payload[i:i + distribution_bulk_request_limit]
+                batch_device_map = payload_device_map[i:i + distribution_bulk_request_limit]
+
+                self.log(
+                    "Processing distribution batch {0} of {1} with {2} request(s): {3}".format(
+                        batch_number,
+                        distribution_total_batches,
+                        len(batch_payload),
+                        str(batch_payload),
+                    ),
+                    "DEBUG",
+                )
+
+                task_id = None
+                try:
                     response = self.catalystcenter._exec(
                         family="software_image_management_swim",
                         function="trigger_software_image_distribution",
                         op_modifies=True,
-                        params=distribution_params,
+                        params={"payload": batch_payload},
                     )
-                    self.log("Received API response: {0}".format(str(response)), "DEBUG")
+                    self.log(
+                        "Received API response for distribution batch {0}: {1}".format(
+                            batch_number, str(response)
+                        ),
+                        "DEBUG",
+                    )
+                    task_id = (response.get("response") or {}).get("taskId")
 
-                    if response:
-                        task_id = response.get("response", {}).get("taskId")
-                        distribution_task_dict[(device_ip, img_name)] = task_id
-                        distributed = True
+                    if not task_id:
+                        task_status = "failed"
+                        self.msg = (
+                            "Distribution batch {0} did not return a task ID; "
+                            "unable to track its status.".format(batch_number)
+                        )
+                        self.log(self.msg, "ERROR")
+                    else:
+                        task_status = self.poll_swim_task_status(
+                            task_id,
+                            "trigger_software_image_distribution",
+                            self.distribution_poll_interval,
+                        )
+                except Exception as e:
+                    task_status = "failed"
+                    # Store the reason on self.msg so the batch-failed block below reports the real cause, not a stale message.
+                    self.msg = (
+                        "Distribution batch {0} failed with exception: {1}".format(
+                            batch_number, str(e)
+                        )
+                    )
+                    self.log(self.msg, "ERROR")
 
-                if not distributed:
-                    already_distributed_devices.append(device_ip)
+                if task_status == "success":
+                    self.log(
+                        "Distribution batch {0} completed successfully for {1} device(s).".format(
+                            batch_number, len(batch_device_map)
+                        ),
+                        "INFO",
+                    )
+                    success_distribution_list.extend(batch_device_map)
+                    continue
 
-            # -------- Task Status Tracking --------
-            for (device_ip, img_name), task_id in distribution_task_dict.items():
-                task_name = "Distribution to {0}".format(device_ip)
-                success_msg = "Successfully distributed image {0} to device {1}".format(img_name, device_ip)
+                if task_status == "timeout":
+                    # Timed out while still in progress on the controller; tracked separately from real failures.
+                    self.log(
+                        "Distribution batch {0} timed out after {1} sec while still in progress on "
+                        "Catalyst Center; it may complete after this module stops monitoring. "
+                        "Reporting its devices as timed out.".format(batch_number, self.max_timeout),
+                        "WARNING",
+                    )
+                    timeout_distribution_list.extend(batch_device_map)
+                    continue
 
-                status_check = self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
-
-                if status_check.status == "success":
-                    success_distribution_list.append((device_ip, img_name))
-                else:
+                # Batch failed: capture the batch-level reason, then refine per device where possible.
+                batch_reason = self.msg
+                self.log(
+                    "Distribution batch {0} failed for {1} device(s); reason: {2}".format(
+                        batch_number, len(batch_device_map), batch_reason
+                    ),
+                    "ERROR",
+                )
+                reasons_by_ip = self.get_failed_device_reasons(task_id) if task_id else {}
+                for device_ip, img_name in batch_device_map:
                     failed_distribution_list.append((device_ip, img_name))
+                    failed_reason_by_device[device_ip] = reasons_by_ip.get(device_ip, batch_reason)
+                self.log(
+                    "Recorded failure for {0} device(s) in distribution batch {1}; "
+                    "{2} had a device-specific reason, the rest fall back to the batch reason.".format(
+                        len(batch_device_map), batch_number, len(reasons_by_ip)
+                    ),
+                    "DEBUG",
+                )
 
         else:
             # -------- NEW VERSION (Bulk Distribution) -------- #
-            for device_uuid in device_uuid_list:
+            total_devices = len(device_uuid_list)
+            # Parallel to bulk_payload; maps each entry to its device IP for per-device bucketing.
+            bulk_payload_device_ips = []
+            for device_index, device_uuid in enumerate(device_uuid_list, start=1):
                 device_ip = self.get_device_ip_from_id(device_uuid)
-                self.log("Processing device: {0}".format(device_ip), "DEBUG")
+                self.log(
+                    "Processing device {0} of {1}: {2}".format(
+                        device_index, total_devices, device_ip
+                    ),
+                    "DEBUG",
+                )
                 device_distributed_images = []
 
-                # Initialize variables
-                elg_device_ip = None
-                elg_device_uuid = device_uuid
-
-                if not convert_to_wlc:
-                    self.log(
-                        "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
-                            image_name, device_ip
-                        ),
-                        "DEBUG"
-                    )
-                    self.log("Convert to WLC is set to False", "DEBUG")
-                    elg_device_ip, elg_device_uuid = self.check_device_compliance(device_uuid)
-                else:
-                    self.log(
-                        "WLC conversion mode enabled - bypassing compliance validation "
-                        "for image '{0}' on device {1}".format(image_name, device_ip),
-                        "WARNING"
-                    )
-                    # When convert_to_wlc is True, skip compliance check and use the device as eligible
-                    elg_device_ip = device_ip
-                    elg_device_uuid = device_uuid
+                elg_device_ip, elg_device_uuid = self.resolve_distribution_eligibility(
+                    device_uuid, device_ip, image_name, convert_to_wlc,
+                    force_distribution=force_distribution,
+                )
 
                 if not elg_device_ip:
                     device_ip_for_not_elg_list.append(device_ip)
-                    self.log("Device {0} is not eligible for image distribution".format(device_ip), "WARNING")
+                    self.log(
+                        "Device {0} is already compliant with its assigned golden image, so it is not "
+                        "distributed. Set force_distribution to distribute regardless of compliance.".format(device_ip),
+                        "INFO",
+                    )
                     continue
 
                 for img_name, img_id in image_ids.items():
@@ -5341,13 +5550,29 @@ class Swim(CatalystCenterBase):
 
                 if bulk_payload_entry:
                     bulk_payload.append(bulk_payload_entry)
+                    bulk_payload_device_ips.append(device_ip)
+                    self.log(
+                        "Queued bulk distribution request for device {0} ({1} image(s)); "
+                        "pending bulk payload size is now {2}.".format(
+                            device_ip, len(device_distributed_images), len(bulk_payload)
+                        ),
+                        "DEBUG",
+                    )
+                else:
+                    self.log(
+                        "Device {0} produced no bulk distribution request; nothing was queued "
+                        "for it.".format(device_ip),
+                        "DEBUG",
+                    )
 
             if not bulk_payload:
                 if device_ip_for_not_elg_list:
-                    self.msg = "No eligible devices for bulk distribution. Devices not eligible: {0}".format(
-                        ", ".join(device_ip_for_not_elg_list)
+                    self.msg = (
+                        "No distribution performed; all target device(s) are already compliant with their "
+                        "assigned golden image: {0}. Set force_distribution to distribute regardless of "
+                        "compliance.".format(", ".join(device_ip_for_not_elg_list))
                     )
-                    self.set_operation_result("success", False, self.msg, "ERROR").check_return_status()
+                    self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
                 else:
                     self.msg = "No images or devices to distribute (empty payload)."
                     self.set_operation_result("success", False, self.msg, "ERROR").check_return_status()
@@ -5357,7 +5582,13 @@ class Swim(CatalystCenterBase):
             distribution_bulk_request_limit = self.distribution_batch_size
             failed_batches = []
             failed_task_ids = []
+            timed_out_batches = []
+            timed_out_task_ids = []
             successful_task_ids = []
+            # Per-device IPs bucketed by batch outcome so the structured response mirrors the sequential flow.
+            success_device_ips = []
+            failed_device_ips = []
+            timeout_device_ips = []
             distribution_total_batches = (
                 len(bulk_payload) + distribution_bulk_request_limit - 1
             ) // distribution_bulk_request_limit
@@ -5379,6 +5610,9 @@ class Swim(CatalystCenterBase):
             ):
                 batch_number = (i // distribution_bulk_request_limit) + 1
                 batch_payload = bulk_payload[
+                    i:i + distribution_bulk_request_limit
+                ]
+                batch_device_ips = bulk_payload_device_ips[
                     i:i + distribution_bulk_request_limit
                 ]
                 self.log(
@@ -5418,15 +5652,51 @@ class Swim(CatalystCenterBase):
                         "DEBUG",
                     )
 
-                    if batch_status in ["failed", "exited"]:
+                    if batch_status == "timeout":
+                        # Timed out while still in progress on the controller; tracked separately from real failures.
+                        self.log(
+                            "Distribution batch {0} timed out while still in progress on Catalyst "
+                            "Center; it may complete after this module stops monitoring. Reporting "
+                            "it as timed out.".format(batch_number),
+                            "WARNING",
+                        )
+                        timed_out_batches.append((batch_number, task_id))
+                        timeout_device_ips.extend(batch_device_ips)
+                        if task_id:
+                            timed_out_task_ids.append(task_id)
+                    elif batch_status in ["failed", "exited"]:
+                        self.log(
+                            "Distribution batch {0} failed with status '{1}'.".format(
+                                batch_number, batch_status
+                            ),
+                            "ERROR",
+                        )
                         failed_batches.append((batch_number, task_id))
+                        failed_device_ips.extend(batch_device_ips)
                         if task_id:
                             failed_task_ids.append(task_id)
                     elif task_id:
+                        self.log(
+                            "Distribution batch {0} completed successfully (task ID {1}).".format(
+                                batch_number, task_id
+                            ),
+                            "INFO",
+                        )
                         successful_task_ids.append(task_id)
+                        success_device_ips.extend(batch_device_ips)
+                    else:
+                        # Success-like status but no task ID returned, so the batch is left untracked.
+                        self.log(
+                            "Distribution batch {0} reported status '{1}' but returned no task ID; "
+                            "it will not be counted in any batch bucket.".format(
+                                batch_number, batch_status
+                            ),
+                            "WARNING",
+                        )
 
                 except Exception as e:
                     failed_batches.append((batch_number, task_id))
+                    failed_device_ips.extend(batch_device_ips)
 
                     if task_id:
                         failed_task_ids.append(task_id)
@@ -5439,30 +5709,70 @@ class Swim(CatalystCenterBase):
                     )
 
             distribution_failed_batch_count = len(failed_batches)
+            distribution_timed_out_batch_count = len(timed_out_batches)
             distribution_successful_batch_count = (
-                distribution_total_batches - distribution_failed_batch_count
+                distribution_total_batches
+                - distribution_failed_batch_count
+                - distribution_timed_out_batch_count
             )
             self.log(
                 "Bulk image distribution batch processing summary - Total batches: {0}; "
-                "Successful: {1}; Failed: {2}.".format(
+                "Successful: {1}; Failed: {2}; Timed out: {3}.".format(
                     distribution_total_batches,
                     distribution_successful_batch_count,
                     distribution_failed_batch_count,
+                    distribution_timed_out_batch_count,
                 ),
                 "INFO",
             )
 
-            if failed_batches:
-                self.msg = (
-                    "Image distribution completed with batch failures. "
-                    "Successful task IDs: {0}. Failed task IDs: {1}. "
-                    "Check the failed tasks in Catalyst Center before retrying."
-                ).format(
-                    ", ".join(successful_task_ids) or "None",
-                    ", ".join(failed_task_ids) or "Unavailable",
+            if failed_batches or timed_out_batches:
+                # Surface the same device-level reasons as the sequential flow, and reclassify any
+                # device that actually succeeded inside a partially-failed batch out of the failed list.
+                (
+                    failed_reason_by_device,
+                    failed_device_ips,
+                    success_device_ips,
+                ) = self.collect_and_reconcile_batch_failures(
+                    "distribution", failed_batches, failed_device_ips, success_device_ips
+                )
+
+                grouped_failures = self.summarize_failures_by_reason(
+                    "distribute", failed_reason_by_device
+                )
+                distribution_message_parts = [
+                    self.format_batch_outcome_header(
+                        "distribution", bool(failed_batches), bool(timed_out_batches)
+                    ),
+                    self.format_succeeded_devices_clause("distribute", success_device_ips),
+                    self.format_task_ids_clause(
+                        successful_task_ids, failed_task_ids, timed_out_task_ids
+                    ),
+                ]
+                self.msg = " ".join(part for part in distribution_message_parts if part)
+
+                if grouped_failures:
+                    self.msg += " " + grouped_failures + "."
+
+                # Ensure every device in a failed batch is represented, even without a per-device reason.
+                for failed_device_ip in failed_device_ips:
+                    failed_reason_by_device.setdefault(
+                        failed_device_ip,
+                        "Distribution batch failed; see the task details in Catalyst Center.",
+                    )
+                self.msg = self.append_ineligible_summary("distribute", self.msg)
+                # Keep the retry guidance as the closing sentence, after all outcome clauses.
+                self.msg += " Check the tasks in Catalyst Center before retrying."
+                distribution_response = self.build_swim_operation_response(
+                    "distribute",
+                    success_device_ips,
+                    failed_reason_by_device,
+                    timeout_device_ips,
+                    device_ip_for_not_elg_list,
+                    self.msg,
                 )
                 self.set_operation_result(
-                    "failed", bool(successful_task_ids), self.msg, "ERROR"
+                    "failed", bool(successful_task_ids), self.msg, "ERROR", distribution_response
                 )
                 self.module.fail_json(
                     msg=self.msg,
@@ -5478,18 +5788,31 @@ class Swim(CatalystCenterBase):
             ).format(eligible_device_ips, ", ".join(successful_task_ids))
             self.bulk_distribution_success = True
             success_distribution_list.extend([(ip, None) for ip in elg_device_list])
-            self.set_operation_result("success", True, self.msg, "INFO")
+            self.msg = self.append_ineligible_summary("distribute", self.msg)
+            distribution_response = self.build_swim_operation_response(
+                "distribute",
+                success_device_ips,
+                {},
+                [],
+                device_ip_for_not_elg_list,
+                self.msg,
+            )
+            self.set_operation_result("success", True, self.msg, "INFO", distribution_response)
             return self
 
         # -------- Final Summary Logging --------
         success_image_map = {}
         failed_image_map = {}
+        timeout_image_map = {}
 
         for device_ip, img_name in success_distribution_list:
             success_image_map.setdefault(img_name, []).append(device_ip)
 
         for device_ip, img_name in failed_distribution_list:
             failed_image_map.setdefault(img_name, []).append(device_ip)
+
+        for device_ip, img_name in timeout_distribution_list:
+            timeout_image_map.setdefault(img_name, []).append(device_ip)
 
         if list(success_image_map.keys()) == [None]:
             success_msg_parts = [
@@ -5507,31 +5830,76 @@ class Swim(CatalystCenterBase):
             for img, devices in failed_image_map.items()
         ]
 
+        timeout_msg_parts = [
+            "{} to {}".format(img, ", ".join(devices))
+            for img, devices in timeout_image_map.items()
+        ]
+
         final_msg = ""
         if success_msg_parts:
             final_msg += "Successfully distributed: " + "; ".join(success_msg_parts)
         if failed_msg_parts:
             if final_msg:
                 final_msg += ". "
-            final_msg += "Failed to distribute: " + "; ".join(failed_msg_parts) + "."
+            grouped_failures = self.summarize_failures_by_reason("distribute", failed_reason_by_device)
+            final_msg += grouped_failures or "Failed to distribute: " + "; ".join(failed_msg_parts)
+        if timeout_msg_parts:
+            if final_msg:
+                final_msg += ". "
+            final_msg += (
+                "Timed out (may still be in progress on Catalyst Center): "
+                + "; ".join(timeout_msg_parts)
+            )
+        if device_ip_for_not_elg_list:
+            if final_msg:
+                final_msg += ". "
+            final_msg += (
+                "Devices already compliant with their assigned golden image (skipped, not distributed; "
+                "set force_distribution to override): " + ", ".join(device_ip_for_not_elg_list) + "."
+            )
 
         self.log("Final Distribution Summary: {0}".format(final_msg), "INFO")
 
-        if not success_distribution_list and failed_distribution_list:
+        final_msg = self.append_ineligible_summary("distribute", final_msg)
+        distribution_response = self.build_swim_operation_response(
+            "distribute",
+            [ip for ip, img_name in success_distribution_list],
+            failed_reason_by_device,
+            [ip for ip, img_name in timeout_distribution_list],
+            device_ip_for_not_elg_list,
+            final_msg,
+        )
+
+        # Timed-out devices are treated as failures for pass/fail purposes.
+        any_distribution_failure = bool(failed_distribution_list) or bool(timeout_distribution_list)
+
+        if not success_distribution_list and any_distribution_failure:
             self.msg = final_msg
             self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
+                "failed", False, self.msg, "ERROR", distribution_response
             ).check_return_status()
-        elif success_distribution_list and failed_distribution_list:
+        elif success_distribution_list and any_distribution_failure:
+            # Some devices distributed, others failed or timed out: fail the task to match the >=3.1.3.0 flow.
             self.msg = final_msg
-            self.set_operation_result("success", True, self.msg, "INFO")
-            self.partial_successful_distribution = True
+            self.set_operation_result("failed", True, self.msg, "ERROR", distribution_response)
+            self.module.fail_json(
+                msg=self.msg,
+                response=self.result.get("response", []),
+                changed=self.result.get("changed", False),
+            )
         elif device_ip_for_not_elg_list:
-            self.msg = "Devices not eligible for image distribution: " + ", ".join(device_ip_for_not_elg_list)
-            self.set_operation_result("success", False, self.msg, "WARNING")
+            self.msg = final_msg
+            if success_distribution_list:
+                # Excluded devices were already compliant, not failures, so this is a complete success.
+                self.set_operation_result("success", True, self.msg, "INFO", distribution_response)
+                self.complete_successful_distribution = True
+            else:
+                # All targeted devices already compliant: idempotent no-op, nothing changed.
+                self.set_operation_result("success", False, self.msg, "INFO", distribution_response)
+                self.complete_successful_distribution = True
         else:
             self.msg = final_msg
-            self.set_operation_result("success", True, self.msg, "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO", distribution_response)
             self.complete_successful_distribution = True
 
         return self
@@ -5573,24 +5941,28 @@ class Swim(CatalystCenterBase):
                 device_ip = self.get_device_ip_from_id(device_uuid)
                 device_id = device_uuid
                 self.log(
-                    "Device {0} (IP: {1}) is NON_COMPLIANT.".format(
+                    "Device {0} (IP: {1}) is NON_COMPLIANT; it will proceed for image distribution/activation.".format(
                         device_id, device_ip
                     ),
-                    "WARNING",
+                    "INFO",
                 )
                 return device_ip, device_id
 
             self.log(
-                "The device with device id - {0} already distributed/activated with the image - {1} ".format(
-                    device_uuid, image_name
-                )
+                "Device {0} is not NON_COMPLIANT for IMAGE (compliance status is '{1}'); the controller "
+                "considers it already aligned with its assigned golden image, so it is skipped for image "
+                "'{2}'. Tag a golden image so compliance reflects the intended image, or set "
+                "force_distribution/force_activation to push image '{2}' regardless of compliance.".format(
+                    device_uuid, response.get("status"), image_name
+                ),
+                "INFO",
             )
             return None, None
 
         except Exception as e:
             self.msg = "Error in compliance_details_of_device due to {0}".format(e)
             self.set_operation_result(
-                "failed", False, self.msg, "INFO"
+                "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
     def get_diff_activation(self):
@@ -5605,12 +5977,12 @@ class Swim(CatalystCenterBase):
             activation of the specified software image on the specified device. It monitors the activation task's progress and
             updates the 'result' dictionary. If the operation is successful, 'changed' is set to True.
         """
-        self.log("Retrieving distribution details from the playbook.", "DEBUG")
+        self.log("Retrieving activation details from the playbook.", "DEBUG")
 
         activation_details = self.want.get("activation_details")
         if not activation_details:
             self.log(
-                "No distribution details found. Skipping image activation.", "ERROR"
+                "No activation details found. Skipping image activation.", "ERROR"
             )
             return self
 
@@ -5619,12 +5991,23 @@ class Swim(CatalystCenterBase):
         device_role = activation_details.get("device_role", "ALL")
         device_series_name = activation_details.get("device_series_name")
         device_tag = activation_details.get("device_tag")
-        self.max_timeout = activation_details.get("image_activation_timeout", 1800)
+        self.max_timeout = activation_details.get("image_activation_timeout", 3600)
         self.activation_poll_interval = self.get_validated_poll_interval(
             "activation_poll_interval",
             "image activation",
         )
         convert_to_wlc = activation_details.get("convert_to_wlc", False)
+        force_activation = activation_details.get("force_activation", False)
+        activation_bypass_compliance = convert_to_wlc or force_activation
+        activation_bypass_reason = "WLC conversion mode" if convert_to_wlc else "force_activation override"
+        self.log(
+            "Image activation run configuration - timeout: {0}s, poll interval: {1}s, convert_to_wlc: {2}, "
+            "force_activation: {3} (compliance check {4} for this run).".format(
+                self.max_timeout, self.activation_poll_interval, convert_to_wlc, force_activation,
+                "bypassed" if activation_bypass_compliance else "enforced",
+            ),
+            "INFO",
+        )
 
         image_id = self.have.get("activation_image_id")
         activation_device_id = self.have.get("activation_device_id")
@@ -5688,7 +6071,7 @@ class Swim(CatalystCenterBase):
             "Fetched device details: "
             "UUID list: {0}, "
             "Image ID: {1}, "
-            "Distribution Device ID: {2}, "
+            "Activation Device ID: {2}, "
             "Device IP: {3}, "
             "Image Name: {4}, "
             "Sub-package Images: {5}".format(
@@ -5739,32 +6122,21 @@ class Swim(CatalystCenterBase):
             elg_device_ip = None
             device_id = activation_device_id
 
-            if not convert_to_wlc:
-                self.log(
-                    "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
-                        image_name, device_ip
-                    ),
-                    "DEBUG"
-                )
-                self.log("Convert to WLC is set to False", "DEBUG")
-                elg_device_ip, device_id = self.check_device_compliance(
-                    self.have.get("activation_device_id"), image_name
-                )
-            else:
-                self.log(
-                    "WLC conversion mode enabled - bypassing compliance validation "
-                    "for image '{0}' on device {1}".format(image_name, device_ip),
-                    "WARNING"
-                )
-                # When convert_to_wlc is True, skip compliance check and use the device as eligible
-                elg_device_ip = device_ip
-                device_id = self.have.get("activation_device_id")
+            elg_device_ip, device_id = self.resolve_compliance_eligibility(
+                self.have.get("activation_device_id"), device_ip, image_name,
+                activation_bypass_compliance, activation_bypass_reason, image_name,
+            )
 
             if not elg_device_ip:
-                self.msg = "The image '{0}' has already been activated on the device '{1}'.".format(
-                    image_name, device_ip
+                self.msg = (
+                    "Device '{1}' is already compliant with its assigned golden image, so image '{0}' "
+                    "is not activated. Set force_activation to activate '{0}' regardless of "
+                    "compliance.".format(image_name, device_ip)
                 )
-                self.set_operation_result("success", False, self.msg, "ERROR")
+                activation_response = self.build_swim_operation_response(
+                    "activate", [], {}, [], [device_ip], self.msg
+                )
+                self.set_operation_result("success", False, self.msg, "INFO", activation_response)
                 return self
 
             self.log(
@@ -5893,7 +6265,7 @@ class Swim(CatalystCenterBase):
                     )
 
                     device_ip = self.get_device_ip_from_id(activation_device_id)
-                    if response and self.status not in ["failed", "exited"]:
+                    if response and self.status not in ["failed", "exited", "timeout"]:
                         success_msg_parts = ["All images activated successfully on device {0}".format(device_ip)]
                         success_activation_list = list(image_ids.keys())
                     else:
@@ -5919,17 +6291,32 @@ class Swim(CatalystCenterBase):
 
             if not success_activation_list and failed_activation_list:
                 self.msg = final_msg
+                activation_response = self.build_swim_operation_response(
+                    "activate", [], {elg_device_ip: final_msg}, [], [], final_msg
+                )
                 self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
+                    "failed", False, self.msg, "ERROR", activation_response
                 ).check_return_status()
             elif success_activation_list and failed_activation_list:
+                # Some images activated, others failed: fail the task to match the >=3.1.3.0 flow.
                 self.msg = final_msg
-                self.set_operation_result("success", True, self.msg, "INFO")
-                self.partial_successful_activation = True
+                activation_response = self.build_swim_operation_response(
+                    "activate", [], {elg_device_ip: final_msg}, [], [], final_msg
+                )
+                self.set_operation_result("failed", True, self.msg, "ERROR", activation_response)
+                self.module.fail_json(
+                    msg=self.msg,
+                    response=self.result.get("response", []),
+                    changed=self.result.get("changed", False),
+                )
             else:
                 self.msg = final_msg
-                self.set_operation_result("success", True, self.msg, "INFO")
+                activation_response = self.build_swim_operation_response(
+                    "activate", [elg_device_ip], {}, [], [], final_msg
+                )
+                self.set_operation_result("success", True, self.msg, "INFO", activation_response)
                 self.complete_successful_activation = True
+                self.single_device_activation = True
 
             return self
 
@@ -5948,12 +6335,13 @@ class Swim(CatalystCenterBase):
             "INFO",
         )
 
-        activation_task_dict = {}
         success_activation_list = []
         failed_activation_list = []
+        timeout_activation_list = []
         already_activated_devices = []
         elg_device_list = []
         device_ip_for_not_elg_list = []
+        failed_reason_by_device = {}
 
         # OLD FLOW (for CatalystCenter < 3.1.3.0)
         if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0:
@@ -5961,47 +6349,45 @@ class Swim(CatalystCenterBase):
                 "Using old version of SWIM API for image activation (< 3.1.3.0)",
                 "INFO",
             )
-            for device_uuid in device_uuid_list:
+            total_devices = len(device_uuid_list)
+            # Parallel to activation_bulk_payload; maps each entry to its (device_ip, image_name).
+            activation_bulk_payload = []
+            payload_device_map = []
+
+            for device_index, device_uuid in enumerate(device_uuid_list, start=1):
                 device_ip = self.get_device_ip_from_id(device_uuid)
                 activated = False
-                self.log("Checking compliance for device {0}".format(device_ip), "INFO")
+                self.log(
+                    "Checking compliance for device {0} of {1}: {2}".format(
+                        device_index, total_devices, device_ip
+                    ),
+                    "INFO",
+                )
 
                 for image_name, image_id in image_ids.items():
                     # Initialize variables
                     elg_device_ip = None
                     device_id = device_uuid
 
-                    if not convert_to_wlc:
-                        self.log(
-                            "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
-                                image_name, device_ip
-                            ),
-                            "DEBUG"
-                        )
-                        self.log("Convert to WLC is set to False", "DEBUG")
-                        elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
-                    else:
-                        self.log(
-                            "WLC conversion mode enabled - bypassing compliance validation "
-                            "for image '{0}' on device {1}".format(image_name, device_ip),
-                            "WARNING"
-                        )
-                        # When convert_to_wlc is True, skip compliance check and use the device as eligible
-                        elg_device_ip = device_ip
-                        device_id = device_uuid
+                    elg_device_ip, device_id = self.resolve_compliance_eligibility(
+                        device_uuid, device_ip, image_name,
+                        activation_bypass_compliance, activation_bypass_reason, image_name,
+                    )
 
                     if not elg_device_ip:
                         device_ip_for_not_elg = self.get_device_ip_from_id(device_uuid)
                         device_ip_for_not_elg_list.append(device_ip_for_not_elg)
-                        self.log("Device {0} is not eligible for activation of image '{1}'".format(device_ip, image_name), "WARNING")
+                        self.log(
+                            "Device {0} is already compliant with its assigned golden image, so image '{1}' "
+                            "is not activated. Set force_activation to activate regardless of compliance.".format(device_ip, image_name),
+                            "INFO",
+                        )
                         continue
 
                     self.log("Device {0} is eligible for activation of image {1}".format(elg_device_ip, image_name), "INFO")
                     elg_device_list.append(elg_device_ip)
 
-                    self.log("Starting activation of image '{0}' on device {1}".format(image_name, device_ip), "INFO")
-
-                    payload = [
+                    activation_bulk_payload.append(
                         dict(
                             activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
                             deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
@@ -6009,55 +6395,144 @@ class Swim(CatalystCenterBase):
                             deviceUuid=device_id,
                             imageUuidList=[image_id] if image_id else [],
                         )
-                    ]
-
-                    activation_params = dict(
-                        schedule_validate=activation_details.get("schedule_validate"),
-                        payload=payload,
                     )
-                    self.log("Activation Params: {0}".format(str(activation_params)), "INFO")
+                    payload_device_map.append((device_ip, image_name))
+                    activated = True
 
+                if not activated:
+                    already_activated_devices.append(device_ip)
+                    self.log("Image already activated on device {0}".format(device_ip), "INFO")
+
+            # -------- Batched Submit + Task Status Tracking --------
+            activation_bulk_request_limit = self.activation_batch_size
+            activation_total_batches = (
+                (len(activation_bulk_payload) + activation_bulk_request_limit - 1)
+                // activation_bulk_request_limit
+                if activation_bulk_payload
+                else 0
+            )
+
+            if activation_bulk_payload:
+                self.log(
+                    "Starting batched image activation with batch size {0}; total requests: {1}; "
+                    "total batches: {2}.".format(
+                        activation_bulk_request_limit,
+                        len(activation_bulk_payload),
+                        activation_total_batches,
+                    ),
+                    "INFO",
+                )
+
+            for i in range(0, len(activation_bulk_payload), activation_bulk_request_limit):
+                batch_number = (i // activation_bulk_request_limit) + 1
+                batch_payload = activation_bulk_payload[i:i + activation_bulk_request_limit]
+                batch_device_map = payload_device_map[i:i + activation_bulk_request_limit]
+
+                activation_params = dict(
+                    schedule_validate=activation_details.get("schedule_validate"),
+                    payload=batch_payload,
+                )
+                self.log(
+                    "Processing activation batch {0} of {1} with {2} request(s): {3}".format(
+                        batch_number,
+                        activation_total_batches,
+                        len(batch_payload),
+                        str(activation_params),
+                    ),
+                    "DEBUG",
+                )
+
+                task_id = None
+                try:
                     response = self.catalystcenter._exec(
                         family="software_image_management_swim",
                         function="trigger_software_image_activation",
                         op_modifies=True,
                         params=activation_params,
                     )
-                    self.log("Received API from from 'trigger_software_image_activation': {0}".format(str(response)), "DEBUG")
+                    self.log(
+                        "Received API response for activation batch {0}: {1}".format(
+                            batch_number, str(response)
+                        ),
+                        "DEBUG",
+                    )
+                    if isinstance(response, dict):
+                        task_id = (response.get("response") or {}).get("taskId")
 
-                    if response:
-                        task_id = response.get("response", {}).get("taskId")
-                        activation_task_dict[(device_ip, image_name)] = task_id
-                        self.log("Task ID {0} assigned for image {1} activation on device {2}".format(task_id, image_name, device_ip), "INFO")
-                        activated = True
+                    if not task_id:
+                        task_status = "failed"
+                        self.msg = (
+                            "Activation batch {0} did not return a task ID; "
+                            "unable to track its status.".format(batch_number)
+                        )
+                        self.log(self.msg, "ERROR")
+                    else:
+                        task_status = self.poll_swim_task_status(
+                            task_id, "activate_software_image", self.activation_poll_interval
+                        )
+                except Exception as e:
+                    task_status = "failed"
+                    # Store the reason on self.msg so the batch-failed block below reports the real cause, not a stale message.
+                    self.msg = (
+                        "Activation batch {0} failed with exception: {1}".format(
+                            batch_number, str(e)
+                        )
+                    )
+                    self.log(self.msg, "ERROR")
 
-                if not activated:
-                    already_activated_devices.append(device_ip)
-                    self.log("Image already activated on device {0}".format(device_ip), "INFO")
+                if task_status == "success":
+                    self.log(
+                        "Activation batch {0} completed successfully for {1} device(s).".format(
+                            batch_number, len(batch_device_map)
+                        ),
+                        "INFO",
+                    )
+                    success_activation_list.extend(batch_device_map)
+                    continue
 
-            # Check activation status sequentially
-            for (device_ip, img_name), task_id in activation_task_dict.items():
-                task_name = "Activation for {0}".format(device_ip)
-                self.log("Checking activation status for device {0}, image {1}, Task ID {2}".format(device_ip, img_name, task_id), "INFO")
-                success_msg = "Successfully activated image {0} on device {1}".format(img_name, device_ip)
+                if task_status == "timeout":
+                    # Timed out while still in progress on the controller; tracked separately from real failures.
+                    self.log(
+                        "Activation batch {0} timed out after {1} sec while still in progress on "
+                        "Catalyst Center; it may complete after this module stops monitoring. "
+                        "Reporting its devices as timed out.".format(batch_number, self.max_timeout),
+                        "WARNING",
+                    )
+                    timeout_activation_list.extend(batch_device_map)
+                    continue
 
-                status_check = self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
-
-                if status_check.status == "success":
-                    success_activation_list.append((device_ip, img_name))
-                    self.log("Activation successful for device {0}, image {1}".format(device_ip, img_name), "INFO")
-                else:
+                # Batch failed: capture the batch-level reason, then refine per device where possible.
+                batch_reason = self.msg
+                self.log(
+                    "Activation batch {0} failed for {1} device(s); reason: {2}".format(
+                        batch_number, len(batch_device_map), batch_reason
+                    ),
+                    "ERROR",
+                )
+                reasons_by_ip = self.get_failed_device_reasons(task_id) if task_id else {}
+                for device_ip, img_name in batch_device_map:
                     failed_activation_list.append((device_ip, img_name))
-                    self.log("Activation failed for device {0}, image {1}".format(device_ip, img_name), "ERROR")
+                    failed_reason_by_device[device_ip] = reasons_by_ip.get(device_ip, batch_reason)
+                self.log(
+                    "Recorded failure for {0} device(s) in activation batch {1}; "
+                    "{2} had a device-specific reason, the rest fall back to the batch reason.".format(
+                        len(batch_device_map), batch_number, len(reasons_by_ip)
+                    ),
+                    "DEBUG",
+                )
 
             success_image_map = {}
             failed_image_map = {}
+            timeout_image_map = {}
 
             for device_ip, img_name in success_activation_list:
                 success_image_map.setdefault(img_name, []).append(device_ip)
 
             for device_ip, img_name in failed_activation_list:
                 failed_image_map.setdefault(img_name, []).append(device_ip)
+
+            for device_ip, img_name in timeout_activation_list:
+                timeout_image_map.setdefault(img_name, []).append(device_ip)
 
             success_msg_parts = [
                 "{} to {}".format(img, ", ".join(devices)) for img, devices in success_image_map.items()
@@ -6067,8 +6542,16 @@ class Swim(CatalystCenterBase):
                 "{} to {}".format(img, ", ".join(devices)) for img, devices in failed_image_map.items()
             ]
 
+            timeout_msg_parts = [
+                "{} to {}".format(img, ", ".join(devices)) for img, devices in timeout_image_map.items()
+            ]
+
         # NEW FLOW (for CatalystCenter >= 3.1.3.0)
         else:
+            self.log(
+                "Using new version of SWIM API for image activation (>= 3.1.3.0)",
+                "INFO",
+            )
             image_id_base = self.have.get("activation_image_id")
             # Resolve sub-package ids (if any)
             sub_image_ids = [self.get_image_id_v1(pkg) for pkg in sub_package_images] if sub_package_images else []
@@ -6076,9 +6559,15 @@ class Swim(CatalystCenterBase):
             activation_payload_list = []
             device_ip_for_not_elg_list = []
 
-            for device_uuid in device_uuid_list:
+            total_devices = len(device_uuid_list)
+            for device_index, device_uuid in enumerate(device_uuid_list, start=1):
                 device_ip = self.get_device_ip_from_id(device_uuid)
-                self.log("Processing device: {0}".format(device_ip), "DEBUG")
+                self.log(
+                    "Processing device {0} of {1}: {2}".format(
+                        device_index, total_devices, device_ip
+                    ),
+                    "DEBUG",
+                )
 
                 # Aggregate all image ids for this device
                 installed_image_ids = set()
@@ -6094,30 +6583,21 @@ class Swim(CatalystCenterBase):
                 elg_device_ip = None
                 device_id = device_uuid
 
-                if not convert_to_wlc:
-                    self.log(
-                        "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
-                            image_name, device_ip
-                        ),
-                        "DEBUG"
-                    )
-                    self.log("Convert to WLC is set to False", "DEBUG")
-                    elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
-                else:
-                    self.log(
-                        "WLC conversion mode enabled - bypassing compliance validation "
-                        "for image '{0}' on device {1}".format(image_name, device_ip),
-                        "WARNING"
-                    )
-                    # When convert_to_wlc is True, skip compliance check and use the device as eligible
-                    elg_device_ip = device_ip
-                    device_id = device_uuid
+                elg_device_ip, device_id = self.resolve_compliance_eligibility(
+                    device_uuid, device_ip, image_name,
+                    activation_bypass_compliance, activation_bypass_reason, image_name,
+                )
 
                 if not elg_device_ip:
-                    self.log("Device not eligible for activation: {0}".format(device_ip), "INFO")
+                    self.log(
+                        "Device {0} is already compliant with its assigned golden image, so it is not "
+                        "activated. Set force_activation to activate regardless of compliance.".format(device_ip),
+                        "INFO",
+                    )
                     device_ip_for_not_elg_list.append(device_ip)
                     continue
 
+                self.log("Device {0} is eligible for bulk image activation".format(elg_device_ip), "INFO")
                 eligible_device_ips.append(elg_device_ip)
 
                 activation_payload = {}
@@ -6135,21 +6615,39 @@ class Swim(CatalystCenterBase):
                     activation_payload["networkValidationIds"] = network_validation_ids
 
                 activation_payload_list.append(activation_payload)
+                self.log(
+                    "Queued bulk activation request for device {0} ({1} image(s)); "
+                    "pending payload size is now {2}.".format(
+                        device_ip, len(installed_image_ids), len(activation_payload_list)
+                    ),
+                    "DEBUG",
+                )
 
             self.log("Activation Payload List: {0}".format(str(activation_payload_list)), "DEBUG")
 
             if not activation_payload_list:
-                self.msg = "No eligible devices found for activation. Devices not eligible: {0}".format(
-                    ", ".join(device_ip_for_not_elg_list) if device_ip_for_not_elg_list else "None"
-                )
+                if device_ip_for_not_elg_list:
+                    self.msg = (
+                        "No activation performed; all target device(s) are already compliant with their "
+                        "assigned golden image: {0}. Set force_activation to activate regardless of "
+                        "compliance.".format(", ".join(device_ip_for_not_elg_list))
+                    )
+                else:
+                    self.msg = "No eligible devices found for activation."
                 self.log(self.msg, "INFO")
-                self.set_operation_result("success", False, self.msg, "ERROR")
+                self.set_operation_result("success", False, self.msg, "INFO")
                 return self
 
             activation_bulk_request_limit = self.activation_batch_size
             failed_batches = []
             failed_task_ids = []
+            timed_out_batches = []
+            timed_out_task_ids = []
             successful_task_ids = []
+            # Per-device IPs bucketed by batch outcome so the structured response mirrors the sequential flow.
+            success_device_ips = []
+            failed_device_ips = []
+            timeout_device_ips = []
             activation_total_batches = (
                 len(activation_payload_list) + activation_bulk_request_limit - 1
             ) // activation_bulk_request_limit
@@ -6171,6 +6669,9 @@ class Swim(CatalystCenterBase):
             ):
                 batch_number = (i // activation_bulk_request_limit) + 1
                 batch_payload = activation_payload_list[
+                    i:i + activation_bulk_request_limit
+                ]
+                batch_device_ips = eligible_device_ips[
                     i:i + activation_bulk_request_limit
                 ]
                 self.log(
@@ -6210,15 +6711,51 @@ class Swim(CatalystCenterBase):
                         "DEBUG",
                     )
 
-                    if batch_status in ["failed", "exited"]:
+                    if batch_status == "timeout":
+                        # Timed out while still in progress on the controller; tracked separately from real failures.
+                        self.log(
+                            "Activation batch {0} timed out while still in progress on Catalyst "
+                            "Center; it may complete after this module stops monitoring. Reporting "
+                            "it as timed out.".format(batch_number),
+                            "WARNING",
+                        )
+                        timed_out_batches.append((batch_number, task_id))
+                        timeout_device_ips.extend(batch_device_ips)
+                        if task_id:
+                            timed_out_task_ids.append(task_id)
+                    elif batch_status in ["failed", "exited"]:
+                        self.log(
+                            "Activation batch {0} failed with status '{1}'.".format(
+                                batch_number, batch_status
+                            ),
+                            "ERROR",
+                        )
                         failed_batches.append((batch_number, task_id))
+                        failed_device_ips.extend(batch_device_ips)
                         if task_id:
                             failed_task_ids.append(task_id)
                     elif task_id:
+                        self.log(
+                            "Activation batch {0} completed successfully (task ID {1}).".format(
+                                batch_number, task_id
+                            ),
+                            "INFO",
+                        )
                         successful_task_ids.append(task_id)
+                        success_device_ips.extend(batch_device_ips)
+                    else:
+                        # Success-like status but no task ID returned, so the batch is left untracked.
+                        self.log(
+                            "Activation batch {0} reported status '{1}' but returned no task ID; "
+                            "it will not be counted in any batch bucket.".format(
+                                batch_number, batch_status
+                            ),
+                            "WARNING",
+                        )
 
                 except Exception as e:
                     failed_batches.append((batch_number, task_id))
+                    failed_device_ips.extend(batch_device_ips)
 
                     if task_id:
                         failed_task_ids.append(task_id)
@@ -6231,30 +6768,70 @@ class Swim(CatalystCenterBase):
                     )
 
             activation_failed_batch_count = len(failed_batches)
+            activation_timed_out_batch_count = len(timed_out_batches)
             activation_successful_batch_count = (
-                activation_total_batches - activation_failed_batch_count
+                activation_total_batches
+                - activation_failed_batch_count
+                - activation_timed_out_batch_count
             )
             self.log(
                 "Bulk image activation batch processing summary - Total batches: {0}; "
-                "Successful: {1}; Failed: {2}.".format(
+                "Successful: {1}; Failed: {2}; Timed out: {3}.".format(
                     activation_total_batches,
                     activation_successful_batch_count,
                     activation_failed_batch_count,
+                    activation_timed_out_batch_count,
                 ),
                 "INFO",
             )
 
-            if failed_batches:
-                self.msg = (
-                    "Image activation completed with batch failures. "
-                    "Successful task IDs: {0}. Failed task IDs: {1}. "
-                    "Check the failed tasks in Catalyst Center before retrying."
-                ).format(
-                    ", ".join(successful_task_ids) or "None",
-                    ", ".join(failed_task_ids) or "Unavailable",
+            if failed_batches or timed_out_batches:
+                # Surface the same device-level reasons as the sequential flow, and reclassify any
+                # device that actually succeeded inside a partially-failed batch out of the failed list.
+                (
+                    failed_reason_by_device,
+                    failed_device_ips,
+                    success_device_ips,
+                ) = self.collect_and_reconcile_batch_failures(
+                    "activation", failed_batches, failed_device_ips, success_device_ips
+                )
+
+                grouped_failures = self.summarize_failures_by_reason(
+                    "activate", failed_reason_by_device
+                )
+                activation_message_parts = [
+                    self.format_batch_outcome_header(
+                        "activation", bool(failed_batches), bool(timed_out_batches)
+                    ),
+                    self.format_succeeded_devices_clause("activate", success_device_ips),
+                    self.format_task_ids_clause(
+                        successful_task_ids, failed_task_ids, timed_out_task_ids
+                    ),
+                ]
+                self.msg = " ".join(part for part in activation_message_parts if part)
+
+                if grouped_failures:
+                    self.msg += " " + grouped_failures + "."
+
+                # Ensure every device in a failed batch is represented, even without a per-device reason.
+                for failed_device_ip in failed_device_ips:
+                    failed_reason_by_device.setdefault(
+                        failed_device_ip,
+                        "Activation batch failed; see the task details in Catalyst Center.",
+                    )
+                self.msg = self.append_ineligible_summary("activate", self.msg)
+                # Keep the retry guidance as the closing sentence, after all outcome clauses.
+                self.msg += " Check the tasks in Catalyst Center before retrying."
+                activation_response = self.build_swim_operation_response(
+                    "activate",
+                    success_device_ips,
+                    failed_reason_by_device,
+                    timeout_device_ips,
+                    device_ip_for_not_elg_list,
+                    self.msg,
                 )
                 self.set_operation_result(
-                    "failed", bool(successful_task_ids), self.msg, "ERROR"
+                    "failed", bool(successful_task_ids), self.msg, "ERROR", activation_response
                 )
                 self.module.fail_json(
                     msg=self.msg,
@@ -6266,7 +6843,16 @@ class Swim(CatalystCenterBase):
                 "All eligible images activated successfully on the devices {0}. "
                 "Successful task IDs: {1}."
             ).format(", ".join(eligible_device_ips), ", ".join(successful_task_ids))
-            self.set_operation_result("success", True, self.msg, "INFO")
+            self.msg = self.append_ineligible_summary("activate", self.msg)
+            activation_response = self.build_swim_operation_response(
+                "activate",
+                success_device_ips,
+                {},
+                [],
+                device_ip_for_not_elg_list,
+                self.msg,
+            )
+            self.set_operation_result("success", True, self.msg, "INFO", activation_response)
             return self
 
         # Final single-line message formation
@@ -6276,24 +6862,63 @@ class Swim(CatalystCenterBase):
         if failed_msg_parts:
             if final_msg:
                 final_msg += ". "
-            final_msg += "Failed to activate: " + "; ".join(failed_msg_parts) + "."
+            grouped_failures = self.summarize_failures_by_reason("activate", failed_reason_by_device)
+            final_msg += grouped_failures or "Failed to activate: " + "; ".join(failed_msg_parts)
+        if timeout_msg_parts:
+            if final_msg:
+                final_msg += ". "
+            final_msg += (
+                "Timed out (may still be in progress on Catalyst Center): "
+                + "; ".join(timeout_msg_parts)
+            )
         if device_ip_for_not_elg_list:
             if final_msg:
                 final_msg += ". "
-            final_msg += "Devices not eligible for activation: " + ", ".join(device_ip_for_not_elg_list) + "."
+            final_msg += (
+                "Devices already compliant with their assigned golden image (skipped, not activated; "
+                "set force_activation to override): " + ", ".join(device_ip_for_not_elg_list) + "."
+            )
 
         self.msg = final_msg
         self.log("Final activation status: {0}".format(final_msg), "INFO")
 
-        if not success_activation_list and failed_activation_list and not device_ip_for_not_elg_list:
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-        elif failed_activation_list and not success_activation_list and device_ip_for_not_elg_list:
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-        elif (success_activation_list and failed_activation_list) or device_ip_for_not_elg_list:
-            self.set_operation_result("success", True, self.msg, "INFO")
-            self.partial_successful_activation = True
+        final_msg = self.append_ineligible_summary("activate", final_msg)
+        self.msg = final_msg
+        activation_response = self.build_swim_operation_response(
+            "activate",
+            [ip for ip, img_name in success_activation_list],
+            failed_reason_by_device,
+            [ip for ip, img_name in timeout_activation_list],
+            device_ip_for_not_elg_list,
+            final_msg,
+        )
+
+        # Timed-out devices are treated as failures for pass/fail purposes.
+        any_activation_failure = bool(failed_activation_list) or bool(timeout_activation_list)
+
+        if not success_activation_list and any_activation_failure and not device_ip_for_not_elg_list:
+            self.set_operation_result("failed", False, self.msg, "ERROR", activation_response).check_return_status()
+        elif any_activation_failure and not success_activation_list and device_ip_for_not_elg_list:
+            self.set_operation_result("failed", False, self.msg, "ERROR", activation_response)
+        elif success_activation_list and any_activation_failure:
+            # Some devices activated, others failed or timed out: fail the task to match the >=3.1.3.0 flow.
+            self.set_operation_result("failed", True, self.msg, "ERROR", activation_response)
+            self.module.fail_json(
+                msg=self.msg,
+                response=self.result.get("response", []),
+                changed=self.result.get("changed", False),
+            )
+        elif device_ip_for_not_elg_list:
+            if success_activation_list:
+                # Excluded devices were already compliant, not failures, so this is a complete success.
+                self.set_operation_result("success", True, self.msg, "INFO", activation_response)
+                self.complete_successful_activation = True
+            else:
+                # All targeted devices already compliant: idempotent no-op, nothing changed.
+                self.set_operation_result("success", False, self.msg, "INFO", activation_response)
+                self.complete_successful_activation = True
         else:
-            self.set_operation_result("success", True, self.msg, "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO", activation_response)
             self.complete_successful_activation = True
         return self
 
@@ -6337,15 +6962,790 @@ class Swim(CatalystCenterBase):
             self.msg = "Task ID is missing from the API response"
             return "failed"
 
+        return self.poll_swim_task_status(task_id, api_name, poll_interval)
+
+    def build_task_tree_index(self, parent_task_id):
+        """
+        Index a SWIM task tree into lookup maps shared by both the old and new flows.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            parent_task_id (str): The task ID whose tree ('/task/{id}/tree') is fetched and indexed.
+        Returns:
+            tuple: (tasks_by_id, children_by_parent, reason_by_task_id) where tasks_by_id maps a task
+            ID to its task dict, children_by_parent maps a parentId to its list of child task dicts,
+            and reason_by_task_id maps a task ID to its 'failureReason' (only for tasks that carry one).
+        Description:
+            The task tree endpoint is present in every Catalyst Center version and returns the same
+            nested structure for both SWIM flows, so it is the single universal source for failure
+            reasons. This builds the lookup maps once (one API call) so callers can walk the subtree
+            (see get_deepest_failure_reason) without re-parsing the tree. Best-effort: any lookup
+            failure returns empty maps so callers degrade gracefully.
+        """
+        tasks_by_id = {}
+        children_by_parent = {}
+        reason_by_task_id = {}
+        if not parent_task_id:
+            return tasks_by_id, children_by_parent, reason_by_task_id
+
+        try:
+            task_tree = self.catalystcenter._exec(
+                family="task",
+                function="get_task_tree",
+                params={"task_id": parent_task_id},
+            )
+            self.log(
+                "Received API response from 'get_task_tree' for task ID '{0}': {1}".format(
+                    parent_task_id, task_tree
+                ),
+                "DEBUG",
+            )
+            child_tasks = (
+                task_tree.get("response") if isinstance(task_tree, dict) else None
+            )
+
+            if not isinstance(child_tasks, list):
+                # An empty/malformed tree here is the usual reason a failure has no device-level reason downstream.
+                self.log(
+                    "Task tree for task ID '{0}' is empty or malformed (response type: {1}); "
+                    "no per-device failure reasons can be derived.".format(
+                        parent_task_id, type(child_tasks).__name__
+                    ),
+                    "WARNING",
+                )
+                return tasks_by_id, children_by_parent, reason_by_task_id
+
+            for child_task in child_tasks:
+                if not isinstance(child_task, dict):
+                    continue
+                node_id = child_task.get("id")
+                if node_id:
+                    tasks_by_id[node_id] = child_task
+                    children_by_parent.setdefault(
+                        child_task.get("parentId"), []
+                    ).append(child_task)
+                if child_task.get("failureReason"):
+                    reason_by_task_id[node_id] = child_task.get("failureReason")
+            self.log(
+                "Parsed task tree for task ID '{0}': indexed {1} task node(s), "
+                "{2} carrying a failureReason.".format(
+                    parent_task_id, len(tasks_by_id), len(reason_by_task_id)
+                ),
+                "DEBUG",
+            )
+
+            # Dump every failure-carrying node so a customer log shows all candidate reasons + error codes at once.
+            for failed_id, failed_reason in reason_by_task_id.items():
+                failed_node = tasks_by_id.get(failed_id, {})
+                self.log(
+                    "Task tree failure node under task ID '{0}': id='{1}', parentId='{2}', "
+                    "errorCode='{3}', serviceType='{4}', data='{5}', failureReason: {6}".format(
+                        parent_task_id,
+                        failed_id,
+                        failed_node.get("parentId"),
+                        failed_node.get("errorCode"),
+                        failed_node.get("serviceType"),
+                        failed_node.get("data"),
+                        failed_reason,
+                    ),
+                    "DEBUG",
+                )
+        except Exception as e:
+            self.log(
+                "Unable to retrieve task tree for task ID '{0}': {1}".format(
+                    parent_task_id, str(e)
+                ),
+                "DEBUG",
+            )
+
+        return tasks_by_id, children_by_parent, reason_by_task_id
+
+    def get_failed_task_diagnostics(self, task_id):
+        """
+        Best-effort diagnostics for a failed SWIM task.
+        Args:
+            task_id (str): The failed task ID.
+        Returns:
+            str or None: The most specific (deepest) device-level failure reason found in the
+            task tree, or None if unavailable.
+        Description:
+            The task tree ('/task/{id}/tree') is the same in both SWIM flows and nests the specific
+            device-level error several levels below the generic rollup carried on the root/parent
+            nodes (the new flow stamps 'partial success' on the root; the old flow leaves it blank).
+            This walks the tree to the deepest node that carries a 'failureReason' so the exact,
+            actionable failure is surfaced identically for both flows.
+        """
+        self.log(
+            "Starting best-effort diagnostics for failed SWIM task ID '{0}'.".format(
+                task_id
+            ),
+            "DEBUG",
+        )
+        tasks_by_id, children_by_parent, reason_by_task_id = self.build_task_tree_index(
+            task_id
+        )
+
+        reason = self.get_deepest_failure_reason(
+            task_id, tasks_by_id, children_by_parent
+        ) or reason_by_task_id.get(task_id)
+        if not reason:
+            # Distinguish 'tree unavailable/empty' from 'tree present but no reason' so customer logs are actionable.
+            self.log(
+                "No device-level failureReason found for failed SWIM task ID '{0}' "
+                "(indexed {1} tree node(s), {2} with a failureReason); caller will fall back "
+                "to the task-level message.".format(
+                    task_id, len(tasks_by_id), len(reason_by_task_id)
+                ),
+                "WARNING",
+            )
+
+        self.log(
+            "Completed diagnostics for failed SWIM task ID '{0}' (indexed {1} tree node(s), "
+            "{2} with a failureReason); resolved reason: {3}".format(
+                task_id, len(tasks_by_id), len(reason_by_task_id), reason or "Unknown"
+            ),
+            "DEBUG",
+        )
+        return reason
+
+    def get_deepest_failure_reason(self, root_task_id, tasks_by_id, children_by_parent):
+        """
+        Return the most specific (deepest) failureReason within a task subtree.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            root_task_id (str): Task ID whose subtree is inspected (typically a failed device task node).
+            tasks_by_id (dict): Map of task ID to its task dict, built from the parent task tree.
+            children_by_parent (dict): Map of parentId to the list of its child task dicts.
+        Returns:
+            str or None: The deepest child's failureReason, or None when the subtree carries no reason.
+        Description:
+            Bulk SWIM task trees nest the specific device-level error (e.g. an 'NCSW' flash-verification
+            failure that names the device and image) several levels below the generic 'Workflow ... failed.'
+            node that the per-device status API points at. Walking down to the deepest node that carries a
+            failureReason surfaces that actionable root cause instead of the generic parent message.
+        """
+        self.log(
+            "Searching task subtree of root task ID '{0}' for the deepest failureReason.".format(
+                root_task_id
+            ),
+            "DEBUG",
+        )
+        best_reason = None
+        best_depth = -1
+        visited = set()
+        stack = [(root_task_id, 0)]
+
+        while stack:
+            task_id, depth = stack.pop()
+            if not task_id or task_id in visited:
+                continue
+            visited.add(task_id)
+            task = tasks_by_id.get(task_id)
+            if isinstance(task, dict) and task.get("failureReason") and depth > best_depth:
+                best_reason = task.get("failureReason")
+                best_depth = depth
+            for child_task in children_by_parent.get(task_id, []):
+                stack.append((child_task.get("id"), depth + 1))
+
+        if best_reason is None:
+            self.log(
+                "No failureReason found in the task subtree of root task ID '{0}' after visiting "
+                "{1} task node(s); caller will fall back to the device's own task reason.".format(
+                    root_task_id, len(visited)
+                ),
+                "DEBUG",
+            )
+        else:
+            self.log(
+                "Resolved deepest failureReason for root task ID '{0}' at depth {1} (visited {2} "
+                "task node(s)): {3}".format(root_task_id, best_depth, len(visited), best_reason),
+                "DEBUG",
+            )
+        return best_reason
+
+    def get_failed_device_reasons(self, parent_task_id):
+        """
+        Retrieve per-device failure reasons for a completed bulk SWIM parent task.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            parent_task_id (str): The bulk operation parent task ID whose failed devices are inspected.
+        Returns:
+            dict: Mapping of device management IP to its failure reason; empty when nothing is retrievable.
+        Description:
+            Bulk distribute/activate return one parent task covering many devices. The per-device
+            status API reports which devices failed (with their IP and child device-task id) but not
+            the reason, while the parent task tree carries the reason on each child task. This joins
+            the two into a clean {device_ip: reason} map using at most two API calls, so the bulk flow
+            can surface the same device-level reasons as the sequential flow. Best-effort: any lookup
+            failure returns an empty map so the caller falls back to reporting task IDs.
+        """
+        self.log(
+            "Starting per-device failure-reason lookup for bulk parent task ID '{0}'.".format(
+                parent_task_id
+            ),
+            "DEBUG",
+        )
+
+        reason_by_device = {}
+        if not parent_task_id:
+            self.log(
+                "No parent task ID supplied; skipping per-device failure-reason lookup.",
+                "DEBUG",
+            )
+            return reason_by_device
+
+        failed_devices = []
+        try:
+            updates_response = self.catalystcenter._exec(
+                family="software_image_management_swim",
+                function="get_network_device_image_updates",
+                params={"parent_id": parent_task_id, "status": "FAILURE"},
+            )
+            self.log(
+                "Received API response from 'get_network_device_image_updates' for parent "
+                "task ID '{0}': {1}".format(parent_task_id, updates_response),
+                "DEBUG",
+            )
+
+            if isinstance(updates_response, dict):
+                failed_devices = updates_response.get("response") or []
+        except Exception as e:
+            self.log(
+                "Unable to retrieve per-device updates for parent task ID '{0}': {1}".format(
+                    parent_task_id, str(e)
+                ),
+                "DEBUG",
+            )
+            return reason_by_device
+
+        if not failed_devices:
+            self.log(
+                "No failed per-device records found for parent task ID '{0}'.".format(
+                    parent_task_id
+                ),
+                "DEBUG",
+            )
+            return reason_by_device
+
+        # Build the child-task lookup maps from the parent task tree (shared by both SWIM flows).
+        tasks_by_id, children_by_parent, reason_by_task_id = self.build_task_tree_index(
+            parent_task_id
+        )
+
+        total_failed = len(failed_devices)
+        self.log(
+            "Mapping failure reasons for {0} failed device(s) under parent task ID '{1}'.".format(
+                total_failed, parent_task_id
+            ),
+            "DEBUG",
+        )
+        for index, device_update in enumerate(failed_devices, start=1):
+            if not isinstance(device_update, dict):
+                self.log(
+                    "Skipping malformed per-device record {0} of {1} for parent task ID "
+                    "'{2}'.".format(index, total_failed, parent_task_id),
+                    "DEBUG",
+                )
+                continue
+
+            # The backend serializes the device IP as 'mangementAddress' (note the spelling).
+            device_ip = (
+                device_update.get("managementAddress")
+                or device_update.get("mangementAddress")
+                or device_update.get("networkDeviceId")
+            )
+            device_task_id = device_update.get("id")
+            # Prefer the deepest, most specific child reason (e.g. NCSW flash-verification failure)
+            # over the generic 'Workflow ... failed.' carried on the device's own task node.
+            reason = self.get_deepest_failure_reason(
+                device_task_id, tasks_by_id, children_by_parent
+            ) or reason_by_task_id.get(device_task_id)
+
+            self.log(
+                "Resolved failure reason for device {0} of {1} (IP: {2}, deviceTaskId: {3}) under "
+                "parent task ID '{4}': {5}".format(
+                    index, total_failed, device_ip, device_task_id, parent_task_id, reason or "Unknown"
+                ),
+                "DEBUG",
+            )
+
+            if device_ip:
+                reason_by_device[device_ip] = reason
+            else:
+                # No usable IP means this failed device is dropped from the map; surface it for debugging.
+                self.log(
+                    "Failed device record {0} of {1} under parent task ID '{2}' has no usable IP "
+                    "(deviceTaskId: {3}); its reason will not be mapped: {4}".format(
+                        index, total_failed, parent_task_id, device_task_id, reason or "Unknown"
+                    ),
+                    "WARNING",
+                )
+
+        self.log(
+            "Completed per-device failure-reason lookup for parent task ID '{0}': {1} device(s) "
+            "mapped.".format(parent_task_id, len(reason_by_device)),
+            "DEBUG",
+        )
+        return reason_by_device
+
+    def get_succeeded_device_ips(self, parent_task_id):
+        """
+        Return the set of device IPs that succeeded under a bulk parent task.
+        Args:
+            parent_task_id (str): The bulk operation parent task ID to inspect.
+        Returns:
+            set: Management IPs the controller reports as SUCCESS; empty when nothing is retrievable.
+        Description:
+            A bulk batch can end in partial success (some devices succeed, some fail). The batch-level
+            status marks the whole batch failed, so this reads the authoritative per-device SUCCESS
+            records to positively confirm which devices actually completed, letting the caller keep
+            them out of the failed bucket. Best-effort: any lookup failure returns an empty set.
+        """
+        succeeded_ips = set()
+        if not parent_task_id:
+            return succeeded_ips
+
+        try:
+            updates_response = self.catalystcenter._exec(
+                family="software_image_management_swim",
+                function="get_network_device_image_updates",
+                params={"parent_id": parent_task_id, "status": "SUCCESS"},
+            )
+            self.log(
+                "Received SUCCESS per-device updates for parent task ID '{0}': {1}".format(
+                    parent_task_id, updates_response
+                ),
+                "DEBUG",
+            )
+        except Exception as e:
+            self.log(
+                "Unable to retrieve per-device SUCCESS updates for parent task ID '{0}': {1}".format(
+                    parent_task_id, str(e)
+                ),
+                "DEBUG",
+            )
+            return succeeded_ips
+
+        records = (
+            updates_response.get("response") or []
+            if isinstance(updates_response, dict)
+            else []
+        )
+        for record in records:
+            if not isinstance(record, dict):
+                continue
+            # The backend serializes the device IP as 'mangementAddress' (note the spelling).
+            device_ip = record.get("managementAddress") or record.get("mangementAddress")
+            if device_ip:
+                succeeded_ips.add(device_ip)
+
+        self.log(
+            "Confirmed {0} succeeded device(s) under parent task ID '{1}': {2}.".format(
+                len(succeeded_ips), parent_task_id, ", ".join(sorted(succeeded_ips)) or "none"
+            ),
+            "DEBUG",
+        )
+        return succeeded_ips
+
+    def collect_and_reconcile_batch_failures(
+        self, operation_label, failed_batches, failed_device_ips, success_device_ips
+    ):
+        """
+        Collect per-device failure reasons and reclassify partial-batch survivors as succeeded.
+        Args:
+            operation_label (str): Human label for logging, 'distribution' or 'activation'.
+            failed_batches (list): List of (batch_number, task_id) tuples for batches that failed.
+            failed_device_ips (list): Every device IP that belonged to a failed batch.
+            success_device_ips (list): Device IPs from fully successful batches, extended in place.
+        Returns:
+            tuple: (failed_reason_by_device, reconciled_failed_ips, reconciled_success_ips).
+        Description:
+            A bulk batch marked failed can be a partial success, so every device in it is initially
+            treated as failed. This joins the authoritative per-device FAILURE reasons and SUCCESS
+            confirmations from each failed batch's parent task, then moves any device that actually
+            succeeded out of the failed list. Devices with neither a confirmed failure nor a confirmed
+            success stay failed, so a lookup gap never silently downgrades a real failure to success.
+        """
+        failed_reason_by_device = {}
+        confirmed_success_ips = set()
+        total_failed_batches = len(failed_batches)
+
+        for index, (batch_number, batch_task_id) in enumerate(failed_batches, start=1):
+            if not batch_task_id:
+                self.log(
+                    "Skipping reason lookup for failed {0} batch {1} of {2} because it has "
+                    "no task ID.".format(operation_label, index, total_failed_batches),
+                    "DEBUG",
+                )
+                continue
+
+            self.log(
+                "Collecting per-device failure reasons for failed {0} batch {1} (task ID {2}) "
+                "[{3} of {4}].".format(
+                    operation_label, batch_number, batch_task_id, index, total_failed_batches
+                ),
+                "DEBUG",
+            )
+            failed_reason_by_device.update(
+                self.get_failed_device_reasons(batch_task_id)
+            )
+            confirmed_success_ips.update(
+                self.get_succeeded_device_ips(batch_task_id)
+            )
+
+        actually_failed_ips = set(failed_reason_by_device)
+        reconciled_failed_ips = []
+        reconciled_success_ips = list(success_device_ips)
+        reclassified_count = 0
+
+        for device_ip in failed_device_ips:
+            if device_ip in actually_failed_ips:
+                reconciled_failed_ips.append(device_ip)
+            elif device_ip in confirmed_success_ips:
+                reconciled_success_ips.append(device_ip)
+                reclassified_count += 1
+                self.log(
+                    "Device {0} succeeded within a partially-failed {1} batch; reclassifying it "
+                    "from failed to succeeded.".format(device_ip, operation_label),
+                    "INFO",
+                )
+            else:
+                reconciled_failed_ips.append(device_ip)
+
+        self.log(
+            "Reconciled {0} failed-batch {1} device(s): {2} confirmed failed, {3} reclassified as "
+            "succeeded.".format(
+                len(failed_device_ips),
+                operation_label,
+                len(reconciled_failed_ips),
+                reclassified_count,
+            ),
+            "DEBUG",
+        )
+        return failed_reason_by_device, reconciled_failed_ips, reconciled_success_ips
+
+    def normalize_failure_reason(self, reason):
+        """
+        Strip the trailing device identifier the controller appends to a failure reason.
+        Args:
+            reason (str): Raw failure reason, which may end with ' on device: <ip>'.
+        Returns:
+            str: The device-agnostic reason so identical root causes group together.
+        Description:
+            Controller reasons (e.g. NCSW errors) often embed the per-device IP, which both
+            duplicates the device list appended by the summary and prevents devices that failed
+            for the same root cause from grouping. Removing that suffix keeps the reason as the
+            single group key and leaves device attribution to the summary's device list.
+        """
+        if not reason:
+            return reason
+        marker = " on device:"
+        index = reason.find(marker)
+        if index != -1:
+            # Callers log the grouped outcome; keep this pure to avoid duplicate per-device noise.
+            return reason[:index].rstrip(" .")
+        return reason
+
+    def append_ineligible_summary(self, operation, summary):
+        """
+        Append an excluded-device note to a human-readable SWIM summary.
+        Args:
+            operation (str): Operation label, 'distribute' or 'activate'.
+            summary (str): The base single-line summary/msg for the operation.
+        Returns:
+            str: The summary with a trailing note listing devices excluded before the operation
+                (unreachable/AP), grouped by reason; unchanged when no device was excluded.
+        Description:
+            Ineligible devices are dropped before the operation and would otherwise only appear in
+            the structured 'ineligible' bucket. Surfacing them in the flat summary makes the visible
+            module 'msg' account for every device the user passed in.
+        """
+        if operation == "activate":
+            ineligible = getattr(self, "activation_ineligible_devices", {})
+        else:
+            ineligible = getattr(self, "distribution_ineligible_devices", {})
+        if not ineligible:
+            return summary
+
+        by_reason = {}
+        for device_ip, reason in ineligible.items():
+            by_reason.setdefault(reason, []).append(device_ip)
+        reason_parts = [
+            "{0} ({1})".format(", ".join(ips), reason)
+            for reason, ips in by_reason.items()
+        ]
+        note = "Excluded {0} ineligible device(s): {1}.".format(
+            len(ineligible), "; ".join(reason_parts)
+        )
+        if summary and not summary.rstrip().endswith("."):
+            summary = summary.rstrip() + "."
+        return (summary + " " + note) if summary else note
+
+    def format_batch_outcome_header(self, operation_label, has_failures, has_timeouts):
+        """
+        Build an accurate opening line for a bulk SWIM batch outcome.
+        Args:
+            operation_label (str): Human label for the operation, 'distribution' or 'activation'.
+            has_failures (bool): Whether any batch failed.
+            has_timeouts (bool): Whether any batch timed out while still in progress.
+        Returns:
+            str: A header reflecting the real outcome mix, so a pure-timeout run is not labelled a failure.
+        """
+        if has_failures and has_timeouts:
+            outcome = "failures and timeouts"
+        elif has_failures:
+            outcome = "failures"
+        else:
+            outcome = "timeouts"
+        return "Image {0} completed with batch {1}.".format(operation_label, outcome)
+
+    def format_task_ids_clause(self, successful_task_ids, failed_task_ids, timed_out_task_ids):
+        """
+        Build the task-ID portion of a bulk SWIM message, omitting categories that have no IDs.
+        Args:
+            successful_task_ids (list): Task IDs for successful batches.
+            failed_task_ids (list): Task IDs for failed batches.
+            timed_out_task_ids (list): Task IDs for timed-out batches.
+        Returns:
+            str: A space-joined clause listing only the non-empty categories, or "" when none apply.
+        """
+        parts = []
+        if successful_task_ids:
+            parts.append("Successful task IDs: {0}.".format(", ".join(successful_task_ids)))
+        if failed_task_ids:
+            parts.append("Failed task IDs: {0}.".format(", ".join(failed_task_ids)))
+        if timed_out_task_ids:
+            parts.append(
+                "Timed out task IDs (may still be in progress on Catalyst Center): {0}.".format(
+                    ", ".join(timed_out_task_ids)
+                )
+            )
+        return " ".join(parts)
+
+    def format_succeeded_devices_clause(self, operation, success_device_ips):
+        """
+        Build a clause naming the devices that succeeded, for partial bulk outcomes.
+        Args:
+            operation (str): Operation label, 'distribute' or 'activate'.
+            success_device_ips (list): Device IPs that completed the operation successfully.
+        Returns:
+            str: A clause listing the succeeded devices, or "" when none succeeded.
+        Description:
+            A partially-failed bulk run reports failures and task IDs but not which devices actually
+            completed, so the flat message alone cannot confirm the successes. Naming them here makes
+            the message account for every device (succeeded, failed and excluded) on a partial run.
+        """
+        if not success_device_ips:
+            return ""
+        verb = "activated" if operation == "activate" else "distributed"
+        return "Successfully {0} on {1} device(s): {2}.".format(
+            verb, len(success_device_ips), ", ".join(success_device_ips)
+        )
+
+    def build_swim_operation_response(
+        self, operation, succeeded_ips, failed_reason_by_device, timed_out_ips, skipped_ips, summary
+    ):
+        """
+        Assemble a structured, category-based response for a SWIM distribute/activate operation.
+        Args:
+            operation (str): Operation label, e.g. 'distribute' or 'activate'.
+            succeeded_ips (list): Device IPs that completed the operation successfully.
+            failed_reason_by_device (dict): Mapping of failed device IP to its failure reason.
+            timed_out_ips (list): Device IPs whose operation timed out (may still be running).
+            skipped_ips (list): Device IPs skipped because already compliant with their golden image.
+            summary (str): The flat single-line human summary (also returned as 'msg').
+        Returns:
+            dict: Category buckets and counts so a single reusable task can render every outcome;
+                failed devices are grouped under 'failed' by their distinct root cause, and devices
+                excluded before the operation (unreachable/AP) are grouped under 'ineligible' by reason.
+        Description:
+            The old-flow summary collapses all outcomes into one line, which reads as raw text in the
+            terminal. Exposing the same data as discrete buckets lets playbooks display succeeded,
+            skipped, timed-out and reason-grouped failed results uniformly for any outcome combination.
+        """
+        succeeded = list(succeeded_ips or [])
+        timed_out = list(timed_out_ips or [])
+        skipped = list(skipped_ips or [])
+        failed_by_reason_map = {}
+        failed_ips = []
+        for device_ip, reason in (failed_reason_by_device or {}).items():
+            normalized_reason = self.normalize_failure_reason(reason) or "Unknown failure reason"
+            failed_by_reason_map.setdefault(normalized_reason, []).append(device_ip)
+            failed_ips.append(device_ip)
+        failed = [
+            {"reason": reason, "devices": devices}
+            for reason, devices in failed_by_reason_map.items()
+        ]
+        # Devices dropped before the operation (unreachable/AP) are surfaced per-operation so every input device is accounted for.
+        if operation == "activate":
+            ineligible_by_device = getattr(self, "activation_ineligible_devices", {})
+        else:
+            ineligible_by_device = getattr(self, "distribution_ineligible_devices", {})
+        ineligible_by_reason_map = {}
+        ineligible_ips = []
+        for device_ip, reason in (ineligible_by_device or {}).items():
+            ineligible_by_reason_map.setdefault(reason, []).append(device_ip)
+            ineligible_ips.append(device_ip)
+        ineligible = [
+            {"reason": reason, "devices": devices}
+            for reason, devices in ineligible_by_reason_map.items()
+        ]
+        response = {
+            "operation": operation,
+            "summary": summary,
+            "succeeded": succeeded,
+            "failed": failed,
+            "timed_out": timed_out,
+            "skipped": skipped,
+            "ineligible": ineligible,
+            "counts": {
+                "succeeded": len(succeeded),
+                "failed": len(failed_ips),
+                "timed_out": len(timed_out),
+                "skipped": len(skipped),
+                "ineligible": len(ineligible_ips),
+            },
+        }
+        # Single at-a-glance breakdown so a customer's log pinpoints each device's outcome for this operation.
+        self.log(
+            "SWIM '{0}' outcome breakdown - succeeded ({1}): {2}; failed ({3}): {4}; timed_out ({5}): "
+            "{6}; skipped/already-compliant ({7}): {8}; ineligible ({9}): {10}".format(
+                operation,
+                response["counts"]["succeeded"], ", ".join(succeeded) or "none",
+                response["counts"]["failed"], ", ".join(failed_ips) or "none",
+                response["counts"]["timed_out"], ", ".join(timed_out) or "none",
+                response["counts"]["skipped"], ", ".join(skipped) or "none",
+                response["counts"]["ineligible"], ", ".join(ineligible_ips) or "none",
+            ),
+            "INFO",
+        )
+        for group in failed:
+            self.log(
+                "SWIM '{0}' failure group - {1} device(s) [{2}] failed with reason: {3}".format(
+                    operation, len(group["devices"]), ", ".join(group["devices"]), group["reason"]
+                ),
+                "INFO",
+            )
+        self.log(
+            "SWIM '{0}' structured response assembled: {1}".format(operation, response),
+            "DEBUG",
+        )
+        return response
+
+    def summarize_failures_by_reason(self, operation, reason_by_device, max_devices_per_group=5):
+        """
+        Group failed devices by failure reason into a compact, scale-safe summary.
+        Args:
+            operation (str): Operation label used in the message, e.g. 'activate' or 'distribute'.
+            reason_by_device (dict): Mapping of device IP to its failure reason string.
+            max_devices_per_group (int): Max device IPs listed per reason before the rest are summarized.
+        Returns:
+            str: A grouped summary, or '' when there are no failures.
+        Description:
+            Devices that fail for the same reason (common at scale) are collapsed into a single
+            group with a capped device sample, so the message stays readable for large fleets.
+        """
+        self.log(
+            "Starting failure summary for '{0}' operation across {1} failed device(s).".format(
+                operation, len(reason_by_device)
+            ),
+            "DEBUG",
+        )
+        if not reason_by_device:
+            self.log(
+                "No failed devices supplied for '{0}' operation; returning empty summary.".format(
+                    operation
+                ),
+                "DEBUG",
+            )
+            return ""
+        reason_groups = {}
+        for device_ip, reason in reason_by_device.items():
+            normalized_reason = (
+                self.normalize_failure_reason(reason) or "Unknown failure reason"
+            )
+            reason_groups.setdefault(normalized_reason, []).append(device_ip)
+        self.log(
+            "Grouped {0} failed device(s) into {1} distinct reason group(s) for '{2}' operation.".format(
+                len(reason_by_device), len(reason_groups), operation
+            ),
+            "DEBUG",
+        )
+        group_parts = []
+        multiple_groups = len(reason_groups) > 1
+        for reason, devices in reason_groups.items():
+            shown_devices = devices[:max_devices_per_group]
+            remaining = len(devices) - len(shown_devices)
+            device_list = ", ".join(shown_devices)
+            if remaining > 0:
+                device_list += ", +{0} more".format(remaining)
+            self.log(
+                "Reason group for '{0}' operation: {1} device(s) - {2}.".format(
+                    operation, len(devices), reason
+                ),
+                "DEBUG",
+            )
+            # Repeat the per-group count only when several reasons are present; a lone group already matches the header count.
+            if multiple_groups:
+                group_parts.append(
+                    "{0} device(s) - {1} [{2}]".format(len(devices), reason, device_list)
+                )
+            else:
+                group_parts.append("{0} [{1}]".format(reason, device_list))
+        summary = "Failed to {0} on {1} device(s): {2}".format(
+            operation, len(reason_by_device), "; ".join(group_parts)
+        )
+        self.log(
+            "Completed failure summary for '{0}' operation: {1}".format(operation, summary),
+            "DEBUG",
+        )
+        return summary
+
+    def poll_swim_task_status(self, task_id, api_name, poll_interval):
+        """
+        Poll a SWIM task by its ID until it reaches a terminal state or times out.
+        Args:
+            task_id (str): The task ID to monitor.
+            api_name (str): The SWIM API name, used for logging context only.
+            poll_interval (int): Seconds between task-status polls.
+        Returns:
+            str: 'success', 'failed', or 'timeout' (still in progress on the controller when max_timeout elapsed).
+        """
+        self.log(
+            "Starting status polling for task ID '{0}' (API '{1}') with poll interval {2}s and "
+            "max timeout {3}s.".format(task_id, api_name, poll_interval, self.max_timeout),
+            "DEBUG",
+        )
         start_time = time.time()
         while True:
             elapsed_time = time.time() - start_time
             if elapsed_time >= self.max_timeout:
-                self.msg = "Max timeout of {0} sec has reached for the task id '{1}'. " \
-                           .format(self.max_timeout, task_id) + \
-                           "Exiting the loop due to unexpected API '{0}' status.".format(api_name)
+                # Task never reached a terminal state within max_timeout; it may still be running on Catalyst Center.
+                self.msg = (
+                    "Max timeout of {0} sec reached for task id '{1}' (API '{2}') while it was still "
+                    "in progress on Catalyst Center. The operation may still complete on the controller "
+                    "after this module stops monitoring.".format(self.max_timeout, task_id, api_name)
+                )
                 self.log(self.msg, "WARNING")
-                return "failed"
+                # Capture the last-known task detail so the log shows how far the task progressed before timeout.
+                try:
+                    details_response = self.catalystcenter._exec(
+                        family="task",
+                        function="get_task_details_by_id",
+                        params={"id": task_id},
+                    )
+                    self.log(
+                        "Last-known task detail for timed-out task ID '{0}': {1}".format(
+                            task_id, details_response
+                        ),
+                        "WARNING",
+                    )
+                except Exception as e:
+                    self.log(
+                        "Unable to retrieve last-known detail for timed-out task ID "
+                        "'{0}': {1}".format(task_id, str(e)),
+                        "WARNING",
+                    )
+                return "timeout"
 
             try:
                 task_response = self.catalystcenter._exec(
@@ -6374,34 +7774,54 @@ class Swim(CatalystCenterBase):
 
             task_status = task_details.get("status")
             if task_status == "FAILURE":
+                self.msg = "Task ID '{0}' failed".format(task_id)
                 try:
                     details_response = self.catalystcenter._exec(
                         family="task",
                         function="get_task_details_by_id",
                         params={"id": task_id},
                     )
+                    # Always log the raw task detail so the exact controller failure is
+                    # captured in the log even when 'failureReason' is empty.
+                    self.log(
+                        "Full task detail for failed task ID '{0}': {1}".format(
+                            task_id, details_response
+                        ),
+                        "ERROR",
+                    )
                     details = (
                         details_response.get("response")
                         if isinstance(details_response, dict)
                         else None
                     )
-                    self.msg = (
-                        details.get("failureReason")
-                        if isinstance(details, dict)
-                        else None
-                    ) or "Task ID '{0}' failed".format(task_id)
+                    if isinstance(details, dict):
+                        self.msg = (
+                            details.get("failureReason")
+                            or details.get("progress")
+                            or details.get("data")
+                            or details.get("errorCode")
+                            or self.msg
+                        )
                 except Exception as e:
                     self.msg = (
                         "Task ID '{0}' failed, but its failure details could not be "
                         "retrieved: {1}"
                     ).format(task_id, str(e))
+                # The v2 task detail omits the device-level reason for old-flow SWIM; pull it from the legacy task/child tasks.
+                device_reason = self.get_failed_task_diagnostics(task_id)
+                if device_reason:
+                    self.msg = device_reason
                 self.log(self.msg, "ERROR")
                 return "failed"
 
             elif task_status == "SUCCESS":
                 self.result["changed"] = True
-                self.log("The task with task ID '{0}' is executed successfully."
-                         .format(task_id), "INFO")
+                self.log(
+                    "Task ID '{0}' (API '{1}') completed successfully.".format(
+                        task_id, api_name
+                    ),
+                    "INFO",
+                )
                 return "success"
 
             self.log("Progress is {0} for task ID: {1}"
@@ -6478,11 +7898,11 @@ class Swim(CatalystCenterBase):
         try:
             response = self.catalystcenter._exec(
                 family="software_image_management_swim",
-                function="initiates_sync_of_software_images_from_cisco_com_v1",
+                function="initiates_sync_of_software_images_from_cisco_com",
                 op_modifies=True,
             )
-            self.log("Received API response from 'initiates_sync_of_software_images_from_cisco_com_v1' for Update: {0}".format(response), "DEBUG")
-            self.check_tasks_response_status(response, "initiates_sync_of_software_images_from_cisco_com_v1")
+            self.log("Received API response from 'initiates_sync_of_software_images_from_cisco_com' for Update: {0}".format(response), "DEBUG")
+            self.check_tasks_response_status(response, "initiates_sync_of_software_images_from_cisco_com")
 
             # Handle successful update
             if self.status not in ["failed", "exited"]:
@@ -6802,7 +8222,7 @@ class Swim(CatalystCenterBase):
 
             self.log(self.msg, "INFO")
         elif self.partial_successful_distribution:
-            self.msg = """T"The requested image '{0}', with ID '{1}', has been partially distributed across some devices in the Cisco Catalyst
+            self.msg = """The requested image '{0}', with ID '{1}', has been partially distributed across some devices in the Cisco Catalyst
                      Center.""".format(
                 image_name, image_id
             )
@@ -6858,7 +8278,7 @@ class Swim(CatalystCenterBase):
             )
             self.log(self.msg, "INFO")
         elif self.partial_successful_activation:
-            self.msg = """"The requested image '{0}', with ID '{1}', has been partially activated on some devices in the Cisco
+            self.msg = """The requested image '{0}', with ID '{1}', has been partially activated on some devices in the Cisco
                      Catalyst Center.""".format(
                 image_name, image_id
             )
