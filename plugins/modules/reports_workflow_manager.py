@@ -515,6 +515,7 @@ options:
 requirements:
   - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
+  - pytz
 notes:
   - SDK Methods used are
     reports.Reports.get_all_view_groups
@@ -2309,10 +2310,10 @@ import re
 try:
     import pytz
 
-    HAS_PYZIPPER = True
+    HAS_PYTZ = True
 except ImportError:
-    HAS_PYZIPPER = False
-    pyzipper = None
+    HAS_PYTZ = False
+    pytz = None
 
 
 class Reports(CatalystCenterBase):
@@ -2339,6 +2340,14 @@ class Reports(CatalystCenterBase):
         self.log(
             "Starting playbook configuration validation for reports workflow", "INFO"
         )
+
+        if not HAS_PYTZ:
+            self.msg = (
+                "The 'pytz' library is required by reports_workflow_manager. "
+                "Install it using 'pip install pytz'."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
         config_spec = {
             "generate_report": {
