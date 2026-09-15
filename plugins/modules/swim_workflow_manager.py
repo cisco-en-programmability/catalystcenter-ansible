@@ -961,7 +961,7 @@ notes:
     software_image_management_swim.SoftwareImageManagementSwim.get_golden_tag_status_of_an_image,
     software_image_management_swim.SoftwareImageManagementSwim.tagging_golden_image,
     software_image_management_swim.SoftwareImageManagementSwim.untagging_golden_image,
-    software_image_management_swim.SoftwareImageManagementSwim.returns_network_device_product_names_for_a_site,
+    software_image_management_swim.SoftwareImageManagementSwim.retrieves_the_list_of_network_device_product_names,
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution,
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation,
     software_image_management_swim.SoftwareImageManagementSwim.delete_image_v1,
@@ -972,7 +972,7 @@ notes:
     get /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId},
     post /dna/intent/api/v1/images/{id}/sites/{siteId}/tagGolden,
     post /dna/intent/api/v1/images/{id}/sites/{siteId}/untagGolden,
-    get /dna/intent/api/v1/siteWiseProductNames,
+    get /dna/intent/api/v1/productNames,
     post /dna/intent/api/v1/image/distribution,
     post /dna/intent/api/v1/image/activation/device,
     delete /dna/intent/api/v1/images/{id},
@@ -3057,8 +3057,8 @@ class Swim(CatalystCenterBase):
                 )
                 have["device_family_identifier"] = device_family_identifier
                 self.log(
-                    "Family device indentifier: {0}".format(
-                        str(device_family_identifier)
+                    "Resolved device family identifier for '{0}': {1}".format(
+                        family_name, device_family_identifier
                     ),
                     "INFO",
                 )
@@ -4540,33 +4540,85 @@ class Swim(CatalystCenterBase):
             This method resolves the product name ordinal for a specified device image family from the global
             network-device product-name catalog via 'retrieves_the_list_of_network_device_product_names'. The
             global catalog is independent of device onboarding, so families tagged before onboarding still resolve.
+            Product names are retrieved in pages until an exact match is found or all results are exhausted.
         """
 
         try:
-            response = self.catalystcenter._exec(
-                family="software_image_management_swim",
-                function="retrieves_the_list_of_network_device_product_names",
-                op_modifies=True,
-                params={
-                    "product_name": device_image_family_name,
-                },
-            )
             self.log(
-                "Received API response from 'get_product_name_ordinal': {0}".format(
-                    str(response)
+                "Retrieving the product name ordinal for device family '{0}' with pagination".format(
+                    device_image_family_name
                 ),
                 "DEBUG",
             )
-            product_names = response.get("response") or []
-            self.log(
-                "Parsed response for product name ordinal: {0}".format(str(product_names)),
-                "DEBUG",
-            )
+
+            limit = 500
+            offset = 1
             target = " ".join(str(device_image_family_name).strip().casefold().split())
-            for entry in product_names:
-                candidate = " ".join(str(entry.get("productName", "")).strip().casefold().split())
-                if candidate == target:
-                    return entry.get("productNameOrdinal")
+
+            while True:
+                response = self.catalystcenter._exec(
+                    family="software_image_management_swim",
+                    function="retrieves_the_list_of_network_device_product_names",
+                    params={
+                        "product_name": device_image_family_name,
+                        "offset": offset,
+                        "limit": limit,
+                    },
+                )
+                self.log(
+                    "Received API response from 'retrieves_the_list_of_network_device_product_names' "
+                    "(offset: {0}, limit: {1}): {2}".format(
+                        offset, limit, str(response)
+                    ),
+                    "DEBUG",
+                )
+
+                product_names = response.get("response", []) if response else []
+                if not product_names:
+                    self.log(
+                        "No more product names returned at offset {0}".format(offset),
+                        "DEBUG",
+                    )
+                    break
+
+                self.log(
+                    "Retrieved {0} product name entries at offset {1}".format(
+                        len(product_names), offset
+                    ),
+                    "DEBUG",
+                )
+
+                for entry in product_names:
+                    candidate = " ".join(
+                        str(entry.get("productName", "")).strip().casefold().split()
+                    )
+                    product_name_ordinal = entry.get("productNameOrdinal")
+
+                    if candidate == target:
+                        self.log(
+                            "Resolved product name ordinal for device family '{0}': {1}".format(
+                                device_image_family_name, product_name_ordinal
+                            ),
+                            "DEBUG",
+                        )
+                        return product_name_ordinal
+
+                if len(product_names) < limit:
+                    self.log(
+                        "Received fewer product names ({0}) than limit ({1}); reached end of results".format(
+                            len(product_names), limit
+                        ),
+                        "DEBUG",
+                    )
+                    break
+
+                self.log(
+                    "Advancing to the next page of product names (next offset: {0})".format(
+                        offset + limit
+                    ),
+                    "DEBUG",
+                )
+                offset += limit
 
             return None
 
