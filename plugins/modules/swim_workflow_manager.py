@@ -53,6 +53,7 @@ options:
     description:
       - Interval in seconds between successive status polls of an image
         distribution task.
+      - Defaults to 30 seconds.
       - The value must be at least 1 second.
       - Also applies to the distribution phase that runs implicitly during an
         activation when C(distribute_if_needed) is set.
@@ -67,6 +68,7 @@ options:
     description:
       - Interval in seconds between successive status polls of an image
         activation task.
+      - Defaults to 30 seconds.
       - The value must be at least 1 second.
       - Increase this value to lower the API request frequency and help avoid
         rate-limiting (HTTP 429) during activations that involve device reboots.
