@@ -14,7 +14,7 @@
             sort,
           'device_mapping':
             refresh_item.device_mapping |
-            sort(attribute='new_device_management_ip')
+            sort(attribute='new.management_ip')
         } |
         to_json(sort_keys=true) |
         hash('sha256')

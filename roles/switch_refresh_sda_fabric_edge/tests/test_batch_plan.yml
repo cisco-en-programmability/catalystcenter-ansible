@@ -84,19 +84,23 @@
           device_mapping:
             - old:
                 hostname: old-edge-01.example.test
-              new_device_management_ip: "192.0.2.20"
-              port_assignment_interface_mappings:
-                - source_interface_name: GigabitEthernet1/0/5
-                  destination_interface_name: GigabitEthernet1/0/4
-              port_channel_interface_mappings: []
-              only_mapped_interfaces: true
+              new:
+                management_ip: "192.0.2.20"
+              interface_migration:
+                port_assignments:
+                  - source: GigabitEthernet1/0/5
+                    destination: GigabitEthernet1/0/4
+                port_channels: []
+                only_mapped: true
             - old:
                 serial_number: OLD-SERIAL-0002
-              new_device_management_ip: "192.0.2.21"
-              port_assignment_interface_mappings: []
-              port_channel_interface_mappings:
-                - source_interface_name: GigabitEthernet1/0/47
-                  destination_interface_name: TenGigabitEthernet1/1/1
+              new:
+                management_ip: "192.0.2.21"
+              interface_migration:
+                port_assignments: []
+                port_channels:
+                  - source: GigabitEthernet1/0/47
+                    destination: TenGigabitEthernet1/1/1
 
     - name: Build valid Discovery batch plan
       ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -141,8 +145,26 @@
             switch_refresh_sda_fabric_edge_batch_device_mappings[0].port_assignment_interface_mappings |
             length == 1
           - >-
+            switch_refresh_sda_fabric_edge_batch_device_mappings[0].port_assignment_interface_mappings
+            ==
+            [
+              {
+                'source_interface_name': 'GigabitEthernet1/0/5',
+                'destination_interface_name': 'GigabitEthernet1/0/4'
+              }
+            ]
+          - >-
             switch_refresh_sda_fabric_edge_batch_device_mappings[1].port_channel_interface_mappings |
             length == 1
+          - >-
+            switch_refresh_sda_fabric_edge_batch_device_mappings[1].port_channel_interface_mappings
+            ==
+            [
+              {
+                'source_interface_name': 'GigabitEthernet1/0/47',
+                'destination_interface_name': 'TenGigabitEthernet1/1/1'
+              }
+            ]
           - >-
             switch_refresh_sda_fabric_edge_batch_device_mappings[0].only_mapped_interfaces is
             sameas true
@@ -213,7 +235,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.22"
-                  new_device_management_ip: "192.0.2.22"
+                  new:
+                    management_ip: "192.0.2.22"
 
         - name: Build invalid generated Discovery override input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -264,14 +287,18 @@
           device_mapping:
             - old:
                 management_ip: "198.51.100.30"
-              new_device_management_ip: "192.0.2.30"
-              port_assignment_interface_mappings: []
-              port_channel_interface_mappings: []
+              new:
+                management_ip: "192.0.2.30"
+              interface_migration:
+                port_assignments: []
+                port_channels: []
             - old:
                 mac_address: 00:11:22:33:44:55
-              new_device_management_ip: "192.0.2.31"
-              port_assignment_interface_mappings: []
-              port_channel_interface_mappings: []
+              new:
+                management_ip: "192.0.2.31"
+              interface_migration:
+                port_assignments: []
+                port_channels: []
 
     - name: Build valid fabric-zone LAN Automation batch plan
       ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -319,7 +346,8 @@
           device_mapping:
             - old:
                 management_ip: "198.51.100.69"
-              new_device_management_ip: "192.0.2.69"
+              new:
+                management_ip: "192.0.2.69"
 
     - name: Build fabric-zone input without optional device hierarchy
       ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -355,7 +383,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.70"
-                  new_device_management_ip: "192.0.2.70"
+                  new:
+                    management_ip: "192.0.2.70"
 
         - name: Build partial-segment LAN Automation hierarchy input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -392,7 +421,8 @@
           device_mapping:
             - old:
                 management_ip: "198.51.100.68"
-              new_device_management_ip: "192.0.2.68"
+              new:
+                management_ip: "192.0.2.68"
 
     - name: Build disabled-launch LAN Automation resume batch plan
       ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -452,14 +482,18 @@
           device_mapping:
             - old:
                 management_ip: "198.51.100.32"
-              new_device_management_ip: "192.0.2.32"
-              port_assignment_interface_mappings: []
-              port_channel_interface_mappings: []
+              new:
+                management_ip: "192.0.2.32"
+              interface_migration:
+                port_assignments: []
+                port_channels: []
             - old:
                 management_ip: "198.51.100.33"
-              new_device_management_ip: "192.0.2.33"
-              port_assignment_interface_mappings: []
-              port_channel_interface_mappings: []
+              new:
+                management_ip: "192.0.2.33"
+              interface_migration:
+                port_assignments: []
+                port_channels: []
 
     - name: Build valid custom workflow batch plan
       ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -505,7 +539,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.34"
-                  new_device_management_ip: "192.0.2.34"
+                  new:
+                    management_ip: "192.0.2.34"
 
         - name: Build disabled custom inventory role input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -537,7 +572,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.35"
-                  new_device_management_ip: "192.0.2.35"
+                  new:
+                    management_ip: "192.0.2.35"
 
         - name: Build null fabric site input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -568,7 +604,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.36"
-                  new_device_management_ip: "192.0.2.36"
+                  new:
+                    management_ip: "192.0.2.36"
 
         - name: Build null generated inventory password input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -595,7 +632,8 @@
                   - "192.0.2.41"
               device_mapping:
                 - old_device_hostname: old-edge.example.test
-                  new_device_management_ip: "192.0.2.41"
+                  new:
+                    management_ip: "192.0.2.41"
 
         - name: Build old-device alias input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -608,7 +646,7 @@
           ansible.builtin.assert:
             that:
               - >-
-                'nested old mapping' in
+                'accepts only old, new, and optional interface_migration' in
                 (ansible_failed_result | string)
 
     - name: Verify ambiguous nested old identifiers are rejected
@@ -626,7 +664,8 @@
                 - old:
                     hostname: old-edge.example.test
                     serial_number: OLD-SERIAL-0042
-                  new_device_management_ip: "192.0.2.42"
+                  new:
+                    management_ip: "192.0.2.42"
 
         - name: Build ambiguous old identifier input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -656,7 +695,8 @@
                 - old:
                     hostname: old-edge.example.test
                     hostnme: mistyped-old-edge.example.test
-                  new_device_management_ip: "192.0.2.54"
+                  new:
+                    management_ip: "192.0.2.54"
 
         - name: Build unknown nested old key input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -666,6 +706,71 @@
             msg: Unknown nested old key unexpectedly passed validation.
       rescue:
         - name: Confirm unknown nested old key failed
+          ansible.builtin.assert:
+            that:
+              - >-
+                'Unknown mapping keys' in
+                (ansible_failed_result | string)
+
+    - name: Verify unknown nested new keys are rejected
+      block:
+        - name: Set unknown nested new key input
+          ansible.builtin.set_fact:
+            refresh_item:
+              name: unknown-nested-new-key
+              fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23
+              onboarding_method: discovery
+              new_devices:
+                device_ips:
+                  - "192.0.2.53"
+              device_mapping:
+                - old:
+                    management_ip: "198.51.100.53"
+                  new:
+                    management_ip: "192.0.2.53"
+                    hostname: unexpected-new-edge
+
+        - name: Build unknown nested new key input
+          ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+        - name: Fail when unknown nested new key was accepted
+          ansible.builtin.fail:
+            msg: Unknown nested new key unexpectedly passed validation.
+      rescue:
+        - name: Confirm unknown nested new key failed
+          ansible.builtin.assert:
+            that:
+              - >-
+                'new.management_ip as the only new-device key' in
+                (ansible_failed_result | string)
+
+    - name: Verify unknown interface-migration keys are rejected
+      block:
+        - name: Set unknown interface-migration key input
+          ansible.builtin.set_fact:
+            refresh_item:
+              name: unknown-interface-migration-key
+              fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23
+              onboarding_method: discovery
+              new_devices:
+                device_ips:
+                  - "192.0.2.52"
+              device_mapping:
+                - old:
+                    management_ip: "198.51.100.52"
+                  new:
+                    management_ip: "192.0.2.52"
+                  interface_migration:
+                    port_assignment: []
+
+        - name: Build unknown interface-migration key input
+          ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+        - name: Fail when unknown interface-migration key was accepted
+          ansible.builtin.fail:
+            msg: Unknown interface-migration key unexpectedly passed validation.
+      rescue:
+        - name: Confirm unknown interface-migration key failed
           ansible.builtin.assert:
             that:
               - >-
@@ -686,7 +791,8 @@
               device_mapping:
                 - old:
                     hostname: old-edge.example.test
-                  new_device_management_ip: "192.0.2.55"
+                  new:
+                    management_ip: "192.0.2.55"
                   destination_ip: "192.0.2.55"
 
         - name: Build unknown device-mapping key input
@@ -717,25 +823,27 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.58"
-                  new_device_management_ip: "192.0.2.58"
-                  port_assignment_interface_mappings:
-                    - source_interface_name: GigabitEthernet1/0/1
-                      destination_interface_name: GigabitEthernet1/0/2
-                  port_channel_interface_mappings: []
-                  only_mapped_interfaces: "true"
+                  new:
+                    management_ip: "192.0.2.58"
+                  interface_migration:
+                    port_assignments:
+                      - source: GigabitEthernet1/0/1
+                        destination: GigabitEthernet1/0/2
+                    port_channels: []
+                    only_mapped: "true"
 
         - name: Build non-boolean only-mapped input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
 
         - name: Fail when non-boolean only-mapped input was accepted
           ansible.builtin.fail:
-            msg: Non-boolean only_mapped_interfaces unexpectedly passed validation.
+            msg: Non-boolean interface_migration.only_mapped unexpectedly passed validation.
       rescue:
         - name: Confirm non-boolean only-mapped input failed
           ansible.builtin.assert:
             that:
               - >-
-                'only_mapped_interfaces' in (ansible_failed_result | string)
+                'only_mapped' in (ansible_failed_result | string)
               - >-
                 'boolean' in (ansible_failed_result | string | lower)
 
@@ -753,23 +861,25 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.59"
-                  new_device_management_ip: "192.0.2.59"
-                  port_assignment_interface_mappings: []
-                  port_channel_interface_mappings: []
-                  only_mapped_interfaces: true
+                  new:
+                    management_ip: "192.0.2.59"
+                  interface_migration:
+                    port_assignments: []
+                    port_channels: []
+                    only_mapped: true
 
         - name: Build empty only-mapped input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
 
         - name: Fail when empty only-mapped input was accepted
           ansible.builtin.fail:
-            msg: Empty only_mapped_interfaces unexpectedly passed validation.
+            msg: Empty interface_migration.only_mapped unexpectedly passed validation.
       rescue:
         - name: Confirm empty only-mapped input failed
           ansible.builtin.assert:
             that:
               - >-
-                'only_mapped_interfaces' in (ansible_failed_result | string)
+                'interface_migration.only_mapped' in (ansible_failed_result | string)
               - >-
                 'interface mapping' in (ansible_failed_result | string | lower)
 
@@ -788,7 +898,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.43"
-                  new_device_management_ip: "192.0.2.43"
+                  new:
+                    management_ip: "192.0.2.43"
 
         - name: Build duplicate replacement IP input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -818,10 +929,12 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.56"
-                  new_device_management_ip: "192.0.2.56"
-                  port_assignment_interface_mappings:
-                    - source_interface_name: GigabitEthernet1/0/1
-                      destination_interface: GigabitEthernet1/0/2
+                  new:
+                    management_ip: "192.0.2.56"
+                  interface_migration:
+                    port_assignments:
+                      - source: GigabitEthernet1/0/1
+                        destination_interface: GigabitEthernet1/0/2
 
         - name: Build malformed interface mapping input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -834,7 +947,7 @@
           ansible.builtin.assert:
             that:
               - >-
-                'source_interface_name and destination_interface_name' in
+                'source and destination' in
                 (ansible_failed_result | string) or
                 'must contain only' in (ansible_failed_result | string)
 
@@ -852,12 +965,14 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.57"
-                  new_device_management_ip: "192.0.2.57"
-                  port_assignment_interface_mappings:
-                    - source_interface_name: GigabitEthernet1/0/1
-                      destination_interface_name: GigabitEthernet1/0/3
-                    - source_interface_name: GigabitEthernet1/0/2
-                      destination_interface_name: gigabitethernet1/0/3
+                  new:
+                    management_ip: "192.0.2.57"
+                  interface_migration:
+                    port_assignments:
+                      - source: GigabitEthernet1/0/1
+                        destination: GigabitEthernet1/0/3
+                      - source: GigabitEthernet1/0/2
+                        destination: gigabitethernet1/0/3
 
         - name: Build duplicate destination interface mapping input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -887,13 +1002,15 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.69"
-                  new_device_management_ip: "192.0.2.69"
-                  port_assignment_interface_mappings:
-                    - source_interface_name: GigabitEthernet1/0/1
-                      destination_interface_name: GigabitEthernet1/0/3
-                  port_channel_interface_mappings:
-                    - source_interface_name: GigabitEthernet1/0/47
-                      destination_interface_name: gigabitethernet1/0/3
+                  new:
+                    management_ip: "192.0.2.69"
+                  interface_migration:
+                    port_assignments:
+                      - source: GigabitEthernet1/0/1
+                        destination: GigabitEthernet1/0/3
+                    port_channels:
+                      - source: GigabitEthernet1/0/47
+                        destination: gigabitethernet1/0/3
 
         - name: Build cross-component destination mapping input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -924,7 +1041,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.44"
-                  new_device_management_ip: "192.0.2.44"
+                  new:
+                    management_ip: "192.0.2.44"
 
         - name: Build partial mapping input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -955,10 +1073,12 @@
               device_mapping:
                 - old:
                     hostname: OLD-EDGE.example.test
-                  new_device_management_ip: "192.0.2.46"
+                  new:
+                    management_ip: "192.0.2.46"
                 - old:
                     hostname: old-edge.example.test
-                  new_device_management_ip: "192.0.2.47"
+                  new:
+                    management_ip: "192.0.2.47"
 
         - name: Build duplicate old identifier input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -994,7 +1114,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.48"
-                  new_device_management_ip: "192.0.2.48"
+                  new:
+                    management_ip: "192.0.2.48"
 
         - name: Build mismatched custom inventory input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -1029,7 +1150,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.58"
-                  new_device_management_ip: "192.0.2.58"
+                  new:
+                    management_ip: "192.0.2.58"
 
         - name: Build generated inventory target override input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -1064,7 +1186,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.50"
-                  new_device_management_ip: "192.0.2.50"
+                  new:
+                    management_ip: "192.0.2.50"
 
         - name: Build unsafe custom fabric role input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -1102,7 +1225,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.51"
-                  new_device_management_ip: "192.0.2.51"
+                  new:
+                    management_ip: "192.0.2.51"
 
         - name: Build mismatched LAN Automation input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -1132,7 +1256,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.53"
-                  new_device_management_ip: "192.0.2.999"
+                  new:
+                    management_ip: "192.0.2.999"
 
         - name: Build invalid replacement IPv4 input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -1162,7 +1287,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.53"
-                  new_device_management_ip: "192.0.002.53"
+                  new:
+                    management_ip: "192.0.002.53"
 
         - name: Build leading-zero replacement IPv4 input
           ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
@@ -1606,7 +1732,8 @@
                 device_mapping:
                   - old:
                       management_ip: "192.0.2.81"
-                    new_device_management_ip: "192.0.2.80"
+                    new:
+                      management_ip: "192.0.2.80"
               - name: prepare-collision-second
                 fabric_site_name_hierarchy: Global/USA/San Jose/BLDG24
                 onboarding_method: discovery
@@ -1616,7 +1743,8 @@
                 device_mapping:
                   - old:
                       management_ip: "198.51.100.81"
-                    new_device_management_ip: "192.0.2.81"
+                    new:
+                      management_ip: "192.0.2.81"
 
         - name: Run colliding prepare preflight
           ansible.builtin.include_role:
@@ -1702,7 +1830,8 @@
                 device_mapping:
                   - old:
                       management_ip: "198.51.100.82"
-                    new_device_management_ip: "192.0.2.82"
+                    new:
+                      management_ip: "192.0.2.82"
               - name: cleanup-duplicate-second
                 fabric_site_name_hierarchy: Global/USA/San Jose/BLDG24
                 new_devices:
@@ -1711,7 +1840,8 @@
                 device_mapping:
                   - old:
                       management_ip: "198.51.100.82"
-                    new_device_management_ip: "192.0.2.83"
+                    new:
+                      management_ip: "192.0.2.83"
 
         - name: Run duplicate cleanup preflight
           ansible.builtin.include_role:
@@ -1756,14 +1886,18 @@
           device_mapping:
             - old:
                 management_ip: "198.51.100.70"
-              new_device_management_ip: "192.0.2.70"
-              port_assignment_interface_mappings: []
-              port_channel_interface_mappings: []
+              new:
+                management_ip: "192.0.2.70"
+              interface_migration:
+                port_assignments: []
+                port_channels: []
             - old:
                 management_ip: "198.51.100.71"
-              new_device_management_ip: "192.0.2.71"
-              port_assignment_interface_mappings: []
-              port_channel_interface_mappings: []
+              new:
+                management_ip: "192.0.2.71"
+              interface_migration:
+                port_assignments: []
+                port_channels: []
 
     - name: Preflight valid aggregate cleanup plan without controller calls
       ansible.builtin.include_tasks: ../tasks/preflight_cleanup_batch.yml
@@ -1819,7 +1953,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.77"
-                  new_device_management_ip: "192.0.2.77"
+                  new:
+                    management_ip: "192.0.2.77"
 
         - name: Preflight cleanup directory output input
           ansible.builtin.include_tasks: ../tasks/preflight_cleanup_batch.yml
@@ -1859,7 +1994,8 @@
               device_mapping:
                 - old:
                     management_ip: "198.51.100.72"
-                  new_device_management_ip: "192.0.2.72"
+                  new:
+                    management_ip: "192.0.2.72"
 
         - name: Preflight mismatched cleanup batch
           ansible.builtin.include_tasks: ../tasks/preflight_cleanup_batch.yml
@@ -1888,10 +2024,12 @@
               device_mapping:
                 - old:
                     mac_address: 00:11:22:33:44:55
-                  new_device_management_ip: "192.0.2.74"
+                  new:
+                    management_ip: "192.0.2.74"
                 - old:
                     mac_address: 00-11-22-33-44-55
-                  new_device_management_ip: "192.0.2.75"
+                  new:
+                    management_ip: "192.0.2.75"
 
         - name: Preflight duplicate cleanup old identifier batch
           ansible.builtin.include_tasks: ../tasks/preflight_cleanup_batch.yml
@@ -1920,7 +2058,8 @@
               device_mapping:
                 - old:
                     management_ip: "192.0.2.76"
-                  new_device_management_ip: "192.0.2.76"
+                  new:
+                    management_ip: "192.0.2.76"
 
         - name: Preflight overlapping cleanup target batch
           ansible.builtin.include_tasks: ../tasks/preflight_cleanup_batch.yml

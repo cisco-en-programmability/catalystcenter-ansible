@@ -61,7 +61,8 @@
         device_mapping:
           - old:
               management_ip: "198.51.100.20"
-            new_device_management_ip: "192.0.2.20"
+            new:
+              management_ip: "192.0.2.20"
 
   tasks:
     - name: Remove stale hostname transfer test directory
@@ -596,10 +597,12 @@
           device_mapping:
             - old:
                 serial_number: OLD-SERIAL-01
-              new_device_management_ip: "192.0.2.20"
+              new:
+                management_ip: "192.0.2.20"
             - old:
                 management_ip: "198.51.100.21"
-              new_device_management_ip: "192.0.2.21"
+              new:
+                management_ip: "192.0.2.21"
 
     - name: Derive durable hostname transfer input fingerprint
       ansible.builtin.include_tasks: >-

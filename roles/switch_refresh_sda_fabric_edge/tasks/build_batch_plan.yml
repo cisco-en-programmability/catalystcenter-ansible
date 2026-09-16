@@ -275,8 +275,14 @@
     loop_var: switch_refresh_sda_fabric_edge_input_mapping
     label: >-
       {{
-        switch_refresh_sda_fabric_edge_input_mapping.new_device_management_ip |
+        switch_refresh_sda_fabric_edge_input_mapping.new.management_ip |
         default('device-mapping')
+        if (
+          switch_refresh_sda_fabric_edge_input_mapping is mapping and
+          switch_refresh_sda_fabric_edge_input_mapping.new is defined and
+          switch_refresh_sda_fabric_edge_input_mapping.new is mapping
+        )
+        else 'device-mapping'
       }}
 
 - name: Derive switch refresh batch mapping keys
