@@ -16,6 +16,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
+from copy import deepcopy
 from unittest.mock import patch, mock_open
 import yaml
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
@@ -136,6 +137,134 @@ class TestSdaHostPortMigrationPlaybookConfigGenerator(TestCatalystModule):
             destination_interfaces,
             ["GigabitEthernet1/0/25", "GigabitEthernet1/0/2"],
         )
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_port_assignment_source_matching_is_case_insensitive(self, mock_file):
+        config = deepcopy(self.playbook_config_partial_remap)
+        interface_mapping = config["component_specific_filters"][
+            "port_assignments"
+        ][0]["interface_mappings"][0]
+        interface_mapping["source_interface_name"] = "gigabitethernet1/0/1"
+        interface_mapping["destination_interface_name"] = (
+            "TeNgigabitEthernet1/0/25"
+        )
+        config["component_specific_filters"]["port_assignments"][0][
+            "only_mapped_interfaces"
+        ] = True
+        set_module_args(self._base_config_args(config))
+
+        result = self.execute_module(changed=True)
+
+        self.assertEqual(result["changed"], True)
+        data = yaml.safe_load(self._get_written_yaml(mock_file))
+        self.assertEqual(
+            [item["interface_name"] for item in data["config"][0]["port_assignments"]],
+            ["TeNgigabitEthernet1/0/25"],
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_port_channel_api_interface_matching_is_case_insensitive(self, mock_file):
+        config = deepcopy(self.playbook_config_port_channels_only)
+        interface_mapping = config["component_specific_filters"]["port_channels"][
+            0
+        ]["interface_mappings"][0]
+        interface_mapping["destination_interface_name"] = (
+            "TeNgigabitEthernet1/0/26"
+        )
+        port_channel_response = deepcopy(
+            self.test_data.get("get_port_channels_response")
+        )
+        port_channel_response["response"][0]["interfaceNames"][0] = (
+            "gigabitethernet1/0/2"
+        )
+        self.api_response_overrides["get_port_channels"] = port_channel_response
+        set_module_args(self._base_config_args(config))
+
+        result = self.execute_module(changed=True)
+
+        self.assertEqual(result["changed"], True)
+        data = yaml.safe_load(self._get_written_yaml(mock_file))
+        self.assertEqual(
+            data["config"][0]["port_channels"][0]["interface_names"],
+            ["TeNgigabitEthernet1/0/26", "GigabitEthernet1/0/4"],
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_case_insensitive_duplicate_source_mapping_fails(self, mock_file):
+        config = deepcopy(self.playbook_config_partial_remap)
+        config["component_specific_filters"]["port_assignments"][0][
+            "interface_mappings"
+        ].append(
+            {
+                "source_interface_name": "GIGABITETHERNET1/0/1",
+                "destination_interface_name": "GigabitEthernet1/0/26",
+            }
+        )
+        set_module_args(self._base_config_args(config))
+
+        result = self.execute_module(changed=False, failed=True)
+
+        self.assertIn(
+            "duplicate source_interface_name values in interface_mappings",
+            str(result.get("msg", "")),
+        )
+        mock_file.assert_not_called()
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_case_insensitive_duplicate_destination_mapping_fails(self, mock_file):
+        config = deepcopy(self.playbook_config_partial_remap)
+        config["component_specific_filters"]["port_assignments"][0][
+            "interface_mappings"
+        ].append(
+            {
+                "source_interface_name": "GigabitEthernet1/0/2",
+                "destination_interface_name": "gigabitethernet1/0/25",
+            }
+        )
+        set_module_args(self._base_config_args(config))
+
+        result = self.execute_module(changed=False, failed=True)
+
+        self.assertIn(
+            "duplicate destination_interface_name values in interface_mappings",
+            str(result.get("msg", "")),
+        )
+        mock_file.assert_not_called()
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_case_insensitive_destination_collision_after_remap_fails(
+        self, mock_file
+    ):
+        config = deepcopy(self.playbook_config_partial_remap)
+        config["component_specific_filters"]["port_assignments"][0][
+            "interface_mappings"
+        ][0]["destination_interface_name"] = "gigabitethernet1/0/2"
+        set_module_args(self._base_config_args(config))
+
+        result = self.execute_module(changed=False, failed=True)
+
+        self.assertIn(
+            "destination interfaces are duplicated after remap",
+            str(result.get("msg", "")),
+        )
+        mock_file.assert_not_called()
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_case_insensitive_assignment_and_channel_collision_fails(self, mock_file):
+        config = deepcopy(self.playbook_config_assignments_and_channels)
+        config["component_specific_filters"]["port_channels"][0][
+            "interface_mappings"
+        ][0]["destination_interface_name"] = "gigabitethernet1/0/25"
+        set_module_args(self._base_config_args(config))
+
+        result = self.execute_module(changed=False, failed=True)
+
+        self.assertIn(
+            "destination interfaces are present in both port_assignments and "
+            "port_channels",
+            str(result.get("msg", "")),
+        )
+        mock_file.assert_not_called()
 
     @patch("builtins.open", new_callable=mock_open)
     def test_only_mapped_interfaces_omits_unmapped_assignments_and_members(

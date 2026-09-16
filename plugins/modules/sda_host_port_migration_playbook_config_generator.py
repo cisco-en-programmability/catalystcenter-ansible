@@ -110,8 +110,11 @@ options:
                 - Optional source-to-destination interface remap list.
                 - Source interfaces listed here are remapped only when they
                   exist in the source device port assignment payload.
+                - Source interface matching is case-insensitive.
                 - The module fails when a mapped source interface is not present
                   in the source device port assignment payload.
+                - Destination interface spelling is preserved in the generated
+                  payload.
                 - When C(only_mapped_interfaces) is C(false), source interfaces
                   not listed here keep their original interface name for 1:1
                   migration.
@@ -175,8 +178,11 @@ options:
                 - Optional source-to-destination member interface remap list.
                 - Source interfaces listed here are remapped only when they
                   exist in the source device port channel member interface list.
+                - Source interface matching is case-insensitive.
                 - The module fails when a mapped source interface is not present
                   in the source device port channel member interface list.
+                - Destination interface spelling is preserved in the generated
+                  payload.
                 - When C(only_mapped_interfaces) is C(false), source member
                   interfaces not listed here keep their original interface name
                   for 1:1 migration.
@@ -729,11 +735,9 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                         )
                     )
 
-            duplicate_sources = sorted(
-                name for name in set(source_names) if source_names.count(name) > 1
-            )
-            duplicate_destinations = sorted(
-                name for name in set(destination_names) if destination_names.count(name) > 1
+            duplicate_sources = self._find_duplicate_interface_names(source_names)
+            duplicate_destinations = self._find_duplicate_interface_names(
+                destination_names
             )
             if duplicate_sources:
                 validation_errors.append(
@@ -877,6 +881,51 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
         )
         return fabric_site_name_hierarchies, fabric_site_name_migration_mapping
 
+    @staticmethod
+    def _interface_name_comparison_key(interface_name):
+        """
+        Build a case-insensitive key for an interface name comparison.
+
+        The returned value is used only for matching and duplicate detection.
+        Original API and user-provided values remain unchanged for generated
+        payloads and validation messages.
+        """
+        if isinstance(interface_name, str):
+            return interface_name.casefold()
+        return interface_name
+
+    def _find_duplicate_interface_names(self, interface_names):
+        """
+        Return original interface names that collide case-insensitively.
+
+        Args:
+            interface_names (list): Interface names to inspect.
+
+        Returns:
+            list: Deterministically sorted original names participating in a
+                case-insensitive duplicate.
+        """
+        names_by_comparison_key = OrderedDict()
+        for interface_name in interface_names:
+            comparison_key = self._interface_name_comparison_key(interface_name)
+            names_by_comparison_key.setdefault(comparison_key, []).append(
+                interface_name
+            )
+
+        duplicate_names = {
+            interface_name
+            for names in names_by_comparison_key.values()
+            if len(names) > 1
+            for interface_name in names
+        }
+        return sorted(
+            duplicate_names,
+            key=lambda interface_name: (
+                self._interface_name_comparison_key(interface_name),
+                interface_name,
+            ),
+        )
+
     def _fail_for_missing_source_interface_mapping(
         self, component_name, migration_entry, mapping
     ):
@@ -965,7 +1014,8 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             produces duplicate destination assignment interfaces.
 
         Notes:
-            Source interface matching is exact and case-sensitive.
+            Source interface matching is case-insensitive. Destination interface
+            names retain the spelling provided in interface_mappings.
         """
         source_assignments = source_entry.get("port_assignments", [])
         source_interface_names = [
@@ -973,14 +1023,20 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             for assignment in source_assignments
             if assignment.get("interface_name")
         ]
-        source_interface_name_set = set(source_interface_names)
+        source_interface_name_set = {
+            self._interface_name_comparison_key(interface_name)
+            for interface_name in source_interface_names
+        }
         mapping_lookup = {}
 
         for mapping in migration_entry.get("interface_mappings", []):
             source_interface_name = mapping.get("source_interface_name")
             destination_interface_name = mapping.get("destination_interface_name")
-            if source_interface_name in source_interface_name_set:
-                mapping_lookup[source_interface_name] = destination_interface_name
+            source_interface_key = self._interface_name_comparison_key(
+                source_interface_name
+            )
+            if source_interface_key in source_interface_name_set:
+                mapping_lookup[source_interface_key] = destination_interface_name
             else:
                 self._fail_for_missing_source_interface_mapping(
                     "port_assignments", migration_entry, mapping
@@ -990,13 +1046,16 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
         for assignment in source_assignments:
             destination_assignment = OrderedDict(assignment)
             interface_name = destination_assignment.get("interface_name")
+            interface_name_key = self._interface_name_comparison_key(interface_name)
             if (
                 migration_entry.get("only_mapped_interfaces", False)
-                and interface_name not in mapping_lookup
+                and interface_name_key not in mapping_lookup
             ):
                 continue
-            if interface_name in mapping_lookup:
-                destination_assignment["interface_name"] = mapping_lookup[interface_name]
+            if interface_name_key in mapping_lookup:
+                destination_assignment["interface_name"] = mapping_lookup[
+                    interface_name_key
+                ]
             destination_assignments.append(destination_assignment)
 
         destination_interface_names = [
@@ -1004,10 +1063,8 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             for assignment in destination_assignments
             if assignment.get("interface_name")
         ]
-        duplicate_destination_interfaces = sorted(
-            name
-            for name in set(destination_interface_names)
-            if destination_interface_names.count(name) > 1
+        duplicate_destination_interfaces = self._find_duplicate_interface_names(
+            destination_interface_names
         )
         if duplicate_destination_interfaces:
             self.msg = (
@@ -1047,8 +1104,9 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
         Notes:
             This method remaps the interface_names list only. Other port channel
             attributes, such as protocol and connected device type, are preserved
-            from the source payload. Source interface matching is exact and
-            case-sensitive.
+            from the source payload. Source interface matching is case-insensitive.
+            Destination interface names retain the spelling provided in
+            interface_mappings.
         """
         source_channels = source_entry.get("port_channels", [])
         source_interface_names = [
@@ -1057,14 +1115,20 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             for interface_name in channel.get("interface_names", [])
             if interface_name
         ]
-        source_interface_name_set = set(source_interface_names)
+        source_interface_name_set = {
+            self._interface_name_comparison_key(interface_name)
+            for interface_name in source_interface_names
+        }
         mapping_lookup = {}
 
         for mapping in migration_entry.get("interface_mappings", []):
             source_interface_name = mapping.get("source_interface_name")
             destination_interface_name = mapping.get("destination_interface_name")
-            if source_interface_name in source_interface_name_set:
-                mapping_lookup[source_interface_name] = destination_interface_name
+            source_interface_key = self._interface_name_comparison_key(
+                source_interface_name
+            )
+            if source_interface_key in source_interface_name_set:
+                mapping_lookup[source_interface_key] = destination_interface_name
             else:
                 self._fail_for_missing_source_interface_mapping(
                     "port_channels", migration_entry, mapping
@@ -1074,10 +1138,14 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
         for channel in source_channels:
             destination_channel = OrderedDict(channel)
             destination_channel["interface_names"] = [
-                mapping_lookup.get(interface_name, interface_name)
+                mapping_lookup.get(
+                    self._interface_name_comparison_key(interface_name),
+                    interface_name,
+                )
                 for interface_name in channel.get("interface_names", [])
                 if not migration_entry.get("only_mapped_interfaces", False)
-                or interface_name in mapping_lookup
+                or self._interface_name_comparison_key(interface_name)
+                in mapping_lookup
             ]
             if (
                 destination_channel["interface_names"]
@@ -1091,10 +1159,8 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             for interface_name in channel.get("interface_names", [])
             if interface_name
         ]
-        duplicate_destination_interfaces = sorted(
-            name
-            for name in set(destination_interface_names)
-            if destination_interface_names.count(name) > 1
+        duplicate_destination_interfaces = self._find_duplicate_interface_names(
+            destination_interface_names
         )
         if duplicate_destination_interfaces:
             self.msg = (
@@ -1227,17 +1293,40 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                 for interface_name in channel.get("interface_names", [])
                 if interface_name
             ]
+            assignment_interfaces_by_key = {
+                self._interface_name_comparison_key(interface_name): interface_name
+                for interface_name in assignment_interfaces
+            }
+            channel_interfaces_by_key = {
+                self._interface_name_comparison_key(interface_name): interface_name
+                for interface_name in channel_interfaces
+            }
+            duplicate_interface_keys = set(
+                assignment_interfaces_by_key
+            ).intersection(channel_interfaces_by_key)
             duplicate_interfaces = sorted(
-                set(assignment_interfaces).intersection(channel_interfaces)
+                {
+                    interface_name
+                    for comparison_key in duplicate_interface_keys
+                    for interface_name in (
+                        assignment_interfaces_by_key[comparison_key],
+                        channel_interfaces_by_key[comparison_key],
+                    )
+                },
+                key=lambda interface_name: (
+                    self._interface_name_comparison_key(interface_name),
+                    interface_name,
+                ),
             )
             if duplicate_interfaces:
-                self.fail_and_exit(
+                self.msg = (
                     "Validation Error: destination interfaces are present in both "
                     "port_assignments and port_channels for destination '{0}' in "
                     "fabric site '{1}': {2}".format(
                         output_key[0], output_key[1], duplicate_interfaces
                     )
                 )
+                self.fail_and_exit(self.msg)
 
     def _return_merged_migration_output_if_final_component(self, component_name):
         """
