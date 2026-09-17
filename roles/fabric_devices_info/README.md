@@ -4,7 +4,8 @@ This role manages Fabric Devices Info in Cisco Catalyst Center using the `fabric
 
 ## Summary
 
-Comprehensive fabric device information gathering module for Cisco Catalyst Center with advanced filtering and output capabilities.
+Comprehensive fabric device information gathering for Catalyst Center fabric
+sites and fabric zones, with advanced filtering and output capabilities.
 
 ## Requirements
 
@@ -70,6 +71,10 @@ The following image is copied from the workflow documentation to help map the ro
 ## Adapted Examples
 
 ### Example 1: Fabric Device Info
+
+`fabric_site_hierarchy` accepts the complete hierarchy of either an SDA fabric
+site or an SDA fabric zone. For a zone-level device, use the zone hierarchy,
+such as `Global/USA/San Jose/Building23/Floor1`.
 
 ```yaml
 - hosts: localhost

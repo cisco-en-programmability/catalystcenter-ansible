@@ -1,0 +1,984 @@
+---
+# Finalize a captured hostname-transfer plan. The old hostname and both device
+# identities must already have been persisted before destructive cleanup.
+- name: Validate hostname finalization plan envelope
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_hostname_finalize_plan is mapping
+      - switch_refresh_sda_fabric_edge_hostname_finalize_plan.name is defined
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_finalize_plan.name | string | trim | length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_finalize_plan.fabric_site_name_hierarchy is
+        defined
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_finalize_plan.fabric_site_name_hierarchy |
+        string |
+        trim |
+        length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_enabled is
+        defined
+      - >-
+        (
+          switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_enabled |
+          type_debug
+        ) == 'bool'
+    fail_msg: >-
+      Hostname finalization requires one validated immutable batch plan with a
+      name, fabric site, and boolean hostname_transfer_enabled value.
+
+- name: Finalize replacement switch hostnames
+  when: >-
+    switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_enabled | bool
+  block:
+    - name: Validate hostname finalization controls and captured data
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_entries is
+            defined
+          - >-
+            (
+              switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_entries |
+              type_debug
+            ) == 'list'
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_entries |
+            length > 0
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_manifest_file
+            is defined
+          - >-
+            (
+              switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_manifest_file |
+              type_debug
+            ) == 'str'
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_manifest_file |
+            trim |
+            length > 0
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_manifest_file |
+            regex_search('^/') is not none
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_input_fingerprint
+            is defined
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_input_fingerprint |
+            string |
+            trim |
+            length > 0
+          - (switch_refresh_sda_fabric_edge_hostname_transfer_timeout | int) > 0
+          - (switch_refresh_sda_fabric_edge_hostname_transfer_poll_interval | int) > 0
+          - >-
+            (switch_refresh_sda_fabric_edge_hostname_transfer_poll_interval | int) <=
+            (switch_refresh_sda_fabric_edge_hostname_transfer_timeout | int)
+          - (switch_refresh_sda_fabric_edge_hostname_validation_retries | int) > 0
+          - (switch_refresh_sda_fabric_edge_hostname_validation_interval | int) > 0
+        fail_msg: >-
+          Hostname finalization requires captured entries, an absolute manifest
+          path, an input fingerprint, and positive timeout/polling controls.
+
+    - name: Load hostname finalization working facts
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_hostname_finalize_entries: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_entries
+          }}
+        switch_refresh_sda_fabric_edge_hostname_finalize_manifest_file: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_manifest_file
+          }}
+        switch_refresh_sda_fabric_edge_hostname_finalize_batch_name: >-
+          {{ switch_refresh_sda_fabric_edge_hostname_finalize_plan.name | string }}
+        switch_refresh_sda_fabric_edge_hostname_finalize_site: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_finalize_plan.fabric_site_name_hierarchy |
+            string
+          }}
+      no_log: true
+
+    - name: Validate common hostname finalization entry schema
+      ansible.builtin.include_tasks: validate_hostname_transfer_entries.yml
+      vars:
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_request:
+          entries: "{{ switch_refresh_sda_fabric_edge_hostname_finalize_entries }}"
+          context: >-
+            hostname finalization batch
+            {{ switch_refresh_sda_fabric_edge_hostname_finalize_batch_name }}
+
+    - name: Derive hostname finalization inventory lookup values
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_hostname_finalize_entries: >-
+          {{ switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entries }}
+        switch_refresh_sda_fabric_edge_hostname_old_management_ips: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.old_management_ips
+          }}
+        switch_refresh_sda_fabric_edge_hostname_old_serial_numbers: []
+        switch_refresh_sda_fabric_edge_hostname_old_device_uuids: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.old_device_uuids
+          }}
+        switch_refresh_sda_fabric_edge_hostname_desired_names: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.old_hostnames
+          }}
+        switch_refresh_sda_fabric_edge_hostname_new_management_ips: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.new_management_ips
+          }}
+      no_log: true
+
+    - name: Expand captured stack serial numbers for absence checks
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_hostname_old_serial_numbers: >-
+          {{
+            (
+              switch_refresh_sda_fabric_edge_hostname_old_serial_numbers +
+              (
+                switch_refresh_sda_fabric_edge_hostname_serial_entry.old_serial_number |
+                string
+              ).split(',') |
+              map('trim') |
+              reject('equalto', '') |
+              list
+            ) |
+            unique |
+            list
+          }}
+      loop: "{{ switch_refresh_sda_fabric_edge_hostname_finalize_entries }}"
+      loop_control:
+        loop_var: switch_refresh_sda_fabric_edge_hostname_serial_entry
+        label: "{{ switch_refresh_sda_fabric_edge_hostname_serial_entry.new_management_ip }}"
+      no_log: true
+
+    - name: Validate hostname finalization lookup uniqueness
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_old_management_ips | unique | length ==
+            switch_refresh_sda_fabric_edge_hostname_old_management_ips | length
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_old_device_uuids | unique | length ==
+            switch_refresh_sda_fabric_edge_hostname_old_device_uuids | length
+          - switch_refresh_sda_fabric_edge_hostname_old_serial_numbers | length > 0
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_new_management_ips | unique | length ==
+            switch_refresh_sda_fabric_edge_hostname_new_management_ips | length
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_desired_names |
+            map('lower') |
+            unique |
+            length == switch_refresh_sda_fabric_edge_hostname_desired_names | length
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_old_management_ips |
+            intersect(switch_refresh_sda_fabric_edge_hostname_new_management_ips) |
+            length == 0
+        fail_msg: >-
+          Captured hostname finalization data contains duplicate targets,
+          duplicate desired hostnames, or an old IP reused as a replacement IP.
+
+    - name: Wait until old management IPs are absent from inventory
+      cisco.catalystcenter.network_device_info:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+        catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+        catalystcenter_version: >-
+          {{ catalystcenter_version | default('2.3.7.9') }}
+        catalystcenter_debug: false
+        managementIpAddress: "{{ switch_refresh_sda_fabric_edge_hostname_old_management_ips }}"
+        limit: 500
+      register: switch_refresh_sda_fabric_edge_hostname_old_ip_lookup
+      until:
+        - >-
+          not (
+            switch_refresh_sda_fabric_edge_hostname_old_ip_lookup.failed |
+            default(false) |
+            bool
+          )
+        - >-
+          (
+            (
+              switch_refresh_sda_fabric_edge_hostname_old_ip_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default(['lookup-incomplete']) |
+            type_debug
+          ) == 'list'
+        - >-
+          (
+            (
+              switch_refresh_sda_fabric_edge_hostname_old_ip_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default(['lookup-incomplete']) |
+            reject('equalto', none) |
+            list |
+            length
+          ) == 0
+      retries: "{{ switch_refresh_sda_fabric_edge_hostname_validation_retries | int }}"
+      delay: "{{ switch_refresh_sda_fabric_edge_hostname_validation_interval | int }}"
+      ignore_errors: true
+      no_log: true
+
+    - name: Wait until old UUIDs are absent from inventory
+      cisco.catalystcenter.network_device_info:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+        catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+        catalystcenter_version: >-
+          {{ catalystcenter_version | default('2.3.7.9') }}
+        catalystcenter_debug: false
+        id: "{{ switch_refresh_sda_fabric_edge_hostname_old_uuid }}"
+      loop: "{{ switch_refresh_sda_fabric_edge_hostname_old_device_uuids }}"
+      loop_control:
+        loop_var: switch_refresh_sda_fabric_edge_hostname_old_uuid
+        label: "{{ switch_refresh_sda_fabric_edge_hostname_old_uuid }}"
+      register: switch_refresh_sda_fabric_edge_hostname_old_uuid_lookups
+      until:
+        - >-
+          not (
+            switch_refresh_sda_fabric_edge_hostname_old_uuid_lookups.failed |
+            default(false) |
+            bool
+          ) or
+          (
+            switch_refresh_sda_fabric_edge_hostname_old_uuid_lookups.status |
+            default(0) |
+            int == 404
+          )
+        - >-
+          (
+            switch_refresh_sda_fabric_edge_hostname_old_uuid_lookups.status |
+            default(0) |
+            int == 404
+          ) or
+          (
+            (
+              switch_refresh_sda_fabric_edge_hostname_old_uuid_lookups.catalystcenter_response |
+              default({})
+            ).response |
+            default(none, true)
+          ) is none or
+          (
+            (
+              switch_refresh_sda_fabric_edge_hostname_old_uuid_lookups.catalystcenter_response |
+              default({})
+            ).response is mapping and
+            (
+              switch_refresh_sda_fabric_edge_hostname_old_uuid_lookups.catalystcenter_response |
+              default({})
+            ).response | length == 0
+          ) or
+          (
+            (
+              switch_refresh_sda_fabric_edge_hostname_old_uuid_lookups.catalystcenter_response |
+              default({})
+            ).response | type_debug == 'list' and
+            (
+              switch_refresh_sda_fabric_edge_hostname_old_uuid_lookups.catalystcenter_response |
+              default({})
+            ).response |
+            reject('equalto', none) |
+            list |
+            length == 0
+          )
+      retries: "{{ switch_refresh_sda_fabric_edge_hostname_validation_retries | int }}"
+      delay: "{{ switch_refresh_sda_fabric_edge_hostname_validation_interval | int }}"
+      ignore_errors: true
+      no_log: true
+
+    - name: Wait until old serial numbers are absent from inventory
+      cisco.catalystcenter.network_device_info:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+        catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+        catalystcenter_version: >-
+          {{ catalystcenter_version | default('2.3.7.9') }}
+        catalystcenter_debug: false
+        serialNumber: "{{ switch_refresh_sda_fabric_edge_hostname_old_serial_numbers }}"
+        limit: 500
+      register: switch_refresh_sda_fabric_edge_hostname_old_serial_lookup
+      until:
+        - >-
+          not (
+            switch_refresh_sda_fabric_edge_hostname_old_serial_lookup.failed |
+            default(false) |
+            bool
+          )
+        - >-
+          (
+            (
+              switch_refresh_sda_fabric_edge_hostname_old_serial_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default(['lookup-incomplete']) |
+            type_debug
+          ) == 'list'
+        - >-
+          (
+            (
+              switch_refresh_sda_fabric_edge_hostname_old_serial_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default(['lookup-incomplete']) |
+            reject('equalto', none) |
+            list |
+            length
+          ) == 0
+      retries: "{{ switch_refresh_sda_fabric_edge_hostname_validation_retries | int }}"
+      delay: "{{ switch_refresh_sda_fabric_edge_hostname_validation_interval | int }}"
+      ignore_errors: true
+      no_log: true
+
+    # The get-by-ID endpoint represents a deleted device either as an empty/null
+    # successful response or as HTTP 404, depending on Catalyst Center/SDK
+    # version. No other failed response is evidence of absence.
+    - name: Validate every old UUID lookup proves absence
+      ansible.builtin.assert:
+        that:
+          - >-
+            (
+              switch_refresh_sda_fabric_edge_hostname_old_uuid_result.failed |
+              default(false) |
+              bool and
+              switch_refresh_sda_fabric_edge_hostname_old_uuid_result.status |
+              default(0) |
+              int == 404
+            ) or
+            (
+              not (
+                switch_refresh_sda_fabric_edge_hostname_old_uuid_result.failed |
+                default(true) |
+                bool
+              ) and
+              (
+                (
+                  (
+                    switch_refresh_sda_fabric_edge_hostname_old_uuid_result.catalystcenter_response |
+                    default({})
+                  ).response |
+                  default(none, true)
+                ) is none or
+                (
+                  (
+                    switch_refresh_sda_fabric_edge_hostname_old_uuid_result.catalystcenter_response |
+                    default({})
+                  ).response is mapping and
+                  (
+                    switch_refresh_sda_fabric_edge_hostname_old_uuid_result.catalystcenter_response |
+                    default({})
+                  ).response | length == 0
+                ) or
+                (
+                  (
+                    switch_refresh_sda_fabric_edge_hostname_old_uuid_result.catalystcenter_response |
+                    default({})
+                  ).response | type_debug == 'list' and
+                  (
+                    switch_refresh_sda_fabric_edge_hostname_old_uuid_result.catalystcenter_response |
+                    default({})
+                  ).response |
+                  reject('equalto', none) |
+                  list |
+                  length == 0
+                )
+              )
+            )
+        fail_msg: >-
+          Old inventory UUID {{ switch_refresh_sda_fabric_edge_hostname_old_uuid_result.item |
+          default('unknown') }} remains present or its absence lookup failed with a
+          response other than HTTP 404.
+      loop: "{{ switch_refresh_sda_fabric_edge_hostname_old_uuid_lookups.results | default([]) }}"
+      loop_control:
+        loop_var: switch_refresh_sda_fabric_edge_hostname_old_uuid_result
+        label: >-
+          {{ switch_refresh_sda_fabric_edge_hostname_old_uuid_result.item | default('old-uuid') }}
+
+    - name: Prove captured old inventory identities are absent
+      ansible.builtin.assert:
+        that:
+          - >-
+            not (
+              switch_refresh_sda_fabric_edge_hostname_old_ip_lookup.failed |
+              default(true) |
+              bool
+            )
+          - >-
+            (
+              (
+                switch_refresh_sda_fabric_edge_hostname_old_ip_lookup.catalystcenter_response |
+                default({})
+              ).response |
+              default(['lookup-incomplete']) |
+              type_debug
+            ) == 'list'
+          - >-
+            (
+              (
+                switch_refresh_sda_fabric_edge_hostname_old_ip_lookup.catalystcenter_response |
+                default({})
+              ).response |
+              default(['lookup-incomplete']) |
+              reject('equalto', none) |
+              list |
+              length
+            ) == 0
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_old_uuid_lookups.results is defined
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_old_uuid_lookups.results | length ==
+            switch_refresh_sda_fabric_edge_hostname_old_device_uuids | length
+          - >-
+            not (
+              switch_refresh_sda_fabric_edge_hostname_old_serial_lookup.failed |
+              default(true) |
+              bool
+            )
+          - >-
+            (
+              (
+                switch_refresh_sda_fabric_edge_hostname_old_serial_lookup.catalystcenter_response |
+                default({})
+              ).response |
+              default(['lookup-incomplete']) |
+              type_debug
+            ) == 'list'
+          - >-
+            (
+              (
+                switch_refresh_sda_fabric_edge_hostname_old_serial_lookup.catalystcenter_response |
+                default({})
+              ).response |
+              default(['lookup-incomplete']) |
+              reject('equalto', none) |
+              list |
+              length
+            ) == 0
+        fail_msg: >-
+          Old inventory records for batch
+          {{ switch_refresh_sda_fabric_edge_hostname_finalize_batch_name }} remain present or
+          their absence could not be proven. No hostname update was submitted.
+
+    - name: Validate replacement EDGE_NODE targets before hostname update
+      ansible.builtin.include_tasks: validate_fabric_membership.yml
+      vars:
+        switch_refresh_sda_fabric_edge_fabric_validation_request:
+          site: "{{ switch_refresh_sda_fabric_edge_hostname_finalize_site }}"
+          expected_ips: "{{ switch_refresh_sda_fabric_edge_hostname_new_management_ips }}"
+          expected_state: present
+          query_role: EDGE_NODE
+          response_role: EDGE_NODE
+          context: pre-update finalization
+          timeout: "{{ switch_refresh_sda_fabric_edge_fabric_validation_timeout }}"
+          retries: "{{ switch_refresh_sda_fabric_edge_fabric_validation_retries }}"
+          interval: "{{ switch_refresh_sda_fabric_edge_fabric_validation_interval }}"
+
+    - name: Resolve replacement inventory records before hostname update
+      cisco.catalystcenter.network_device_info:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+        catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+        catalystcenter_version: >-
+          {{ catalystcenter_version | default('2.3.7.9') }}
+        catalystcenter_debug: false
+        managementIpAddress: "{{ switch_refresh_sda_fabric_edge_hostname_new_management_ips }}"
+        limit: 500
+      register: switch_refresh_sda_fabric_edge_hostname_new_lookup
+      until:
+        - >-
+          not (
+            switch_refresh_sda_fabric_edge_hostname_new_lookup.failed |
+            default(false) |
+            bool
+          )
+        - >-
+          (
+            (
+              switch_refresh_sda_fabric_edge_hostname_new_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default([]) |
+            type_debug
+          ) == 'list'
+        - >-
+          (
+            (
+              switch_refresh_sda_fabric_edge_hostname_new_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default([]) |
+            reject('equalto', none) |
+            list |
+            length
+          ) == switch_refresh_sda_fabric_edge_hostname_finalize_entries | length
+      retries: "{{ switch_refresh_sda_fabric_edge_hostname_validation_retries | int }}"
+      delay: "{{ switch_refresh_sda_fabric_edge_hostname_validation_interval | int }}"
+      ignore_errors: true
+      no_log: true
+
+    - name: Resolve desired hostname ownership before hostname update
+      cisco.catalystcenter.network_device_info:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+        catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+        catalystcenter_version: >-
+          {{ catalystcenter_version | default('2.3.7.9') }}
+        catalystcenter_debug: false
+        hostname: "{{ switch_refresh_sda_fabric_edge_hostname_desired_names }}"
+        limit: 500
+      register: switch_refresh_sda_fabric_edge_hostname_claim_lookup
+      no_log: true
+
+    - name: Validate desired hostname ownership lookup response
+      ansible.builtin.assert:
+        that:
+          - >-
+            not (
+              switch_refresh_sda_fabric_edge_hostname_claim_lookup.failed |
+              default(true) |
+              bool
+            )
+          - >-
+            switch_refresh_sda_fabric_edge_hostname_claim_lookup.catalystcenter_response is
+            mapping
+          - >-
+            (
+              switch_refresh_sda_fabric_edge_hostname_claim_lookup.catalystcenter_response.response |
+              default([]) |
+              type_debug
+            ) == 'list'
+        fail_msg: >-
+          Desired-hostname ownership could not be proven before update. No
+          hostname update was submitted.
+      no_log: true
+
+    - name: Extract pre-update hostname transfer inventory records
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_hostname_new_inventory_records: >-
+          {{
+            (
+              switch_refresh_sda_fabric_edge_hostname_new_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default([]) |
+            reject('equalto', none) |
+            list
+          }}
+        switch_refresh_sda_fabric_edge_hostname_claim_inventory_records: >-
+          {{
+            (
+              switch_refresh_sda_fabric_edge_hostname_claim_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default([]) |
+            reject('equalto', none) |
+            list
+          }}
+      no_log: true
+
+    - name: Build strict aggregate hostname update payload
+      ansible.builtin.include_tasks: build_hostname_update_batch.yml
+      vars:
+        switch_refresh_sda_fabric_edge_hostname_builder_strict: true
+        switch_refresh_sda_fabric_edge_hostname_builder_build_payload: true
+
+    - name: Preserve aggregate hostname update submission payload
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_hostname_submitted_update_devices: >-
+          {{ switch_refresh_sda_fabric_edge_hostname_update_devices }}
+      no_log: true
+
+    - name: Wait until LAN Automation is inactive before hostname update
+      ansible.builtin.include_tasks: wait_for_lan_automation.yml
+      vars:
+        switch_refresh_sda_fabric_edge_lan_automation_completion_timeout: >-
+          {{ switch_refresh_sda_fabric_edge_hostname_transfer_timeout }}
+        switch_refresh_sda_fabric_edge_lan_automation_completion_poll_interval: >-
+          {{ switch_refresh_sda_fabric_edge_hostname_transfer_poll_interval }}
+      when: switch_refresh_sda_fabric_edge_hostname_submitted_update_devices | length > 0
+
+    - name: Initialize hostname update async state
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_hostname_update_submitted: false
+        switch_refresh_sda_fabric_edge_hostname_update_job_finished: true
+        switch_refresh_sda_fabric_edge_hostname_update_job_failed: false
+        switch_refresh_sda_fabric_edge_hostname_update_job_id: ""
+        switch_refresh_sda_fabric_edge_hostname_update_job_message: update_not_required
+
+    - name: Submit aggregate LAN Automation hostname update
+      cisco.catalystcenter.lan_automation_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+        catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+        catalystcenter_version: >-
+          {{ catalystcenter_version | default('2.3.7.9') }}
+        catalystcenter_debug: false
+        catalystcenter_log: false
+        catalystcenter_api_task_timeout: >-
+          {{ switch_refresh_sda_fabric_edge_hostname_transfer_timeout | int }}
+        catalystcenter_task_poll_interval: >-
+          {{ switch_refresh_sda_fabric_edge_hostname_transfer_poll_interval | int }}
+        state: merged
+        config_verify: false
+        config:
+          - lan_automated_device_update:
+              hostname_update_devices: >-
+                {{ switch_refresh_sda_fabric_edge_hostname_submitted_update_devices }}
+      async: "{{ switch_refresh_sda_fabric_edge_hostname_transfer_timeout | int }}"
+      poll: 0
+      register: switch_refresh_sda_fabric_edge_hostname_update_launch
+      ignore_errors: true
+      no_log: true
+      when: switch_refresh_sda_fabric_edge_hostname_submitted_update_devices | length > 0
+
+    - name: Record submitted hostname update job
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_hostname_update_submitted: true
+        switch_refresh_sda_fabric_edge_hostname_update_job_finished: false
+        switch_refresh_sda_fabric_edge_hostname_update_job_failed: >-
+          {{ switch_refresh_sda_fabric_edge_hostname_update_launch.failed | default(false) | bool }}
+        switch_refresh_sda_fabric_edge_hostname_update_job_id: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_update_launch.ansible_job_id |
+            default('') |
+            string
+          }}
+        switch_refresh_sda_fabric_edge_hostname_update_job_message: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_update_launch.msg |
+            default('hostname_update_submitted') |
+            string
+          }}
+      when: switch_refresh_sda_fabric_edge_hostname_submitted_update_devices | length > 0
+      no_log: true
+
+    - name: Wait for bounded hostname update job completion
+      ansible.builtin.async_status:
+        jid: "{{ switch_refresh_sda_fabric_edge_hostname_update_job_id }}"
+        mode: status
+      register: switch_refresh_sda_fabric_edge_hostname_update_async_result
+      until: >-
+        switch_refresh_sda_fabric_edge_hostname_update_async_result.finished |
+        default(false) |
+        bool
+      retries: >-
+        {{
+          (
+            (switch_refresh_sda_fabric_edge_hostname_transfer_timeout | int) +
+            (switch_refresh_sda_fabric_edge_hostname_transfer_poll_interval | int) - 1
+          ) // (switch_refresh_sda_fabric_edge_hostname_transfer_poll_interval | int) + 1
+        }}
+      delay: "{{ switch_refresh_sda_fabric_edge_hostname_transfer_poll_interval | int }}"
+      ignore_errors: true
+      no_log: true
+      when:
+        - switch_refresh_sda_fabric_edge_hostname_update_submitted | bool
+        - switch_refresh_sda_fabric_edge_hostname_update_job_id | length > 0
+
+    - name: Record bounded hostname update job outcome
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_hostname_update_job_finished: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_update_async_result.finished |
+            default(false) |
+            bool
+          }}
+        switch_refresh_sda_fabric_edge_hostname_update_job_failed: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_update_async_result.failed |
+            default(false) |
+            bool
+          }}
+        switch_refresh_sda_fabric_edge_hostname_update_job_message: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_update_async_result.msg |
+            default(
+              'hostname_update_job_finished'
+              if (
+                switch_refresh_sda_fabric_edge_hostname_update_async_result.finished |
+                default(false) |
+                bool
+              )
+              else 'hostname_update_outer_timeout'
+            ) |
+            string
+          }}
+      when:
+        - switch_refresh_sda_fabric_edge_hostname_update_submitted | bool
+        - switch_refresh_sda_fabric_edge_hostname_update_job_id | length > 0
+      no_log: true
+
+    # Always reconcile controller state, even when the manager returned a
+    # failure or the outer async timeout expired. The backend task can finish
+    # independently after the local module process stops.
+    - name: Reconcile replacement inventory records after hostname update
+      cisco.catalystcenter.network_device_info:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+        catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+        catalystcenter_version: >-
+          {{ catalystcenter_version | default('2.3.7.9') }}
+        catalystcenter_debug: false
+        managementIpAddress: "{{ switch_refresh_sda_fabric_edge_hostname_new_management_ips }}"
+        limit: 500
+      register: switch_refresh_sda_fabric_edge_hostname_reconcile_new_lookup
+      until:
+        - >-
+          not (
+            switch_refresh_sda_fabric_edge_hostname_reconcile_new_lookup.failed |
+            default(false) |
+            bool
+          )
+        - >-
+          (
+            (
+              switch_refresh_sda_fabric_edge_hostname_reconcile_new_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default([]) |
+            type_debug
+          ) == 'list'
+        - >-
+          (
+            (
+              switch_refresh_sda_fabric_edge_hostname_reconcile_new_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default([]) |
+            reject('equalto', none) |
+            list |
+            length
+          ) == switch_refresh_sda_fabric_edge_hostname_finalize_entries | length
+      retries: "{{ switch_refresh_sda_fabric_edge_hostname_validation_retries | int }}"
+      delay: "{{ switch_refresh_sda_fabric_edge_hostname_validation_interval | int }}"
+      ignore_errors: true
+      no_log: true
+
+    - name: Reconcile desired hostname ownership after hostname update
+      cisco.catalystcenter.network_device_info:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+        catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+        catalystcenter_version: >-
+          {{ catalystcenter_version | default('2.3.7.9') }}
+        catalystcenter_debug: false
+        hostname: "{{ switch_refresh_sda_fabric_edge_hostname_desired_names }}"
+        limit: 500
+      register: switch_refresh_sda_fabric_edge_hostname_reconcile_claim_lookup
+      until:
+        - >-
+          not (
+            switch_refresh_sda_fabric_edge_hostname_reconcile_claim_lookup.failed |
+            default(false) |
+            bool
+          )
+        - >-
+          (
+            (
+              switch_refresh_sda_fabric_edge_hostname_reconcile_claim_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default([]) |
+            type_debug
+          ) == 'list'
+        - >-
+          (
+            (
+              switch_refresh_sda_fabric_edge_hostname_reconcile_claim_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default([]) |
+            reject('equalto', none) |
+            list |
+            length
+          ) == switch_refresh_sda_fabric_edge_hostname_finalize_entries | length
+      retries: "{{ switch_refresh_sda_fabric_edge_hostname_validation_retries | int }}"
+      delay: "{{ switch_refresh_sda_fabric_edge_hostname_validation_interval | int }}"
+      ignore_errors: true
+      no_log: true
+
+    - name: Extract reconciled hostname transfer inventory records
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_hostname_new_inventory_records: >-
+          {{
+            (
+              switch_refresh_sda_fabric_edge_hostname_reconcile_new_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default([]) |
+            reject('equalto', none) |
+            list
+          }}
+        switch_refresh_sda_fabric_edge_hostname_claim_inventory_records: >-
+          {{
+            (
+              switch_refresh_sda_fabric_edge_hostname_reconcile_claim_lookup.catalystcenter_response |
+              default({})
+            ).response |
+            default([]) |
+            reject('equalto', none) |
+            list
+          }}
+      no_log: true
+
+    - name: Reconcile exact hostname and immutable identity state
+      ansible.builtin.include_tasks: build_hostname_update_batch.yml
+      vars:
+        switch_refresh_sda_fabric_edge_hostname_builder_strict: false
+        switch_refresh_sda_fabric_edge_hostname_builder_build_payload: false
+
+    - name: Collect pending hostname transfer entries
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_hostname_pending_entries: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_runtime_entries |
+            selectattr('status', 'equalto', 'rename_pending') |
+            list
+          }}
+      no_log: true
+
+    - name: Validate replacement EDGE_NODE targets after hostname update
+      ansible.builtin.include_tasks: validate_fabric_membership.yml
+      vars:
+        switch_refresh_sda_fabric_edge_fabric_validation_request:
+          site: "{{ switch_refresh_sda_fabric_edge_hostname_finalize_site }}"
+          expected_ips: "{{ switch_refresh_sda_fabric_edge_hostname_new_management_ips }}"
+          expected_state: present
+          query_role: EDGE_NODE
+          response_role: EDGE_NODE
+          context: post-update finalization
+          timeout: "{{ switch_refresh_sda_fabric_edge_fabric_validation_timeout }}"
+          retries: "{{ switch_refresh_sda_fabric_edge_fabric_validation_retries }}"
+          interval: "{{ switch_refresh_sda_fabric_edge_fabric_validation_interval }}"
+
+    - name: Build durable hostname transfer result manifest
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_hostname_result_manifest:
+          schema_version: >-
+            {{
+              switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_schema_version |
+              default(1) |
+              int
+            }}
+          controller: "{{ catalystcenter_host | string }}"
+          batch_name: "{{ switch_refresh_sda_fabric_edge_hostname_finalize_batch_name }}"
+          fabric_site_name_hierarchy: >-
+            {{ switch_refresh_sda_fabric_edge_hostname_finalize_site }}
+          input_fingerprint: >-
+            {{
+              switch_refresh_sda_fabric_edge_hostname_finalize_plan.hostname_transfer_input_fingerprint
+            }}
+          devices: "{{ switch_refresh_sda_fabric_edge_hostname_runtime_entries }}"
+          status: >-
+            {{
+              'verified'
+              if (switch_refresh_sda_fabric_edge_hostname_pending_entries | length == 0)
+              else 'rename_pending'
+            }}
+      no_log: true
+
+    - name: Inspect hostname transfer manifest before result persistence
+      ansible.builtin.stat:
+        path: "{{ switch_refresh_sda_fabric_edge_hostname_finalize_manifest_file }}"
+        follow: false
+      register: switch_refresh_sda_fabric_edge_hostname_manifest_result_stat
+
+    - name: Validate hostname transfer manifest result target
+      ansible.builtin.assert:
+        that:
+          - >-
+            not (switch_refresh_sda_fabric_edge_hostname_manifest_result_stat.stat.exists | bool)
+            or
+            (
+              switch_refresh_sda_fabric_edge_hostname_manifest_result_stat.stat.isreg |
+              default(false)
+            )
+          - >-
+            not (
+              switch_refresh_sda_fabric_edge_hostname_manifest_result_stat.stat.islnk |
+              default(false)
+            )
+        fail_msg: >-
+          Refusing to persist hostname state through a symlink or non-regular
+          manifest path: {{ switch_refresh_sda_fabric_edge_hostname_finalize_manifest_file }}.
+
+    - name: Persist reconciled hostname transfer result atomically
+      ansible.builtin.copy:
+        content: >-
+          {{
+            switch_refresh_sda_fabric_edge_hostname_result_manifest |
+            to_nice_yaml(indent=2, sort_keys=false)
+          }}
+        dest: "{{ switch_refresh_sda_fabric_edge_hostname_finalize_manifest_file }}"
+        mode: "0600"
+        follow: false
+      no_log: true
+
+    - name: Record hostname transfer batch result
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_hostname_transfer_results: >-
+          {{
+            (switch_refresh_sda_fabric_edge_hostname_transfer_results | default([])) + [
+              {
+                'name': switch_refresh_sda_fabric_edge_hostname_finalize_batch_name,
+                'fabric_site_name_hierarchy':
+                  switch_refresh_sda_fabric_edge_hostname_finalize_site,
+                'manifest_file':
+                  switch_refresh_sda_fabric_edge_hostname_finalize_manifest_file,
+                'devices': switch_refresh_sda_fabric_edge_hostname_runtime_entries,
+                'hostname_update_devices':
+                  switch_refresh_sda_fabric_edge_hostname_submitted_update_devices,
+                'update_submitted':
+                  switch_refresh_sda_fabric_edge_hostname_update_submitted,
+                'update_job_id': switch_refresh_sda_fabric_edge_hostname_update_job_id,
+                'update_job_finished':
+                  switch_refresh_sda_fabric_edge_hostname_update_job_finished,
+                'update_job_failed':
+                  switch_refresh_sda_fabric_edge_hostname_update_job_failed,
+                'update_job_message':
+                  switch_refresh_sda_fabric_edge_hostname_update_job_message,
+                'status': (
+                  'verified'
+                  if (switch_refresh_sda_fabric_edge_hostname_pending_entries | length == 0)
+                  else 'rename_pending'
+                )
+              }
+            ]
+          }}
+      no_log: true
+
+    - name: Require exact replacement hostname convergence
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_sda_fabric_edge_hostname_pending_entries | length == 0
+        fail_msg: >-
+          Hostname finalization for batch
+          {{ switch_refresh_sda_fabric_edge_hostname_finalize_batch_name }} did not converge for
+          {{
+            switch_refresh_sda_fabric_edge_hostname_pending_entries |
+            map(attribute='new_management_ip') |
+            list
+          }}. The durable manifest records rename_pending state; rerun
+          cleanup_old with
+          switch_refresh_sda_fabric_edge_hostname_transfer_resume_from_manifest=true. Manager
+          outcome:
+          {{ switch_refresh_sda_fabric_edge_hostname_update_job_message }}.

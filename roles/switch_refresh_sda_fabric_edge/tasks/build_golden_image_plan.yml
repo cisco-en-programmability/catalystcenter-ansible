@@ -1,0 +1,362 @@
+---
+- name: Validate replacement golden image structure
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_batch_new_devices.golden_image is mapping
+    fail_msg: >-
+      new_devices.golden_image must be a mapping containing the requested image
+      name and Catalyst Center device image family.
+  no_log: >-
+    {{
+      switch_refresh_sda_fabric_edge_batch_new_devices.golden_image is mapping and
+      switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.import_image_details
+      is defined
+    }}
+
+- name: Validate replacement golden image fields
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.keys() |
+        list |
+        difference(
+          ['image_name', 'device_image_family_name', 'import_image_details']
+        ) |
+        length == 0
+      - >-
+        switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.image_name
+        is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.image_name |
+        type_debug) == 'str'
+      - >-
+        switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.image_name |
+        trim |
+        length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.image_name ==
+        (switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.image_name |
+        trim)
+      - >-
+        switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.device_image_family_name
+        is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.device_image_family_name |
+        type_debug) == 'str'
+      - >-
+        switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.device_image_family_name |
+        trim |
+        length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.device_image_family_name ==
+        (switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.device_image_family_name |
+        trim)
+    fail_msg: >-
+      new_devices.golden_image accepts only image_name,
+      device_image_family_name, and optional import_image_details. Image and
+      family names must be non-empty, whitespace-trimmed strings. The role
+      derives the site and forces device_role=ALL and tagging=true.
+  no_log: >-
+    {{
+      switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.import_image_details
+      is defined
+    }}
+
+- name: Load replacement golden image values
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_golden_image_name: >-
+      {{ switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.image_name }}
+    switch_refresh_sda_fabric_edge_batch_golden_image_family: >-
+      {{
+        switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.device_image_family_name
+      }}
+    switch_refresh_sda_fabric_edge_batch_golden_image_has_import: >-
+      {{
+        switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.import_image_details
+        is defined
+      }}
+    switch_refresh_sda_fabric_edge_batch_golden_image_import: >-
+      {{
+        switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.import_image_details |
+        default({})
+      }}
+    switch_refresh_sda_fabric_edge_batch_golden_image_effective_import: {}
+  no_log: true
+
+- name: Validate replacement golden image import structure
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_batch_golden_image_import is mapping
+      - switch_refresh_sda_fabric_edge_batch_golden_image_import.type is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_batch_golden_image_import.type | type_debug)
+        == 'str'
+      - >-
+        switch_refresh_sda_fabric_edge_batch_golden_image_import.type in
+        ['remote', 'CCO']
+      - >-
+        switch_refresh_sda_fabric_edge_batch_golden_image_import.keys() |
+        list |
+        difference(
+          ['type', 'url_details', 'cco_image_details']
+        ) |
+        length == 0
+      - >-
+        switch_refresh_sda_fabric_edge_batch_golden_image_import.type != 'remote' or
+        (
+          switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details is defined and
+          switch_refresh_sda_fabric_edge_batch_golden_image_import.cco_image_details is not defined
+        )
+      - >-
+        switch_refresh_sda_fabric_edge_batch_golden_image_import.type != 'CCO' or
+        (
+          switch_refresh_sda_fabric_edge_batch_golden_image_import.cco_image_details is defined and
+          switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details is not defined
+        )
+    fail_msg: >-
+      golden_image.import_image_details must select exactly one supported import
+      source: remote/url_details or CCO/cco_image_details. Local-file import is
+      not supported by this role.
+  when: switch_refresh_sda_fabric_edge_batch_golden_image_has_import | bool
+  no_log: true
+
+- name: Validate remote replacement golden image import
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details is mapping
+      - >-
+        switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details.keys() |
+        list |
+        difference(['payload']) |
+        length == 0
+      - >-
+        (switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details.payload |
+        default([]) | type_debug) == 'list'
+      - >-
+        switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details.payload |
+        default([]) |
+        length == 1
+      - >-
+        switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details.payload[0]
+        is mapping
+    fail_msg: >-
+      A remote golden-image import requires exactly one url_details.payload
+      entry. Scheduled or multi-image imports are outside the switch-refresh
+      scope.
+  when:
+    - switch_refresh_sda_fabric_edge_batch_golden_image_has_import | bool
+    - switch_refresh_sda_fabric_edge_batch_golden_image_import.type == 'remote'
+  no_log: true
+
+- name: Validate remote replacement golden image source
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details.payload[0].keys() |
+        list |
+        difference(['source_url', 'is_third_party']) |
+        length == 0
+      - >-
+        switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details.payload[0].source_url
+        is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details.payload[0].source_url |
+        type_debug) in ['str', 'list']
+      - >-
+        (switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details.payload[0].is_third_party |
+        default(false) | type_debug) == 'bool'
+      - >-
+        not (
+          switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details.payload[0].is_third_party |
+          default(false) |
+          bool
+        )
+    fail_msg: >-
+      The remote import payload accepts one source_url and optional
+      is_third_party=false. Third-party and unrelated image metadata are not
+      accepted for SDA switch refresh.
+  when:
+    - switch_refresh_sda_fabric_edge_batch_golden_image_has_import | bool
+    - switch_refresh_sda_fabric_edge_batch_golden_image_import.type == 'remote'
+  no_log: true
+
+- name: Normalize remote replacement golden image source
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_golden_image_source_names: >-
+      {{
+        switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details.payload[0].source_url
+        if (
+          switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details.payload[0].source_url |
+          type_debug
+        ) == 'list'
+        else [
+          switch_refresh_sda_fabric_edge_batch_golden_image_import.url_details.payload[0].source_url
+        ]
+      }}
+  when:
+    - switch_refresh_sda_fabric_edge_batch_golden_image_has_import | bool
+    - switch_refresh_sda_fabric_edge_batch_golden_image_import.type == 'remote'
+  no_log: true
+
+- name: Validate remote replacement golden image filename
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_batch_golden_image_source_names | length == 1
+      - >-
+        (switch_refresh_sda_fabric_edge_batch_golden_image_source_names[0] | type_debug)
+        == 'str'
+      - >-
+        switch_refresh_sda_fabric_edge_batch_golden_image_source_names[0] |
+        trim |
+        length > 0
+      - >-
+        '?' not in switch_refresh_sda_fabric_edge_batch_golden_image_source_names[0]
+      - >-
+        '#' not in switch_refresh_sda_fabric_edge_batch_golden_image_source_names[0]
+      - >-
+        (
+          switch_refresh_sda_fabric_edge_batch_golden_image_source_names[0] |
+          split('/') |
+          last
+        ) == switch_refresh_sda_fabric_edge_batch_golden_image_name
+    fail_msg: >-
+      The remote import must contain exactly one source whose filename matches
+      golden_image.image_name. Query strings and URL fragments are not accepted
+      because the existing SWIM module treats them as part of the filename.
+  when:
+    - switch_refresh_sda_fabric_edge_batch_golden_image_has_import | bool
+    - switch_refresh_sda_fabric_edge_batch_golden_image_import.type == 'remote'
+  no_log: true
+
+- name: Build normalized remote replacement golden image import
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_golden_image_effective_import:
+      type: remote
+      url_details:
+        payload:
+          - source_url: >-
+              {{ switch_refresh_sda_fabric_edge_batch_golden_image_source_names }}
+            is_third_party: false
+  when:
+    - switch_refresh_sda_fabric_edge_batch_golden_image_has_import | bool
+    - switch_refresh_sda_fabric_edge_batch_golden_image_import.type == 'remote'
+  no_log: true
+
+- name: Validate CCO replacement golden image structure
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_batch_golden_image_import.cco_image_details is mapping
+      - >-
+        switch_refresh_sda_fabric_edge_batch_golden_image_import.cco_image_details.keys() |
+        list |
+        difference(['image_name']) |
+        length == 0
+      - >-
+        switch_refresh_sda_fabric_edge_batch_golden_image_import.cco_image_details.image_name
+        is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_batch_golden_image_import.cco_image_details.image_name |
+        type_debug) in ['str', 'list']
+    fail_msg: >-
+      A CCO golden-image import accepts only image_name as a string or
+      single-item list.
+  when:
+    - switch_refresh_sda_fabric_edge_batch_golden_image_has_import | bool
+    - switch_refresh_sda_fabric_edge_batch_golden_image_import.type == 'CCO'
+  no_log: true
+
+- name: Normalize CCO replacement golden image names
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_golden_image_source_names: >-
+      {{
+        switch_refresh_sda_fabric_edge_batch_golden_image_import.cco_image_details.image_name
+        if (
+          switch_refresh_sda_fabric_edge_batch_golden_image_import.cco_image_details.image_name |
+          type_debug
+        ) == 'list'
+        else [
+          switch_refresh_sda_fabric_edge_batch_golden_image_import.cco_image_details.image_name
+        ]
+      }}
+  when:
+    - switch_refresh_sda_fabric_edge_batch_golden_image_has_import | bool
+    - switch_refresh_sda_fabric_edge_batch_golden_image_import.type == 'CCO'
+  no_log: true
+
+- name: Validate CCO replacement golden image filename
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_batch_golden_image_source_names | length == 1
+      - >-
+        (switch_refresh_sda_fabric_edge_batch_golden_image_source_names[0] | type_debug)
+        == 'str'
+      - >-
+        switch_refresh_sda_fabric_edge_batch_golden_image_source_names[0] ==
+        switch_refresh_sda_fabric_edge_batch_golden_image_name
+    fail_msg: >-
+      A CCO golden-image import must request exactly golden_image.image_name.
+  when:
+    - switch_refresh_sda_fabric_edge_batch_golden_image_has_import | bool
+    - switch_refresh_sda_fabric_edge_batch_golden_image_import.type == 'CCO'
+  no_log: true
+
+- name: Build normalized CCO replacement golden image import
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_golden_image_effective_import:
+      type: CCO
+      cco_image_details:
+        image_name: "{{ switch_refresh_sda_fabric_edge_batch_golden_image_source_names }}"
+  when:
+    - switch_refresh_sda_fabric_edge_batch_golden_image_has_import | bool
+    - switch_refresh_sda_fabric_edge_batch_golden_image_import.type == 'CCO'
+  no_log: true
+
+- name: Build replacement golden image SWIM configuration
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_swim_config: >-
+      {{
+        [
+          (
+            {
+              'import_image_details':
+                switch_refresh_sda_fabric_edge_batch_golden_image_effective_import
+            }
+            if switch_refresh_sda_fabric_edge_batch_golden_image_has_import | bool
+            else {}
+          ) |
+          combine(
+            {
+              'tagging_details': {
+                'image_name': switch_refresh_sda_fabric_edge_batch_golden_image_name,
+                'device_role': 'ALL',
+                'device_image_family_name':
+                  switch_refresh_sda_fabric_edge_batch_golden_image_family,
+                'site_name': refresh_item.fabric_site_name_hierarchy,
+                'tagging': true
+              }
+            }
+          )
+        ]
+      }}
+    switch_refresh_sda_fabric_edge_batch_golden_image_scope_key: >-
+      {{
+        (refresh_item.fabric_site_name_hierarchy | string | lower) ~ '|' ~
+        (switch_refresh_sda_fabric_edge_batch_golden_image_family | string | lower) ~
+        '|all'
+      }}
+  no_log: true
+
+- name: Build replacement golden image cross-batch claim
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_golden_image_claims:
+      - scope_key: "{{ switch_refresh_sda_fabric_edge_batch_golden_image_scope_key }}"
+        scope_image_key: >-
+          {{
+            switch_refresh_sda_fabric_edge_batch_golden_image_scope_key ~ '|' ~
+            (switch_refresh_sda_fabric_edge_batch_golden_image_name | string)
+          }}
+        site_name: "{{ refresh_item.fabric_site_name_hierarchy }}"
+        device_image_family_name: >-
+          {{ switch_refresh_sda_fabric_edge_batch_golden_image_family }}
+        device_role: ALL
+        image_name: "{{ switch_refresh_sda_fabric_edge_batch_golden_image_name }}"

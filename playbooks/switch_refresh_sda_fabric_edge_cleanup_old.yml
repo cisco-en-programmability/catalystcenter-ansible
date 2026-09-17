@@ -1,0 +1,24 @@
+---
+- name: Clean up old switch batches after validation and cutover
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - vars/switch_refresh_sda_fabric_edge_usecase.yml
+  vars:
+    switch_refresh_sda_fabric_edge_phase: cleanup_old
+    # Normal mode explicitly authorizes destructive cleanup. Setting
+    # switch_refresh_sda_fabric_edge_hostname_transfer_resume_from_manifest=true switches this
+    # playbook to non-destructive, manifest-based hostname recovery.
+    switch_refresh_sda_fabric_edge_cleanup_old: >-
+      {{
+        not (
+          switch_refresh_sda_fabric_edge_hostname_transfer_resume_from_manifest |
+          default(false) |
+          bool
+        )
+      }}
+  roles:
+    - role: switch_refresh_sda_fabric_edge
+      tags:
+        - switch_refresh_sda_fabric_edge_cleanup_old

@@ -1,0 +1,15 @@
+---
+- name: Prepare replacement switch batches in Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - vars/switch_refresh_sda_fabric_edge_usecase.yml
+  vars:
+    switch_refresh_sda_fabric_edge_phase: prepare
+    # Cleanup is intentionally a separate, explicitly approved run.
+    switch_refresh_sda_fabric_edge_cleanup_old: false
+  roles:
+    - role: switch_refresh_sda_fabric_edge
+      tags:
+        - switch_refresh_sda_fabric_edge_prepare
