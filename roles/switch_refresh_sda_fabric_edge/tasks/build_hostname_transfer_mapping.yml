@@ -1,0 +1,194 @@
+---
+- name: Match hostname transfer inventory records to mapping
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_hostname_old_inventory_matches: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_transfer_inventory_entries |
+        selectattr(
+          'device_ip',
+          'equalto',
+          switch_refresh_sda_fabric_edge_hostname_mapping_to_build.old_management_ip
+        ) |
+        list
+      }}
+    switch_refresh_sda_fabric_edge_hostname_new_inventory_matches: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_transfer_inventory_entries |
+        selectattr(
+          'device_ip',
+          'equalto',
+          switch_refresh_sda_fabric_edge_hostname_mapping_to_build.new_device_management_ip
+        ) |
+        list
+      }}
+
+- name: Select hostname transfer device records
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_hostname_old_device_record: >-
+      {{ switch_refresh_sda_fabric_edge_hostname_old_inventory_matches[0].device_details[0] }}
+    switch_refresh_sda_fabric_edge_hostname_new_device_record: >-
+      {{ switch_refresh_sda_fabric_edge_hostname_new_inventory_matches[0].device_details[0] }}
+
+- name: Derive normalized hostname transfer identities
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_hostname_old_hostname: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_old_device_record.hostname |
+        default('', true) |
+        string |
+        trim
+      }}
+    switch_refresh_sda_fabric_edge_hostname_old_uuid: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_old_device_record.instanceUuid |
+        default(
+          switch_refresh_sda_fabric_edge_hostname_old_device_record.id | default(''),
+          true
+        ) |
+        string |
+        trim
+      }}
+    switch_refresh_sda_fabric_edge_hostname_old_serial_number: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_old_device_record.serialNumber |
+        default('', true) |
+        string |
+        trim
+      }}
+    switch_refresh_sda_fabric_edge_hostname_new_uuid: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_new_device_record.instanceUuid |
+        default(
+          switch_refresh_sda_fabric_edge_hostname_new_device_record.id | default(''),
+          true
+        ) |
+        string |
+        trim
+      }}
+    switch_refresh_sda_fabric_edge_hostname_new_serial_number: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_new_device_record.serialNumber |
+        default('', true) |
+        string |
+        trim
+      }}
+    switch_refresh_sda_fabric_edge_hostname_new_current_hostname: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_new_device_record.hostname |
+        default('', true) |
+        string |
+        trim
+      }}
+    switch_refresh_sda_fabric_edge_hostname_new_management_state: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_new_device_record.managementState |
+        default(
+          switch_refresh_sda_fabric_edge_hostname_new_device_record.collectionStatus |
+          default(''),
+          true
+        ) |
+        string |
+        trim
+      }}
+    switch_refresh_sda_fabric_edge_hostname_new_reachability_status: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_new_device_record.reachabilityStatus |
+        default('', true) |
+        string |
+        trim
+      }}
+    switch_refresh_sda_fabric_edge_hostname_new_inventory_role: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_new_device_record.role |
+        default('', true) |
+        string |
+        trim
+      }}
+
+- name: Validate immutable hostname transfer identities
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_hostname_old_hostname | length > 0
+      - switch_refresh_sda_fabric_edge_hostname_old_uuid | length > 0
+      - switch_refresh_sda_fabric_edge_hostname_old_serial_number | length > 0
+      - switch_refresh_sda_fabric_edge_hostname_new_uuid | length > 0
+      - switch_refresh_sda_fabric_edge_hostname_new_serial_number | length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_old_device_record.managementIpAddress |
+        default('') |
+        string ==
+        switch_refresh_sda_fabric_edge_hostname_mapping_to_build.old_management_ip | string
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_new_device_record.managementIpAddress |
+        default('') |
+        string ==
+        switch_refresh_sda_fabric_edge_hostname_mapping_to_build.new_device_management_ip |
+        string
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_old_uuid != switch_refresh_sda_fabric_edge_hostname_new_uuid
+      - switch_refresh_sda_fabric_edge_hostname_new_management_state | upper == 'MANAGED'
+      - switch_refresh_sda_fabric_edge_hostname_new_inventory_role | upper == 'ACCESS'
+      - switch_refresh_sda_fabric_edge_hostname_new_reachability_status | length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_new_reachability_status | upper in
+        ['REACHABLE', 'PING REACHABLE']
+    fail_msg: >-
+      Hostname transfer requires a non-empty old hostname, stable UUID and
+      serial identities for both devices, exact management-IP matches, and a
+      Managed, Reachable, ACCESS replacement device. Mapping:
+      {{ switch_refresh_sda_fabric_edge_hostname_mapping_to_build.old_management_ip }} ->
+      {{ switch_refresh_sda_fabric_edge_hostname_mapping_to_build.new_device_management_ip }}.
+      No cleanup changes were made.
+
+- name: Append immutable hostname transfer mapping
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_hostname_transfer_enriched_mappings: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_transfer_enriched_mappings + [
+          switch_refresh_sda_fabric_edge_hostname_mapping_to_build |
+          combine(
+            {
+              'old_hostname': switch_refresh_sda_fabric_edge_hostname_old_hostname,
+              'old_device_uuid': switch_refresh_sda_fabric_edge_hostname_old_uuid,
+              'old_serial_number':
+                switch_refresh_sda_fabric_edge_hostname_old_serial_number,
+              'new_device_uuid': switch_refresh_sda_fabric_edge_hostname_new_uuid,
+              'new_serial_number':
+                switch_refresh_sda_fabric_edge_hostname_new_serial_number,
+              'new_current_hostname':
+                switch_refresh_sda_fabric_edge_hostname_new_current_hostname,
+              'new_management_state':
+                switch_refresh_sda_fabric_edge_hostname_new_management_state,
+              'new_reachability_status':
+                switch_refresh_sda_fabric_edge_hostname_new_reachability_status,
+              'new_inventory_role':
+                switch_refresh_sda_fabric_edge_hostname_new_inventory_role
+            }
+          )
+        ]
+      }}
+    switch_refresh_sda_fabric_edge_hostname_transfer_entries: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_transfer_entries + [
+          {
+            'old_management_ip':
+              switch_refresh_sda_fabric_edge_hostname_mapping_to_build.old_management_ip,
+            'old_hostname': switch_refresh_sda_fabric_edge_hostname_old_hostname,
+            'old_device_uuid': switch_refresh_sda_fabric_edge_hostname_old_uuid,
+            'old_serial_number': switch_refresh_sda_fabric_edge_hostname_old_serial_number,
+            'new_management_ip':
+              switch_refresh_sda_fabric_edge_hostname_mapping_to_build.new_device_management_ip,
+            'new_device_uuid': switch_refresh_sda_fabric_edge_hostname_new_uuid,
+            'new_serial_number': switch_refresh_sda_fabric_edge_hostname_new_serial_number,
+            'new_current_hostname':
+              switch_refresh_sda_fabric_edge_hostname_new_current_hostname,
+            'new_management_state':
+              switch_refresh_sda_fabric_edge_hostname_new_management_state,
+            'new_reachability_status':
+              switch_refresh_sda_fabric_edge_hostname_new_reachability_status,
+            'new_inventory_role':
+              switch_refresh_sda_fabric_edge_hostname_new_inventory_role,
+            'status': 'captured'
+          }
+        ]
+      }}
