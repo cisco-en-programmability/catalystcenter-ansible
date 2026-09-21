@@ -259,10 +259,12 @@ options:
             type: bool
           ise_integration_wait_time:
             description:
-              - Indicates the sleep time after initiating
-                the Cisco ISE integration process.
-              - Maximum sleep time should be less or
-                equal to 120 seconds.
+              - Maximum time, in seconds, to wait for the
+                Cisco ISE integration process to reach the
+                ACTIVE state.
+              - The integration status is polled every five
+                seconds and returns as soon as it completes.
+              - Valid values are from 1 to 600 seconds.
             default: 20
             type: int
 requirements:
@@ -467,6 +469,10 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     get_dict_result,
     catalystcenter_compare_equality,
 )
+
+
+ISE_INTEGRATION_MAX_WAIT_TIME = 600
+ISE_INTEGRATION_POLL_INTERVAL = 5
 
 
 class IseRadiusIntegration(CatalystCenterBase):
@@ -1338,9 +1344,13 @@ class IseRadiusIntegration(CatalystCenterBase):
                         ise_integration_wait_time_int = int(ise_integration_wait_time)
                         if (
                             ise_integration_wait_time_int < 1
-                            or ise_integration_wait_time_int > 120
+                            or ise_integration_wait_time_int
+                            > ISE_INTEGRATION_MAX_WAIT_TIME
                         ):
-                            self.msg = "The 'ise_integration_wait_time' should be from 1 to 120 seconds."
+                            self.msg = (
+                                "The 'ise_integration_wait_time' should be from 1 to "
+                                "{0} seconds.".format(ISE_INTEGRATION_MAX_WAIT_TIME)
+                            )
                             self.status = "failed"
                             return self
 
@@ -1348,6 +1358,8 @@ class IseRadiusIntegration(CatalystCenterBase):
                         self.msg = "The 'ise_integration_wait_time' should contain only digits."
                         self.status = "failed"
                         return self
+
+                    ise_integration_wait_time = ise_integration_wait_time_int
 
                 self.want.update(
                     {"ise_integration_wait_time": ise_integration_wait_time}
@@ -1444,6 +1456,116 @@ class IseRadiusIntegration(CatalystCenterBase):
 
         self.log(f"Final ISE server status: '{overall_status}'", "INFO")
         return overall_status
+
+    def wait_for_ise_server_state(self, ip_address, wait_time):
+        """
+        Poll an ISE server until its integration reaches a terminal state.
+
+        Parameters:
+            ip_address (str): IP address of the Cisco ISE server.
+            wait_time (int): Maximum number of seconds to wait for ACTIVE state.
+
+        Returns:
+            self: The current object with status set according to the integration state.
+        """
+
+        if wait_time is None:
+            wait_time = 20
+        wait_time = int(wait_time)
+        deadline = time.monotonic() + wait_time
+        while True:
+            response = self.catalystcenter._exec(
+                family="system_settings",
+                function="get_authentication_and_policy_servers",
+                params={"is_ise_enabled": True},
+            )
+            if not isinstance(response, dict) or not isinstance(
+                response.get("response"), list
+            ):
+                self.msg = (
+                    "Failed to retrieve the information from the API "
+                    "'get_authentication_and_policy_servers' for Cisco ISE server "
+                    "'{0}'.".format(ip_address)
+                )
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+            ise_server_details = get_dict_result(
+                response.get("response"), "ipAddress", ip_address
+            )
+            state = None
+            if ise_server_details:
+                state = ise_server_details.get("state")
+                self.log(
+                    "Cisco ISE server '{0}' integration is currently in '{1}' state.".format(
+                        ip_address, state
+                    ),
+                    "DEBUG",
+                )
+            else:
+                self.log(
+                    "Cisco ISE server '{0}' is not present in the integration status "
+                    "response yet.".format(ip_address),
+                    "DEBUG",
+                )
+
+            if state == "ACTIVE":
+                self.status = "success"
+                return self
+
+            if state == "FAILED":
+                self.msg = "The Cisco ISE server '{0}' integration has failed and in 'FAILED' state.".format(
+                    ip_address
+                )
+                if self.want.get("trusted_server") is False:
+                    self.msg += (
+                        " This is the first time Cisco Catalyst Center has encountered "
+                        "this certificate from Cisco ISE, and it is not yet trusted."
+                    )
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+            if state not in ("INPROGRESS", None):
+                self.msg = (
+                    "The Cisco ISE server '{0}' integration returned an unexpected "
+                    "state '{1}'.".format(ip_address, state)
+                )
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+            remaining_time = deadline - time.monotonic()
+            if remaining_time <= 0:
+                if state == "INPROGRESS":
+                    self.msg = (
+                        "The Cisco ISE server '{ip}' integration is incomplete, "
+                        "currently in 'INPROGRESS' state. The integration has exceeded "
+                        "the expected duration of '{wait_time}' second(s)."
+                    ).format(ip=ip_address, wait_time=wait_time)
+                elif ise_server_details:
+                    self.msg = (
+                        "The Cisco ISE server '{ip}' integration did not report a state "
+                        "within '{wait_time}' second(s)."
+                    ).format(ip=ip_address, wait_time=wait_time)
+                else:
+                    self.msg = (
+                        "The Cisco ISE server '{ip}' was not found in the integration "
+                        "status response within '{wait_time}' second(s)."
+                    ).format(ip=ip_address, wait_time=wait_time)
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+            sleep_time = min(ISE_INTEGRATION_POLL_INTERVAL, remaining_time)
+            self.log(
+                "Waiting {0} second(s) before checking Cisco ISE server '{1}' again.".format(
+                    sleep_time, ip_address
+                ),
+                "DEBUG",
+            )
+            time.sleep(sleep_time)
 
     def accept_cisco_ise_server_certificate(self, ipAddress, trusted_server):
         """
@@ -1776,47 +1898,13 @@ class IseRadiusIntegration(CatalystCenterBase):
                         self.msg = f"Unexpected Cisco ISE server integration status '{ise_radius_integration_status}' for IP '{ip_address}'."
                         self.fail_and_exit(self.msg)
 
-                    ise_integration_wait_time = self.want.get(
-                        "ise_integration_wait_time"
+                    ise_integration_wait_time = item.get(
+                        "ise_integration_wait_time", 20
                     )
-                    time.sleep(ise_integration_wait_time)
-                    response = self.catalystcenter._exec(
-                        family="system_settings",
-                        function="get_authentication_and_policy_servers",
-                        params={"is_ise_enabled": True},
+                    self.wait_for_ise_server_state(
+                        ip_address, ise_integration_wait_time
                     )
-                    response = response.get("response")
-                    if response is None:
-                        self.msg = "Failed to retrieve the information from the API 'get_authentication_and_policy_servers' of {0}.".format(
-                            ip_address
-                        )
-                        self.status = "failed"
-                        return
-
-                    ise_server_details = get_dict_result(
-                        response, "ipAddress", ip_address
-                    )
-                    ise_state_set = {"FAILED", "INPROGRESS"}
-                    state = ise_server_details.get("state")
-                    if state in ise_state_set:
-                        if state == "INPROGRESS":
-                            self.msg = "The Cisco ISE server '{ip}' integration is incomplete, currently in 'INPROGRESS' state. ".format(
-                                ip=ip_address
-                            ) + "The integration has exceeded the expected duration of '{wait_time}' second(s).".format(
-                                wait_time=ise_integration_wait_time
-                            )
-                        elif state == "FAILED":
-                            self.msg = "The Cisco ISE server '{ip}' integration has failed and in 'FAILED' state.".format(
-                                ip=ip_address
-                            )
-                            if self.want.get("trusted_server") is False:
-                                self.msg += (
-                                    " This is the first time Cisco Catalyst Center has encountered "
-                                    + "this certificate from Cisco ISE, and it is not yet trusted."
-                                )
-
-                        self.log(str(self.msg), "ERROR")
-                        self.status = "failed"
+                    if self.status == "failed":
                         return
 
                 self.log(
@@ -1954,7 +2042,6 @@ class IseRadiusIntegration(CatalystCenterBase):
                 self.log(self.msg, "ERROR")
                 return
 
-            trusted_server_msg = ""
             if is_ise_server_enabled:
                 self.log(
                     "Cisco ISE server is enabled. Checking if it certificate acceptance processing.",
@@ -1988,45 +2075,10 @@ class IseRadiusIntegration(CatalystCenterBase):
                         self.msg = f"Unexpected Cisco ISE server integration status '{ise_radius_integration_status}' for IP '{ip_address}'."
                         self.fail_and_exit(self.msg)
 
-                    ise_integration_wait_time = self.want.get(
-                        "ise_integration_wait_time"
-                    )
-                    time.sleep(ise_integration_wait_time)
-
-                ise_details = self.catalystcenter._exec(
-                    family="system_settings",
-                    function="get_authentication_and_policy_servers",
-                    params={"is_ise_enabled": True},
-                )
-
-                ise_details = ise_details.get("response")
-                if not ise_details:
-                    self.msg = "The response from the API 'get_authentication_and_policy_servers' is empty."
-                    self.log(self.msg, "CRITICAL")
-                    self.status = "failed"
-                    return self
-
-                if not isinstance(ise_details, list):
-                    self.msg = (
-                        "The response from the API 'get_authentication_and_policy_servers' "
-                        "is not a dictionary."
-                    )
-                    self.log(self.msg, "CRITICAL")
-                    self.status = "failed"
-                    return self
-
-                self.log(str(ise_details))
-                state = ise_details[0].get("state")
-                if not state:
-                    self.msg = (
-                        "The parameter 'state' is not available in the ISE details response "
-                        "from the API 'get_authentication_and_policy_servers'."
-                    )
-                    self.status = "failed"
-                    return self
-
-                if state == "FAILED":
-                    trusted_server_msg = " But the server is not trusted."
+                ise_integration_wait_time = item.get("ise_integration_wait_time", 20)
+                self.wait_for_ise_server_state(ip_address, ise_integration_wait_time)
+                if self.status == "failed":
+                    return
 
             self.log(
                 "Authentication and Policy Server '{0}' updated successfully".format(
@@ -2043,9 +2095,7 @@ class IseRadiusIntegration(CatalystCenterBase):
             )
             result_auth_server.get("msg").update(
                 {
-                    ip_address: "Authentication and Policy Server Updated Successfully.{0}".format(
-                        trusted_server_msg
-                    )
+                    ip_address: "Authentication and Policy Server Updated Successfully."
                 }
             )
 
