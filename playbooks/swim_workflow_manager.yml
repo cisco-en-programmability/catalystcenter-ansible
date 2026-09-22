@@ -20,7 +20,11 @@
         catalystcenter_log_level: DEBUG
         config_verify: true
         catalystcenter_api_task_timeout: 1000
-        catalystcenter_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 2
+        activation_batch_size: 20
+        activation_poll_interval: 30
+        # distribution_batch_size: 20
+        # distribution_poll_interval: 30
         config:
           - import_image_details:
               type: remote
@@ -28,7 +32,7 @@
                 payload:
                   - source_url:
                       - "http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin"
-                third_party: false
+                    is_third_party: false
             tagging_details:
               image_name: cat9k_iosxe.17.12.02.SPA.bin
               device_role: ALL
@@ -41,14 +45,16 @@
             #   device_role: "{{ item.device_role }}"
             #   device_family_name: "{{ item.device_family_name }}"
             #   device_series_name: "Catalyst 9300 Series"
+            #   image_distribution_timeout: 3600
             image_activation_details:
               image_name: cat9k_iosxe.17.12.02.SPA.bin
               site_name: "{{ item.site_name }}"
               device_role: "{{ item.device_role }}"
               device_family_name: "{{ item.device_family_name }}"
               device_series_name: "Catalyst 9300 Series"
-              scehdule_validate: false
+              schedule_validate: false
               distribute_if_needed: true
+              image_activation_timeout: 3600
 
       with_items: "{{ image_details }}"
       tags:
