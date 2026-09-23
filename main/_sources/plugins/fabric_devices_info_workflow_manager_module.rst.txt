@@ -43,7 +43,7 @@ cisco.catalystcenter.fabric_devices_info_workflow_manager module -- Comprehensiv
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.12.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.13.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -70,7 +70,7 @@ Synopsis
 .. Description
 
 - Retrieves comprehensive fabric device information from Cisco Catalyst Center using flexible, user-defined filtering criteria.
-- Supports device identification through fabric site hierarchy and optional fabric device role filtering for targeted information retrieval.
+- Supports device identification through fabric site or fabric zone hierarchy and optional fabric device role filtering for targeted information retrieval.
 - Enables selective information retrieval across six categories are fabric configuration details, Layer 2/3 handoff configurations, device onboarding status, connected neighbor devices, health metrics, and active issues.
 - Implements robust data collection with configurable retry mechanisms, timeout handling, and polling intervals for reliable operation in enterprise environments.
 - Provides flexible file output capabilities using the \ :literal:`output\_file\_info`\  parameter with support for JSON and YAML formats, configurable file modes (overwrite or append), and optional timestamp inclusion.
@@ -782,11 +782,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Defines fabric device filtering criteria to retrieve information from Software-Defined Access (SDA) fabric sites.
+      Defines fabric device filtering criteria to retrieve information from Software-Defined Access (SDA) fabric sites or zones.
 
-      Each device entry must include the fabric\_site\_hierarchy parameter to identify the fabric site.
+      Each device entry must include the fabric\_site\_hierarchy parameter to identify the fabric site or zone.
 
-      Optional device\_identifier parameter provides additional filtering capabilities within the fabric site.
+      Optional device\_identifier parameter provides additional filtering capabilities within the fabric site or zone.
 
 
       .. raw:: html
@@ -820,11 +820,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Optional list of device identification criteria to further filter fabric devices within the specified fabric site.
+      Optional list of device identification criteria to further filter fabric devices within the specified fabric site or zone.
 
       Provides granular control over which fabric devices have their information retrieved.
 
-      If omitted, all fabric devices within the fabric site hierarchy (and optional role filter) are processed.
+      If omitted, all fabric devices within the fabric site or zone hierarchy (and optional role filter) are processed.
 
       Multiple identification methods can be combined for comprehensive device targeting.
 
@@ -908,7 +908,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of management IP addresses to identify specific fabric devices within specified fabric site.
+      List of management IP addresses to identify specific fabric devices within the specified fabric site or zone.
 
       Each IP address must correspond to a managed device in the Cisco Catalyst Center inventory.
 
@@ -952,7 +952,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address range specification for bulk device identification within specified fabric sites.
+      IP address range specification for bulk device identification within specified fabric sites or zones.
 
       Format "start\_ip-end\_ip" (e.g., "192.168.1.1-192.168.1.50") for contiguous IP ranges.
 
@@ -1043,7 +1043,7 @@ Parameters
 
       When specified, only fabric devices with the matching role will have their information retrieved.
 
-      If omitted, all fabric devices within the specified fabric site hierarchy are included.
+      If omitted, all fabric devices within the specified fabric site or zone hierarchy are included.
 
       Role-based filtering improves performance for large fabric deployments by reducing the scope of devices processed.
 
@@ -1090,13 +1090,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Hierarchical path of the fabric site to query for fabric device information.
+      Hierarchical path of the fabric site or fabric zone to query for fabric device information.
 
-      Must be an existing site configured as a Software-Defined Access (SDA) fabric site in Cisco Catalyst Center.
+      Must be an existing site configured as a Software-Defined Access (SDA) fabric site or fabric zone in Cisco Catalyst Center.
 
       Site path must follow the full hierarchical structure (e.g., "Global/Region/Building/Floor").
 
-      All fabric devices within this site hierarchy will be included unless further filtered by other parameters.
+      All fabric devices within this site or zone hierarchy will be included unless further filtered by other parameters.
 
       Site hierarchy paths must match exactly as configured in Cisco Catalyst Center's site management structure.
 
@@ -1664,16 +1664,16 @@ Notes
    - This is a facts/info module that only retrieves information and does not modify any device configurations or network state.
    - Writing to a local file is for reporting, archival, and audit purposes only and does not affect the state of any managed devices.
    - Module is safe to use in check mode as it performs read-only operations against Cisco Catalyst Center APIs.
-   - Fabric device filtering automatically identifies SDA fabric-enabled devices from the specified fabric site hierarchy.
-   - The fabric\_site\_hierarchy parameter is required and must reference an existing SDA fabric site in Cisco Catalyst Center.
+   - Fabric device filtering automatically identifies SDA fabric-enabled devices from the specified fabric site or zone hierarchy.
+   - The fabric\_site\_hierarchy parameter is required and must reference an existing SDA fabric site or fabric zone in Cisco Catalyst Center.
    - Device identification through device\_identifier parameters provides granular control over which fabric devices are processed.
    - Information retrieval is optimized based on device capabilities - SSID details are only retrieved for wireless controllers, handoff information is role-specific.
    - Retry mechanisms with configurable timeout, retry count, and polling intervals ensure reliable data collection in enterprise-scale deployments.
    - Requires Cisco Catalyst Center version 2.3.7.9 or later for fabric device information retrieval functionality.
    - File output supports both JSON and YAML formats with flexible writing modes (overwrite/append) and optional timestamp inclusion for audit trails.
    - Module handles mixed wired and wireless fabric environments automatically, applying appropriate API calls based on device type detection.
-   - SDK Methods used are - devices.Devices.get\_device\_list - sda.Sda.get\_fabric\_devices - sda.Sda.get\_fabric\_sites - sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit - sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit - sda.Sda.get\_fabric\_devices\_layer2\_handoffs - devices.Devices.get\_interface\_info\_by\_id - devices.Devices.get\_connected\_device\_detail - devices.Devices.devices - issues.Issues.issues - sda.Sda.get\_provisioned\_wired\_device - sda.Sda.get\_port\_assignments - wireless.Wireless.get\_ssid\_details\_for\_specific\_wireless\_controller
-   - Paths used are - GET/dna/intent/api/v1/network-device - GET/dna/intent/api/v1/sda/fabricDevices - GET/dna/intent/api/v1/sda/fabricSites - GET/dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits - GET/dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits - GET/dna/intent/api/v1/sda/fabricDevices/layer2Handoffs - GET/dna/intent/api/v1/interface/network-device/{deviceId} - GET/dna/intent/api/v1/network-device/{deviceUuid}/interface/{interfaceUuid}/neighbor - GET/dna/intent/api/v1/device-health - GET/dna/intent/api/v1/issues - GET/dna/intent/api/v1/business/sda/provision-device - GET/dna/intent/api/v1/sda/portAssignments - GET/dna/intent/api/v1/wireless/controller/{networkDeviceId}/ssidDetails
+   - SDK Methods used are - devices.Devices.get\_device\_list - sda.Sda.get\_fabric\_devices - sda.Sda.get\_fabric\_sites - sda.Sda.get\_fabric\_zones - sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit - sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit - sda.Sda.get\_fabric\_devices\_layer2\_handoffs - devices.Devices.get\_interface\_info\_by\_id - devices.Devices.get\_connected\_device\_detail - devices.Devices.devices - issues.Issues.issues - sda.Sda.get\_provisioned\_wired\_device - sda.Sda.get\_port\_assignments - wireless.Wireless.get\_ssid\_details\_for\_specific\_wireless\_controller
+   - Paths used are - GET/dna/intent/api/v1/network-device - GET/dna/intent/api/v1/sda/fabricDevices - GET/dna/intent/api/v1/sda/fabricSites - GET/dna/intent/api/v1/sda/fabricZones - GET/dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits - GET/dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits - GET/dna/intent/api/v1/sda/fabricDevices/layer2Handoffs - GET/dna/intent/api/v1/interface/network-device/{deviceId} - GET/dna/intent/api/v1/network-device/{deviceUuid}/interface/{interfaceUuid}/neighbor - GET/dna/intent/api/v1/device-health - GET/dna/intent/api/v1/issues - GET/dna/intent/api/v1/business/sda/provision-device - GET/dna/intent/api/v1/sda/portAssignments - GET/dna/intent/api/v1/wireless/controller/{networkDeviceId}/ssidDetails
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
