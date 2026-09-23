@@ -1,0 +1,230 @@
+---
+# Load a durable capture without looking up the deleted old devices. The
+# caller initializes switch_refresh_sda_fabric_edge_hostname_finalize_plans before looping over
+# refresh_item values.
+- name: Validate hostname transfer manifest selector
+  ansible.builtin.assert:
+    that:
+      - refresh_item is mapping
+      - refresh_item.name is defined
+      - (refresh_item.name | type_debug) == 'str'
+      - refresh_item.name | trim | length > 0
+      - refresh_item.fabric_site_name_hierarchy is defined
+      - >-
+        (refresh_item.fabric_site_name_hierarchy | type_debug) == 'str'
+      - refresh_item.fabric_site_name_hierarchy | trim | length > 0
+      - refresh_item.new_devices is defined
+      - refresh_item.new_devices is mapping
+      - refresh_item.new_devices.device_ips is defined
+      - >-
+        (refresh_item.new_devices.device_ips | type_debug) == 'list'
+      - refresh_item.new_devices.device_ips | length > 0
+      - refresh_item.device_mapping is defined
+      - (refresh_item.device_mapping | type_debug) == 'list'
+      - refresh_item.device_mapping | length > 0
+      - >-
+        (switch_refresh_sda_fabric_edge_hostname_transfer_manifest_dir | type_debug) == 'str'
+      - switch_refresh_sda_fabric_edge_hostname_transfer_manifest_dir | trim | length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_manifest_dir |
+        regex_search('^/') is not none
+    fail_msg: >-
+      Hostname manifest loading requires a complete batch selector and an
+      absolute switch_refresh_sda_fabric_edge_hostname_transfer_manifest_dir.
+
+- name: Derive hostname transfer manifest selector values
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_hostname_manifest_file_safe_name: >-
+      {{ refresh_item.name | string | regex_replace('[^A-Za-z0-9_.-]', '_') }}
+    switch_refresh_sda_fabric_edge_hostname_manifest_expected_file: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_transfer_manifest_dir |
+        regex_replace('/+$', '') ~ '/' ~
+        (
+          refresh_item.name |
+          string |
+          regex_replace('[^A-Za-z0-9_.-]', '_')
+        ) ~ '_hostname_transfer.yml'
+      }}
+
+- name: Recompute hostname transfer manifest input fingerprint
+  ansible.builtin.include_tasks: derive_hostname_transfer_input_fingerprint.yml
+
+- name: Inspect hostname transfer manifest
+  ansible.builtin.stat:
+    path: "{{ switch_refresh_sda_fabric_edge_hostname_manifest_expected_file }}"
+    follow: false
+  register: switch_refresh_sda_fabric_edge_hostname_manifest_load_stat
+
+- name: Validate hostname transfer manifest file type
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_hostname_manifest_load_stat.stat.exists | bool
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_manifest_load_stat.stat.isreg |
+        default(false)
+      - >-
+        not (
+          switch_refresh_sda_fabric_edge_hostname_manifest_load_stat.stat.islnk |
+          default(false)
+        )
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_manifest_load_stat.stat.mode |
+        default('') == '0600'
+    fail_msg: >-
+      Hostname finalization requires an existing regular, non-symlink manifest
+      protected with mode 0600:
+      {{ switch_refresh_sda_fabric_edge_hostname_manifest_expected_file }}.
+
+- name: Load hostname transfer manifest data
+  ansible.builtin.include_vars:
+    file: "{{ switch_refresh_sda_fabric_edge_hostname_manifest_expected_file }}"
+    name: switch_refresh_sda_fabric_edge_hostname_loaded_manifest
+  no_log: true
+
+- name: Validate hostname transfer manifest envelope
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_hostname_loaded_manifest is mapping
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_loaded_manifest.schema_version |
+        default(0) |
+        int == 1
+      - switch_refresh_sda_fabric_edge_hostname_loaded_manifest.controller is defined
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_loaded_manifest.controller |
+        string |
+        trim |
+        lower == catalystcenter_host | string | trim | lower
+      - switch_refresh_sda_fabric_edge_hostname_loaded_manifest.batch_name is defined
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_loaded_manifest.batch_name | string ==
+        refresh_item.name | string
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_loaded_manifest.fabric_site_name_hierarchy is
+        defined
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_loaded_manifest.fabric_site_name_hierarchy |
+        string == refresh_item.fabric_site_name_hierarchy | string
+      - switch_refresh_sda_fabric_edge_hostname_loaded_manifest.input_fingerprint is defined
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_loaded_manifest.input_fingerprint |
+        string |
+        regex_search('^[0-9a-f]{64}$') is not none
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_loaded_manifest.input_fingerprint | string ==
+        switch_refresh_sda_fabric_edge_hostname_transfer_input_fingerprint | string
+      - switch_refresh_sda_fabric_edge_hostname_loaded_manifest.status is defined
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_loaded_manifest.status | string in
+        ['captured', 'rename_pending', 'verified']
+      - switch_refresh_sda_fabric_edge_hostname_loaded_manifest.devices is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_hostname_loaded_manifest.devices | type_debug) ==
+        'list'
+      - switch_refresh_sda_fabric_edge_hostname_loaded_manifest.devices | length > 0
+      - switch_refresh_sda_fabric_edge_hostname_loaded_manifest.devices | length <= 100
+    fail_msg: >-
+      Hostname transfer manifest metadata does not match controller, batch,
+      site, or canonical input fingerprint for {{ refresh_item.name }}.
+
+- name: Validate common hostname transfer manifest entry schema
+  ansible.builtin.include_tasks: validate_hostname_transfer_entries.yml
+  vars:
+    switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_request:
+      entries: "{{ switch_refresh_sda_fabric_edge_hostname_loaded_manifest.devices }}"
+      context: >-
+        hostname transfer manifest for {{ refresh_item.name }}
+
+- name: Validate hostname transfer manifest entry states
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_hostname_manifest_device.status is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_hostname_manifest_device.status | type_debug) == 'str'
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_manifest_device.status in
+        ['captured', 'rename_pending', 'verified']
+    fail_msg: >-
+      Hostname transfer manifest contains an invalid device state for
+      {{ switch_refresh_sda_fabric_edge_hostname_manifest_device.new_management_ip }}.
+  loop: >-
+    {{ switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entries }}
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_hostname_manifest_device
+    label: "{{ switch_refresh_sda_fabric_edge_hostname_manifest_device.new_management_ip }}"
+
+- name: Validate hostname transfer manifest coverage and uniqueness
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.new_management_ips |
+        sort ==
+        refresh_item.new_devices.device_ips |
+        map('string') |
+        sort
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.new_management_ips |
+        unique |
+        length ==
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entry_count
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.old_hostnames |
+        map('lower') |
+        unique |
+        length ==
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entry_count
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.old_device_uuids |
+        unique |
+        length ==
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entry_count
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.new_device_uuids |
+        unique |
+        length ==
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entry_count
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_loaded_manifest.status | string != 'verified'
+        or
+        (
+          switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entries |
+          rejectattr('status', 'equalto', 'verified') |
+          list |
+          length == 0
+        )
+    fail_msg: >-
+      Hostname transfer manifest devices do not exactly cover the requested
+      replacement IPs or contain duplicate/inconsistent identities or states.
+
+- name: Build validated hostname finalization plan
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_hostname_finalize_plan: >-
+      {{
+        {
+          'name': refresh_item.name | string,
+          'file_safe_name': switch_refresh_sda_fabric_edge_hostname_manifest_file_safe_name,
+          'fabric_site_name_hierarchy':
+            refresh_item.fabric_site_name_hierarchy | string,
+          'device_ips':
+            refresh_item.new_devices.device_ips | map('string') | list,
+          'hostname_transfer_enabled': true,
+          'hostname_transfer_schema_version': 1,
+          'hostname_transfer_manifest_file':
+            switch_refresh_sda_fabric_edge_hostname_manifest_expected_file,
+          'hostname_transfer_input_fingerprint':
+            switch_refresh_sda_fabric_edge_hostname_transfer_input_fingerprint,
+          'hostname_transfer_entries':
+            switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entries
+        }
+      }}
+  no_log: true
+
+- name: Append validated hostname finalization plan
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_hostname_finalize_plans: >-
+      {{
+        (switch_refresh_sda_fabric_edge_hostname_finalize_plans | default([])) +
+        [switch_refresh_sda_fabric_edge_hostname_finalize_plan]
+      }}
+  no_log: true

@@ -1,0 +1,693 @@
+---
+- name: Validate switch refresh golden-image planning offline
+  hosts: plan_test
+  gather_facts: false
+  vars:
+    switch_refresh_sda_fabric_edge_onboarding_method: lan_automation
+    switch_refresh_sda_fabric_edge_work_dir: >-
+      /tmp/catalystcenter_switch_refresh_sda_fabric_edge-swim-test
+    switch_refresh_sda_fabric_edge_inventory_credentials:
+      username: test-user
+      password: test-password
+      enable_password: test-enable-password
+      cli_transport: ssh
+      type: NETWORK_DEVICE
+    switch_refresh_sda_fabric_edge_swim_enabled: true
+    switch_refresh_sda_fabric_edge_discovery_enabled: true
+    switch_refresh_sda_fabric_edge_lan_automation_enabled: true
+    switch_refresh_sda_fabric_edge_inventory_enabled: true
+    switch_refresh_sda_fabric_edge_inventory_role_update_enabled: true
+    switch_refresh_sda_fabric_edge_provision_enabled: true
+    switch_refresh_sda_fabric_edge_fabric_add_enabled: true
+    switch_refresh_sda_fabric_edge_host_onboarding_enabled: false
+    switch_refresh_sda_fabric_edge_device_info_lookup_enabled: false
+    switch_refresh_sda_fabric_edge_fabric_validation_enabled: false
+    switch_refresh_sda_fabric_edge_test_base_batch:
+      name: golden-image-base
+      fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23
+      onboarding_method: lan_automation
+      new_devices:
+        device_ips:
+          - "192.0.2.90"
+        lan_automation_config:
+          - lan_automation:
+              discovered_device_site_name_hierarchy: >-
+                Global/USA/San Jose/BLDG23
+              discovery_devices:
+                - device_serial_number: NEW-SERIAL-0090
+                  device_management_ip_address: "192.0.2.90"
+              launch_and_wait: true
+
+  tasks:
+    - name: Load golden-image defaults and execution contracts
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_swim_test_defaults: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../defaults/main.yml'
+            ) |
+            from_yaml
+          }}
+        switch_refresh_sda_fabric_edge_swim_test_prepare_tasks: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/prepare_batch.yml'
+            ) |
+            from_yaml
+          }}
+        switch_refresh_sda_fabric_edge_swim_test_preflight_source: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/preflight_prepare_batch.yml'
+            )
+          }}
+
+    - name: Select golden-image execution contract tasks
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_swim_test_prepare_task_names: >-
+          {{
+            switch_refresh_sda_fabric_edge_swim_test_prepare_tasks |
+            map(attribute='name') |
+            list
+          }}
+        switch_refresh_sda_fabric_edge_swim_test_execution_task: >-
+          {{
+            switch_refresh_sda_fabric_edge_swim_test_prepare_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Import and golden-tag replacement image before LAN Automation'
+            ) |
+            first
+          }}
+
+    - name: Verify safe defaults and SWIM execution ordering
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_sda_fabric_edge_swim_test_defaults[
+              'switch_refresh_sda_fabric_edge_swim_enabled'
+            ] is sameas false
+          - >-
+            switch_refresh_sda_fabric_edge_swim_test_defaults[
+              'switch_refresh_sda_fabric_edge_swim_config_verify'
+            ] is sameas true
+          - >-
+            switch_refresh_sda_fabric_edge_swim_test_prepare_task_names |
+            select(
+              'equalto',
+              'Import and golden-tag replacement image before LAN Automation'
+            ) |
+            list |
+            length == 1
+          - >-
+            switch_refresh_sda_fabric_edge_swim_test_prepare_task_names.index(
+              'Import and golden-tag replacement image before LAN Automation'
+            ) <
+            switch_refresh_sda_fabric_edge_swim_test_prepare_task_names.index(
+              'Run LAN Automation for replacement switch batch'
+            )
+          - >-
+            switch_refresh_sda_fabric_edge_swim_test_prepare_task_names.index(
+              'Import and golden-tag replacement image before LAN Automation'
+            ) <
+            switch_refresh_sda_fabric_edge_swim_test_prepare_task_names.index(
+              'Wait until batch LAN Automation is fully inactive'
+            )
+          - >-
+            switch_refresh_sda_fabric_edge_swim_test_prepare_task_names.index(
+              'Import and golden-tag replacement image before LAN Automation'
+            ) <
+            switch_refresh_sda_fabric_edge_swim_test_prepare_task_names.index(
+              'Add replacement switch batch to Catalyst Center inventory'
+            )
+          - >-
+            switch_refresh_sda_fabric_edge_swim_test_execution_task[
+              'ansible.builtin.include_role'
+            ].name == 'swim'
+          - >-
+            switch_refresh_sda_fabric_edge_swim_test_execution_task.vars.swim_state ==
+            'merged'
+          - >-
+            'switch_refresh_sda_fabric_edge_batch_swim_config' in
+            switch_refresh_sda_fabric_edge_swim_test_execution_task.vars.swim_config |
+            string
+          - >-
+            'switch_refresh_sda_fabric_edge_swim_config_verify' in
+            switch_refresh_sda_fabric_edge_swim_test_execution_task.vars.swim_config_verify |
+            string
+          - >-
+            'switch_refresh_sda_fabric_edge_swim_enabled' in
+            switch_refresh_sda_fabric_edge_swim_test_execution_task.when |
+            string
+          - >-
+            'switch_refresh_sda_fabric_edge_lan_automation_enabled' in
+            switch_refresh_sda_fabric_edge_swim_test_execution_task.when |
+            string
+          - >-
+            'lan_automation' in
+            switch_refresh_sda_fabric_edge_swim_test_execution_task.when |
+            string
+          - >-
+            'switch_refresh_sda_fabric_edge_batch_swim_config' in
+            switch_refresh_sda_fabric_edge_swim_test_execution_task.when |
+            string
+          - >-
+            switch_refresh_sda_fabric_edge_swim_test_execution_task.vars.catalystcenter_debug
+            is sameas false
+          - >-
+            switch_refresh_sda_fabric_edge_swim_test_execution_task.vars.catalystcenter_log
+            is sameas false
+          - switch_refresh_sda_fabric_edge_swim_test_execution_task.no_log is sameas true
+          - >-
+            switch_refresh_sda_fabric_edge_swim_test_execution_task[
+              'ansible.builtin.include_role'
+            ].apply.no_log is sameas true
+          - >-
+            "'swim_config': switch_refresh_sda_fabric_edge_batch_swim_config" in
+            switch_refresh_sda_fabric_edge_swim_test_preflight_source
+          - >-
+            "'golden_image_claims'" in
+            switch_refresh_sda_fabric_edge_swim_test_preflight_source
+          - >-
+            'switch_refresh_sda_fabric_edge_batch_golden_image_claims' in
+            switch_refresh_sda_fabric_edge_swim_test_preflight_source
+
+    - name: Set valid tag-only golden-image batch
+      ansible.builtin.set_fact:
+        refresh_item: >-
+          {{
+            switch_refresh_sda_fabric_edge_test_base_batch |
+            combine(
+              {
+                'name': 'valid-tag-only-golden-image',
+                'new_devices': (
+                  switch_refresh_sda_fabric_edge_test_base_batch.new_devices |
+                  combine(
+                    {
+                      'golden_image': {
+                        'image_name': 'cat9k_iosxe.17.12.04.SPA.bin',
+                        'device_image_family_name': 'Cisco Catalyst 9300 Switch'
+                      }
+                    }
+                  )
+                )
+              }
+            )
+          }}
+
+    - name: Build valid tag-only golden-image plan
+      ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+    - name: Verify constrained tag-only SWIM plan
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_sda_fabric_edge_batch_swim_config | length == 1
+          - >-
+            switch_refresh_sda_fabric_edge_batch_swim_config[0].keys() |
+            list |
+            sort == ['tagging_details']
+          - >-
+            switch_refresh_sda_fabric_edge_batch_swim_config[0].tagging_details ==
+            {
+              'image_name': 'cat9k_iosxe.17.12.04.SPA.bin',
+              'device_role': 'ALL',
+              'device_image_family_name': 'Cisco Catalyst 9300 Switch',
+              'site_name': 'Global/USA/San Jose/BLDG23',
+              'tagging': true
+            }
+          - >-
+            switch_refresh_sda_fabric_edge_batch_golden_image_claims | length == 1
+          - >-
+            switch_refresh_sda_fabric_edge_batch_golden_image_claims[0].image_name ==
+            'cat9k_iosxe.17.12.04.SPA.bin'
+          - >-
+            switch_refresh_sda_fabric_edge_batch_golden_image_claims[0].device_image_family_name ==
+            'Cisco Catalyst 9300 Switch'
+          - >-
+            switch_refresh_sda_fabric_edge_batch_golden_image_claims[0].site_name ==
+            'Global/USA/San Jose/BLDG23'
+          - >-
+            'image_distribution_details' not in
+            (switch_refresh_sda_fabric_edge_batch_swim_config | string)
+          - >-
+            'image_activation_details' not in
+            (switch_refresh_sda_fabric_edge_batch_swim_config | string)
+
+    - name: Set valid remote-import golden-image batch
+      ansible.builtin.set_fact:
+        refresh_item: >-
+          {{
+            switch_refresh_sda_fabric_edge_test_base_batch |
+            combine(
+              {
+                'name': 'valid-import-and-tag-golden-image',
+                'new_devices': (
+                  switch_refresh_sda_fabric_edge_test_base_batch.new_devices |
+                  combine(
+                    {
+                      'golden_image': {
+                        'image_name': 'cat9k_iosxe.17.12.04.SPA.bin',
+                        'device_image_family_name': 'Cisco Catalyst 9300 Switch',
+                        'import_image_details': {
+                          'type': 'remote',
+                          'url_details': {
+                            'payload': [
+                              {
+                                'source_url': [
+                                  'https://images.example.test/cat9k_iosxe.17.12.04.SPA.bin'
+                                ],
+                                'is_third_party': false
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  )
+                )
+              }
+            )
+          }}
+
+    - name: Initialize immutable golden-image preflight plans
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_prepare_preflight_plans: []
+
+    - name: Preflight valid import-and-tag golden-image plan
+      ansible.builtin.include_tasks: ../tasks/preflight_prepare_batch.yml
+
+    - name: Verify import preservation and immutable plan fields
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_sda_fabric_edge_prepare_preflight_plans | length == 1
+          - >-
+            switch_refresh_sda_fabric_edge_batch_swim_config[0].import_image_details ==
+            refresh_item.new_devices.golden_image.import_image_details
+          - >-
+            switch_refresh_sda_fabric_edge_prepare_preflight_plans[0].swim_config ==
+            switch_refresh_sda_fabric_edge_batch_swim_config
+          - >-
+            switch_refresh_sda_fabric_edge_prepare_preflight_plans[0].golden_image_claims ==
+            switch_refresh_sda_fabric_edge_batch_golden_image_claims
+          - >-
+            switch_refresh_sda_fabric_edge_prepare_preflight_plans[0].swim_config[0].tagging_details.tagging
+            is sameas true
+          - >-
+            switch_refresh_sda_fabric_edge_prepare_preflight_plans[0].swim_config[0].tagging_details.device_role ==
+            'ALL'
+
+    - name: Set valid scalar CCO golden-image batch
+      ansible.builtin.set_fact:
+        refresh_item: >-
+          {{
+            switch_refresh_sda_fabric_edge_test_base_batch |
+            combine(
+              {
+                'name': 'valid-scalar-cco-golden-image',
+                'new_devices': (
+                  switch_refresh_sda_fabric_edge_test_base_batch.new_devices |
+                  combine(
+                    {
+                      'golden_image': {
+                        'image_name': 'cat9k_iosxe.17.12.04.SPA.bin',
+                        'device_image_family_name': 'Cisco Catalyst 9300 Switch',
+                        'import_image_details': {
+                          'type': 'CCO',
+                          'cco_image_details': {
+                            'image_name': 'cat9k_iosxe.17.12.04.SPA.bin'
+                          }
+                        }
+                      }
+                    }
+                  )
+                )
+              }
+            )
+          }}
+
+    - name: Build valid scalar CCO golden-image plan
+      ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+    - name: Verify scalar CCO image name is normalized for SWIM
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_sda_fabric_edge_batch_swim_config | length == 1
+          - >-
+            switch_refresh_sda_fabric_edge_batch_swim_config[0].import_image_details.type ==
+            'CCO'
+          - >-
+            switch_refresh_sda_fabric_edge_batch_swim_config[0].import_image_details.cco_image_details.image_name ==
+            ['cat9k_iosxe.17.12.04.SPA.bin']
+          - >-
+            switch_refresh_sda_fabric_edge_batch_swim_config[0].tagging_details.image_name ==
+            'cat9k_iosxe.17.12.04.SPA.bin'
+
+    - name: Verify enabled SWIM requires a golden image for an enabled launch
+      block:
+        - name: Set enabled launch without golden-image input
+          ansible.builtin.set_fact:
+            refresh_item: >-
+              {{
+                switch_refresh_sda_fabric_edge_test_base_batch |
+                combine({'name': 'missing-required-golden-image'})
+              }}
+
+        - name: Build enabled launch without golden-image input
+          ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+        - name: Fail when required golden-image input was accepted
+          ansible.builtin.fail:
+            msg: Missing golden_image unexpectedly passed.
+      rescue:
+        - name: Confirm required golden-image validation failed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when required golden-image input was accepted'
+              - "'golden_image' in (ansible_failed_result | string)"
+
+    - name: Verify retained golden-image input is allowed when launch is disabled
+      block:
+        - name: Disable LAN Automation launch for resume planning
+          ansible.builtin.set_fact:
+            switch_refresh_sda_fabric_edge_lan_automation_enabled: false
+            refresh_item: >-
+              {{
+                switch_refresh_sda_fabric_edge_test_base_batch |
+                combine(
+                  {
+                    'name': 'disabled-launch-retained-golden-image',
+                    'new_devices': (
+                      switch_refresh_sda_fabric_edge_test_base_batch.new_devices |
+                      combine(
+                        {
+                          'golden_image': {
+                            'image_name': 'cat9k_iosxe.17.12.04.SPA.bin',
+                            'device_image_family_name': 'Cisco Catalyst 9300 Switch'
+                          }
+                        }
+                      )
+                    )
+                  }
+                )
+              }}
+
+        - name: Build disabled-launch retained golden-image plan
+          ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+        - name: Verify disabled-launch plan remains validated
+          ansible.builtin.assert:
+            that:
+              - switch_refresh_sda_fabric_edge_batch_swim_config | length == 1
+              - not (switch_refresh_sda_fabric_edge_lan_automation_enabled | bool)
+      always:
+        - name: Restore LAN Automation launch toggle
+          ansible.builtin.set_fact:
+            switch_refresh_sda_fabric_edge_lan_automation_enabled: true
+
+    - name: Verify absent golden-image input remains valid when SWIM is disabled
+      block:
+        - name: Disable SWIM for backward-compatible planning
+          ansible.builtin.set_fact:
+            switch_refresh_sda_fabric_edge_swim_enabled: false
+            refresh_item: >-
+              {{
+                switch_refresh_sda_fabric_edge_test_base_batch |
+                combine({'name': 'swim-disabled-no-golden-image'})
+              }}
+
+        - name: Build SWIM-disabled LAN Automation plan
+          ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+        - name: Verify SWIM-disabled plan is unchanged
+          ansible.builtin.assert:
+            that:
+              - switch_refresh_sda_fabric_edge_batch_swim_config | length == 0
+              - switch_refresh_sda_fabric_edge_batch_golden_image_claims | length == 0
+      always:
+        - name: Restore SWIM toggle
+          ansible.builtin.set_fact:
+            switch_refresh_sda_fabric_edge_swim_enabled: true
+
+    - name: Verify Discovery rejects golden-image input
+      block:
+        - name: Set Discovery golden-image input
+          ansible.builtin.set_fact:
+            refresh_item: >-
+              {{
+                {
+                  'name': 'invalid-discovery-golden-image',
+                  'fabric_site_name_hierarchy': 'Global/USA/San Jose/BLDG23',
+                  'onboarding_method': 'discovery',
+                  'new_devices': {
+                    'device_ips': ['192.0.2.91'],
+                    'golden_image': {
+                      'image_name': 'cat9k_iosxe.17.12.04.SPA.bin',
+                      'device_image_family_name': 'Cisco Catalyst 9300 Switch'
+                    }
+                  }
+                }
+              }}
+
+        - name: Build Discovery golden-image input
+          ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+        - name: Fail when Discovery golden-image input was accepted
+          ansible.builtin.fail:
+            msg: Discovery golden_image unexpectedly passed.
+      rescue:
+        - name: Confirm Discovery golden-image validation failed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when Discovery golden-image input was accepted'
+              - "'golden_image' in (ansible_failed_result | string)"
+
+    - name: Verify caller-controlled golden-tag fields are rejected
+      block:
+        - name: Set unsafe golden-image override input
+          ansible.builtin.set_fact:
+            refresh_item: >-
+              {{
+                switch_refresh_sda_fabric_edge_test_base_batch |
+                combine(
+                  {
+                    'name': 'invalid-golden-image-overrides',
+                    'new_devices': (
+                      switch_refresh_sda_fabric_edge_test_base_batch.new_devices |
+                      combine(
+                        {
+                          'golden_image': {
+                            'image_name': 'cat9k_iosxe.17.12.04.SPA.bin',
+                            'device_image_family_name': 'Cisco Catalyst 9300 Switch',
+                            'site_name': 'Global/Unsafe',
+                            'device_role': 'ACCESS',
+                            'tagging': false
+                          }
+                        }
+                      )
+                    )
+                  }
+                )
+              }}
+
+        - name: Build unsafe golden-image override input
+          ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+        - name: Fail when unsafe golden-image overrides were accepted
+          ansible.builtin.fail:
+            msg: Unsafe golden_image overrides unexpectedly passed.
+      rescue:
+        - name: Confirm unsafe golden-tag overrides failed validation
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when unsafe golden-image overrides were accepted'
+              - "'golden_image' in (ansible_failed_result | string)"
+
+    - name: Verify expected software version is not accepted as input
+      block:
+        - name: Set removed expected-version input
+          ansible.builtin.set_fact:
+            refresh_item: >-
+              {{
+                switch_refresh_sda_fabric_edge_test_base_batch |
+                combine(
+                  {
+                    'name': 'invalid-expected-software-version',
+                    'new_devices': (
+                      switch_refresh_sda_fabric_edge_test_base_batch.new_devices |
+                      combine(
+                        {
+                          'golden_image': {
+                            'image_name': 'cat9k_iosxe.17.12.04.SPA.bin',
+                            'device_image_family_name': 'Cisco Catalyst 9300 Switch',
+                            'expected_software_version': '17.12.4'
+                          }
+                        }
+                      )
+                    )
+                  }
+                )
+              }}
+
+        - name: Build removed expected-version input
+          ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+        - name: Fail when expected software version was accepted
+          ansible.builtin.fail:
+            msg: expected_software_version unexpectedly passed.
+      rescue:
+        - name: Confirm expected-version input failed validation
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when expected software version was accepted'
+              - "'golden_image' in (ansible_failed_result | string)"
+
+    - name: Verify malformed import details are rejected
+      block:
+        - name: Set malformed import-details input
+          ansible.builtin.set_fact:
+            refresh_item: >-
+              {{
+                switch_refresh_sda_fabric_edge_test_base_batch |
+                combine(
+                  {
+                    'name': 'invalid-import-details',
+                    'new_devices': (
+                      switch_refresh_sda_fabric_edge_test_base_batch.new_devices |
+                      combine(
+                        {
+                          'golden_image': {
+                            'image_name': 'cat9k_iosxe.17.12.04.SPA.bin',
+                            'device_image_family_name': 'Cisco Catalyst 9300 Switch',
+                            'import_image_details': ['not', 'a', 'mapping']
+                          }
+                        }
+                      )
+                    )
+                  }
+                )
+              }}
+
+        - name: Build malformed import-details input
+          ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+        - name: Fail when malformed import details were accepted
+          ansible.builtin.fail:
+            msg: Malformed golden_image import details unexpectedly passed.
+      rescue:
+        - name: Confirm malformed import details failed validation
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when malformed import details were accepted'
+              - "'golden_image' in (ansible_failed_result | string)"
+
+    - name: Verify conflicting all-batch golden-image claims fail before execution
+      block:
+        - name: Set conflicting golden-image batch claims
+          ansible.builtin.set_fact:
+            switch_refresh_sda_fabric_edge_phase: prepare
+            switch_refresh_sda_fabric_edge_cleanup_old: false
+            switch_refresh_sda_fabric_edge_discovery_enabled: false
+            switch_refresh_sda_fabric_edge_inventory_enabled: false
+            switch_refresh_sda_fabric_edge_inventory_role_update_enabled: false
+            switch_refresh_sda_fabric_edge_provision_enabled: false
+            switch_refresh_sda_fabric_edge_fabric_add_enabled: false
+            switch_refresh_sda_fabric_edge_prepare_results: []
+            switch_refresh_sda_fabric_edge_batches: >-
+              {{
+                [
+                  {
+                    'name': 'conflicting-golden-image-first',
+                    'fabric_site_name_hierarchy':
+                      'Global/USA/San Jose/BLDG23',
+                    'onboarding_method': 'lan_automation',
+                    'new_devices': {
+                      'device_ips': ['192.0.2.92'],
+                      'golden_image': {
+                        'image_name': 'cat9k_iosxe.17.12.04.SPA.bin',
+                        'device_image_family_name':
+                          'Cisco Catalyst 9300 Switch'
+                      },
+                      'lan_automation_config': [
+                        {
+                          'lan_automation': {
+                            'discovered_device_site_name_hierarchy':
+                              'Global/USA/San Jose/BLDG23',
+                            'discovery_devices': [
+                              {
+                                'device_serial_number': 'NEW-SERIAL-0092',
+                                'device_management_ip_address': '192.0.2.92'
+                              }
+                            ],
+                            'launch_and_wait': true
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    'name': 'conflicting-golden-image-second',
+                    'fabric_site_name_hierarchy':
+                      'Global/USA/San Jose/BLDG23',
+                    'onboarding_method': 'lan_automation',
+                    'new_devices': {
+                      'device_ips': ['192.0.2.93'],
+                      'golden_image': {
+                        'image_name': 'cat9k_iosxe.17.12.05.SPA.bin',
+                        'device_image_family_name':
+                          'Cisco Catalyst 9300 Switch'
+                      },
+                      'lan_automation_config': [
+                        {
+                          'lan_automation': {
+                            'discovered_device_site_name_hierarchy':
+                              'Global/USA/San Jose/BLDG23',
+                            'discovery_devices': [
+                              {
+                                'device_serial_number': 'NEW-SERIAL-0093',
+                                'device_management_ip_address': '192.0.2.93'
+                              }
+                            ],
+                            'launch_and_wait': true
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }}
+
+        - name: Run conflicting golden-image all-batch preflight
+          ansible.builtin.include_role:
+            name: cisco.catalystcenter.switch_refresh_sda_fabric_edge
+
+        - name: Fail when conflicting golden-image claims were accepted
+          ansible.builtin.fail:
+            msg: Conflicting golden-image claims unexpectedly passed.
+      rescue:
+        - name: Confirm conflicting claims failed before batch execution
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Validate all-batch replacement workflow targets'
+              - >-
+                'scope_key' in
+                (ansible_failed_result.assertion | default(''))
+              - >-
+                'scope_image_key' in
+                (ansible_failed_result.assertion | default(''))
+              - switch_refresh_sda_fabric_edge_prepare_results | length == 0

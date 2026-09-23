@@ -53,20 +53,28 @@ options:
     description:
       - Interval in seconds between successive status polls of an image
         distribution task.
+      - Defaults to 30 seconds.
       - The value must be at least 1 second.
       - Also applies to the distribution phase that runs implicitly during an
         activation when C(distribute_if_needed) is set.
       - Increase this value to lower the API request frequency and help avoid
         rate-limiting (HTTP 429) during large or long-running distributions.
+      - Applies only to image distribution task polling. It does not govern
+        golden tagging, image import, or image deletion, which poll using
+        C(catalystcenter_task_poll_interval) (default 2 seconds).
     type: int
     default: 30
   activation_poll_interval:
     description:
       - Interval in seconds between successive status polls of an image
         activation task.
+      - Defaults to 30 seconds.
       - The value must be at least 1 second.
       - Increase this value to lower the API request frequency and help avoid
         rate-limiting (HTTP 429) during activations that involve device reboots.
+      - Applies only to image activation task polling. It does not govern
+        golden tagging, image import, or image deletion, which poll using
+        C(catalystcenter_task_poll_interval) (default 2 seconds).
     type: int
     default: 30
   distribution_batch_size:
@@ -920,6 +928,13 @@ notes:
     Only devices reported as C(NON_COMPLIANT) are distributed/activated by
     default; C(COMPLIANT) and C(NOT_APPLICABLE) (no golden image tagged) devices
     are skipped as already aligned.
+  - Task-status polling frequency is governed by two separate settings. Image
+    distribution polling uses C(distribution_poll_interval) and image activation
+    polling uses C(activation_poll_interval) (both default 30 seconds). Every
+    other task-monitoring operation in this module - golden tagging and
+    untagging, image import, and image deletion - polls using the general
+    C(catalystcenter_task_poll_interval) (alias C(dnac_task_poll_interval)),
+    which defaults to 2 seconds.
   - Recommended approach - tag the intended image as golden for the target
     site/family/role and let the compliance check drive distribution and
     activation. This keeps runs idempotent and avoids pushing images to devices

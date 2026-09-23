@@ -1,0 +1,56 @@
+---
+- name: Validate LAN Automation completion wait settings
+  ansible.builtin.assert:
+    that:
+      - (switch_refresh_sda_fabric_edge_lan_automation_completion_timeout | int) > 0
+      - (switch_refresh_sda_fabric_edge_lan_automation_completion_poll_interval | int) > 0
+    fail_msg: >-
+      switch_refresh_sda_fabric_edge_lan_automation_completion_timeout and
+      switch_refresh_sda_fabric_edge_lan_automation_completion_poll_interval must be positive
+      integers.
+
+- name: Confirm LAN Automation remains inactive
+  cisco.catalystcenter.lan_automation_sessions_info:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+    catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+    catalystcenter_version: "{{ catalystcenter_version | default('2.3.7.9') }}"
+    catalystcenter_debug: "{{ catalystcenter_debug | default(false) }}"
+  register: switch_refresh_sda_fabric_edge_lan_automation_active_sessions
+  until:
+    - >-
+      (
+        (switch_refresh_sda_fabric_edge_lan_automation_active_sessions | default({})).get(
+          'catalystcenter_response', {}
+        ).get('response', {})
+      ) is mapping
+    - >-
+      (
+        (switch_refresh_sda_fabric_edge_lan_automation_active_sessions | default({})).get(
+          'catalystcenter_response', {}
+        ).get('response', {}).get('activeSessions', -1)
+        | int
+      ) == 0
+    - >-
+      (switch_refresh_sda_fabric_edge_lan_automation_active_sessions | default({})).get(
+        'catalystcenter_response', {}
+      ).get('response', {}).get('activeSessionIds', ['unknown']) == []
+  retries: >-
+    {{
+      (
+        (switch_refresh_sda_fabric_edge_lan_automation_completion_timeout | int)
+        + (switch_refresh_sda_fabric_edge_lan_automation_completion_poll_interval | int)
+        - 1
+      )
+      // (switch_refresh_sda_fabric_edge_lan_automation_completion_poll_interval | int)
+    }}
+  delay: "{{ switch_refresh_sda_fabric_edge_lan_automation_completion_poll_interval | int }}"
+  loop:
+    - initial quiescence
+    - confirmation quiescence
+  loop_control:
+    label: "{{ switch_refresh_sda_fabric_edge_lan_automation_quiescence_check }}"
+    loop_var: switch_refresh_sda_fabric_edge_lan_automation_quiescence_check
+    pause: "{{ switch_refresh_sda_fabric_edge_lan_automation_completion_poll_interval | int }}"

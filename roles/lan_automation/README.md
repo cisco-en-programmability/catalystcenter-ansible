@@ -27,6 +27,10 @@ This role manages LAN Automation in Cisco Catalyst Center using the `lan_automat
 - `validate_response_schema`: Validate API response schema (default: `true`)
 
 ### Role-Specific Variables
+- `lan_automation_catalystcenter_api_task_timeout`: Maximum workflow-manager
+  task and PnP wait, in seconds (default: `604800`)
+- `lan_automation_catalystcenter_task_poll_interval`: Workflow-manager polling
+  interval, in seconds (default: `30`)
 - `lan_automation_state`: Desired state - `merged` or `deleted` (default: `merged`)
 - `lan_automation_config_verify`: Verify configuration after applying (default: `false`)
 - `lan_automation_config`: List of LAN automation configurations (required)
