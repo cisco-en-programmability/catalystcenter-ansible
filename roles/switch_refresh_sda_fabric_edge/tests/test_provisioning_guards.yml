@@ -1,0 +1,706 @@
+---
+- name: Validate switch refresh inventory and provisioning guards offline
+  hosts: plan_test
+  gather_facts: false
+  vars:
+    switch_refresh_sda_fabric_edge_guard_expected_ips:
+      - "192.0.2.20"
+      - "192.0.2.21"
+      - "192.0.2.22"
+    switch_refresh_sda_fabric_edge_guard_site: Global/USA/San Jose/BLDG23
+    switch_refresh_sda_fabric_edge_guard_ready_records:
+      - managementIpAddress: "192.0.2.20"
+        id: new-uuid-20
+        instanceUuid: new-uuid-20
+        hostname: replacement-edge-20.example.test
+        collectionStatus: Managed
+        managementState: Managed
+        reachabilityStatus: Reachable
+        family: Switches and Hubs
+        role: ACCESS
+        managedAtleastOnce: false
+        inventoryStatusDetail: '<status><general code="SUCCESS"/></status>'
+      - managementIpAddress: "192.0.2.21"
+        id: new-uuid-21
+        instanceUuid: new-uuid-21
+        hostname: replacement-edge-21.example.test
+        collectionStatus: Managed
+        managementState: Managed
+        reachabilityStatus: Reachable
+        family: Routers
+        role: ACCESS
+        managedAtleastOnce: true
+        inventoryStatusDetail: "<status><general code='SUCCESS'/></status>"
+      - managementIpAddress: "192.0.2.22"
+        id: new-uuid-22
+        instanceUuid: new-uuid-22
+        hostname: replacement-edge-22.example.test
+        collectionStatus: Managed
+        managementState: Managed
+        reachabilityStatus: Reachable
+        family: Switches and Hubs
+        # Readiness deliberately does not enforce the optional ACCESS-role policy.
+        role: DISTRIBUTION
+        managedAtleastOnce: false
+        inventoryStatusDetail: "<status><general code=SUCCESS/></status>"
+    switch_refresh_sda_fabric_edge_guard_captured_unready_records:
+      - managementIpAddress: "204.1.2.10"
+        id: new-uuid-10
+        instanceUuid: new-uuid-10
+        collectionStatus: In Progress
+        managementState: Never Managed
+        reachabilityStatus: Unknown
+        family: null
+        role: ACCESS
+        managedAtleastOnce: false
+        inventoryStatusDetail: "<status><general code=SYNC/></status>"
+      - managementIpAddress: "204.1.2.11"
+        id: new-uuid-11
+        instanceUuid: new-uuid-11
+        collectionStatus: In Progress
+        managementState: Never Managed
+        reachabilityStatus: Unknown
+        family: null
+        role: ACCESS
+        managedAtleastOnce: false
+        inventoryStatusDetail: "<status><general code=SYNC/></status>"
+
+  tasks:
+    - name: Load provisioning guard orchestration contracts
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_guard_prepare_source: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/prepare_batch.yml'
+            )
+          }}
+        switch_refresh_sda_fabric_edge_guard_prepare_tasks: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/prepare_batch.yml'
+            ) |
+            from_yaml
+          }}
+        switch_refresh_sda_fabric_edge_guard_readiness_wrapper_source: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/wait_for_inventory_readiness.yml'
+            )
+          }}
+        switch_refresh_sda_fabric_edge_guard_readiness_wrapper_tasks: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/wait_for_inventory_readiness.yml'
+            ) |
+            from_yaml
+          }}
+        switch_refresh_sda_fabric_edge_guard_provision_wrapper_source: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/validate_provisioning.yml'
+            )
+          }}
+        switch_refresh_sda_fabric_edge_guard_provision_wrapper_tasks: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/validate_provisioning.yml'
+            ) |
+            from_yaml
+          }}
+
+    - name: Derive provisioning guard orchestration task names
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_guard_prepare_task_names: >-
+          {{
+            switch_refresh_sda_fabric_edge_guard_prepare_tasks |
+            map(attribute='name') |
+            list
+          }}
+        switch_refresh_sda_fabric_edge_guard_readiness_dispatch_task: >-
+          {{
+            switch_refresh_sda_fabric_edge_guard_prepare_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Wait for replacement switch inventory readiness'
+            ) |
+            first
+          }}
+        switch_refresh_sda_fabric_edge_guard_provision_dispatch_task: >-
+          {{
+            switch_refresh_sda_fabric_edge_guard_prepare_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Validate replacement switch provisioning'
+            ) |
+            first
+          }}
+        switch_refresh_sda_fabric_edge_guard_fallback_inventory_lookup_task: >-
+          {{
+            switch_refresh_sda_fabric_edge_guard_prepare_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Resolve replacement switch batch inventory details'
+            ) |
+            first
+          }}
+        switch_refresh_sda_fabric_edge_guard_readiness_poll_task: >-
+          {{
+            switch_refresh_sda_fabric_edge_guard_readiness_wrapper_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Poll replacement switch inventory readiness'
+            ) |
+            first
+          }}
+        switch_refresh_sda_fabric_edge_guard_provision_poll_task: >-
+          {{
+            switch_refresh_sda_fabric_edge_guard_provision_wrapper_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Poll replacement switch provisioning state'
+            ) |
+            first
+          }}
+
+    - name: Verify provisioning guard dispatch tasks are unique
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_sda_fabric_edge_guard_prepare_task_names |
+            select(
+              'equalto',
+              'Wait for replacement switch inventory readiness'
+            ) |
+            list |
+            length == 1
+          - >-
+            switch_refresh_sda_fabric_edge_guard_prepare_task_names |
+            select(
+              'equalto',
+              'Validate replacement switch provisioning'
+            ) |
+            list |
+            length == 1
+          - >-
+            switch_refresh_sda_fabric_edge_guard_readiness_dispatch_task[
+              'ansible.builtin.include_tasks'
+            ] == 'wait_for_inventory_readiness.yml'
+          - >-
+            switch_refresh_sda_fabric_edge_guard_provision_dispatch_task[
+              'ansible.builtin.include_tasks'
+            ] == 'validate_provisioning.yml'
+          - >-
+            'switch_refresh_sda_fabric_edge_provision_enabled' in
+            (switch_refresh_sda_fabric_edge_guard_readiness_dispatch_task.when | string)
+          - >-
+            'switch_refresh_sda_fabric_edge_provision_enabled' in
+            (switch_refresh_sda_fabric_edge_guard_provision_dispatch_task.when | string)
+          - >-
+            'switch_refresh_sda_fabric_edge_fabric_add_enabled' in
+            (switch_refresh_sda_fabric_edge_guard_provision_dispatch_task.when | string)
+          - >-
+            'switch_refresh_sda_fabric_edge_device_info_lookup_enabled' in
+            (
+              switch_refresh_sda_fabric_edge_guard_readiness_dispatch_task.vars
+              .switch_refresh_sda_fabric_edge_inventory_readiness_request.required_role |
+              string
+            )
+          - >-
+            'not (switch_refresh_sda_fabric_edge_provision_enabled | bool)' in
+            (
+              switch_refresh_sda_fabric_edge_guard_fallback_inventory_lookup_task.when |
+              string
+            )
+
+    - name: Verify inventory readiness and provisioning validation ordering
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_sda_fabric_edge_guard_prepare_task_names.index(
+              'Add replacement switch batch to Catalyst Center inventory'
+            ) <
+            switch_refresh_sda_fabric_edge_guard_prepare_task_names.index(
+              'Wait for replacement switch inventory readiness'
+            )
+          - >-
+            switch_refresh_sda_fabric_edge_guard_prepare_task_names.index(
+              'Wait for replacement switch inventory readiness'
+            ) <
+            switch_refresh_sda_fabric_edge_guard_prepare_task_names.index(
+              'Provision replacement switch batch'
+            )
+          - >-
+            switch_refresh_sda_fabric_edge_guard_prepare_task_names.index(
+              'Provision replacement switch batch'
+            ) <
+            switch_refresh_sda_fabric_edge_guard_prepare_task_names.index(
+              'Validate replacement switch provisioning'
+            )
+          - >-
+            switch_refresh_sda_fabric_edge_guard_prepare_task_names.index(
+              'Validate replacement switch provisioning'
+            ) <
+            switch_refresh_sda_fabric_edge_guard_prepare_task_names.index(
+              'Add replacement switch batch to fabric'
+            )
+
+    - name: Verify inventory readiness polling wrapper contract
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_sda_fabric_edge_guard_readiness_poll_task[
+              'cisco.catalystcenter.network_device_info'
+            ] is mapping
+          - >-
+            'managementIpAddress:' in
+            switch_refresh_sda_fabric_edge_guard_readiness_wrapper_source
+          - >-
+            switch_refresh_sda_fabric_edge_guard_readiness_poll_task.register ==
+            'switch_refresh_sda_fabric_edge_inventory_readiness_lookup'
+          - >-
+            (switch_refresh_sda_fabric_edge_guard_readiness_poll_task.until | type_debug) ==
+            'list'
+          - >-
+            switch_refresh_sda_fabric_edge_guard_readiness_poll_task.retries is defined
+          - >-
+            switch_refresh_sda_fabric_edge_guard_readiness_poll_task.delay is defined
+          - switch_refresh_sda_fabric_edge_guard_readiness_poll_task.failed_when is sameas false
+          - switch_refresh_sda_fabric_edge_guard_readiness_poll_task.no_log is sameas true
+          - >-
+            'collectionStatus' in
+            switch_refresh_sda_fabric_edge_guard_readiness_wrapper_source
+          - >-
+            'managementState' in
+            switch_refresh_sda_fabric_edge_guard_readiness_wrapper_source
+          - >-
+            'reachabilityStatus' in
+            switch_refresh_sda_fabric_edge_guard_readiness_wrapper_source
+          - >-
+            "'Switches and Hubs'" in
+            switch_refresh_sda_fabric_edge_guard_readiness_wrapper_source
+          - >-
+            'inventoryStatusDetail' in
+            switch_refresh_sda_fabric_edge_guard_readiness_wrapper_source
+          - >-
+            'required_role' in
+            switch_refresh_sda_fabric_edge_guard_readiness_wrapper_source
+          - >-
+            "map(attribute='role', default='')" in
+            switch_refresh_sda_fabric_edge_guard_readiness_wrapper_source
+          - >-
+            'validate_inventory_readiness_result.yml' in
+            switch_refresh_sda_fabric_edge_guard_readiness_wrapper_source
+
+    - name: Exercise non-trivial inventory readiness polling filters
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_sda_fabric_edge_guard_ready_records |
+            map(attribute='family', default='') |
+            map('string') |
+            select('in', ['Switches and Hubs', 'Routers']) |
+            list |
+            length == switch_refresh_sda_fabric_edge_guard_expected_ips | length
+          - >-
+            switch_refresh_sda_fabric_edge_guard_ready_records |
+            map(attribute='inventoryStatusDetail', default='') |
+            map('string') |
+            map('upper') |
+            map('regex_replace', '[^A-Z=]', '') |
+            select('search', 'GENERALCODE=SUCCESS') |
+            list |
+            length == switch_refresh_sda_fabric_edge_guard_expected_ips | length
+          - >-
+            switch_refresh_sda_fabric_edge_guard_captured_unready_records |
+            map(attribute='inventoryStatusDetail', default='') |
+            map('string') |
+            map('upper') |
+            map('regex_replace', '[^A-Z=]', '') |
+            select('search', 'GENERALCODE=SUCCESS') |
+            list |
+            length == 0
+
+    - name: Verify provisioning polling wrapper contract
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_sda_fabric_edge_guard_provision_poll_task[
+              'cisco.catalystcenter.sda_provision_device_info'
+            ] is mapping
+          - >-
+            'deviceManagementIpAddress:' in
+            switch_refresh_sda_fabric_edge_guard_provision_wrapper_source
+          - >-
+            switch_refresh_sda_fabric_edge_guard_provision_poll_task.register ==
+            'switch_refresh_sda_fabric_edge_provision_validation_lookup'
+          - >-
+            (switch_refresh_sda_fabric_edge_guard_provision_poll_task.until | type_debug) ==
+            'list'
+          - >-
+            switch_refresh_sda_fabric_edge_guard_provision_poll_task.retries is defined
+          - >-
+            switch_refresh_sda_fabric_edge_guard_provision_poll_task.delay is defined
+          - switch_refresh_sda_fabric_edge_guard_provision_poll_task.loop is defined
+          - >-
+            switch_refresh_sda_fabric_edge_guard_provision_poll_task.loop_control.loop_var ==
+            'switch_refresh_sda_fabric_edge_provision_validation_ip'
+          - switch_refresh_sda_fabric_edge_guard_provision_poll_task.failed_when is sameas false
+          - switch_refresh_sda_fabric_edge_guard_provision_poll_task.no_log is sameas true
+          - >-
+            'validate_provisioning_result.yml' in
+            switch_refresh_sda_fabric_edge_guard_provision_wrapper_source
+
+    - name: Accept an exactly covered inventory-ready batch without a role policy
+      ansible.builtin.include_tasks: >-
+        ../tasks/validate_inventory_readiness_result.yml
+      vars:
+        switch_refresh_sda_fabric_edge_inventory_readiness_request:
+          expected_ips: >-
+            {{ switch_refresh_sda_fabric_edge_guard_expected_ips }}
+          context: ready-inventory-offline-test
+        switch_refresh_sda_fabric_edge_inventory_readiness_raw_result:
+          failed: false
+          catalystcenter_response:
+            response: >-
+              {{ switch_refresh_sda_fabric_edge_guard_ready_records }}
+
+    - name: Accept inventory readiness with the optional ACCESS policy
+      ansible.builtin.include_tasks: >-
+        ../tasks/validate_inventory_readiness_result.yml
+      vars:
+        switch_refresh_sda_fabric_edge_inventory_readiness_request:
+          expected_ips:
+            - "192.0.2.20"
+            - "192.0.2.21"
+          required_role: ACCESS
+          context: access-role-ready-inventory-offline-test
+        switch_refresh_sda_fabric_edge_inventory_readiness_raw_result:
+          failed: false
+          catalystcenter_response:
+            response: >-
+              {{ switch_refresh_sda_fabric_edge_guard_ready_records[0:2] }}
+
+    - name: Reject inventory readiness with the wrong required role
+      block:
+        - name: Evaluate inventory readiness with the wrong required role
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_inventory_readiness_result.yml
+          vars:
+            switch_refresh_sda_fabric_edge_inventory_readiness_request:
+              expected_ips:
+                - "192.0.2.22"
+              required_role: ACCESS
+              context: wrong-role-inventory-offline-test
+            switch_refresh_sda_fabric_edge_inventory_readiness_raw_result:
+              failed: false
+              catalystcenter_response:
+                response:
+                  - >-
+                    {{ switch_refresh_sda_fabric_edge_guard_ready_records[2] }}
+
+        - name: Fail when inventory with the wrong required role was accepted
+          ansible.builtin.fail:
+            msg: Inventory with the wrong required role unexpectedly passed validation.
+      rescue:
+        - name: Confirm the wrong required role failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when inventory with the wrong required role was accepted'
+
+    - name: Reject captured inventory synchronization state
+      block:
+        - name: Evaluate captured inventory synchronization state
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_inventory_readiness_result.yml
+          vars:
+            switch_refresh_sda_fabric_edge_inventory_readiness_request:
+              expected_ips:
+                - "204.1.2.10"
+                - "204.1.2.11"
+              context: captured-unready-offline-test
+            switch_refresh_sda_fabric_edge_inventory_readiness_raw_result:
+              failed: false
+              catalystcenter_response:
+                response: >-
+                  {{
+                    switch_refresh_sda_fabric_edge_guard_captured_unready_records
+                  }}
+
+        - name: Fail when captured inventory synchronization state was accepted
+          ansible.builtin.fail:
+            msg: Captured unready inventory state unexpectedly passed validation.
+      rescue:
+        - name: Confirm captured inventory synchronization state failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when captured inventory synchronization state was accepted'
+
+    - name: Reject missing inventory coverage
+      block:
+        - name: Evaluate incomplete inventory coverage
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_inventory_readiness_result.yml
+          vars:
+            switch_refresh_sda_fabric_edge_inventory_readiness_request:
+              expected_ips: >-
+                {{ switch_refresh_sda_fabric_edge_guard_expected_ips }}
+              context: missing-inventory-offline-test
+            switch_refresh_sda_fabric_edge_inventory_readiness_raw_result:
+              failed: false
+              catalystcenter_response:
+                response: >-
+                  {{ switch_refresh_sda_fabric_edge_guard_ready_records[0:2] }}
+
+        - name: Fail when incomplete inventory coverage was accepted
+          ansible.builtin.fail:
+            msg: Incomplete inventory coverage unexpectedly passed validation.
+      rescue:
+        - name: Confirm missing inventory coverage failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when incomplete inventory coverage was accepted'
+
+    - name: Reject duplicate inventory coverage
+      block:
+        - name: Evaluate duplicate inventory coverage
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_inventory_readiness_result.yml
+          vars:
+            switch_refresh_sda_fabric_edge_inventory_readiness_request:
+              expected_ips:
+                - "192.0.2.20"
+              context: duplicate-inventory-offline-test
+            switch_refresh_sda_fabric_edge_inventory_readiness_raw_result:
+              failed: false
+              catalystcenter_response:
+                response:
+                  - >-
+                    {{ switch_refresh_sda_fabric_edge_guard_ready_records[0] }}
+                  - >-
+                    {{ switch_refresh_sda_fabric_edge_guard_ready_records[0] }}
+
+        - name: Fail when duplicate inventory coverage was accepted
+          ansible.builtin.fail:
+            msg: Duplicate inventory coverage unexpectedly passed validation.
+      rescue:
+        - name: Confirm duplicate inventory coverage failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when duplicate inventory coverage was accepted'
+
+    - name: Reject non-wired inventory family
+      block:
+        - name: Evaluate non-wired inventory family
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_inventory_readiness_result.yml
+          vars:
+            switch_refresh_sda_fabric_edge_inventory_readiness_request:
+              expected_ips:
+                - "192.0.2.20"
+              context: wrong-family-offline-test
+            switch_refresh_sda_fabric_edge_inventory_readiness_raw_result:
+              failed: false
+              catalystcenter_response:
+                response:
+                  - >-
+                    {{
+                      switch_refresh_sda_fabric_edge_guard_ready_records[0] |
+                      combine({'family': 'Wireless Controller'})
+                    }}
+
+        - name: Fail when non-wired inventory family was accepted
+          ansible.builtin.fail:
+            msg: Non-wired inventory family unexpectedly passed validation.
+      rescue:
+        - name: Confirm non-wired inventory family failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when non-wired inventory family was accepted'
+
+    - name: Reject unreachable inventory device
+      block:
+        - name: Evaluate unreachable inventory device
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_inventory_readiness_result.yml
+          vars:
+            switch_refresh_sda_fabric_edge_inventory_readiness_request:
+              expected_ips:
+                - "192.0.2.20"
+              context: unreachable-inventory-offline-test
+            switch_refresh_sda_fabric_edge_inventory_readiness_raw_result:
+              failed: false
+              catalystcenter_response:
+                response:
+                  - >-
+                    {{
+                      switch_refresh_sda_fabric_edge_guard_ready_records[0] |
+                      combine({'reachabilityStatus': 'Unknown'})
+                    }}
+
+        - name: Fail when unreachable inventory device was accepted
+          ansible.builtin.fail:
+            msg: Unreachable inventory device unexpectedly passed validation.
+      rescue:
+        - name: Confirm unreachable inventory device failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when unreachable inventory device was accepted'
+
+    - name: Accept exact provisioning at the requested site
+      ansible.builtin.include_tasks: >-
+        ../tasks/validate_provisioning_result.yml
+      vars:
+        switch_refresh_sda_fabric_edge_provision_validation_request:
+          expected_ip: "192.0.2.20"
+          expected_site: >-
+            {{ switch_refresh_sda_fabric_edge_guard_site }}
+          context: provision-success-offline-test
+        switch_refresh_sda_fabric_edge_provision_validation_raw_result:
+          failed: false
+          catalystcenter_response:
+            deviceManagementIpAddress: "192.0.2.20"
+            siteNameHierarchy: >-
+              {{ switch_refresh_sda_fabric_edge_guard_site }}
+            status: success
+            description: Wired provisioned device detail retrieved successfully.
+
+    - name: Reject empty provisioning response
+      block:
+        - name: Evaluate empty provisioning response
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_provisioning_result.yml
+          vars:
+            switch_refresh_sda_fabric_edge_provision_validation_request:
+              expected_ip: "192.0.2.20"
+              expected_site: >-
+                {{ switch_refresh_sda_fabric_edge_guard_site }}
+              context: empty-provision-offline-test
+            switch_refresh_sda_fabric_edge_provision_validation_raw_result:
+              failed: false
+              catalystcenter_response: {}
+
+        - name: Fail when empty provisioning response was accepted
+          ansible.builtin.fail:
+            msg: Empty provisioning response unexpectedly passed validation.
+      rescue:
+        - name: Confirm empty provisioning response failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when empty provisioning response was accepted'
+
+    - name: Reject failed provisioning status
+      block:
+        - name: Evaluate failed provisioning status
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_provisioning_result.yml
+          vars:
+            switch_refresh_sda_fabric_edge_provision_validation_request:
+              expected_ip: "192.0.2.20"
+              expected_site: >-
+                {{ switch_refresh_sda_fabric_edge_guard_site }}
+              context: failed-provision-offline-test
+            switch_refresh_sda_fabric_edge_provision_validation_raw_result:
+              failed: false
+              catalystcenter_response:
+                deviceManagementIpAddress: "192.0.2.20"
+                siteNameHierarchy: >-
+                  {{ switch_refresh_sda_fabric_edge_guard_site }}
+                status: failed
+                description: Provisioning is incomplete.
+
+        - name: Fail when failed provisioning status was accepted
+          ansible.builtin.fail:
+            msg: Failed provisioning status unexpectedly passed validation.
+      rescue:
+        - name: Confirm failed provisioning status failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when failed provisioning status was accepted'
+
+    - name: Reject provisioning at the wrong site
+      block:
+        - name: Evaluate provisioning at the wrong site
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_provisioning_result.yml
+          vars:
+            switch_refresh_sda_fabric_edge_provision_validation_request:
+              expected_ip: "192.0.2.20"
+              expected_site: >-
+                {{ switch_refresh_sda_fabric_edge_guard_site }}
+              context: wrong-site-provision-offline-test
+            switch_refresh_sda_fabric_edge_provision_validation_raw_result:
+              failed: false
+              catalystcenter_response:
+                deviceManagementIpAddress: "192.0.2.20"
+                siteNameHierarchy: Global/USA/San Jose/OTHER-BUILDING
+                status: success
+                description: Wired provisioned device detail retrieved successfully.
+
+        - name: Fail when wrong-site provisioning was accepted
+          ansible.builtin.fail:
+            msg: Wrong-site provisioning unexpectedly passed validation.
+      rescue:
+        - name: Confirm wrong-site provisioning failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when wrong-site provisioning was accepted'
+
+    - name: Reject provisioning response for the wrong IP
+      block:
+        - name: Evaluate provisioning response for the wrong IP
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_provisioning_result.yml
+          vars:
+            switch_refresh_sda_fabric_edge_provision_validation_request:
+              expected_ip: "192.0.2.20"
+              expected_site: >-
+                {{ switch_refresh_sda_fabric_edge_guard_site }}
+              context: wrong-ip-provision-offline-test
+            switch_refresh_sda_fabric_edge_provision_validation_raw_result:
+              failed: false
+              catalystcenter_response:
+                deviceManagementIpAddress: "192.0.2.99"
+                siteNameHierarchy: >-
+                  {{ switch_refresh_sda_fabric_edge_guard_site }}
+                status: success
+                description: Wired provisioned device detail retrieved successfully.
+
+        - name: Fail when wrong-IP provisioning response was accepted
+          ansible.builtin.fail:
+            msg: Wrong-IP provisioning response unexpectedly passed validation.
+      rescue:
+        - name: Confirm wrong-IP provisioning response failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name !=
+                'Fail when wrong-IP provisioning response was accepted'

@@ -1,0 +1,74 @@
+---
+- name: Validate generated output path is absolute
+  ansible.builtin.assert:
+    that:
+      - (switch_refresh_sda_fabric_edge_output_path | type_debug) == 'str'
+      - switch_refresh_sda_fabric_edge_output_path | regex_search('^/') is not none
+    fail_msg: >-
+      {{ switch_refresh_sda_fabric_edge_output_label }} must use an absolute filesystem path:
+      {{ switch_refresh_sda_fabric_edge_output_path }}.
+
+- name: Derive generated output parent directory
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_output_parent: "{{ switch_refresh_sda_fabric_edge_output_path | dirname }}"
+
+- name: Inspect generated output parent directory
+  ansible.builtin.stat:
+    path: "{{ switch_refresh_sda_fabric_edge_output_parent }}"
+    follow: false
+  register: switch_refresh_sda_fabric_edge_output_parent_stat
+
+- name: Validate generated output parent directory type
+  ansible.builtin.assert:
+    that:
+      - >-
+        not (switch_refresh_sda_fabric_edge_output_parent_stat.stat.exists | bool) or
+        (switch_refresh_sda_fabric_edge_output_parent_stat.stat.isdir | default(false))
+    fail_msg: >-
+      The parent of {{ switch_refresh_sda_fabric_edge_output_label }} must be absent or an
+      existing directory, not a file, symlink, or special path:
+      {{ switch_refresh_sda_fabric_edge_output_parent }}.
+
+- name: Create missing generated output parent directory
+  ansible.builtin.file:
+    path: "{{ switch_refresh_sda_fabric_edge_output_parent }}"
+    state: directory
+    mode: "0750"
+  when: not (switch_refresh_sda_fabric_edge_output_parent_stat.stat.exists | bool)
+
+- name: Inspect generated output target path
+  ansible.builtin.stat:
+    path: "{{ switch_refresh_sda_fabric_edge_output_path }}"
+    follow: false
+  register: switch_refresh_sda_fabric_edge_output_path_stat
+
+- name: Validate generated output target path type
+  ansible.builtin.assert:
+    that:
+      - >-
+        not (switch_refresh_sda_fabric_edge_output_path_stat.stat.exists | bool) or
+        (switch_refresh_sda_fabric_edge_output_path_stat.stat.isreg | default(false))
+      - >-
+        not (switch_refresh_sda_fabric_edge_output_path_stat.stat.islnk | default(false))
+    fail_msg: >-
+      {{ switch_refresh_sda_fabric_edge_output_label }} must be absent or an existing regular
+      file. The role will not remove a directory, follow a symlink, or overwrite
+      a special path:
+      {{ switch_refresh_sda_fabric_edge_output_path }}.
+
+- name: Probe generated output parent writability
+  block:
+    - name: Create generated output parent writability probe
+      ansible.builtin.tempfile:
+        path: "{{ switch_refresh_sda_fabric_edge_output_parent }}"
+        prefix: .switch_refresh_sda_fabric_edge_preflight_
+        state: file
+      register: switch_refresh_sda_fabric_edge_output_parent_probe
+  always:
+    - name: Remove generated output parent writability probe
+      ansible.builtin.file:
+        path: "{{ switch_refresh_sda_fabric_edge_output_parent_probe.path }}"
+        state: absent
+      when:
+        - switch_refresh_sda_fabric_edge_output_parent_probe is defined
+        - switch_refresh_sda_fabric_edge_output_parent_probe.path is defined

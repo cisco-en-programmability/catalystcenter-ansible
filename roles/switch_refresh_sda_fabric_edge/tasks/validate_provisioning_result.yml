@@ -1,0 +1,75 @@
+---
+# Pure evaluator for one sda_provision_device_info result.
+- name: Validate provisioning result evaluator inputs
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_provision_validation_request is mapping
+      - switch_refresh_sda_fabric_edge_provision_validation_request.expected_ip is defined
+      - >-
+        switch_refresh_sda_fabric_edge_provision_validation_request.expected_ip |
+        string |
+        trim |
+        length > 0
+      - switch_refresh_sda_fabric_edge_provision_validation_request.expected_site is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_provision_validation_request.expected_site |
+        type_debug) == 'str'
+      - >-
+        switch_refresh_sda_fabric_edge_provision_validation_request.expected_site |
+        trim |
+        length > 0
+      - switch_refresh_sda_fabric_edge_provision_validation_request.context is defined
+      - >-
+        switch_refresh_sda_fabric_edge_provision_validation_request.context |
+        string |
+        trim |
+        length > 0
+      - switch_refresh_sda_fabric_edge_provision_validation_raw_result is mapping
+      - >-
+        not (
+          switch_refresh_sda_fabric_edge_provision_validation_raw_result.failed |
+          default(false) |
+          bool
+        )
+      - >-
+        (
+          switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response |
+          default({})
+        ) is mapping
+    fail_msg: >-
+      Provisioning result evaluation requires a valid request and a structured,
+      successful sda_provision_device_info result during
+      {{ switch_refresh_sda_fabric_edge_provision_validation_request.context |
+      default('replacement provisioning validation') }}.
+
+- name: Validate exact replacement provisioning postcondition
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.status |
+        default('') |
+        string |
+        lower == 'success'
+      - >-
+        switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.deviceManagementIpAddress |
+        default('') |
+        string ==
+        switch_refresh_sda_fabric_edge_provision_validation_request.expected_ip | string
+      - >-
+        switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.siteNameHierarchy |
+        default('') |
+        string == switch_refresh_sda_fabric_edge_provision_validation_request.expected_site
+    fail_msg: >-
+      Replacement provisioning did not converge during
+      {{ switch_refresh_sda_fabric_edge_provision_validation_request.context }}.
+      Expected IP={{ switch_refresh_sda_fabric_edge_provision_validation_request.expected_ip }}
+      at site={{ switch_refresh_sda_fabric_edge_provision_validation_request.expected_site }};
+      controller returned status={{
+      switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.status |
+      default('missing') }}, IP={{
+      switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.deviceManagementIpAddress |
+      default('missing') }}, site={{
+      switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.siteNameHierarchy |
+      default('missing') }}, description={{
+      switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.description |
+      default('missing') }}.

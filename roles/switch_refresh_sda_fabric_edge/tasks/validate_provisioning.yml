@@ -1,0 +1,172 @@
+---
+# Verify the observable provisioning state instead of trusting a workflow
+# manager's outer success flag. The direct API identifies both device and site.
+- name: Validate replacement provisioning request
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_provision_validation_request is mapping
+      - switch_refresh_sda_fabric_edge_provision_validation_request.expected_ips is defined
+      - >-
+        (
+          switch_refresh_sda_fabric_edge_provision_validation_request.expected_ips |
+          type_debug
+        ) == 'list'
+      - switch_refresh_sda_fabric_edge_provision_validation_request.expected_ips | length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_provision_validation_request.expected_ips |
+        map('string') |
+        reject('equalto', '') |
+        unique |
+        list |
+        length == switch_refresh_sda_fabric_edge_provision_validation_request.expected_ips |
+        length
+      - switch_refresh_sda_fabric_edge_provision_validation_request.expected_site is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_provision_validation_request.expected_site |
+        type_debug) == 'str'
+      - >-
+        switch_refresh_sda_fabric_edge_provision_validation_request.expected_site |
+        trim |
+        length > 0
+      - switch_refresh_sda_fabric_edge_provision_validation_request.context is defined
+      - >-
+        switch_refresh_sda_fabric_edge_provision_validation_request.context |
+        string |
+        trim |
+        length > 0
+      - switch_refresh_sda_fabric_edge_provision_validation_request.timeout is defined
+      - (switch_refresh_sda_fabric_edge_provision_validation_request.timeout | int) > 0
+      - switch_refresh_sda_fabric_edge_provision_validation_request.poll_interval is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_provision_validation_request.poll_interval | int) > 0
+    fail_msg: >-
+      Provisioning validation requires a non-empty unique management-IP list,
+      an exact site hierarchy, a context, and positive timeout and polling values.
+
+- name: Normalize replacement provisioning request
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_provision_validation_expected_ips: >-
+      {{
+        switch_refresh_sda_fabric_edge_provision_validation_request.expected_ips |
+        map('string') |
+        list
+      }}
+    switch_refresh_sda_fabric_edge_provision_validation_expected_site: >-
+      {{ switch_refresh_sda_fabric_edge_provision_validation_request.expected_site }}
+    switch_refresh_sda_fabric_edge_provision_validation_context: >-
+      {{ switch_refresh_sda_fabric_edge_provision_validation_request.context | string }}
+    switch_refresh_sda_fabric_edge_provision_validation_interval: >-
+      {{ switch_refresh_sda_fabric_edge_provision_validation_request.poll_interval | int }}
+    switch_refresh_sda_fabric_edge_provision_validation_retries: >-
+      {{
+        (
+          (switch_refresh_sda_fabric_edge_provision_validation_request.timeout | int) +
+          (switch_refresh_sda_fabric_edge_provision_validation_request.poll_interval | int) -
+          1
+        ) //
+        (switch_refresh_sda_fabric_edge_provision_validation_request.poll_interval | int)
+      }}
+
+- name: Poll replacement switch provisioning state
+  cisco.catalystcenter.sda_provision_device_info:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+    catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+    catalystcenter_version: "{{ catalystcenter_version | default('2.3.7.9') }}"
+    catalystcenter_debug: false
+    deviceManagementIpAddress: >-
+      {{ switch_refresh_sda_fabric_edge_provision_validation_ip }}
+  register: switch_refresh_sda_fabric_edge_provision_validation_lookup
+  until:
+    - >-
+      not (
+        switch_refresh_sda_fabric_edge_provision_validation_lookup.failed |
+        default(false) |
+        bool
+      )
+    - >-
+      (
+        switch_refresh_sda_fabric_edge_provision_validation_lookup.catalystcenter_response |
+        default({})
+      ) is mapping
+    - >-
+      (
+        switch_refresh_sda_fabric_edge_provision_validation_lookup.catalystcenter_response |
+        default({})
+      ).status |
+      default('') |
+      string |
+      lower == 'success'
+    - >-
+      (
+        switch_refresh_sda_fabric_edge_provision_validation_lookup.catalystcenter_response |
+        default({})
+      ).deviceManagementIpAddress |
+      default('') |
+      string == switch_refresh_sda_fabric_edge_provision_validation_ip | string
+    - >-
+      (
+        switch_refresh_sda_fabric_edge_provision_validation_lookup.catalystcenter_response |
+        default({})
+      ).siteNameHierarchy |
+      default('') |
+      string == switch_refresh_sda_fabric_edge_provision_validation_expected_site
+  retries: "{{ switch_refresh_sda_fabric_edge_provision_validation_retries | int }}"
+  delay: "{{ switch_refresh_sda_fabric_edge_provision_validation_interval | int }}"
+  loop: "{{ switch_refresh_sda_fabric_edge_provision_validation_expected_ips }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_provision_validation_ip
+    label: "{{ switch_refresh_sda_fabric_edge_provision_validation_ip }}"
+  failed_when: false
+  no_log: true
+
+- name: Validate replacement provisioning lookup coverage
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_provision_validation_lookup is mapping
+      - >-
+        (
+          switch_refresh_sda_fabric_edge_provision_validation_lookup.results |
+          default(none) |
+          type_debug
+        ) == 'list'
+      - >-
+        switch_refresh_sda_fabric_edge_provision_validation_lookup.results |
+        default([]) |
+        length == switch_refresh_sda_fabric_edge_provision_validation_expected_ips | length
+    fail_msg: >-
+      Provisioning validation did not return one lookup result for every
+      replacement during {{ switch_refresh_sda_fabric_edge_provision_validation_context }}.
+
+# Each exhausted per-device `until` result carries an Ansible failure marker.
+# Clear only that outer marker so the evaluator can expose the controller's
+# final status/IP/site/description instead of a generic retry error.
+- name: Evaluate replacement switch provisioning results
+  ansible.builtin.include_tasks: validate_provisioning_result.yml
+  vars:
+    switch_refresh_sda_fabric_edge_provision_validation_request:
+      expected_ip: >-
+        {{
+          switch_refresh_sda_fabric_edge_provision_validation_loop_result.get(
+            'switch_refresh_sda_fabric_edge_provision_validation_ip', ''
+          )
+        }}
+      expected_site: "{{ switch_refresh_sda_fabric_edge_provision_validation_expected_site }}"
+      context: "{{ switch_refresh_sda_fabric_edge_provision_validation_context }}"
+    switch_refresh_sda_fabric_edge_provision_validation_raw_result: >-
+      {{
+        switch_refresh_sda_fabric_edge_provision_validation_loop_result |
+        combine({'failed': false})
+      }}
+  loop: >-
+    {{ switch_refresh_sda_fabric_edge_provision_validation_lookup.results | default([]) }}
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_provision_validation_loop_result
+    label: >-
+      {{
+        switch_refresh_sda_fabric_edge_provision_validation_loop_result.get(
+          'switch_refresh_sda_fabric_edge_provision_validation_ip', 'replacement-device'
+        )
+      }}

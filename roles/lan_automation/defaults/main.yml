@@ -10,6 +10,8 @@ catalystcenter_debug: false
 catalystcenter_log_level: "INFO"
 catalystcenter_log: false
 
+lan_automation_catalystcenter_api_task_timeout: 604800
+lan_automation_catalystcenter_task_poll_interval: 30
 lan_automation_state: merged
 lan_automation_config_verify: false
 lan_automation_config: []

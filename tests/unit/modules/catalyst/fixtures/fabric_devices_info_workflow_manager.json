@@ -6471,6 +6471,10 @@
     ],
     "version": "1.0"
   },
+  "get_fabric_zones30": {
+    "response": [],
+    "version": "1.0"
+  },
   "get_sites33": {
     "response": [
       {
@@ -6498,6 +6502,10 @@
     "response": [
       
     ],
+    "version": "1.0"
+  },
+  "get_fabric_zones31": {
+    "response": [],
     "version": "1.0"
   },
   "playbook_connected_devices_info": [
