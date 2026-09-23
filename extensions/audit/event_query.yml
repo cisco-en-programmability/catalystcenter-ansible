@@ -79,6 +79,34 @@
 # NOT used. It would include info/query/compliance modules and inflate the
 # count. Only modules that perform device lifecycle operations (add, update,
 # provision, claim, delete) are listed.
+#
+# WHAT canonical_facts MUST CONTAIN
+# ---------------------------------
+# The controller (awx/main/tasks/host_indirect.py) imposes two rules on
+# canonical_facts that are easy to violate and produce no error when violated:
+#
+# 1. NO NULL, AT ANY DEPTH.
+#    get_hashable_form() accepts int/float/str/bool/dict/list/tuple and raises
+#    UnhashableFacts on anything else, including null. The caller catches that
+#    and skips the record. A single null in a single field silently discards
+#    the entire device -- logged once per job at INFO, with the job green.
+#
+#    So `(.field // null)` does NOT mark a field optional. It guarantees the
+#    drop for exactly the devices where the field is absent. If a value may be
+#    missing, put it in `facts` (which is not hashed) or give it a non-null
+#    fallback. Every `// null` in this file was doing the former: a Catalyst
+#    Center device added before its serial is known, or a PnP device claimed
+#    before it has a management IP -- the normal PnP state -- was dropped.
+#
+# 2. IT IS THE ONLY DEDUP KEY.
+#    Nodes are collapsed with `results[hashable_facts]`, so canonical_facts
+#    must hold identity and nothing else. management_ip was in it; a device
+#    that gets a new DHCP lease or is re-addressed was therefore counted a
+#    second time. Volatile attributes belong in `facts`.
+#
+# canonical_facts is therefore a single `device_id`, taken from the most stable
+# identifier available and provably non-null because the select() guard above
+# each record already proved the last alternative in the chain.
 
 # -----------------------------------------------------------------
 # cisco.catalystcenter.inventory_workflow_manager
@@ -99,13 +127,14 @@ cisco.catalystcenter.inventory_workflow_manager:
     {
       name: (.hostname // .managementIpAddress),
       canonical_facts: {
-        management_ip: .managementIpAddress,
-        serial_number: (.serialNumber // null),
-        catalyst_center_id: (.id // null)
+        device_id: (.serialNumber // .id // .managementIpAddress)
       },
       facts: {
         infra_type: "private_cloud",
         infra_bucket: "networking",
+        management_ip: .managementIpAddress,
+        serial_number: (.serialNumber // "unknown"),
+        catalyst_center_id: (.id // "unknown"),
         device_type: (
           if (.family // "" | test("Unified AP"; "i"))
           then "access_point"
@@ -119,10 +148,10 @@ cisco.catalystcenter.inventory_workflow_manager:
           end
         ),
         platform: "cisco_catalyst_center",
-        hostname: (.hostname // null),
-        role: (.role // null),
-        family: (.family // null),
-        software_type: (.softwareType // null)
+        hostname: (.hostname // "unknown"),
+        role: (.role // "unknown"),
+        family: (.family // "unknown"),
+        software_type: (.softwareType // "unknown")
       }
     }
 
@@ -139,16 +168,17 @@ cisco.catalystcenter.provision_workflow_manager:
     {
       name: (.hostname // .managementIpAddress),
       canonical_facts: {
-        management_ip: .managementIpAddress,
-        serial_number: (.serialNumber // null),
-        catalyst_center_id: (.id // null)
+        device_id: (.serialNumber // .id // .managementIpAddress)
       },
       facts: {
         infra_type: "private_cloud",
         infra_bucket: "networking",
         device_type: "network_device",
         platform: "cisco_catalyst_center",
-        hostname: (.hostname // null)
+        management_ip: .managementIpAddress,
+        serial_number: (.serialNumber // "unknown"),
+        catalyst_center_id: (.id // "unknown"),
+        hostname: (.hostname // "unknown")
       }
     }
 
@@ -167,15 +197,15 @@ cisco.catalystcenter.pnp_device_claim_to_site:
     {
       name: (.hostname // .deviceInfo.hostname // .serialNumber // .deviceInfo.serialNumber),
       canonical_facts: {
-        serial_number: (.serialNumber // .deviceInfo.serialNumber),
-        management_ip: (.managementIpAddress // .deviceInfo.httpHeaders[0].value // null),
-        catalyst_center_id: (.id // ._id // null)
+        device_id: (.serialNumber // .deviceInfo.serialNumber)
       },
       facts: {
         infra_type: "private_cloud",
         infra_bucket: "networking",
         device_type: "network_device",
-        platform: "cisco_catalyst_center"
+        platform: "cisco_catalyst_center",
+        management_ip: (.managementIpAddress // .deviceInfo.httpHeaders[0].value // "unknown"),
+        catalyst_center_id: (.id // ._id // "unknown")
       }
     }
 
@@ -193,15 +223,15 @@ cisco.catalystcenter.pnp_device_claim:
     {
       name: (.hostname // .deviceInfo.hostname // .serialNumber // .deviceInfo.serialNumber),
       canonical_facts: {
-        serial_number: (.serialNumber // .deviceInfo.serialNumber),
-        management_ip: (.managementIpAddress // null),
-        catalyst_center_id: (.id // ._id // null)
+        device_id: (.serialNumber // .deviceInfo.serialNumber)
       },
       facts: {
         infra_type: "private_cloud",
         infra_bucket: "networking",
         device_type: "network_device",
-        platform: "cisco_catalyst_center"
+        platform: "cisco_catalyst_center",
+        management_ip: (.managementIpAddress // "unknown"),
+        catalyst_center_id: (.id // ._id // "unknown")
       }
     }
 
@@ -219,14 +249,14 @@ cisco.catalystcenter.pnp_device:
     {
       name: (.hostname // .deviceInfo.hostname // .serialNumber // .deviceInfo.serialNumber),
       canonical_facts: {
-        serial_number: (.serialNumber // .deviceInfo.serialNumber),
-        management_ip: (.managementIpAddress // null),
-        catalyst_center_id: (.id // ._id // null)
+        device_id: (.serialNumber // .deviceInfo.serialNumber)
       },
       facts: {
         infra_type: "private_cloud",
         infra_bucket: "networking",
         device_type: "network_device",
-        platform: "cisco_catalyst_center"
+        platform: "cisco_catalyst_center",
+        management_ip: (.managementIpAddress // "unknown"),
+        catalyst_center_id: (.id // ._id // "unknown")
       }
     }

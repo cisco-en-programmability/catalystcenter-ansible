@@ -1,0 +1,19 @@
+---
+bugfixes:
+  - event_query - remove every ``// null`` fallback from ``canonical_facts``.
+    The controller's ``get_hashable_form()`` raises ``UnhashableFacts`` on
+    ``None`` and the caller skips the record, so a device whose serial number
+    or management IP was absent was silently dropped from indirect node
+    counting rather than counted with a partial identity. This affected
+    inventory and provision devices added before their serial is known, and
+    PnP devices claimed before they have a management IP.
+  - event_query - move ``management_ip`` out of ``canonical_facts`` and into
+    ``facts``. ``canonical_facts`` is the only key used to deduplicate nodes,
+    so a device that was re-addressed was counted a second time.
+minor_changes:
+  - event_query - add ``tests/unit/audit/test_event_query_contract.py``, which
+    asserts the contract the controller imposes on the query output (non-null
+    ``name``, non-null identity-only ``canonical_facts``, and a complete,
+    normalised taxonomy in ``facts``). Nothing else in this repository
+    executes ``extensions/audit/event_query.yml``, so changes to it previously
+    shipped with a green CI run regardless of what they did.
