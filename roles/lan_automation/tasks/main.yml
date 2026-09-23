@@ -11,6 +11,8 @@
     catalystcenter_debug: "{{ catalystcenter_debug | default(false) }}"
     catalystcenter_log_level: "{{ catalystcenter_log_level | default('INFO') }}"
     catalystcenter_log: "{{ catalystcenter_log | default(false) }}"
+    catalystcenter_api_task_timeout: "{{ lan_automation_catalystcenter_api_task_timeout }}"
+    catalystcenter_task_poll_interval: "{{ lan_automation_catalystcenter_task_poll_interval }}"
     state: "{{ lan_automation_state | default('merged') }}"
     config_verify: "{{ lan_automation_config_verify | default(false) }}"
     config: "{{ lan_automation_config }}"
