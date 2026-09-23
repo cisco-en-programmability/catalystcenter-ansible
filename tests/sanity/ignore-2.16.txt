@@ -103,6 +103,7 @@ plugins/modules/sda_fabric_transits_playbook_config_generator.py import-2.7!skip
 plugins/modules/sda_fabric_transits_workflow_manager.py import-2.7!skip
 plugins/modules/sda_fabric_virtual_networks_playbook_config_generator.py import-2.7!skip
 plugins/modules/sda_fabric_virtual_networks_workflow_manager.py import-2.7!skip
+plugins/modules/sda_host_port_migration_playbook_config_generator.py import-2.7!skip
 plugins/modules/sda_host_port_onboarding_playbook_config_generator.py import-2.7!skip
 plugins/modules/sda_host_port_onboarding_workflow_manager.py import-2.7!skip
 plugins/modules/site_playbook_config_generator.py import-2.7!skip

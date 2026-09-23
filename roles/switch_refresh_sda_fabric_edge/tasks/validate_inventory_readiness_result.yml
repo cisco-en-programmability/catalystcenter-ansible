@@ -1,0 +1,164 @@
+---
+# Pure evaluator for a direct network_device_info result. Keeping controller
+# access outside this file makes readiness failures testable with canned data.
+- name: Validate inventory readiness evaluator inputs
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_inventory_readiness_request is mapping
+      - switch_refresh_sda_fabric_edge_inventory_readiness_request.expected_ips is defined
+      - >-
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_request.expected_ips |
+          type_debug
+        ) == 'list'
+      - switch_refresh_sda_fabric_edge_inventory_readiness_request.expected_ips | length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_inventory_readiness_request.expected_ips |
+        map('string') |
+        unique |
+        list |
+        length ==
+        switch_refresh_sda_fabric_edge_inventory_readiness_request.expected_ips | length
+      - switch_refresh_sda_fabric_edge_inventory_readiness_request.context is defined
+      - >-
+        switch_refresh_sda_fabric_edge_inventory_readiness_request.context |
+        string |
+        trim |
+        length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_inventory_readiness_request.required_role is not defined or
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_request.required_role |
+          type_debug
+        ) == 'str'
+      - switch_refresh_sda_fabric_edge_inventory_readiness_raw_result is mapping
+      - >-
+        not (
+          switch_refresh_sda_fabric_edge_inventory_readiness_raw_result.failed |
+          default(false) |
+          bool
+        )
+      - >-
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_raw_result.catalystcenter_response |
+          default({})
+        ) is mapping
+      - >-
+        (
+          (
+            switch_refresh_sda_fabric_edge_inventory_readiness_raw_result.catalystcenter_response |
+            default({})
+          ).response |
+          default(none) |
+          type_debug
+        ) == 'list'
+    fail_msg: >-
+      Inventory readiness evaluation requires a valid request and a successful,
+      structured network_device_info response during
+      {{ switch_refresh_sda_fabric_edge_inventory_readiness_request.context |
+      default('replacement inventory validation') }}.
+
+- name: Normalize replacement inventory readiness response
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_inventory_readiness_entries: >-
+      {{
+        switch_refresh_sda_fabric_edge_inventory_readiness_raw_result
+        .catalystcenter_response.response
+      }}
+    switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips: >-
+      {{
+        switch_refresh_sda_fabric_edge_inventory_readiness_request.expected_ips |
+        map('string') |
+        list
+      }}
+    switch_refresh_sda_fabric_edge_inventory_readiness_required_role: >-
+      {{
+        switch_refresh_sda_fabric_edge_inventory_readiness_request.required_role |
+        default('') |
+        trim |
+        upper
+      }}
+
+- name: Validate replacement inventory readiness response records
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_inventory_readiness_entry is mapping
+    fail_msg: >-
+      Inventory readiness received a non-record response during
+      {{ switch_refresh_sda_fabric_edge_inventory_readiness_request.context }}.
+  loop: "{{ switch_refresh_sda_fabric_edge_inventory_readiness_entries }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_inventory_readiness_entry
+    label: inventory-readiness-record
+
+- name: Validate exact replacement inventory readiness coverage
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_inventory_readiness_entries |
+        map(attribute='managementIpAddress', default='') |
+        map('string') |
+        list |
+        sort == switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips | sort
+    fail_msg: >-
+      Inventory readiness did not return exactly the requested replacement IPs
+      {{ switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips }} during
+      {{ switch_refresh_sda_fabric_edge_inventory_readiness_request.context }}.
+
+- name: Validate replacement inventory readiness record details
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_inventory_readiness_entry.collectionStatus |
+        default('') == 'Managed'
+      - >-
+        switch_refresh_sda_fabric_edge_inventory_readiness_entry.managementState |
+        default('') == 'Managed'
+      - >-
+        switch_refresh_sda_fabric_edge_inventory_readiness_entry.reachabilityStatus |
+        default('') == 'Reachable'
+      - >-
+        switch_refresh_sda_fabric_edge_inventory_readiness_entry.family |
+        default('') in ['Switches and Hubs', 'Routers']
+      - >-
+        'GENERALCODE=SUCCESS' in
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_entry.inventoryStatusDetail |
+          default('') |
+          string |
+          upper |
+          regex_replace('[^A-Z=]', '')
+        )
+      - >-
+        switch_refresh_sda_fabric_edge_inventory_readiness_required_role | length == 0 or
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_entry.role |
+          default('') |
+          string |
+          upper
+        ) == switch_refresh_sda_fabric_edge_inventory_readiness_required_role
+    fail_msg: >-
+      Replacement inventory is not provisioning-ready during
+      {{ switch_refresh_sda_fabric_edge_inventory_readiness_request.context }}:
+      IP={{ switch_refresh_sda_fabric_edge_inventory_readiness_entry.managementIpAddress |
+      default('unknown') }}, collectionStatus={{
+      switch_refresh_sda_fabric_edge_inventory_readiness_entry.collectionStatus |
+      default('missing') }}, managementState={{
+      switch_refresh_sda_fabric_edge_inventory_readiness_entry.managementState |
+      default('missing') }}, reachabilityStatus={{
+      switch_refresh_sda_fabric_edge_inventory_readiness_entry.reachabilityStatus |
+      default('missing') }}, family={{
+      switch_refresh_sda_fabric_edge_inventory_readiness_entry.family |
+      default('missing') }}, inventoryStatusDetail={{
+      switch_refresh_sda_fabric_edge_inventory_readiness_entry.inventoryStatusDetail |
+      default('missing') }}, requiredRole={{
+      switch_refresh_sda_fabric_edge_inventory_readiness_required_role |
+      default('none', true) }}, role={{
+      switch_refresh_sda_fabric_edge_inventory_readiness_entry.role |
+      default('missing') }}.
+  loop: "{{ switch_refresh_sda_fabric_edge_inventory_readiness_entries }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_inventory_readiness_entry
+    label: >-
+      {{ switch_refresh_sda_fabric_edge_inventory_readiness_entry.managementIpAddress |
+      default('replacement-device') }}

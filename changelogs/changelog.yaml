@@ -455,3 +455,11 @@ releases:
         - Changes in swim_workflow_manager module
         - Changes in ise_radius_integration_playbook_config_generator module
         - Added attributes 'force_distribution', 'force_activation' in swim_workflow_manager module
+  2.13.0:
+    release_date: "2026-09-23"
+    changes:
+      release_summary: SDA Device Refresh workflow and changes in swim and fabric info modules
+      bugfixes:
+        - Changes in fabric_devices_info_workflow_manager module
+        - New module for YAML playbook generation of SDA host port migration configurations
+        - Changes in swim_workflow_manager module

@@ -1,0 +1,364 @@
+---
+- name: Validate batch device mapping structure
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_input_mapping is mapping
+    fail_msg: Each device_mapping entry must be a mapping.
+
+- name: Derive nested batch mapping input
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_mapping_old_identifier: >-
+      {{ switch_refresh_sda_fabric_edge_input_mapping.old | default({}) }}
+    switch_refresh_sda_fabric_edge_mapping_new_identifier: >-
+      {{ switch_refresh_sda_fabric_edge_input_mapping.new | default({}) }}
+    switch_refresh_sda_fabric_edge_mapping_interface_migration: >-
+      {{ switch_refresh_sda_fabric_edge_input_mapping.interface_migration | default({}) }}
+
+- name: Validate nested batch mapping containers
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_input_mapping.keys() |
+        list |
+        difference(['old', 'new', 'interface_migration']) |
+        length == 0
+      - switch_refresh_sda_fabric_edge_input_mapping.old is defined
+      - switch_refresh_sda_fabric_edge_mapping_old_identifier is mapping
+      - switch_refresh_sda_fabric_edge_input_mapping.new is defined
+      - switch_refresh_sda_fabric_edge_mapping_new_identifier is mapping
+      - switch_refresh_sda_fabric_edge_mapping_interface_migration is mapping
+    fail_msg: >-
+      Each device_mapping entry accepts only old, new, and optional
+      interface_migration mappings. Unknown mapping keys are not accepted.
+
+- name: Validate batch device mapping
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_mapping_new_identifier.keys() |
+        list |
+        sort == ['management_ip']
+      - >-
+        (switch_refresh_sda_fabric_edge_mapping_new_identifier.management_ip | type_debug)
+        == 'str'
+      - >-
+        switch_refresh_sda_fabric_edge_mapping_new_identifier.management_ip |
+        trim |
+        length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_mapping_new_identifier.management_ip ==
+        (switch_refresh_sda_fabric_edge_mapping_new_identifier.management_ip | trim)
+      - >-
+        switch_refresh_sda_fabric_edge_mapping_new_identifier.management_ip in
+        switch_refresh_sda_fabric_edge_batch_device_ips
+      - >-
+        switch_refresh_sda_fabric_edge_mapping_old_identifier.keys() |
+        list |
+        difference(
+          ['management_ip', 'hostname', 'serial_number', 'mac_address']
+        ) |
+        length == 0
+      - >-
+        (
+          [
+            switch_refresh_sda_fabric_edge_mapping_old_identifier.management_ip is defined,
+            switch_refresh_sda_fabric_edge_mapping_old_identifier.hostname is defined,
+            switch_refresh_sda_fabric_edge_mapping_old_identifier.serial_number is defined,
+            switch_refresh_sda_fabric_edge_mapping_old_identifier.mac_address is defined
+          ] |
+          select('equalto', true) |
+          list |
+          length
+        ) == 1
+      - >-
+        (switch_refresh_sda_fabric_edge_mapping_old_identifier.values() |
+        first | type_debug) == 'str'
+      - >-
+        switch_refresh_sda_fabric_edge_mapping_old_identifier.values() |
+        first |
+        default('') |
+        string |
+        trim |
+        length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_mapping_old_identifier.values() |
+        first |
+        string ==
+        (switch_refresh_sda_fabric_edge_mapping_old_identifier.values() |
+        first | string | trim)
+      - >-
+        switch_refresh_sda_fabric_edge_mapping_old_identifier.management_ip is not defined or
+        (
+          switch_refresh_sda_fabric_edge_mapping_old_identifier.management_ip |
+          string |
+          regex_search('^(?:0|[1-9][0-9]{0,2})(?:\\.(?:0|[1-9][0-9]{0,2})){3}$') is not none
+        )
+      - >-
+        switch_refresh_sda_fabric_edge_mapping_old_identifier.management_ip is not defined or
+        (
+          switch_refresh_sda_fabric_edge_mapping_old_identifier.management_ip |
+          string |
+          split('.') |
+          map('int') |
+          max <= 255
+        )
+      - >-
+        switch_refresh_sda_fabric_edge_mapping_old_identifier.management_ip is not defined or
+        (
+          switch_refresh_sda_fabric_edge_mapping_old_identifier.management_ip | string not in
+          switch_refresh_sda_fabric_edge_batch_device_ips
+        )
+      - >-
+        switch_refresh_sda_fabric_edge_mapping_old_identifier.mac_address is not defined or
+        (
+          switch_refresh_sda_fabric_edge_mapping_old_identifier.mac_address |
+          string |
+          regex_search('^(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}$')
+          is not none
+        )
+      - >-
+        switch_refresh_sda_fabric_edge_mapping_interface_migration.keys() |
+        list |
+        difference(['only_mapped', 'port_assignments', 'port_channels']) |
+        length == 0
+      - >-
+        (switch_refresh_sda_fabric_edge_mapping_interface_migration.port_assignments |
+        default([]) | type_debug) == 'list'
+      - >-
+        (switch_refresh_sda_fabric_edge_mapping_interface_migration.port_channels |
+        default([]) | type_debug) == 'list'
+      - >-
+        (switch_refresh_sda_fabric_edge_mapping_interface_migration.only_mapped |
+        default(false) | type_debug) == 'bool'
+    fail_msg: >-
+      Each device_mapping entry must identify one non-empty old device, provide
+      new.management_ip as the only new-device key, and optionally provide an
+      interface_migration mapping. new.management_ip must be a trimmed string
+      from new_devices.device_ips. old must contain exactly one of
+      management_ip, hostname, serial_number, or mac_address.
+      interface_migration accepts only boolean only_mapped and list-valued
+      port_assignments and port_channels. Unknown mapping keys are not accepted.
+      An old management IP cannot target any replacement device in the batch
+      and must be valid IPv4. An old MAC address must use six colon- or
+      hyphen-separated hexadecimal octets.
+
+- name: Normalize old device identifier value
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_mapping_normalized_old_identifier: >-
+      {{
+        {
+          'management_ip':
+            switch_refresh_sda_fabric_edge_mapping_old_identifier.management_ip | string
+        }
+        if (switch_refresh_sda_fabric_edge_mapping_old_identifier.management_ip is defined)
+        else {
+          'hostname': switch_refresh_sda_fabric_edge_mapping_old_identifier.hostname | string
+        }
+        if (switch_refresh_sda_fabric_edge_mapping_old_identifier.hostname is defined)
+        else {
+          'serial_number':
+            switch_refresh_sda_fabric_edge_mapping_old_identifier.serial_number | string | upper
+        }
+        if (switch_refresh_sda_fabric_edge_mapping_old_identifier.serial_number is defined)
+        else {
+          'mac_address':
+            switch_refresh_sda_fabric_edge_mapping_old_identifier.mac_address |
+            string |
+            lower |
+            regex_replace('-', ':')
+        }
+      }}
+
+- name: Derive effective batch interface migration input
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_input_port_assignment_mappings: >-
+      {{
+        switch_refresh_sda_fabric_edge_mapping_interface_migration.port_assignments |
+        default([])
+      }}
+    switch_refresh_sda_fabric_edge_input_port_channel_mappings: >-
+      {{
+        switch_refresh_sda_fabric_edge_mapping_interface_migration.port_channels |
+        default([])
+      }}
+    switch_refresh_sda_fabric_edge_effective_only_mapped_interfaces: >-
+      {{
+        switch_refresh_sda_fabric_edge_mapping_interface_migration.only_mapped |
+        default(false)
+      }}
+    switch_refresh_sda_fabric_edge_effective_port_assignment_mappings: []
+    switch_refresh_sda_fabric_edge_effective_port_channel_mappings: []
+
+- name: Validate mapping-only interface selection
+  ansible.builtin.assert:
+    that:
+      - >-
+        not switch_refresh_sda_fabric_edge_effective_only_mapped_interfaces or
+        (switch_refresh_sda_fabric_edge_input_port_assignment_mappings | length > 0) or
+        (switch_refresh_sda_fabric_edge_input_port_channel_mappings | length > 0)
+    fail_msg: >-
+      A device_mapping with interface_migration.only_mapped set to true must
+      provide at least one interface mapping under port_assignments or
+      port_channels.
+
+- name: Validate batch interface mapping entry types
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_interface_mapping is mapping
+    fail_msg: >-
+      Every interface migration entry must be a mapping with source and
+      destination.
+  loop: >-
+    {{
+      switch_refresh_sda_fabric_edge_input_port_assignment_mappings +
+      switch_refresh_sda_fabric_edge_input_port_channel_mappings
+    }}
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_interface_mapping
+    label: >-
+      {{
+        switch_refresh_sda_fabric_edge_interface_mapping.source |
+        default('invalid-interface-mapping')
+        if (switch_refresh_sda_fabric_edge_interface_mapping is mapping)
+        else 'invalid-interface-mapping'
+      }}
+
+- name: Validate batch interface mapping entries
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_interface_mapping.keys() |
+        list |
+        difference(['source', 'destination']) |
+        length == 0
+      - switch_refresh_sda_fabric_edge_interface_mapping.source is defined
+      - switch_refresh_sda_fabric_edge_interface_mapping.destination is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_interface_mapping.source | type_debug) == 'str'
+      - >-
+        (switch_refresh_sda_fabric_edge_interface_mapping.destination | type_debug) == 'str'
+      - switch_refresh_sda_fabric_edge_interface_mapping.source | trim | length > 0
+      - switch_refresh_sda_fabric_edge_interface_mapping.destination | trim | length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_interface_mapping.source ==
+        (switch_refresh_sda_fabric_edge_interface_mapping.source | trim)
+      - >-
+        switch_refresh_sda_fabric_edge_interface_mapping.destination ==
+        (switch_refresh_sda_fabric_edge_interface_mapping.destination | trim)
+    fail_msg: >-
+      Every interface migration entry must contain only non-empty,
+      whitespace-trimmed source and destination string values.
+  loop: >-
+    {{
+      switch_refresh_sda_fabric_edge_input_port_assignment_mappings +
+      switch_refresh_sda_fabric_edge_input_port_channel_mappings
+    }}
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_interface_mapping
+    label: >-
+      {{ switch_refresh_sda_fabric_edge_interface_mapping.source |
+      default('invalid-interface-mapping') }}
+
+- name: Validate unique batch interface mappings by workflow type
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_interface_mapping_set.mappings |
+        map(attribute='source') |
+        map('lower') |
+        unique |
+        length == switch_refresh_sda_fabric_edge_interface_mapping_set.mappings | length
+      - >-
+        switch_refresh_sda_fabric_edge_interface_mapping_set.mappings |
+        map(attribute='destination') |
+        map('lower') |
+        unique |
+        length == switch_refresh_sda_fabric_edge_interface_mapping_set.mappings | length
+    fail_msg: >-
+      {{ switch_refresh_sda_fabric_edge_interface_mapping_set.name }} interface mappings must
+      use unique source and destination interface names for each replacement
+      device.
+  loop:
+    - name: Port-assignment
+      mappings: "{{ switch_refresh_sda_fabric_edge_input_port_assignment_mappings }}"
+    - name: Port-channel
+      mappings: "{{ switch_refresh_sda_fabric_edge_input_port_channel_mappings }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_interface_mapping_set
+    label: "{{ switch_refresh_sda_fabric_edge_interface_mapping_set.name }}"
+
+- name: Validate destination interfaces are unique across migration components
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_input_port_assignment_mappings |
+        map(attribute='destination') |
+        map('lower') |
+        list |
+        intersect(
+          switch_refresh_sda_fabric_edge_input_port_channel_mappings |
+          map(attribute='destination') |
+          map('lower') |
+          list
+        ) |
+        length == 0
+    fail_msg: >-
+      A replacement destination interface cannot be used by both a port
+      assignment mapping and a port-channel mapping for the same device.
+
+- name: Normalize port assignment interface mappings
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_effective_port_assignment_mappings: >-
+      {{
+        switch_refresh_sda_fabric_edge_effective_port_assignment_mappings +
+        [
+          {
+            'source_interface_name':
+              switch_refresh_sda_fabric_edge_interface_mapping.source,
+            'destination_interface_name':
+              switch_refresh_sda_fabric_edge_interface_mapping.destination
+          }
+        ]
+      }}
+  loop: "{{ switch_refresh_sda_fabric_edge_input_port_assignment_mappings }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_interface_mapping
+    label: "{{ switch_refresh_sda_fabric_edge_interface_mapping.source }}"
+
+- name: Normalize port channel interface mappings
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_effective_port_channel_mappings: >-
+      {{
+        switch_refresh_sda_fabric_edge_effective_port_channel_mappings +
+        [
+          {
+            'source_interface_name':
+              switch_refresh_sda_fabric_edge_interface_mapping.source,
+            'destination_interface_name':
+              switch_refresh_sda_fabric_edge_interface_mapping.destination
+          }
+        ]
+      }}
+  loop: "{{ switch_refresh_sda_fabric_edge_input_port_channel_mappings }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_interface_mapping
+    label: "{{ switch_refresh_sda_fabric_edge_interface_mapping.source }}"
+
+- name: Add normalized batch device mapping
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_device_mappings: >-
+      {{
+        switch_refresh_sda_fabric_edge_batch_device_mappings + [
+          {
+            'new_device_management_ip':
+              switch_refresh_sda_fabric_edge_mapping_new_identifier.management_ip,
+            'old': switch_refresh_sda_fabric_edge_mapping_normalized_old_identifier,
+            'only_mapped_interfaces':
+              switch_refresh_sda_fabric_edge_effective_only_mapped_interfaces,
+            'port_assignment_interface_mappings':
+              switch_refresh_sda_fabric_edge_effective_port_assignment_mappings,
+            'port_channel_interface_mappings':
+              switch_refresh_sda_fabric_edge_effective_port_channel_mappings
+          }
+        ]
+      }}

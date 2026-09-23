@@ -1,0 +1,8 @@
+plan_test
+dispatch_test
+cleanup_test
+safety_test
+
+[all:vars]
+ansible_connection=local
+ansible_python_interpreter=auto_silent

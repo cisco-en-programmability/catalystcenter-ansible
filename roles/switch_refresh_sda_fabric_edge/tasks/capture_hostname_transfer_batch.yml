@@ -1,0 +1,364 @@
+---
+- name: Validate hostname transfer manifest directory
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_hostname_transfer_manifest_dir is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_hostname_transfer_manifest_dir |
+        default('') | type_debug) == 'str'
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_manifest_dir |
+        default('') |
+        trim |
+        length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_manifest_dir | default('') ==
+        (switch_refresh_sda_fabric_edge_hostname_transfer_manifest_dir | default('') | trim)
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_manifest_dir |
+        default('') |
+        regex_search('^/') is not none
+    fail_msg: >-
+      switch_refresh_sda_fabric_edge_hostname_transfer_manifest_dir must be a non-empty,
+      whitespace-trimmed absolute path when hostname transfer is enabled.
+
+- name: Initialize hostname transfer capture context
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_hostname_transfer_expected_ips: >-
+      {{
+        switch_refresh_sda_fabric_edge_cleanup_batch_old_management_ips +
+        switch_refresh_sda_fabric_edge_batch_device_ips
+      }}
+    switch_refresh_sda_fabric_edge_hostname_transfer_inventory_entries: []
+    switch_refresh_sda_fabric_edge_hostname_transfer_enriched_mappings: []
+    switch_refresh_sda_fabric_edge_hostname_transfer_entries: []
+    switch_refresh_sda_fabric_edge_hostname_transfer_owner_entries: []
+    switch_refresh_sda_fabric_edge_hostname_transfer_owner_uuids: []
+    switch_refresh_sda_fabric_edge_hostname_transfer_owner_hostnames: []
+    switch_refresh_sda_fabric_edge_hostname_transfer_input_fingerprint: ""
+    switch_refresh_sda_fabric_edge_hostname_transfer_manifest_file: >-
+      {{
+        (
+          switch_refresh_sda_fabric_edge_hostname_transfer_manifest_dir |
+          regex_replace('/+$', '')
+        ) ~ '/' ~ switch_refresh_sda_fabric_edge_cleanup_batch_file_safe_name ~
+        '_hostname_transfer.yml'
+      }}
+
+- name: Derive hostname transfer input fingerprint
+  ansible.builtin.include_tasks: derive_hostname_transfer_input_fingerprint.yml
+
+- name: Resolve live old and replacement hostname transfer identities
+  ansible.builtin.include_role:
+    name: network_devices_info
+    apply:
+      tags:
+        - switch_refresh_sda_fabric_edge_cleanup_old
+  vars:
+    network_devices_info_state: gathered
+    network_devices_info_config_verify: false
+    network_devices_info_config:
+      - network_devices:
+          - device_identifier:
+              - ip_address: >-
+                  {{ switch_refresh_sda_fabric_edge_hostname_transfer_expected_ips }}
+            timeout: >-
+              {{
+                refresh_item.device_info_lookup_timeout |
+                default(switch_refresh_sda_fabric_edge_device_info_lookup_timeout)
+              }}
+            retries: >-
+              {{
+                refresh_item.device_info_lookup_retries |
+                default(switch_refresh_sda_fabric_edge_device_info_lookup_retries)
+              }}
+            interval: >-
+              {{
+                refresh_item.device_info_lookup_interval |
+                default(switch_refresh_sda_fabric_edge_device_info_lookup_interval)
+              }}
+            requested_info:
+              - device_info
+
+- name: Extract live hostname transfer inventory identities
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_hostname_transfer_inventory_entries: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_transfer_inventory_entries +
+        switch_refresh_sda_fabric_edge_hostname_lookup_response_item[0].device_info
+      }}
+  loop: >-
+    {{ (network_devices_info_result | default({})).response | default([]) }}
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_hostname_lookup_response_item
+    label: hostname-transfer-device-info-response
+  when:
+    - (switch_refresh_sda_fabric_edge_hostname_lookup_response_item | type_debug) == 'list'
+    - switch_refresh_sda_fabric_edge_hostname_lookup_response_item | length > 0
+    - switch_refresh_sda_fabric_edge_hostname_lookup_response_item[0] is mapping
+    - switch_refresh_sda_fabric_edge_hostname_lookup_response_item[0].device_info is defined
+    - >-
+      (switch_refresh_sda_fabric_edge_hostname_lookup_response_item[0].device_info | type_debug)
+      == 'list'
+
+- name: Validate hostname transfer inventory result structure
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_hostname_inventory_item is mapping
+      - switch_refresh_sda_fabric_edge_hostname_inventory_item.device_ip is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_hostname_inventory_item.device_ip | type_debug) == 'str'
+      - switch_refresh_sda_fabric_edge_hostname_inventory_item.device_details is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_hostname_inventory_item.device_details | type_debug)
+        == 'list'
+      - switch_refresh_sda_fabric_edge_hostname_inventory_item.device_details | length == 1
+      - switch_refresh_sda_fabric_edge_hostname_inventory_item.device_details[0] is mapping
+    fail_msg: >-
+      A hostname transfer inventory lookup did not resolve to exactly one
+      structured device record in batch {{ switch_refresh_sda_fabric_edge_cleanup_batch_name }}.
+      No cleanup changes were made.
+  loop: "{{ switch_refresh_sda_fabric_edge_hostname_transfer_inventory_entries }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_hostname_inventory_item
+    label: >-
+      {{ switch_refresh_sda_fabric_edge_hostname_inventory_item.device_ip | default('unknown') }}
+
+- name: Validate exact hostname transfer inventory coverage
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_inventory_entries |
+        map(attribute='device_ip') |
+        map('string') |
+        unique |
+        list |
+        length == switch_refresh_sda_fabric_edge_hostname_transfer_expected_ips | length
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_inventory_entries |
+        map(attribute='device_ip') |
+        map('string') |
+        list |
+        sort == switch_refresh_sda_fabric_edge_hostname_transfer_expected_ips | sort
+    fail_msg: >-
+      Hostname transfer inventory coverage does not exactly match the old and
+      replacement management IPs in batch {{ switch_refresh_sda_fabric_edge_cleanup_batch_name }}.
+      No cleanup changes were made.
+
+- name: Build immutable hostname transfer mapping entries
+  ansible.builtin.include_tasks: build_hostname_transfer_mapping.yml
+  loop: "{{ switch_refresh_sda_fabric_edge_batch_resolved_mappings }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_hostname_mapping_to_build
+    label: >-
+      {{ switch_refresh_sda_fabric_edge_hostname_mapping_to_build.new_device_management_ip }}
+
+- name: Validate common captured hostname transfer entry schema
+  ansible.builtin.include_tasks: validate_hostname_transfer_entries.yml
+  vars:
+    switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_request:
+      entries: "{{ switch_refresh_sda_fabric_edge_hostname_transfer_entries }}"
+      context: >-
+        captured hostname transfer batch
+        {{ switch_refresh_sda_fabric_edge_cleanup_batch_name }}
+
+- name: Validate hostname transfer mapping coverage and uniqueness
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_enriched_mappings | length ==
+        switch_refresh_sda_fabric_edge_batch_resolved_mappings | length
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entry_count ==
+        switch_refresh_sda_fabric_edge_batch_resolved_mappings | length
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entry_count <=
+        100
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.old_hostnames |
+        map('lower') |
+        unique |
+        length ==
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entry_count
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.old_device_uuids |
+        unique |
+        length ==
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entry_count
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.new_device_uuids |
+        unique |
+        length ==
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entry_count
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.submission_labels |
+        reject('equalto', '') |
+        list |
+        length ==
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entry_count
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.submission_labels |
+        map('length') |
+        max <= 63
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.submission_labels |
+        map('lower') |
+        unique |
+        length ==
+        switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entry_count
+    fail_msg: >-
+      Hostname transfer requires no more than 100 complete mappings with unique
+      old hostnames, old identities, replacement identities, and non-empty,
+      case-insensitively unique LAN Automation hostname labels of at most 63
+      characters within batch {{ switch_refresh_sda_fabric_edge_cleanup_batch_name }}. No
+      cleanup changes were made.
+
+- name: Save enriched hostname transfer mappings
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_resolved_mappings: >-
+      {{ switch_refresh_sda_fabric_edge_hostname_transfer_enriched_mappings }}
+    switch_refresh_sda_fabric_edge_hostname_transfer_entries: >-
+      {{ switch_refresh_sda_fabric_edge_hostname_transfer_entry_validation_result.entries }}
+
+- name: Resolve captured old-hostname ownership
+  ansible.builtin.include_role:
+    name: network_devices_info
+    apply:
+      tags:
+        - switch_refresh_sda_fabric_edge_cleanup_old
+  vars:
+    network_devices_info_state: gathered
+    network_devices_info_config_verify: false
+    network_devices_info_config:
+      - network_devices:
+          - device_identifier:
+              - hostname: >-
+                  {{
+                    switch_refresh_sda_fabric_edge_hostname_transfer_entries |
+                    map(attribute='old_hostname') |
+                    list
+                  }}
+            timeout: >-
+              {{
+                refresh_item.device_info_lookup_timeout |
+                default(switch_refresh_sda_fabric_edge_device_info_lookup_timeout)
+              }}
+            retries: >-
+              {{
+                refresh_item.device_info_lookup_retries |
+                default(switch_refresh_sda_fabric_edge_device_info_lookup_retries)
+              }}
+            interval: >-
+              {{
+                refresh_item.device_info_lookup_interval |
+                default(switch_refresh_sda_fabric_edge_device_info_lookup_interval)
+              }}
+            requested_info:
+              - device_info
+
+- name: Extract captured old-hostname ownership records
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_hostname_transfer_owner_entries: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_transfer_owner_entries +
+        switch_refresh_sda_fabric_edge_hostname_owner_response_item[0].device_info
+      }}
+  loop: >-
+    {{ (network_devices_info_result | default({})).response | default([]) }}
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_hostname_owner_response_item
+    label: hostname-transfer-owner-response
+  when:
+    - (switch_refresh_sda_fabric_edge_hostname_owner_response_item | type_debug) == 'list'
+    - switch_refresh_sda_fabric_edge_hostname_owner_response_item | length > 0
+    - switch_refresh_sda_fabric_edge_hostname_owner_response_item[0] is mapping
+    - switch_refresh_sda_fabric_edge_hostname_owner_response_item[0].device_info is defined
+    - >-
+      (switch_refresh_sda_fabric_edge_hostname_owner_response_item[0].device_info | type_debug)
+      == 'list'
+
+- name: Validate captured old-hostname ownership result structure
+  ansible.builtin.assert:
+    that:
+      - network_devices_info_result.response is defined
+      - switch_refresh_sda_fabric_edge_hostname_owner_item is mapping
+      - switch_refresh_sda_fabric_edge_hostname_owner_item.device_ip is defined
+      - switch_refresh_sda_fabric_edge_hostname_owner_item.device_details is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_hostname_owner_item.device_details | type_debug) ==
+        'list'
+      - switch_refresh_sda_fabric_edge_hostname_owner_item.device_details | length == 1
+      - switch_refresh_sda_fabric_edge_hostname_owner_item.device_details[0] is mapping
+    fail_msg: >-
+      Captured old-hostname ownership did not resolve to structured, unique
+      inventory records in batch {{ switch_refresh_sda_fabric_edge_cleanup_batch_name }}.
+      No cleanup changes were made.
+  loop: "{{ switch_refresh_sda_fabric_edge_hostname_transfer_owner_entries }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_hostname_owner_item
+    label: >-
+      {{ switch_refresh_sda_fabric_edge_hostname_owner_item.device_ip | default('unknown') }}
+
+- name: Collect captured old-hostname owner identities
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_hostname_transfer_owner_uuids: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_transfer_owner_uuids + [
+          switch_refresh_sda_fabric_edge_hostname_owner_item.device_details[0].instanceUuid |
+          default(
+            switch_refresh_sda_fabric_edge_hostname_owner_item.device_details[0].id |
+            default(''),
+            true
+          ) |
+          string |
+          trim
+        ]
+      }}
+    switch_refresh_sda_fabric_edge_hostname_transfer_owner_hostnames: >-
+      {{
+        switch_refresh_sda_fabric_edge_hostname_transfer_owner_hostnames + [
+          switch_refresh_sda_fabric_edge_hostname_owner_item.device_details[0].hostname |
+          default('', true) |
+          string |
+          trim |
+          lower
+        ]
+      }}
+  loop: "{{ switch_refresh_sda_fabric_edge_hostname_transfer_owner_entries }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_hostname_owner_item
+    label: >-
+      {{ switch_refresh_sda_fabric_edge_hostname_owner_item.device_ip | default('unknown') }}
+
+- name: Prove old hostnames belong only to mapped old devices
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_owner_entries | length ==
+        switch_refresh_sda_fabric_edge_hostname_transfer_entries | length
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_owner_uuids |
+        reject('equalto', '') |
+        list |
+        length == switch_refresh_sda_fabric_edge_hostname_transfer_owner_uuids | length
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_owner_uuids |
+        unique |
+        length == switch_refresh_sda_fabric_edge_hostname_transfer_entries | length
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_owner_uuids | sort ==
+        switch_refresh_sda_fabric_edge_hostname_transfer_entries |
+        map(attribute='old_device_uuid') |
+        list |
+        sort
+      - >-
+        switch_refresh_sda_fabric_edge_hostname_transfer_owner_hostnames | sort ==
+        switch_refresh_sda_fabric_edge_hostname_transfer_entries |
+        map(attribute='old_hostname') |
+        map('lower') |
+        list |
+        sort
+    fail_msg: >-
+      Every captured old hostname must currently belong to exactly its mapped
+      old device, with no missing or third-party owner, in batch
+      {{ switch_refresh_sda_fabric_edge_cleanup_batch_name }}. No cleanup changes were made.
