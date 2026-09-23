@@ -961,6 +961,7 @@
 <li class="toctree-l4"><a class="reference internal" href="sda_fabrics_vlan_to_ssids_fabric_id_count_info_module.html">cisco.catalystcenter.sda_fabrics_vlan_to_ssids_fabric_id_count_info module -- Information module for Sda Fabrics Vlan To Ssids Fabric Id Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_fabrics_vlan_to_ssids_fabric_id_info_module.html">cisco.catalystcenter.sda_fabrics_vlan_to_ssids_fabric_id_info module -- Information module for Sda Fabrics Vlan To Ssids Fabric Id</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_fabrics_vlan_to_ssids_info_module.html">cisco.catalystcenter.sda_fabrics_vlan_to_ssids_info module -- Information module for Sda Fabrics Vlan To Ssids</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_host_port_migration_playbook_config_generator_module.html">cisco.catalystcenter.sda_host_port_migration_playbook_config_generator module -- Generate SDA host port migration YAML configurations.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_host_port_onboarding_playbook_config_generator_module.html">cisco.catalystcenter.sda_host_port_onboarding_playbook_config_generator module -- Generate YAML configurations playbook for 'sda_host_port_onboarding_workflow_manager' module.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_host_port_onboarding_workflow_manager_module.html">cisco.catalystcenter.sda_host_port_onboarding_workflow_manager module -- Manage host port onboarding in SD-Access Fabric in Cisco Catalyst Center.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_layer2_virtual_networks_module.html">cisco.catalystcenter.sda_layer2_virtual_networks module -- Resource module for Sda Layer2 Virtual Networks</a></li>
@@ -1652,7 +1653,7 @@
 <h1>cisco.catalystcenter.swim_workflow_manager module -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center<a class="headerlink" href="#cisco-catalystcenter-swim-workflow-manager-module-module-to-manage-swim-software-image-management-operations-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.12.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.13.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1715,8 +1716,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <a class="ansibleOptionLink" href="#parameter-activation_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Interval in seconds between successive status polls of an image activation task.</p>
+<p>Defaults to 30 seconds.</p>
 <p>The value must be at least 1 second.</p>
 <p>Increase this value to lower the API request frequency and help avoid rate-limiting (HTTP 429) during activations that involve device reboots.</p>
+<p>Applies only to image activation task polling. It does not govern golden tagging, image import, or image deletion, which poll using <code class="docutils literal notranslate"><span class="pre">catalystcenter_task_poll_interval</span></code> (default 2 seconds).</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id3"><span class="problematic" id="id4">:ansible-option-default:`30`</span></a></p>
 </div></td>
 </tr>
@@ -2744,9 +2747,11 @@ already untagged.</p></li>
 <a class="ansibleOptionLink" href="#parameter-distribution_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Interval in seconds between successive status polls of an image distribution task.</p>
+<p>Defaults to 30 seconds.</p>
 <p>The value must be at least 1 second.</p>
 <p>Also applies to the distribution phase that runs implicitly during an activation when <code class="docutils literal notranslate"><span class="pre">distribute_if_needed</span></code> is set.</p>
 <p>Increase this value to lower the API request frequency and help avoid rate-limiting (HTTP 429) during large or long-running distributions.</p>
+<p>Applies only to image distribution task polling. It does not govern golden tagging, image import, or image deletion, which poll using <code class="docutils literal notranslate"><span class="pre">catalystcenter_task_poll_interval</span></code> (default 2 seconds).</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id85"><span class="problematic" id="id86">:ansible-option-default:`30`</span></a></p>
 </div></td>
 </tr>
@@ -2783,6 +2788,7 @@ already untagged.</p></li>
 <p class="admonition-title">Note</p>
 <ul class="simple">
 <li><p>Image distribution and activation eligibility is driven by the controller's per-device IMAGE compliance status (<code class="docutils literal notranslate"><span class="pre">compliance_details_of_device</span></code>, category <code class="docutils literal notranslate"><span class="pre">IMAGE</span></code>). That status compares the device's installed image against the golden image tagged for the device's site, family and role. Only devices reported as <code class="docutils literal notranslate"><span class="pre">NON_COMPLIANT</span></code> are distributed/activated by default; <code class="docutils literal notranslate"><span class="pre">COMPLIANT</span></code> and <code class="docutils literal notranslate"><span class="pre">NOT_APPLICABLE</span></code> (no golden image tagged) devices are skipped as already aligned.</p></li>
+<li><p>Task-status polling frequency is governed by two separate settings. Image distribution polling uses <code class="docutils literal notranslate"><span class="pre">distribution_poll_interval</span></code> and image activation polling uses <code class="docutils literal notranslate"><span class="pre">activation_poll_interval</span></code> (both default 30 seconds). Every other task-monitoring operation in this module - golden tagging and untagging, image import, and image deletion - polls using the general <code class="docutils literal notranslate"><span class="pre">catalystcenter_task_poll_interval</span></code> (alias <code class="docutils literal notranslate"><span class="pre">dnac_task_poll_interval</span></code>), which defaults to 2 seconds.</p></li>
 <li><p>Recommended approach - tag the intended image as golden for the target site/family/role and let the compliance check drive distribution and activation. This keeps runs idempotent and avoids pushing images to devices that already have them.</p></li>
 <li><p>Use <code class="docutils literal notranslate"><span class="pre">force_distribution</span></code> / <code class="docutils literal notranslate"><span class="pre">force_activation</span></code> only for deliberate overrides, for example a downgrade or pushing a specific non-golden image to devices the controller already reports as compliant. These flags bypass the compliance check for the requested image.</p></li>
 <li><p>Set <code class="docutils literal notranslate"><span class="pre">image_distribution_timeout</span></code> and <code class="docutils literal notranslate"><span class="pre">image_activation_timeout</span></code> (both in seconds) large enough to cover the full operation, otherwise the module can time out and interrupt an upgrade that is still progressing on the controller, reporting a failure for what is actually a slow but successful operation. The actual duration depends on factors outside the module's control - the resources Cisco Catalyst Center currently has available, image size, network throughput, and the number and type of devices - so no exact value can be guaranteed. Prefer a generously higher value for smoother, uninterrupted runs (for example, raise it further for large images, slow links, or many/complex devices). If not set, each timeout defaults to 3600 seconds.</p></li>

@@ -42,7 +42,7 @@ cisco.catalystcenter.swim_workflow_manager module -- Module to manage SWIM (Soft
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.12.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.13.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -185,9 +185,13 @@ Parameters
 
       Interval in seconds between successive status polls of an image activation task.
 
+      Defaults to 30 seconds.
+
       The value must be at least 1 second.
 
       Increase this value to lower the API request frequency and help avoid rate-limiting (HTTP 429) during activations that involve device reboots.
+
+      Applies only to image activation task polling. It does not govern golden tagging, image import, or image deletion, which poll using \ :literal:`catalystcenter\_task\_poll\_interval`\  (default 2 seconds).
 
 
       .. rst-class:: ansible-option-line
@@ -3834,11 +3838,15 @@ Parameters
 
       Interval in seconds between successive status polls of an image distribution task.
 
+      Defaults to 30 seconds.
+
       The value must be at least 1 second.
 
       Also applies to the distribution phase that runs implicitly during an activation when \ :literal:`distribute\_if\_needed`\  is set.
 
       Increase this value to lower the API request frequency and help avoid rate-limiting (HTTP 429) during large or long-running distributions.
+
+      Applies only to image distribution task polling. It does not govern golden tagging, image import, or image deletion, which poll using \ :literal:`catalystcenter\_task\_poll\_interval`\  (default 2 seconds).
 
 
       .. rst-class:: ansible-option-line
@@ -3944,6 +3952,7 @@ Notes
 
 .. note::
    - Image distribution and activation eligibility is driven by the controller's per-device IMAGE compliance status (\ :literal:`compliance\_details\_of\_device`\ , category \ :literal:`IMAGE`\ ). That status compares the device's installed image against the golden image tagged for the device's site, family and role. Only devices reported as \ :literal:`NON\_COMPLIANT`\  are distributed/activated by default; \ :literal:`COMPLIANT`\  and \ :literal:`NOT\_APPLICABLE`\  (no golden image tagged) devices are skipped as already aligned.
+   - Task-status polling frequency is governed by two separate settings. Image distribution polling uses \ :literal:`distribution\_poll\_interval`\  and image activation polling uses \ :literal:`activation\_poll\_interval`\  (both default 30 seconds). Every other task-monitoring operation in this module - golden tagging and untagging, image import, and image deletion - polls using the general \ :literal:`catalystcenter\_task\_poll\_interval`\  (alias \ :literal:`dnac\_task\_poll\_interval`\ ), which defaults to 2 seconds.
    - Recommended approach - tag the intended image as golden for the target site/family/role and let the compliance check drive distribution and activation. This keeps runs idempotent and avoids pushing images to devices that already have them.
    - Use \ :literal:`force\_distribution`\  / \ :literal:`force\_activation`\  only for deliberate overrides, for example a downgrade or pushing a specific non-golden image to devices the controller already reports as compliant. These flags bypass the compliance check for the requested image.
    - Set \ :literal:`image\_distribution\_timeout`\  and \ :literal:`image\_activation\_timeout`\  (both in seconds) large enough to cover the full operation, otherwise the module can time out and interrupt an upgrade that is still progressing on the controller, reporting a failure for what is actually a slow but successful operation. The actual duration depends on factors outside the module's control - the resources Cisco Catalyst Center currently has available, image size, network throughput, and the number and type of devices - so no exact value can be guaranteed. Prefer a generously higher value for smoother, uninterrupted runs (for example, raise it further for large images, slow links, or many/complex devices). If not set, each timeout defaults to 3600 seconds.

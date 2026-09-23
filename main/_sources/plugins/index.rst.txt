@@ -6,7 +6,7 @@
 Cisco.Catalystcenter
 ====================
 
-Collection version 2.12.0
+Collection version 2.13.0
 
 .. contents::
    :local:
@@ -976,6 +976,7 @@ Modules
 * :ref:`sda_fabrics_vlan_to_ssids_fabric_id_count_info module <ansible_collections.cisco.catalystcenter.sda_fabrics_vlan_to_ssids_fabric_id_count_info_module>` -- Information module for Sda Fabrics Vlan To Ssids Fabric Id Count
 * :ref:`sda_fabrics_vlan_to_ssids_fabric_id_info module <ansible_collections.cisco.catalystcenter.sda_fabrics_vlan_to_ssids_fabric_id_info_module>` -- Information module for Sda Fabrics Vlan To Ssids Fabric Id
 * :ref:`sda_fabrics_vlan_to_ssids_info module <ansible_collections.cisco.catalystcenter.sda_fabrics_vlan_to_ssids_info_module>` -- Information module for Sda Fabrics Vlan To Ssids
+* :ref:`sda_host_port_migration_playbook_config_generator module <ansible_collections.cisco.catalystcenter.sda_host_port_migration_playbook_config_generator_module>` -- Generate SDA host port migration YAML configurations.
 * :ref:`sda_host_port_onboarding_playbook_config_generator module <ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'sda\_host\_port\_onboarding\_workflow\_manager' module.
 * :ref:`sda_host_port_onboarding_workflow_manager module <ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module>` -- Manage host port onboarding in SD-Access Fabric in Cisco Catalyst Center.
 * :ref:`sda_layer2_virtual_networks module <ansible_collections.cisco.catalystcenter.sda_layer2_virtual_networks_module>` -- Resource module for Sda Layer2 Virtual Networks
@@ -2531,6 +2532,7 @@ Modules
     sda_fabrics_vlan_to_ssids_fabric_id_count_info_module
     sda_fabrics_vlan_to_ssids_fabric_id_info_module
     sda_fabrics_vlan_to_ssids_info_module
+    sda_host_port_migration_playbook_config_generator_module
     sda_host_port_onboarding_playbook_config_generator_module
     sda_host_port_onboarding_workflow_manager_module
     sda_layer2_virtual_networks_module
