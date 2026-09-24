@@ -161,6 +161,8 @@ options:
                 time_zone:
                   description:
                     - Time zone identifier for the schedule.
+                    - Validation uses the IANA time zone database through C(pytz).
+                    - The C(pytz) package must be installed on the Ansible control node.
                     - Uses standard time zone identifiers like C(Asia/Calcutta),
                       C(America/New_York), etc. For a complete list of supported time zones,
                       please refer to the time_zone field in the Inventory Workflow Manager documentation
@@ -9041,14 +9043,16 @@ class Reports(CatalystCenterBase):
             )
             if not time_zone:
                 self.msg = (
-                    "Missing timezone for predefined TimeRange option '{0}'."
-                ).format(time_range_option)
+                    "Missing timezone for predefined TimeRange option "
+                    f"'{time_range_option}'. Provide 'time_zone' on the filter "
+                    "or the report schedule."
+                )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
             if time_zone not in pytz.all_timezones:
-                self.msg = "Invalid time_zone '{0}' in 'Time Range' filter.".format(
-                    time_zone
+                self.msg = (
+                    f"Invalid time_zone '{time_zone}' in 'Time Range' filter."
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
@@ -10427,11 +10431,29 @@ class Reports(CatalystCenterBase):
                 "viewGroupVersion",
                 "dataCategory",
             )
+            dropped_keys = [
+                key for key in report_payload if key not in allowed_create_fields
+            ]
             report_payload = {
                 key: report_payload[key]
                 for key in allowed_create_fields
                 if key in report_payload
             }
+            if dropped_keys:
+                self.log(
+                    "Dropped non-canonical report payload fields: {0}".format(
+                        dropped_keys
+                    ),
+                    "DEBUG",
+                )
+
+            if not report_payload:
+                self.msg = (
+                    "Failed to build report-create payload for report '{0}'. "
+                    "No supported top-level API fields were present."
+                ).format(report_entry.get("name"))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return None
 
             # Transform specific fields for API requirements
             if (
