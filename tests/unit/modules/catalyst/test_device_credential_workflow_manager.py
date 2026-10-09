@@ -16,7 +16,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     device_credential_workflow_manager,
 )
@@ -517,3 +517,125 @@ class TestCatalystCenterCredentialWorkflow(TestCatalystModule):
             result["msg"],
             "Exception occurred while getting global device credentials: ",
         )
+
+
+def credential_manager():
+    manager = device_credential_workflow_manager.DeviceCredential.__new__(
+        device_credential_workflow_manager.DeviceCredential
+    )
+    manager.want = {}
+    manager.result = {"response": [{"assign_credential": {}}]}
+    manager.log = Mock()
+    manager.pprint = Mock(side_effect=str)
+    manager.check_return_status = Mock(return_value=manager)
+    manager.get_ccc_version_as_integer = Mock(return_value=2379)
+    manager.get_ccc_version_as_int_from_str = Mock(return_value=2353)
+    manager.get_site_id = Mock(return_value=(True, "site-1"))
+    manager.get_global_credentials_params = Mock(return_value={})
+    return manager
+
+
+def site_settings(cli_id):
+    return {
+        "cliCredentialsId": {
+            "credentialsId": cli_id,
+            "inheritedSiteName": "response metadata",
+        },
+        "snmpv2cReadCredentialsId": None,
+        "snmpv2cWriteCredentialsId": {},
+        "snmpv3CredentialsId": {"credentialsId": "snmp-3"},
+        "httpReadCredentialsId": None,
+        "httpWriteCredentialsId": {},
+    }
+
+
+def test_explicit_null_and_unset_are_kept_in_want():
+    manager = credential_manager()
+    manager.get_global_credentials_params = Mock(
+        return_value={"cliCredential": [{"id": "cli-1"}]}
+    )
+    manager.get_want_assign_credentials(
+        {
+            "site_name": ["Global/USA/SAN JOSE"],
+            "cli_credential": {"id": "cli-1"},
+            "snmp_v3": None,
+            "https_read": {},
+        }
+    )
+
+    assert manager.want["assign_credentials"] == {
+        "cliCredentialsId": {"credentialsId": "cli-1"},
+        "snmpv3CredentialsId": None,
+        "httpReadCredentialsId": {},
+    }
+
+
+def test_omitted_settings_preserve_the_sites_own_states():
+    manager = credential_manager()
+    manager.get_assigned_device_credential = Mock(return_value=site_settings("cli-1"))
+
+    payload = manager.complete_site_credential_payload(
+        "site-1", {"snmpv3CredentialsId": None, "httpReadCredentialsId": {}}
+    )
+
+    assert payload == {
+        "cliCredentialsId": {"credentialsId": "cli-1"},
+        "snmpv2cReadCredentialsId": None,
+        "snmpv2cWriteCredentialsId": {},
+        "snmpv3CredentialsId": None,
+        "httpReadCredentialsId": {},
+        "httpWriteCredentialsId": {},
+    }
+    manager.get_assigned_device_credential.assert_called_once_with(
+        "site-1", inherited=False
+    )
+
+
+def test_each_site_gets_its_own_complete_put_payload():
+    manager = credential_manager()
+    manager.want = {
+        "assign_credentials": {"snmpv3CredentialsId": None},
+        "site_id": ["site-1", "site-2"],
+    }
+    manager.get_ccc_version = Mock(return_value="2.3.7.9")
+    manager.compare_catalystcenter_versions = Mock(return_value=1)
+    manager.get_site_id = Mock(return_value=(True, "global"))
+    manager.get_assigned_device_credential = Mock(
+        side_effect=[site_settings("cli-1"), site_settings("cli-2")]
+    )
+    manager.catalystcenter = Mock()
+    manager.check_tasks_response_status = Mock(return_value=manager)
+
+    manager.assign_credentials_to_site()
+
+    calls = manager.catalystcenter._exec.call_args_list
+    assert len(calls) == 2
+    first = calls[0].kwargs["params"]
+    second = calls[1].kwargs["params"]
+    assert first["id"] == "site-1"
+    assert second["id"] == "site-2"
+    assert first["cliCredentialsId"] == {"credentialsId": "cli-1"}
+    assert second["cliCredentialsId"] == {"credentialsId": "cli-2"}
+    assert first["snmpv3CredentialsId"] is None
+    assert second["snmpv3CredentialsId"] is None
+    assert len(first) == len(second) == 7
+
+
+def test_global_unset_preserves_other_global_settings():
+    manager = credential_manager()
+    manager.get_assigned_device_credential = Mock(
+        return_value=site_settings("global-cli")
+    )
+    manager.catalystcenter = Mock()
+    manager.check_tasks_response_status = Mock(return_value=manager)
+
+    manager.assign_device_cred_to_global_site("global", {"snmpv3CredentialsId": {}}, {})
+
+    payload = manager.catalystcenter._exec.call_args.kwargs["params"]
+    assert payload["id"] == "global"
+    assert payload["snmpv3CredentialsId"] == {}
+    assert payload["cliCredentialsId"] == {"credentialsId": "global-cli"}
+    assert payload["snmpv2cReadCredentialsId"] is None
+    manager.get_assigned_device_credential.assert_called_once_with(
+        "global", inherited=False
+    )

@@ -276,13 +276,14 @@ options:
       assign_credentials_to_site:
         description:
           - Assign Device Credentials to Site.
-          - Starting from version 2.3.7.6, all credential
-            parameters are mandatory.
-          - If any parameter is missing, it will automatically
-            inherit the value from the parent site—except
-            for the Global site.
-          - The unset option (passing {}) is only applicable
-            for the Global site and not for other sites.
+          - Starting from version 2.3.7.6, the API requires all six
+            credential fields. The module fills fields omitted from
+            the playbook with each site's current settings.
+          - An omitted credential type keeps its current setting at
+            each site, including an inherited or unset setting.
+          - Pass C(null) at a non-Global site to inherit a credential
+            from its parent site.
+          - Pass C({}) to unset a credential at a site.
         type: dict
         suboptions:
           cli_credential:
@@ -912,6 +913,15 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
 
 class DeviceCredential(CatalystCenterBase):
     """Class containing member attributes for device_credential_workflow_manager module"""
+
+    ASSIGN_CREDENTIAL_KEY_MAP = {
+        "cli_credential": "cliCredentialsId",
+        "snmp_v2c_read": "snmpv2cReadCredentialsId",
+        "snmp_v2c_write": "snmpv2cWriteCredentialsId",
+        "snmp_v3": "snmpv3CredentialsId",
+        "https_read": "httpReadCredentialsId",
+        "https_write": "httpWriteCredentialsId",
+    }
 
     def __init__(self, module):
         super().__init__(module)
@@ -2733,6 +2743,27 @@ class DeviceCredential(CatalystCenterBase):
                         }
                     )
 
+        # The newer site-settings API distinguishes an explicit null (inherit)
+        # from an empty object (unset). Missing keys are filled from each site's
+        # own settings immediately before its PUT request.
+        if current_ccc_version_as_int > self.get_ccc_version_as_int_from_str(
+            "2.3.5.3"
+        ):
+            for input_key, payload_key in self.ASSIGN_CREDENTIAL_KEY_MAP.items():
+                if (
+                    input_key in assign_credentials
+                    and payload_key not in want["assign_credentials"]
+                ):
+                    value = assign_credentials[input_key]
+                    if value is None or value == {}:
+                        want["assign_credentials"][payload_key] = value
+                    else:
+                        self.msg = (
+                            "Credential '{0}' requires a valid id or identifying fields"
+                        ).format(input_key)
+                        self.status = "failed"
+                        return self
+
         self.log("Desired State (want): {0}".format(want), "INFO")
         self.want.update(want)
         self.msg = "Collected the Credentials needed to be assigned from the Cisco Catalyst Center"
@@ -3134,36 +3165,50 @@ class DeviceCredential(CatalystCenterBase):
         self.status = "success"
         return self
 
-    def get_credential_value(self, input_value, global_value):
-        """
-        Determines the appropriate credential value to use for assignment.
+    def complete_site_credential_payload(self, site_id, credential_params):
+        """Preserve omitted credential types using this site's own settings."""
+        missing = [
+            key for key in self.ASSIGN_CREDENTIAL_KEY_MAP.values()
+            if key not in credential_params
+        ]
+        if not missing:
+            return credential_params
 
-        This method is used to resolve a credential field by prioritizing the following:
-        - If the `input_value` is explicitly an empty dictionary `{}`, return `{}` as-is.
-        - If the `input_value` is `None`, return the `global_value` if it exists.
-        - Otherwise, return the `input_value`.
+        current = self.get_assigned_device_credential(site_id, inherited=False)
+        if not isinstance(current, dict):
+            self.msg = (
+                "Unable to retrieve device credential settings for site '{0}'"
+            ).format(site_id)
+            self.status = "failed"
+            return self.check_return_status()
 
-        This is useful when assigning credentials with fallbacks from global defaults,
-        while still respecting explicit requests to nullify a field using `{}`.
+        for key in missing:
+            if key not in current:
+                self.msg = (
+                    "Device credential settings for site '{0}' are missing '{1}'"
+                ).format(site_id, key)
+                self.status = "failed"
+                return self.check_return_status()
+            value = current[key]
+            if isinstance(value, dict) and value:
+                credential_id = value.get("credentialsId")
+                if not credential_id:
+                    self.msg = (
+                        "Device credential setting '{0}' for site '{1}' "
+                        "has no credentialsId"
+                    ).format(key, site_id)
+                    self.status = "failed"
+                    return self.check_return_status()
+                value = {"credentialsId": credential_id}
+            elif value is not None and value != {}:
+                self.msg = (
+                    "Invalid device credential setting '{0}' for site '{1}'"
+                ).format(key, site_id)
+                self.status = "failed"
+                return self.check_return_status()
+            credential_params[key] = copy.deepcopy(value)
 
-        Parameters:
-            input_value (any): The credential value provided in the input (can be a string, dict, or None).
-            global_value (any): The global/default credential value to fall back on if `input_value` is None.
-
-        Returns:
-            any: The resolved credential value to use (could be `input_value`, `global_value`, or `{}`).
-        """
-
-        # Explicitly return the empty dictionary if input_value is {}
-        if input_value == {}:
-            return {}
-
-        # If input_value is None, fall back to global_value (or return {} if global_value is None)
-        if input_value is None:
-            return global_value if global_value is not None else {}
-
-        # Otherwise, return the input_value as-is
-        return input_value
+        return credential_params
 
     def assign_device_cred_to_global_site(
         self, global_site_id, credential_params_template, result_assign_credential
@@ -3197,10 +3242,6 @@ class DeviceCredential(CatalystCenterBase):
             ),
             "INFO",
         )
-        global_cred = copy.deepcopy(self.get_assigned_device_credential(global_site_id))
-        self.log(
-            "Global credentials retrieved: {}".format(self.pprint(global_cred)), "DEBUG"
-        )
         credential_params = copy.deepcopy(
             credential_params_template
         )  # Reset for each iteration
@@ -3210,45 +3251,9 @@ class DeviceCredential(CatalystCenterBase):
             ),
             "DEBUG",
         )
-        # List of credential types to handle
-        credential_types = [
-            "cliCredentialsId",
-            "snmpv2cReadCredentialsId",
-            "snmpv2cWriteCredentialsId",
-            "httpReadCredentialsId",
-            "httpWriteCredentialsId",
-            "snmpv3CredentialsId",
-        ]
-
-        # Process each credential type
-        for cred_type in credential_types:
-            if credential_params.get(cred_type) is None:  # If not provided in the input
-                self.log(
-                    "Credential '{}' is not provided in the input. Checking global credentials...".format(
-                        cred_type
-                    ),
-                    "DEBUG",
-                )
-
-                global_value = global_cred.get(
-                    cred_type
-                )  # Fetch from global credentials
-                if global_value:
-                    self.log(
-                        "Found global value for '{}': {}".format(
-                            cred_type, global_value
-                        ),
-                        "DEBUG",
-                    )
-                    credential_params[cred_type] = global_value
-                else:
-                    self.log(
-                        "No global value found for '{}'. Setting it to an empty dictionary.".format(
-                            cred_type
-                        ),
-                        "DEBUG",
-                    )
-                    credential_params[cred_type] = {}
+        credential_params = self.complete_site_credential_payload(
+            global_site_id, credential_params
+        )
 
         # Add site ID to parameters
         credential_params["id"] = global_site_id
@@ -3336,26 +3341,7 @@ class DeviceCredential(CatalystCenterBase):
                     "Global site detected in site IDs. Processing global credential assignment.",
                     "INFO",
                 )
-                assign_credentials_to_site = self.config[0][
-                    "assign_credentials_to_site"
-                ].copy()
-                if "site_name" in assign_credentials_to_site:
-
-                    site_names = assign_credentials_to_site.pop("site_name")
-                    self.log(
-                        "Removed 'site_name' from credential assignment configuration: {0}".format(
-                            site_names
-                        ),
-                        "DEBUG",
-                    )
-                self.log(
-                    "Global site credential parameters: {0}".format(
-                        assign_credentials_to_site
-                    ),
-                    "DEBUG",
-                )
-                # Skip if credential_params is empty
-                if not assign_credentials_to_site:
+                if not credential_params_template:
                     self.log(
                         "No credentials defined for global site. Skipping assignment.",
                         "INFO",
@@ -3423,6 +3409,9 @@ class DeviceCredential(CatalystCenterBase):
                 credential_params = copy.deepcopy(
                     credential_params_template
                 )  # Reset for each iteration
+                credential_params = self.complete_site_credential_payload(
+                    site_id, credential_params
+                )
                 self.log(
                     "Credentials for site {}: {}".format(site_id, credential_params)
                 )
@@ -3498,13 +3487,14 @@ class DeviceCredential(CatalystCenterBase):
 
         return sync_status
 
-    def get_assigned_device_credential(self, site_id):
+    def get_assigned_device_credential(self, site_id, inherited=True):
         """
         Retrieve device credential configurations for a site from Cisco Catalyst Center.
 
         Parameters:
             self - The current object with updated Global Device Credential information.
             site_id (str): The ID of the site for which to retrieve device credential settings.
+            inherited (bool): Whether to include effective inherited settings.
 
         Returns:
             site_credential_response - The device credential settings for the specified site,
@@ -3517,7 +3507,7 @@ class DeviceCredential(CatalystCenterBase):
         credential_settings = self.catalystcenter._exec(
             family="network_settings",
             function="get_device_credential_settings_for_a_site",
-            params={"_inherited": True, "id": site_id},
+            params={"inherited": inherited, "id": site_id},
         )
 
         self.log("Received API response: {0}".format(credential_settings), "DEBUG")
