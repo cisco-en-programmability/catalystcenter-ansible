@@ -164,6 +164,27 @@ class TestIseRadiusIntegrationPolling(TestCase):
         mock_sleep.assert_called_once_with(5)
 
     def test_fails_immediately_when_ise_integration_fails(self):
+        # A stale global value must not override the current server's setting.
+        self.manager.want["trusted_server"] = True
+        self.manager.catalystcenter._exec.return_value = self.ise_response("FAILED")
+
+        with patch.object(
+            ise_radius_integration_workflow_manager.time,
+            "monotonic",
+            return_value=0,
+        ), patch.object(
+            ise_radius_integration_workflow_manager.time, "sleep"
+        ) as mock_sleep:
+            self.manager.wait_for_ise_server_state(
+                self.ip_address, 20, trusted_server=False
+            )
+
+        self.assertEqual(self.manager.status, "failed")
+        self.assertIn("integration has failed", self.manager.msg)
+        self.assertIn("not yet trusted", self.manager.msg)
+        mock_sleep.assert_not_called()
+
+    def test_failed_trusted_server_ignores_stale_untrusted_global(self):
         self.manager.want["trusted_server"] = False
         self.manager.catalystcenter._exec.return_value = self.ise_response("FAILED")
 
@@ -174,11 +195,12 @@ class TestIseRadiusIntegrationPolling(TestCase):
         ), patch.object(
             ise_radius_integration_workflow_manager.time, "sleep"
         ) as mock_sleep:
-            self.manager.wait_for_ise_server_state(self.ip_address, 20)
+            self.manager.wait_for_ise_server_state(
+                self.ip_address, 20, trusted_server=True
+            )
 
         self.assertEqual(self.manager.status, "failed")
-        self.assertIn("integration has failed", self.manager.msg)
-        self.assertIn("not yet trusted", self.manager.msg)
+        self.assertNotIn("not yet trusted", self.manager.msg)
         mock_sleep.assert_not_called()
 
     def test_stops_polling_at_timeout_without_oversleeping(self):
@@ -205,6 +227,7 @@ class TestIseRadiusIntegrationPolling(TestCase):
         config = {
             "server_ip_address": self.ip_address,
             "ise_integration_wait_time": 600,
+            "trusted_server": False,
         }
 
         with patch.object(
@@ -213,7 +236,7 @@ class TestIseRadiusIntegrationPolling(TestCase):
             manager.update_auth_policy_server([config])
 
         manager.wait_for_ise_server_state.assert_called_once_with(
-            self.ip_address, 600
+            self.ip_address, 600, trusted_server=False
         )
         mock_sleep.assert_not_called()
 
@@ -222,6 +245,7 @@ class TestIseRadiusIntegrationPolling(TestCase):
         config = {
             "server_ip_address": self.ip_address,
             "ise_integration_wait_time": 600,
+            "trusted_server": False,
         }
 
         with patch.object(
@@ -231,9 +255,71 @@ class TestIseRadiusIntegrationPolling(TestCase):
 
         manager.wait_for_ise_integration_status.assert_not_called()
         manager.wait_for_ise_server_state.assert_called_once_with(
-            self.ip_address, 600
+            self.ip_address, 600, trusted_server=False
         )
         mock_sleep.assert_not_called()
+
+    def test_update_uses_current_trust_setting_for_certificate_acceptance(self):
+        manager = self.build_flow_manager(exists=True, have_state="INPROGRESS")
+        manager.want["trusted_server"] = True
+        manager.wait_for_ise_integration_status.return_value = "WAITING_USER_INPUT"
+        config = {
+            "server_ip_address": self.ip_address,
+            "ise_integration_wait_time": 30,
+            "trusted_server": False,
+        }
+
+        manager.update_auth_policy_server([config])
+
+        manager.accept_cisco_ise_server_certificate.assert_called_once_with(
+            self.ip_address, False
+        )
+        manager.wait_for_ise_server_state.assert_called_once_with(
+            self.ip_address, 30, trusted_server=False
+        )
+
+    def test_multiple_ise_servers_keep_independent_wait_and_trust_settings(self):
+        manager = self.build_flow_manager(exists=False)
+        first_ip = "10.4.20.240"
+        second_ip = "10.4.20.241"
+        manager.want["authenticationPolicyServer"] = [
+            {"isIseEnabled": True, "ipAddress": first_ip},
+            {"isIseEnabled": True, "ipAddress": second_ip},
+        ]
+        manager.have["authenticationPolicyServer"] = [
+            {"exists": False, "details": None, "id": None},
+            {"exists": False, "details": None, "id": None},
+        ]
+        manager.wait_for_ise_integration_status.side_effect = [
+            "WAITING_USER_INPUT",
+            "WAITING_USER_INPUT",
+        ]
+        config = [
+            {
+                "server_ip_address": first_ip,
+                "ise_integration_wait_time": 30,
+                "trusted_server": False,
+            },
+            {
+                "server_ip_address": second_ip,
+                "ise_integration_wait_time": 600,
+                "trusted_server": True,
+            },
+        ]
+
+        manager.update_auth_policy_server(config)
+
+        self.assertEqual(
+            manager.accept_cisco_ise_server_certificate.call_args_list,
+            [call(first_ip, False), call(second_ip, True)],
+        )
+        self.assertEqual(
+            manager.wait_for_ise_server_state.call_args_list,
+            [
+                call(first_ip, 30, trusted_server=False),
+                call(second_ip, 600, trusted_server=True),
+            ],
+        )
 
 
 class TestIseRadiusIntegrationWaitTimeValidation(TestCase):

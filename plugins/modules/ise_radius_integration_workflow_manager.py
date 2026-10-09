@@ -471,6 +471,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
 )
 
 
+ISE_INTEGRATION_DEFAULT_WAIT_TIME = 20
 ISE_INTEGRATION_MAX_WAIT_TIME = 600
 ISE_INTEGRATION_POLL_INTERVAL = 5
 
@@ -1338,7 +1339,7 @@ class IseRadiusIntegration(CatalystCenterBase):
 
                 ise_integration_wait_time = item.get("ise_integration_wait_time")
                 if ise_integration_wait_time is None:
-                    ise_integration_wait_time = 20
+                    ise_integration_wait_time = ISE_INTEGRATION_DEFAULT_WAIT_TIME
                 else:
                     try:
                         ise_integration_wait_time_int = int(ise_integration_wait_time)
@@ -1457,20 +1458,24 @@ class IseRadiusIntegration(CatalystCenterBase):
         self.log(f"Final ISE server status: '{overall_status}'", "INFO")
         return overall_status
 
-    def wait_for_ise_server_state(self, ip_address, wait_time):
+    def wait_for_ise_server_state(
+        self, ip_address, wait_time, trusted_server=True
+    ):
         """
         Poll an ISE server until its integration reaches a terminal state.
 
         Parameters:
             ip_address (str): IP address of the Cisco ISE server.
             wait_time (int): Maximum number of seconds to wait for ACTIVE state.
+            trusted_server (bool): Whether the current server certificate is trusted.
+                Used to provide additional context when integration fails.
 
         Returns:
             self: The current object with status set according to the integration state.
         """
 
         if wait_time is None:
-            wait_time = 20
+            wait_time = ISE_INTEGRATION_DEFAULT_WAIT_TIME
         wait_time = int(wait_time)
         deadline = time.monotonic() + wait_time
         while True:
@@ -1518,7 +1523,7 @@ class IseRadiusIntegration(CatalystCenterBase):
                 self.msg = "The Cisco ISE server '{0}' integration has failed and in 'FAILED' state.".format(
                     ip_address
                 )
-                if self.want.get("trusted_server") is False:
+                if trusted_server is False:
                     self.msg += (
                         " This is the first time Cisco Catalyst Center has encountered "
                         "this certificate from Cisco ISE, and it is not yet trusted."
@@ -1872,7 +1877,9 @@ class IseRadiusIntegration(CatalystCenterBase):
                     return
 
                 if is_ise_server:
-                    trusted_server = self.want.get("trusted_server")
+                    trusted_server = item.get("trusted_server")
+                    if trusted_server is None:
+                        trusted_server = True
                     ise_radius_integration_status = (
                         self.wait_for_ise_integration_status(ip_address)
                     )
@@ -1899,10 +1906,13 @@ class IseRadiusIntegration(CatalystCenterBase):
                         self.fail_and_exit(self.msg)
 
                     ise_integration_wait_time = item.get(
-                        "ise_integration_wait_time", 20
+                        "ise_integration_wait_time",
+                        ISE_INTEGRATION_DEFAULT_WAIT_TIME,
                     )
                     self.wait_for_ise_server_state(
-                        ip_address, ise_integration_wait_time
+                        ip_address,
+                        ise_integration_wait_time,
+                        trusted_server=trusted_server,
                     )
                     if self.status == "failed":
                         return
@@ -2047,7 +2057,9 @@ class IseRadiusIntegration(CatalystCenterBase):
                     "Cisco ISE server is enabled. Checking if it certificate acceptance processing.",
                     "DEBUG",
                 )
-                trusted_server = self.want.get("trusted_server")
+                trusted_server = item.get("trusted_server")
+                if trusted_server is None:
+                    trusted_server = True
                 state = have_auth_server_details.get("state")
                 if state != "ACTIVE":
                     ise_radius_integration_status = (
@@ -2075,8 +2087,15 @@ class IseRadiusIntegration(CatalystCenterBase):
                         self.msg = f"Unexpected Cisco ISE server integration status '{ise_radius_integration_status}' for IP '{ip_address}'."
                         self.fail_and_exit(self.msg)
 
-                ise_integration_wait_time = item.get("ise_integration_wait_time", 20)
-                self.wait_for_ise_server_state(ip_address, ise_integration_wait_time)
+                ise_integration_wait_time = item.get(
+                    "ise_integration_wait_time",
+                    ISE_INTEGRATION_DEFAULT_WAIT_TIME,
+                )
+                self.wait_for_ise_server_state(
+                    ip_address,
+                    ise_integration_wait_time,
+                    trusted_server=trusted_server,
+                )
                 if self.status == "failed":
                     return
 
