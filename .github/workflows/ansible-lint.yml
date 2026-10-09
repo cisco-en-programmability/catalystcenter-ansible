@@ -31,7 +31,7 @@ jobs:
           ansible-galaxy collection install -f cisco-catalystcenter* -p $ANSIBLE_COLLECTIONS_PATH
 
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@v6
+        uses: ansible/ansible-lint@v26
         with:
           args: >-
             --exclude tests/
