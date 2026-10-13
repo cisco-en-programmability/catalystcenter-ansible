@@ -3172,9 +3172,27 @@ class DeviceCredential(CatalystCenterBase):
             if key not in credential_params
         ]
         if not missing:
+            self.log(
+                "All six credential types supplied for site '{0}'; "
+                "no settings need to be preserved.".format(site_id),
+                "DEBUG",
+            )
             return credential_params
 
+        self.log(
+            "Credential types omitted for site '{0}': {1}. "
+            "Fetching the site's own settings to preserve them.".format(
+                site_id, missing
+            ),
+            "DEBUG",
+        )
         current = self.get_assigned_device_credential(site_id, inherited=False)
+        self.log(
+            "Current credential settings for site '{0}': {1}".format(
+                site_id, self.pprint(current)
+            ),
+            "DEBUG",
+        )
         if not isinstance(current, dict):
             self.msg = (
                 "Unable to retrieve device credential settings for site '{0}'"
@@ -3206,6 +3224,16 @@ class DeviceCredential(CatalystCenterBase):
                 ).format(key, site_id)
                 self.status = "failed"
                 return self.check_return_status()
+            self.log(
+                "Preserving '{0}' for site '{1}' as {2}.".format(
+                    key,
+                    site_id,
+                    "inherited" if value is None
+                    else "unset" if value == {}
+                    else value.get("credentialsId"),
+                ),
+                "DEBUG",
+            )
             credential_params[key] = copy.deepcopy(value)
 
         return credential_params
@@ -3238,6 +3266,12 @@ class DeviceCredential(CatalystCenterBase):
         self.log(self.pprint(credential_params_template))
         self.log(
             "Fetching assigned device credentials for the global site (ID: {}).".format(
+                global_site_id
+            ),
+            "INFO",
+        )
+        self.log(
+            "Preparing device credential payload for the global site (ID: {}).".format(
                 global_site_id
             ),
             "INFO",
