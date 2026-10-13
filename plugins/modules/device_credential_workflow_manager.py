@@ -3187,18 +3187,18 @@ class DeviceCredential(CatalystCenterBase):
             "DEBUG",
         )
         current = self.get_assigned_device_credential(site_id, inherited=False)
-        self.log(
-            "Current credential settings for site '{0}': {1}".format(
-                site_id, self.pprint(current)
-            ),
-            "DEBUG",
-        )
         if not isinstance(current, dict):
             self.msg = (
                 "Unable to retrieve device credential settings for site '{0}'"
             ).format(site_id)
             self.status = "failed"
             return self.check_return_status()
+        self.log(
+            "Current credential settings for site '{0}': {1}".format(
+                site_id, self.pprint(current)
+            ),
+            "DEBUG",
+        )
 
         for key in missing:
             if key not in current:
