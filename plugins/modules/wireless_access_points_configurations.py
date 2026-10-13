@@ -81,7 +81,7 @@ options:
   dnsIpAddress:
     description: Configure DNS IPv4 or IPv6 Address for the access point. The IP Address should be reachable from the static
       IP Address configured on the access point.
-    type: dict
+    type: str
   domainName:
     description: Configure domain name for the access point.
     type: str
@@ -137,7 +137,7 @@ options:
     type: str
   primaryControllerIpAddress:
     description: To configure this parameter, specify the IPv4 or IPv6 address of the primary controller for the access point.
-    type: dict
+    type: str
   primaryControllerName:
     description: To configure this parameter, specify the hostname of the primary controller for the access point.
     type: str
@@ -228,13 +228,13 @@ options:
   secondaryControllerIpAddress:
     description: To configure this parameter, specify the IPv4 or IPv6 address of the secondary controller for the access
       point.
-    type: dict
+    type: str
   secondaryControllerName:
     description: To configure this parameter, specify the hostname of the secondary controller for the access point.
     type: str
   tertiaryControllerIpAddress:
     description: To configure this parameter, specify the IPv4 or IPv6 address of the tertiary controller for the access point.
-    type: dict
+    type: str
   tertiaryControllerName:
     description: To configure this parameter, specify the hostname of the tertiary controller for the access point.
     type: str
@@ -287,7 +287,7 @@ EXAMPLES = r"""
     cleanAirSI24: true
     cleanAirSI5: true
     cleanAirSI6: true
-    dnsIpAddress: {}
+    dnsIpAddress: 1.2.3.4
     domainName: string
     failoverPriority: string
     lanPortConfigurations:
@@ -299,7 +299,7 @@ EXAMPLES = r"""
     location: string
     meshRole: string
     mode: string
-    primaryControllerIpAddress: {}
+    primaryControllerIpAddress: 12.23.34.45
     primaryControllerName: string
     radioConfigurations:
       - adminStatus: true
@@ -321,9 +321,9 @@ EXAMPLES = r"""
         radioType: string
         slotId: 0
     rapDownlinkBackhaul: string
-    secondaryControllerIpAddress: {}
+    secondaryControllerIpAddress: 12.23.34.46
     secondaryControllerName: string
-    tertiaryControllerIpAddress: {}
+    tertiaryControllerIpAddress: 12.23.34.47
     tertiaryControllerName: string
     vlanTagId: 0
     vlanTagStatus: true

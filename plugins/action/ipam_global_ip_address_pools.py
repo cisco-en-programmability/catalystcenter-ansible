@@ -38,7 +38,7 @@ def _build_action_module():
         dict(
             state=dict(type="str", default="present", choices=["present", "absent"]),
             id=dict(type="str"),
-            name=dict(type="dict"),
+            name=dict(type="str"),
             poolType=dict(type="str"),
             addressSpace=dict(type="dict"),
         )

@@ -463,3 +463,21 @@ releases:
         - Changes in fabric_devices_info_workflow_manager module
         - New module for YAML playbook generation of SDA host port migration configurations
         - Changes in swim_workflow_manager module
+  2.13.1:
+    release_date: "2026-10-13"
+    changes:
+      release_summary: Fixed argument spec types that rejected valid string and integer values
+      bugfixes:
+        - floors - ``unitsOfMeasure`` argspec typed as ``dict`` instead of ``str``, so floors could not be created or updated.
+        - ipam_global_ip_address_pools - ``name`` argspec typed as ``dict`` instead of ``str``.
+        - ipam_site_ip_address_pools - ``name`` argspec typed as ``dict`` instead of ``str``.
+        - ipam_server_setting - ``provider`` argspec typed as ``dict`` instead of ``str``.
+        - network_device_licenses - ``lastSuccessfulUsageReportingTime`` argspec typed as ``dict`` instead of ``int``, and ``managementAddress`` typed as ``dict`` instead of ``str``.
+        - network_devices_create - ``managementAddress`` argspec and docs typed as ``dict`` instead of ``str``.
+        - network_devices_update - ``managementAddress`` argspec and docs typed as ``dict`` instead of ``str``.
+        - network_devices_update_create - ``managementAddress`` argspec and docs typed as ``dict`` instead of ``str``.
+        - network_devices_validate_device_create - ``managementAddress`` argspec and docs typed as ``dict`` instead of ``str``.
+        - pnp_network_devices_claim_create - ``gateway`` and ``staticIpAddress`` argspec and docs typed as ``dict`` instead of ``str``.
+        - location_servers_cmx_servers - ``connectionAddress`` argspec and docs typed as ``dict`` instead of ``str``.
+        - wireless_access_points_configurations - ``dnsIpAddress``, ``primaryControllerIpAddress``, ``secondaryControllerIpAddress`` and ``tertiaryControllerIpAddress`` argspec and docs typed as ``dict`` instead of ``str``.
+        - wireless_policies_ip_access_control_lists_protocol - ``protocol`` argspec and docs typed as ``dict`` instead of ``str``.
