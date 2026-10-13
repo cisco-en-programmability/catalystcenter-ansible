@@ -436,7 +436,7 @@ options:
                   Use Description or Id.
                 type: str
 requirements:
-  - catalystcentersdk >= 3.2.3.0.0
+  - catalystcentersdk >= 3.2.3.0.3
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Discovery
@@ -3270,7 +3270,13 @@ class DeviceCredential(CatalystCenterBase):
             family="network_settings",
             function="update_device_credential_settings_for_a_site",
             op_modifies=True,
-            params=credential_params,
+            params={
+                "id": global_site_id,
+                "payload": {
+                    key: credential_params[key]
+                    for key in self.ASSIGN_CREDENTIAL_KEY_MAP.values()
+                },
+            },
         )
         self.log(
             "Received API response for 'update_device_credential_settings_for_a_site': {}".format(
@@ -3421,7 +3427,13 @@ class DeviceCredential(CatalystCenterBase):
                     family="network_settings",
                     function="update_device_credential_settings_for_a_site",
                     op_modifies=True,
-                    params=credential_params,
+                    params={
+                        "id": site_id,
+                        "payload": {
+                            key: credential_params[key]
+                            for key in self.ASSIGN_CREDENTIAL_KEY_MAP.values()
+                        },
+                    },
                 )
                 self.log(
                     "Received API response for 'update_device_credential_settings_for_a_site': {0}".format(

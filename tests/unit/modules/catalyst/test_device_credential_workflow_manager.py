@@ -612,13 +612,15 @@ def test_each_site_gets_its_own_complete_put_payload():
     assert len(calls) == 2
     first = calls[0].kwargs["params"]
     second = calls[1].kwargs["params"]
+    assert set(first) == {"id", "payload"}
+    assert set(second) == {"id", "payload"}
     assert first["id"] == "site-1"
     assert second["id"] == "site-2"
-    assert first["cliCredentialsId"] == {"credentialsId": "cli-1"}
-    assert second["cliCredentialsId"] == {"credentialsId": "cli-2"}
-    assert first["snmpv3CredentialsId"] is None
-    assert second["snmpv3CredentialsId"] is None
-    assert len(first) == len(second) == 7
+    assert first["payload"]["cliCredentialsId"] == {"credentialsId": "cli-1"}
+    assert second["payload"]["cliCredentialsId"] == {"credentialsId": "cli-2"}
+    assert first["payload"]["snmpv3CredentialsId"] is None
+    assert second["payload"]["snmpv3CredentialsId"] is None
+    assert len(first["payload"]) == len(second["payload"]) == 6
 
 
 def test_global_unset_preserves_other_global_settings():
@@ -632,10 +634,11 @@ def test_global_unset_preserves_other_global_settings():
     manager.assign_device_cred_to_global_site("global", {"snmpv3CredentialsId": {}}, {})
 
     payload = manager.catalystcenter._exec.call_args.kwargs["params"]
+    assert set(payload) == {"id", "payload"}
     assert payload["id"] == "global"
-    assert payload["snmpv3CredentialsId"] == {}
-    assert payload["cliCredentialsId"] == {"credentialsId": "global-cli"}
-    assert payload["snmpv2cReadCredentialsId"] is None
+    assert payload["payload"]["snmpv3CredentialsId"] == {}
+    assert payload["payload"]["cliCredentialsId"] == {"credentialsId": "global-cli"}
+    assert payload["payload"]["snmpv2cReadCredentialsId"] is None
     manager.get_assigned_device_credential.assert_called_once_with(
         "global", inherited=False
     )
