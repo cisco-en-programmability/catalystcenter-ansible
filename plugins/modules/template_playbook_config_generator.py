@@ -169,6 +169,12 @@ notes:
   manager module applies only the last config entry because
   yaml.safe_load uses last-key-wins semantics for duplicate
   keys in a single YAML document.
+- |-
+  Template version is not included in the generated configuration:
+  Catalyst Center assigns a version number only when a template is committed, so a
+  version is only a record of the source template at the time of generation.
+  Replaying a generated configuration creates a new version instead of restoring
+  the captured one, and including the field would break idempotency.
 seealso:
 - module: cisco.catalystcenter.template_workflow_manager
   description: Module for managing template projects and templates.
