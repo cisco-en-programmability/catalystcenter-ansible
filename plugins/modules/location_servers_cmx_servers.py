@@ -20,7 +20,7 @@ author: Bryan Vargas (@bvargasre)
 options:
   connectionAddress:
     description: Either an IP address or a fully-qualified domain name.
-    type: dict
+    type: str
   id:
     description: Id path parameter. The CMX Server resource Id.
     type: str
@@ -77,7 +77,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    connectionAddress: {}
+    connectionAddress: string
     id: string
     password: string
     username: string
@@ -91,7 +91,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    connectionAddress: {}
+    connectionAddress: string
     id: string
     password: string
     username: string
