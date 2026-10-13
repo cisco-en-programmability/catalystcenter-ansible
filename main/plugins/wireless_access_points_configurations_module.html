@@ -1653,7 +1653,7 @@
 <h1>cisco.catalystcenter.wireless_access_points_configurations module -- Resource module for Wireless Access Points Configurations<a class="headerlink" href="#cisco-catalystcenter-wireless-access-points-configurations-module-resource-module-for-wireless-access-points-configurations" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.13.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.13.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-wireless-access-points-configurations-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1907,7 +1907,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnsIpAddress"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-wireless-access-points-configurations-module-parameter-dnsipaddress"><strong>dnsIpAddress</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnsIpAddress" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<a class="ansibleOptionLink" href="#parameter-dnsIpAddress" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Configure DNS IPv4 or IPv6 Address for the access point. The IP Address should be reachable from the static IP Address configured on the access point.</p>
 </div></td>
@@ -2006,7 +2006,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-primaryControllerIpAddress"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-wireless-access-points-configurations-module-parameter-primarycontrolleripaddress"><strong>primaryControllerIpAddress</strong></p>
-<a class="ansibleOptionLink" href="#parameter-primaryControllerIpAddress" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<a class="ansibleOptionLink" href="#parameter-primaryControllerIpAddress" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>To configure this parameter, specify the IPv4 or IPv6 address of the primary controller for the access point.</p>
 </div></td>
@@ -2175,7 +2175,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-secondaryControllerIpAddress"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-wireless-access-points-configurations-module-parameter-secondarycontrolleripaddress"><strong>secondaryControllerIpAddress</strong></p>
-<a class="ansibleOptionLink" href="#parameter-secondaryControllerIpAddress" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<a class="ansibleOptionLink" href="#parameter-secondaryControllerIpAddress" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>To configure this parameter, specify the IPv4 or IPv6 address of the secondary controller for the access point.</p>
 </div></td>
@@ -2189,7 +2189,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-tertiaryControllerIpAddress"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-wireless-access-points-configurations-module-parameter-tertiarycontrolleripaddress"><strong>tertiaryControllerIpAddress</strong></p>
-<a class="ansibleOptionLink" href="#parameter-tertiaryControllerIpAddress" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<a class="ansibleOptionLink" href="#parameter-tertiaryControllerIpAddress" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>To configure this parameter, specify the IPv4 or IPv6 address of the tertiary controller for the access point.</p>
 </div></td>
@@ -2286,7 +2286,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">    </span><span class="nt">cleanAirSI24</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">cleanAirSI5</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">cleanAirSI6</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">dnsIpAddress</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="nt">dnsIpAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.2.3.4</span>
 <span class="w">    </span><span class="nt">domainName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">    </span><span class="nt">failoverPriority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">    </span><span class="nt">lanPortConfigurations</span><span class="p">:</span>
@@ -2298,7 +2298,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">    </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">    </span><span class="nt">meshRole</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">    </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">    </span><span class="nt">primaryControllerIpAddress</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="nt">primaryControllerIpAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">12.23.34.45</span>
 <span class="w">    </span><span class="nt">primaryControllerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">    </span><span class="nt">radioConfigurations</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">adminStatus</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -2320,9 +2320,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">        </span><span class="nt">radioType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">        </span><span class="nt">slotId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
 <span class="w">    </span><span class="nt">rapDownlinkBackhaul</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">    </span><span class="nt">secondaryControllerIpAddress</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="nt">secondaryControllerIpAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">12.23.34.46</span>
 <span class="w">    </span><span class="nt">secondaryControllerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">    </span><span class="nt">tertiaryControllerIpAddress</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="nt">tertiaryControllerIpAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">12.23.34.47</span>
 <span class="w">    </span><span class="nt">tertiaryControllerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">    </span><span class="nt">vlanTagId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
 <span class="w">    </span><span class="nt">vlanTagStatus</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
