@@ -3207,6 +3207,7 @@ class DeviceCredential(CatalystCenterBase):
                 ).format(site_id, key)
                 self.status = "failed"
                 return self.check_return_status()
+
             value = current[key]
             if isinstance(value, dict) and value:
                 credential_id = value.get("credentialsId")
