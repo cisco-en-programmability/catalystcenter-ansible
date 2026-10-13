@@ -29,7 +29,7 @@ options:
     type: str
   protocol:
     description: An IPv4 or IPv6 protocol.
-    type: dict
+    type: str
 requirements:
   - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
@@ -59,7 +59,7 @@ EXAMPLES = r"""
     ignoreConflict: true
     name: string
     ports: string
-    protocol: {}
+    protocol: IP
 """
 RETURN = r"""
 catalystcenter_response:

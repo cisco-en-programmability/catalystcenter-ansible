@@ -48,7 +48,7 @@ def _build_action_module():
             width=dict(type="float"),
             length=dict(type="float"),
             height=dict(type="float"),
-            unitsOfMeasure=dict(type="dict"),
+            unitsOfMeasure=dict(type="str"),
         )
     )
 

@@ -38,7 +38,7 @@ def _build_action_module():
         dict(
             state=dict(type="str", default="present", choices=["present"]),
             name=dict(type="str"),
-            protocol=dict(type="dict"),
+            protocol=dict(type="str"),
             ports=dict(type="str"),
             ignoreConflict=dict(type="bool"),
             id=dict(type="str"),

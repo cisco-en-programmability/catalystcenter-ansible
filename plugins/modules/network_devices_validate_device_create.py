@@ -39,7 +39,7 @@ options:
     type: dict
   managementAddress:
     description: Either an IP address or a fully-qualified domain name.
-    type: dict
+    type: str
 requirements:
   - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
@@ -68,7 +68,7 @@ EXAMPLES = r"""
     category: string
     credentials:
       http: {}
-    managementAddress: {}
+    managementAddress: 1.1.1.1
 """
 RETURN = r"""
 catalystcenter_response:

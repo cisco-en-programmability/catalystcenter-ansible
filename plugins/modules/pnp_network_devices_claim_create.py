@@ -28,7 +28,7 @@ options:
     type: str
   gateway:
     description: Pnp Network Devices Claim Create's gateway.
-    type: dict
+    type: str
   hostname:
     description: Hostname to be pushed to the device.
     type: str
@@ -71,7 +71,7 @@ options:
     type: str
   staticIpAddress:
     description: Pnp Network Devices Claim Create's staticIpAddress.
-    type: dict
+    type: str
   subnetMask:
     description: Subnet mask for wireless controller.
     type: str
@@ -149,7 +149,7 @@ EXAMPLES = r"""
     apZone: string
     cablingScheme: string
     deviceType: string
-    gateway: {}
+    gateway: 172.20.202.24
     hostname: string
     id: string
     imageInfo:
@@ -162,7 +162,7 @@ EXAMPLES = r"""
     rfProfile: string
     sensorProfile: string
     siteId: string
-    staticIpAddress: {}
+    staticIpAddress: 172.20.202.24
     subnetMask: string
     svlConfig:
       domain: 0
