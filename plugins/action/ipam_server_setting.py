@@ -44,7 +44,7 @@ def _build_action_module():
             view=dict(type="str"),
             syncView=dict(type="bool"),
             state_=dict(type="str"),
-            provider=dict(type="dict"),
+            provider=dict(type="str"),
         )
     )
 
