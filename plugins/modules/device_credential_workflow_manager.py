@@ -3193,6 +3193,7 @@ class DeviceCredential(CatalystCenterBase):
             ).format(site_id)
             self.status = "failed"
             return self.check_return_status()
+
         self.log(
             "Current credential settings for site '{0}': {1}".format(
                 site_id, self.pprint(current)
@@ -3225,6 +3226,7 @@ class DeviceCredential(CatalystCenterBase):
                 ).format(key, site_id)
                 self.status = "failed"
                 return self.check_return_status()
+
             self.log(
                 "Preserving '{0}' for site '{1}' as {2}.".format(
                     key,
