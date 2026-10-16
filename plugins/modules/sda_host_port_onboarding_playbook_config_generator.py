@@ -1003,7 +1003,9 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(
                     "get_function_name": self.get_port_channels_configuration,
                 },
                 "wireless_ssids": {
-                    "filters": {"fabric_site_name_hierarchy": {"type": "str"}},
+                    "filters": {
+                        "fabric_site_name_hierarchy": {"type": "list", "elements": "str"}
+                    },
                     "reverse_mapping_function": self.wireless_ssids_temp_spec,
                     "api_function": "retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site",
                     "api_family": "fabric_wireless",
