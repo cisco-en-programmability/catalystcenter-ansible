@@ -206,6 +206,9 @@ import re
 from ansible.errors import AnsibleError, AnsibleParserError
 from ansible.module_utils._text import to_native
 from ansible.plugins.inventory import BaseInventoryPlugin, Cacheable, Constructable
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    build_user_agent,
+)
 
 try:
     from catalystcentersdk import CatalystCenterAPI
@@ -332,6 +335,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 version=self.get_option("api_version"),
                 verify=self.get_option("validate_certs"),
                 debug=self.get_option("debug"),
+                user_agent=build_user_agent("inventory"),
             )
         except (ApiError, ConnectionError, OSError) as e:
             raise AnsibleError(
