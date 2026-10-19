@@ -2225,8 +2225,6 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(
             fabric_site_name_hierarchies = []
             for item in component_specific_filters:
                 fabric_site_names = item.get("fabric_site_name_hierarchy", [])
-                if isinstance(fabric_site_names, str):
-                    fabric_site_names = [fabric_site_names]
                 for fabric_site_name in fabric_site_names:
                     if fabric_site_name:
                         fabric_site_name_hierarchies.append(
