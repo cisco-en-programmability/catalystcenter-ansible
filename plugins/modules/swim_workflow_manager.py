@@ -399,8 +399,21 @@ options:
               - device_role: "ACCESS,CORE" tags both `ACCESS` and `CORE` roles as golden.
             type: str
           device_image_family_name:
-            description: Device Image family name(Eg
-              Cisco Catalyst 9300 Switch)
+            description:
+              - Device Image family name (for example,
+                C(Cisco Catalyst 9300 Switch)).
+              - The exact family name string is served
+                from the Catalyst Center catalog and
+                can differ across Catalyst Center versions
+                or clusters for the same physical family
+                (for example, the C9350 family may appear
+                as C(Cisco C9350 Smart Switch) on newer
+                releases and as C(Cisco 9350 Switch) on
+                older ones). If the provided name is not
+                found, the module fails and returns a
+                bounded "Did you mean" list of the closest
+                catalog family names so the value can be
+                corrected; it never auto-selects a family.
             type: str
           site_name:
             description: Site name for which SWIM image
@@ -939,6 +952,13 @@ notes:
     site/family/role and let the compliance check drive distribution and
     activation. This keeps runs idempotent and avoids pushing images to devices
     that already have them.
+  - The golden-tagging C(device_image_family_name) value is matched against the
+    Catalyst Center product-name catalog, whose display strings can differ
+    across Catalyst Center versions or clusters for the same physical family
+    (for example, the C9350 family may report as C(Cisco C9350 Smart Switch) on
+    newer releases and C(Cisco 9350 Switch) on older ones). When the provided
+    name is not found, the module fails and returns a bounded "Did you mean"
+    list of the closest catalog family names so the value can be corrected.
   - Use C(force_distribution) / C(force_activation) only for deliberate
     overrides, for example a downgrade or pushing a specific non-golden image to
     devices the controller already reports as compliant. These flags bypass the
@@ -961,7 +981,7 @@ notes:
     software_image_management_swim.SoftwareImageManagementSwim.get_golden_tag_status_of_an_image,
     software_image_management_swim.SoftwareImageManagementSwim.tagging_golden_image,
     software_image_management_swim.SoftwareImageManagementSwim.untagging_golden_image,
-    software_image_management_swim.SoftwareImageManagementSwim.returns_network_device_product_names_for_a_site,
+    software_image_management_swim.SoftwareImageManagementSwim.retrieves_the_list_of_network_device_product_names,
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution,
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation,
     software_image_management_swim.SoftwareImageManagementSwim.delete_image_v1,
@@ -972,7 +992,7 @@ notes:
     get /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId},
     post /dna/intent/api/v1/images/{id}/sites/{siteId}/tagGolden,
     post /dna/intent/api/v1/images/{id}/sites/{siteId}/untagGolden,
-    get /dna/intent/api/v1/siteWiseProductNames,
+    get /dna/intent/api/v1/productNames,
     post /dna/intent/api/v1/image/distribution,
     post /dna/intent/api/v1/image/activation/device,
     delete /dna/intent/api/v1/images/{id},
@@ -1513,6 +1533,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     get_dict_result,
 )
 from ansible.module_utils.basic import AnsibleModule
+import difflib
 import os
 import time
 
@@ -3057,8 +3078,8 @@ class Swim(CatalystCenterBase):
                 )
                 have["device_family_identifier"] = device_family_identifier
                 self.log(
-                    "Family device indentifier: {0}".format(
-                        str(device_family_identifier)
+                    "Resolved device family identifier for '{0}': {1}".format(
+                        family_name, device_family_identifier
                     ),
                     "INFO",
                 )
@@ -3068,15 +3089,49 @@ class Swim(CatalystCenterBase):
                     for entry in device_family_db
                     if entry.get("deviceFamily")
                 )
-                self.msg = (
-                    "Device Family: {0} not found. Valid SWIM image family name(s): "
-                    "{1}"
-                ).format(
-                    str(family_name),
-                    ", ".join(available_families) or "None",
+                if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+                    # On 3.1.3.0+, tagging uses the global product-name catalog, so a family missing
+                    # from this inventory-scoped list (e.g. not yet onboarded) is not a fatal error.
+                    self.log(
+                        "Device Family '{0}' not present in the SWIM family list; proceeding via "
+                        "product name ordinal lookup. Valid family name(s): {1}".format(
+                            str(family_name), ", ".join(available_families) or "None"
+                        ),
+                        "WARNING",
+                    )
+                    self.have.update(have)
+                    return
+
+                suggestions = self.get_device_family_suggestions(family_name)
+                if not suggestions:
+                    self.log(
+                        "No suggestions from the global product-name catalog for '{0}'; "
+                        "falling back to the inventory SWIM family list.".format(family_name),
+                        "DEBUG",
+                    )
+                    suggestions = self.rank_device_family_suggestions(
+                        family_name, available_families
+                    )
+
+                self.log(
+                    "Device family '{0}' not found in the SWIM family list. "
+                    "Computed {1} suggestion(s): {2}.".format(
+                        family_name, len(suggestions), suggestions
+                    ),
+                    "DEBUG",
                 )
-                self.log(self.msg, "ERROR")
-                self.module.fail_json(msg=self.msg, response=self.msg)
+
+                hint = ""
+                if suggestions:
+                    suggestion_text = ", ".join(
+                        "'{0}'".format(name) for name in suggestions
+                    )
+                    hint = " Did you mean: {0}?".format(suggestion_text)
+                self.msg = (
+                    "Device Family: {0} not found in Cisco Catalyst Center.{1} Provide a valid "
+                    "'device_image_family_name' for golden tagging.".format(family_name, hint)
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             self.have.update(have)
 
     def get_have(self):
@@ -4292,10 +4347,33 @@ class Swim(CatalystCenterBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             product_name_ordinal = self.get_product_name_ordinal_from_image_name(
-                tagging_details.get("device_image_family_name"),
-                self.have.get("site_id")
+                tagging_details.get("device_image_family_name")
             )
             self.log("Product name ordinal: {0}".format(product_name_ordinal), "DEBUG")
+
+            # No ordinal means the family is absent from the global catalog, i.e. genuinely invalid.
+            if product_name_ordinal is None:
+                requested_family = tagging_details.get("device_image_family_name")
+                suggestions = self.get_device_family_suggestions(requested_family)
+                self.log(
+                    "Device family '{0}' did not resolve to a product name ordinal. "
+                    "Computed {1} suggestion(s): {2}.".format(
+                        requested_family,
+                        len(suggestions),
+                        suggestions,
+                    ),
+                    "DEBUG",
+                )
+
+                hint = ""
+                if suggestions:
+                    suggestion_text = ", ".join("'{0}'".format(name) for name in suggestions)
+                    hint = " Did you mean: {0}?".format(suggestion_text)
+                self.msg = (
+                    "Device Family: {0} not found in Cisco Catalyst Center.{1} Provide a valid "
+                    "'device_image_family_name' for golden tagging.".format(requested_family, hint)
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             # -----------------------------------------------------
             # STEP 1: Per-role idempotency check using get_golden_tag_status_of_an_image
@@ -4506,51 +4584,376 @@ class Swim(CatalystCenterBase):
 
             return self
 
-    def get_product_name_ordinal_from_image_name(self, device_image_family_name, site_id):
+    def get_product_name_ordinal_from_image_name(self, device_image_family_name):
         """
-        Retrieve the product name ordinal for a given device image family and site.
+        Retrieve the product name ordinal for a given device image family.
         Parameters:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - device_image_family_name (str): The name of the device image family.
-            - site_id (str): The site ID to query product names for.
         Returns:
-            int: The product name ordinal associated with the given device image family and site.
+            int: The product name ordinal associated with the given device image family.
         Description:
-            This method queries Cisco Catalyst Center to retrieve the product name ordinal for a specified
-            device image family and site. It uses the 'returns_network_device_product_names_for_a_site' function in the
-            'software_image_management_swim' family and extracts the ordinal from the response.
+            This method resolves the product name ordinal for a specified device image family from the global
+            network-device product-name catalog via 'retrieves_the_list_of_network_device_product_names'. The
+            global catalog is independent of device onboarding, so families tagged before onboarding still resolve.
+            Product names are retrieved in pages until an exact match is found or all results are exhausted.
         """
 
         try:
-            response = self.catalystcenter._exec(
-                family="software_image_management_swim",
-                function="returns_network_device_product_names_for_a_site",
-                op_modifies=True,
-                params={
-                    "site_id": site_id,
-                    "product_name": device_image_family_name,
-                },
-            )
             self.log(
-                "Received API response from 'get_product_name_ordinal': {0}".format(
-                    str(response)
+                "Retrieving the product name ordinal for device family '{0}' with pagination".format(
+                    device_image_family_name
                 ),
                 "DEBUG",
             )
-            response = response.get("response")
+
+            limit = 500
+            offset = 1
+            target = self._normalize_device_family_name(device_image_family_name)
             self.log(
-                "Parsed response for product name ordinal: {0}".format(str(response)),
+                "Normalized requested device family for matching: '{0}' -> '{1}'.".format(
+                    device_image_family_name, target
+                ),
                 "DEBUG",
             )
-            product_name_ordinal = response[0].get("productNameOrdinal")
 
-            return product_name_ordinal
+            while True:
+                response = self.catalystcenter._exec(
+                    family="software_image_management_swim",
+                    function="retrieves_the_list_of_network_device_product_names",
+                    params={
+                        "product_name": device_image_family_name,
+                        "offset": offset,
+                        "limit": limit,
+                    },
+                )
+                self.log(
+                    "Received API response from 'retrieves_the_list_of_network_device_product_names' "
+                    "(offset: {0}, limit: {1}): {2}".format(
+                        offset, limit, str(response)
+                    ),
+                    "DEBUG",
+                )
+
+                product_names = response.get("response", []) if response else []
+                if not product_names:
+                    self.log(
+                        "No more product names returned at offset {0}".format(offset),
+                        "DEBUG",
+                    )
+                    break
+
+                self.log(
+                    "Retrieved {0} product name entries at offset {1}".format(
+                        len(product_names), offset
+                    ),
+                    "DEBUG",
+                )
+
+                for entry in product_names:
+                    candidate = self._normalize_device_family_name(
+                        entry.get("productName", "")
+                    )
+                    product_name_ordinal = entry.get("productNameOrdinal")
+
+                    if candidate == target:
+                        self.log(
+                            "Resolved product name ordinal for device family '{0}': {1}".format(
+                                device_image_family_name, product_name_ordinal
+                            ),
+                            "DEBUG",
+                        )
+                        return product_name_ordinal
+
+                if len(product_names) < limit:
+                    self.log(
+                        "Received fewer product names ({0}) than limit ({1}); reached end of results".format(
+                            len(product_names), limit
+                        ),
+                        "DEBUG",
+                    )
+                    break
+
+                self.log(
+                    "Advancing to the next page of product names (next offset: {0})".format(
+                        offset + limit
+                    ),
+                    "DEBUG",
+                )
+                offset += limit
+
+            return None
 
         except Exception as e:
             self.msg = "Error occurred while getting the product name ordinal from Cisco Catalyst Center: {0}".format(
                 str(e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
+
+    def _normalize_device_family_name(self, value):
+        """
+        Normalize a device family name for case- and spacing-insensitive comparison.
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            - value (str): The device family name to normalize.
+        Returns:
+            str: The casefolded name with surrounding and repeated internal whitespace collapsed.
+        Description:
+            productName strings can differ only by case or spacing across Catalyst Center versions
+            and clusters. This helper is pure and silent so it can be safely called once per catalog
+            candidate during the paginated scan without flooding the logs.
+        """
+        return " ".join(str(value or "").strip().casefold().split())
+
+    def _device_family_model_tokens(self, value):
+        """
+        Extract digit-bearing model tokens from a device family name.
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            - value (str): The device family name to inspect.
+        Returns:
+            set: Model tokens (e.g. "C9350" -> "9350") with any leading alphabetic prefix stripped.
+        Description:
+            Model numbers are used to narrow suggestions to the same physical family. The value is
+            normalized (casefold) first, so only a-z can lead a token; digits are preserved exactly
+            so that suggestions never fuzzy-match a different model number.
+        """
+        tokens = set()
+        for raw in self._normalize_device_family_name(value).split():
+            if any(ch.isdigit() for ch in raw):
+                # Strip a leading letter prefix; value is already casefold so only a-z can lead.
+                tokens.add(raw.lstrip("abcdefghijklmnopqrstuvwxyz"))
+        return tokens
+
+    def _fetch_all_device_family_names(self):
+        """
+        Fetch the full network-device product-name catalog used for building suggestions.
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            list: All non-empty productName strings from the global catalog.
+        Description:
+            Retrieves the unfiltered 'retrieves_the_list_of_network_device_product_names' catalog
+            page by page (offset/limit) until all results are exhausted, so the suggestion ranking
+            can compare the requested family against every known product name.
+        """
+        self.log(
+            "Fetching the full network-device product-name catalog for building suggestions.",
+            "DEBUG",
+        )
+        names = []
+        limit = 500
+        offset = 1
+
+        while True:
+            response = self.catalystcenter._exec(
+                family="software_image_management_swim",
+                function="retrieves_the_list_of_network_device_product_names",
+                params={"offset": offset, "limit": limit},
+            )
+            self.log(
+                "Received API response from 'retrieves_the_list_of_network_device_product_names' "
+                "(offset: {0}, limit: {1}): {2}".format(
+                    offset, limit, str(response)
+                ),
+                "DEBUG",
+            )
+
+            product_names = response.get("response", []) if response else []
+            if not product_names:
+                self.log(
+                    "No more product names returned at offset {0}".format(offset),
+                    "DEBUG",
+                )
+                break
+
+            names.extend(
+                entry.get("productName", "")
+                for entry in product_names
+                if entry.get("productName")
+            )
+
+            if len(product_names) < limit:
+                self.log(
+                    "Received fewer product names ({0}) than limit ({1}); reached end of results".format(
+                        len(product_names), limit
+                    ),
+                    "DEBUG",
+                )
+                break
+
+            self.log(
+                "Advancing to the next page of product names (next offset: {0})".format(
+                    offset + limit
+                ),
+                "DEBUG",
+            )
+            offset += limit
+
+        return names
+
+    def _closest_catalog_matches(self, normalized_request, unique_names, n):
+        """
+        Return the catalog display names closest to a normalized request (bounded fuzzy fallback).
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            - normalized_request (str): The already-normalized requested device family name.
+            - unique_names (list): Candidate device family display names from the catalog.
+            - n (int): Maximum number of matches to return.
+        Returns:
+            list: Up to 'n' original display names whose normalized form is closest to the request.
+        Description:
+            Used only as a fallback when neither model tokens nor shared word tokens produce
+            candidates. Matching is performed on normalized forms via difflib with a 0.6 cutoff,
+            and the original display strings are returned so the operator sees real catalog names.
+        """
+        norm_to_display = {
+            self._normalize_device_family_name(name): name for name in unique_names
+        }
+        keys = difflib.get_close_matches(
+            normalized_request, list(norm_to_display.keys()), n=n, cutoff=0.6
+        )
+        return [norm_to_display[key] for key in keys if key in norm_to_display]
+
+    def rank_device_family_suggestions(self, requested_name, candidate_names, limit=5):
+        """
+        Rank catalog device-family names by closeness to the requested name.
+        Parameters:
+            - requested_name (str): The device family name supplied by the operator.
+            - candidate_names (list): Device family display names from the product-name catalog.
+            - limit (int): Maximum number of suggestions to return.
+        Returns:
+            list: The closest catalog display names (at most 'limit'). This is suggest-only
+            and never auto-selects a family.
+        Description:
+            The productName string can differ across Catalyst Center versions/clusters for the
+            same physical family. When the request includes a model number, suggestions are
+            narrowed to families sharing that exact model token; if the number matches nothing,
+            only the single closest name is offered (a near-miss number is ambiguous across
+            distinct product lines, so a wider spread would mislead). When the request has no
+            model number, families are matched on shared word tokens (e.g. "cisco"/"catalyst")
+            so the operator still sees real names to choose from.
+        """
+        normalized_request = self._normalize_device_family_name(requested_name)
+        model_tokens = self._device_family_model_tokens(requested_name)
+        self.log(
+            "Ranking device family suggestions for requested '{0}' (normalized: '{1}', "
+            "model token(s): {2}) against {3} catalog candidate(s); limit={4}.".format(
+                requested_name,
+                normalized_request,
+                sorted(model_tokens) if model_tokens else [],
+                len(candidate_names),
+                limit,
+            ),
+            "DEBUG",
+        )
+
+        # Deduplicate on normalized form while preserving the catalog's original display strings.
+        seen = set()
+        unique_names = []
+
+        for name in candidate_names:
+            display = str(name or "").strip()
+            key = self._normalize_device_family_name(display)
+            if not display or key in seen:
+                continue
+            seen.add(key)
+            unique_names.append(display)
+        self.log(
+            "Deduplicated catalog candidates from {0} to {1} unique family name(s).".format(
+                len(candidate_names), len(unique_names)
+            ),
+            "DEBUG",
+        )
+
+        if model_tokens:
+            # Primary narrowing: families sharing an exact whole model token. Whole-token equality
+            # (not substring) prevents a shorter number from matching a longer one (e.g. '960' must
+            # not match '2960'/'9600'), while suffix-differentiated tokens stay distinct ('1001-x'
+            # != '1001-hx').
+            narrowed = [
+                name
+                for name in unique_names
+                if model_tokens & self._device_family_model_tokens(name)
+            ]
+            if narrowed:
+                self.log(
+                    "Model-token narrowing matched {0} candidate(s) on token(s) {1}.".format(
+                        len(narrowed), sorted(model_tokens)
+                    ),
+                    "DEBUG",
+                )
+            else:
+                # A model number was given but nothing matches it: offer only the single closest name.
+                narrowed = self._closest_catalog_matches(normalized_request, unique_names, 1)
+                self.log(
+                    "No candidate matched model token(s) {0}; using single closest fuzzy match: {1}.".format(
+                        sorted(model_tokens), narrowed
+                    ),
+                    "DEBUG",
+                )
+        else:
+            # No model number given: match on shared word tokens so real family names surface.
+            request_words = set(normalized_request.split())
+            narrowed = [
+                name
+                for name in unique_names
+                if request_words & set(self._normalize_device_family_name(name).split())
+            ]
+            if narrowed:
+                self.log(
+                    "Word-token narrowing matched {0} candidate(s) on word(s) {1}.".format(
+                        len(narrowed), sorted(request_words)
+                    ),
+                    "DEBUG",
+                )
+            else:
+                # Nothing shared a word: fall back to a bounded fuzzy list so the operator still gets a hint.
+                narrowed = self._closest_catalog_matches(normalized_request, unique_names, limit)
+                self.log(
+                    "No shared word tokens; using bounded fuzzy fallback with {0} candidate(s).".format(
+                        len(narrowed)
+                    ),
+                    "DEBUG",
+                )
+
+        # Rank by similarity to the requested name, closest first.
+        narrowed.sort(
+            key=lambda name: difflib.SequenceMatcher(
+                None, normalized_request, self._normalize_device_family_name(name)
+            ).ratio(),
+            reverse=True,
+        )
+
+        suggestions = narrowed[:limit]
+        self.log(
+            "Final ranked device family suggestion(s) for '{0}': {1}.".format(
+                requested_name, suggestions
+            ),
+            "DEBUG",
+        )
+        return suggestions
+
+    def get_device_family_suggestions(self, requested_name, limit=5):
+        """
+        Build a bounded 'did you mean' list of catalog device-family names close to 'requested_name'.
+        Parameters:
+            - requested_name (str): The device family name supplied by the operator.
+            - limit (int): Maximum number of suggestions to return.
+        Returns:
+            list: Suggestions for the operator, or [] if the catalog cannot be fetched.
+            Suggest-only; never auto-selects a family.
+        """
+        try:
+            catalog_names = self._fetch_all_device_family_names()
+        except Exception as e:
+            self.log(
+                "Unable to fetch device family catalog for suggestions: {0}".format(str(e)),
+                "WARNING",
+            )
+            return []
+
+        return self.rank_device_family_suggestions(requested_name, catalog_names, limit)
 
     def get_device_ip_from_id(self, device_id):
         """
@@ -8056,8 +8459,7 @@ class Swim(CatalystCenterBase):
 
         if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             product_name_ordinal = self.get_product_name_ordinal_from_image_name(
-                tagging_details.get("device_image_family_name"),
-                self.have.get("site_id"),
+                tagging_details.get("device_image_family_name")
             )
             if product_name_ordinal is None:
                 self.log(
