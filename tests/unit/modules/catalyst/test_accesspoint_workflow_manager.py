@@ -72,7 +72,33 @@ class TestCatalystCenterAccesspointWorkflow(TestCatalystModule):
         """
         Load fixtures for user.
         """
-        if "provision_device" in self._testMethodName:
+        if "non_fabric_wlc" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_device_detail"),
+                self.test_data.get("get_accesspoint_config"),
+                self.test_data.get("get_site_exist_response"),
+                self.test_data.get("get_membership"),
+                Exception(
+                    "[400] - This device does not have any fabric role assigned to it "
+                    "for deviceManagementIpAddress = 204.192.6.200"
+                ),
+                self.test_data.get("get_site_exist_response"),
+                self.test_data.get("get_device_detail"),
+                self.test_data.get("assign_to_site_response"),
+                self.test_data.get("assign_to_site_task_response"),
+                self.test_data.get("provision_ap_response"),
+                self.test_data.get("provision_ap_task_response"),
+                self.test_data.get("ap_task_status"),
+            ]
+        elif "wlc_lookup_error" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_device_detail"),
+                self.test_data.get("get_accesspoint_config"),
+                self.test_data.get("get_site_exist_response"),
+                self.test_data.get("get_membership"),
+                Exception("[400] - This device is not provisioned to any site"),
+            ]
+        elif "provision_device" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_detail_for_provision"),
                 self.test_data.get("get_config_detail_for_provision"),
@@ -341,3 +367,47 @@ class TestCatalystCenterAccesspointWorkflow(TestCatalystModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("mac", result.get("msg", "").lower())
+
+    def test_accesspoint_workflow_manager_non_fabric_wlc(self):
+        """
+        Test case for an access point whose wireless controller is not in an SDA fabric.
+
+        The SDA get_device_info endpoint returns HTTP 400 for such a controller. Access
+        point provisioning has no fabric prerequisite, so the module must continue and
+        provision the access point instead of aborting the play.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                catalystcenter_version="2.3.7.6",
+                config=self.playbook_config_provision,
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("provisioned successfully", result.get("msg", ""))
+
+    def test_accesspoint_workflow_manager_wlc_lookup_error(self):
+        """
+        Test case for a wireless controller that is not provisioned to any site.
+
+        This is a genuine precondition failure for access point provisioning, so the
+        module must skip provisioning rather than treating it as a non-fabric
+        controller.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                catalystcenter_version="2.3.7.6",
+                config=self.playbook_config_provision,
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("not provisioned at the site", result.get("msg", ""))

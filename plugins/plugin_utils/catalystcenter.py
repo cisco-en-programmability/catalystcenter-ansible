@@ -15,6 +15,9 @@ else:
     CATALYST_SDK_IS_INSTALLED = True
 from ansible.module_utils.basic import env_fallback
 from ansible.module_utils.common.text.converters import to_native
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    COLLECTION_USER_AGENT,
+)
 
 try:
     import logging
@@ -199,7 +202,7 @@ def catalystcenter_argument_spec():
 
 
 class CatalystCenterSDK(object):
-    def __init__(self, params):
+    def __init__(self, params, user_agent=None):
         self.result = dict(changed=False, result="")
         self.validate_response_schema = params.get("validate_response_schema")
         if CATALYST_SDK_IS_INSTALLED:
@@ -213,6 +216,7 @@ class CatalystCenterSDK(object):
                 version=params.get("catalystcenter_version"),
                 verify=params.get("catalystcenter_verify"),
                 debug=params.get("catalystcenter_debug"),
+                user_agent=user_agent or COLLECTION_USER_AGENT,
             )
             if params.get("catalystcenter_debug") and LOGGING_IN_STANDARD:
                 logging.getLogger("catalystcentersdk").addHandler(
