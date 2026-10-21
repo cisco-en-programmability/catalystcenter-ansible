@@ -67,7 +67,11 @@ class CatalystCenterBase:
         self.msg = ""
         self.status = "success"
         catalystcenter_params = self.get_catalystcenter_params(self.params)
-        self.catalystcenter = CatalystCenterSDK(params=catalystcenter_params)
+        self.user_agent = build_user_agent(getattr(module, "_name", None))
+        self.catalystcenter = CatalystCenterSDK(
+            params=catalystcenter_params,
+            user_agent=self.user_agent,
+        )
         self.catalystcenter_apply = {"exec": self.catalystcenter._exec}
         self.get_diff_state_apply = {
             "merged": self.get_diff_merged,
@@ -147,6 +151,10 @@ class CatalystCenterBase:
         masked_config = self.get_safe_log_config(masked_config)
 
         self.log("Cisco Catalyst Center parameters: {0}".format(masked_config), "DEBUG")
+        self.log(
+            "SDK User-Agent identifier for this module: {0}".format(self.user_agent),
+            "DEBUG",
+        )
         self.supported_states = [
             "merged",
             "queried",
@@ -3789,9 +3797,37 @@ def validate_list_of_dicts(param_list, spec, module=None):
 RATE_LIMIT_MESSAGE = "Rate Limit exceeded"
 RATE_LIMIT_RETRY_AFTER = 15
 
+# Appended to the SDK User-Agent so Catalyst Center can identify Ansible traffic.
+COLLECTION_USER_AGENT = "ansible-catalystcenter"
+
+
+def build_user_agent(module_name=None):
+    """Build the User-Agent suffix identifying the Ansible module making the call.
+
+    Args:
+        module_name (str): Module name, either unqualified or fully qualified
+            (for example 'cisco.catalystcenter.swim_workflow_manager').
+
+    Returns:
+        str: Suffix such as 'ansible-catalystcenter-swim_workflow_manager',
+        falling back to 'ansible-catalystcenter' when the name is unavailable.
+    """
+    qualified_name = (module_name or "").strip()
+    # AnsibleModule._name holds a '<file>.py' placeholder until the controller supplies
+    # the real module name, so treat any filename-looking value as unavailable.
+    if not qualified_name or qualified_name.endswith(".py"):
+        return COLLECTION_USER_AGENT
+
+    # Drop the 'cisco.catalystcenter.' namespace that Ansible prefixes to module names.
+    unqualified_name = qualified_name.rsplit(".", 1)[-1]
+    if not unqualified_name:
+        return COLLECTION_USER_AGENT
+
+    return "{0}-{1}".format(COLLECTION_USER_AGENT, unqualified_name)
+
 
 class CatalystCenterSDK(object):
-    def __init__(self, params):
+    def __init__(self, params, user_agent=None):
         self.result = dict(changed=False, result="")
         self.validate_response_schema = params.get("validate_response_schema")
         self.logger = logging.getLogger("catalystcentersdk")
@@ -3806,6 +3842,7 @@ class CatalystCenterSDK(object):
                 version=params.get("catalystcenter_version"),
                 verify=params.get("catalystcenter_verify"),
                 debug=params.get("catalystcenter_debug"),
+                user_agent=user_agent or COLLECTION_USER_AGENT,
             )
             if params.get("catalystcenter_debug") and LOGGING_IN_STANDARD:
                 self.logger.addHandler(logging.StreamHandler())

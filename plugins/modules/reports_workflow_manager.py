@@ -161,6 +161,8 @@ options:
                 time_zone:
                   description:
                     - Time zone identifier for the schedule.
+                    - Validation uses the IANA time zone database through C(pytz).
+                    - The C(pytz) package must be installed on the Ansible control node.
                     - Uses standard time zone identifiers like C(Asia/Calcutta),
                       C(America/New_York), etc. For a complete list of supported time zones,
                       please refer to the time_zone field in the Inventory Workflow Manager documentation
@@ -515,6 +517,7 @@ options:
 requirements:
   - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
+  - pytz
 notes:
   - SDK Methods used are
     reports.Reports.get_all_view_groups
@@ -2309,10 +2312,10 @@ import re
 try:
     import pytz
 
-    HAS_PYZIPPER = True
+    HAS_PYTZ = True
 except ImportError:
-    HAS_PYZIPPER = False
-    pyzipper = None
+    HAS_PYTZ = False
+    pytz = None
 
 
 class Reports(CatalystCenterBase):
@@ -2339,6 +2342,14 @@ class Reports(CatalystCenterBase):
         self.log(
             "Starting playbook configuration validation for reports workflow", "INFO"
         )
+
+        if not HAS_PYTZ:
+            self.msg = (
+                "The 'pytz' library is required by reports_workflow_manager. "
+                "Install it using 'pip install pytz'."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
         config_spec = {
             "generate_report": {
@@ -3474,7 +3485,11 @@ class Reports(CatalystCenterBase):
 
             # Process time range filters
             if filter_entry.get("name") == "TimeRange":
-                if not self._process_time_range_filter(filter_entry, filter_index):
+                if not self._process_time_range_filter(
+                    filter_entry,
+                    filter_index,
+                    entry.get("schedule", {}).get("time_zone"),
+                ):
                     return False
 
             # Process Wlc filters
@@ -8965,7 +8980,9 @@ class Reports(CatalystCenterBase):
         self.log("Licensing License Historical Usage validation successful", "DEBUG")
         return True
 
-    def _process_time_range_filter(self, filter_entry, filter_index):
+    def _process_time_range_filter(
+        self, filter_entry, filter_index, schedule_time_zone=None
+    ):
         """Validate and process the 'Time Range' filter by converting date strings to epoch milliseconds.
 
         This method:
@@ -8976,6 +8993,8 @@ class Reports(CatalystCenterBase):
         Parameters:
             filter_entry (dict): Filter configuration containing 'value' with date/time fields.
             filter_index (int): Index of the filter being processed (for logging context).
+            schedule_time_zone (str): Report schedule timezone used when a predefined
+                                      range does not define its own timezone.
 
         Returns:
             bool: True if successful; False if validation or conversion fails.
@@ -9017,9 +9036,32 @@ class Reports(CatalystCenterBase):
             "LAST_90_DAYS",
         ]
         if time_range_option in predefined_time_ranges:
+            time_zone = (
+                item.get("time_zone")
+                or item.get("timeZoneId")
+                or schedule_time_zone
+            )
+            if not time_zone:
+                self.msg = (
+                    "Missing timezone for predefined TimeRange option "
+                    f"'{time_range_option}'. Provide 'time_zone' on the filter "
+                    "or the report schedule."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            if time_zone not in pytz.all_timezones:
+                self.msg = (
+                    f"Invalid time_zone '{time_zone}' in 'Time Range' filter."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
             updated_value = {
-                "timeRangeOption": item.get("time_range_option", "Custom"),
-                "displayValue": filter_entry.get("display_value", filter_entry["name"]),
+                "timeRangeOption": time_range_option,
+                "startDateTime": 0,
+                "endDateTime": 0,
+                "timeZoneId": time_zone,
             }
             filter_entry["value"] = updated_value
             self.log(
@@ -9063,11 +9105,10 @@ class Reports(CatalystCenterBase):
         # Prepare final structure
         display_value = f"{start_str} to {end_str}"
         updated_value = {
-            "timeRangeOption": item.get("time_range_option", "Custom"),
+            "timeRangeOption": time_range_option,
             "startDateTime": start_epoch,
             "endDateTime": end_epoch,
-            "timeZone": time_zone,
-            "displayValue": display_value,
+            "timeZoneId": time_zone,
         }
 
         filter_entry["value"] = updated_value
@@ -9076,7 +9117,7 @@ class Reports(CatalystCenterBase):
         )
 
         self.log(
-            f"Successfully processed time range filter: start={start_epoch}, end={end_epoch}, zone={time_zone}",
+            f"Successfully processed time range filter: {display_value}, zone={time_zone}",
             "DEBUG",
         )
         return True
@@ -10378,6 +10419,42 @@ class Reports(CatalystCenterBase):
             # Convert to camelCase for API compatibility
             report_payload = self.convert_keys_to_camel_case(report_entry)
 
+            # Only these top-level fields belong to the report-create API. Any
+            # other key is treated by the SDK as an HTTP query parameter.
+            allowed_create_fields = (
+                "tags",
+                "deliveries",
+                "name",
+                "schedule",
+                "view",
+                "viewGroupId",
+                "viewGroupVersion",
+                "dataCategory",
+            )
+            dropped_keys = [
+                key for key in report_payload if key not in allowed_create_fields
+            ]
+            report_payload = {
+                key: report_payload[key]
+                for key in allowed_create_fields
+                if key in report_payload
+            }
+            if dropped_keys:
+                self.log(
+                    "Dropped non-canonical report payload fields: {0}".format(
+                        dropped_keys
+                    ),
+                    "DEBUG",
+                )
+
+            if not report_payload:
+                self.msg = (
+                    "Failed to build report-create payload for report '{0}'. "
+                    "No supported top-level API fields were present."
+                ).format(report_entry.get("name"))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return None
+
             # Transform specific fields for API requirements
             if (
                 "schedule" in report_payload
@@ -10403,6 +10480,9 @@ class Reports(CatalystCenterBase):
                     # ensure camelCase fields exist
                     flt["displayName"] = flt.get("displayName", flt.get("name"))
                     flt["type"] = flt.get("type", flt.get("filterType"))
+                    # displayValue belongs to individual selected values, not
+                    # to the filter object in the report-create contract.
+                    flt.pop("displayValue", None)
 
                     # Normalize value entries - Handle all data types
                     raw_values = flt.get("value")
@@ -10493,6 +10573,18 @@ class Reports(CatalystCenterBase):
                     fixed_filters.append(flt)
 
                 report_payload["view"]["filters"] = fixed_filters
+
+            # DOWNLOAD accepts only its API delivery type. Fields such as
+            # filePath and emailAttach are module-side options or apply to
+            # other delivery types.
+            if "deliveries" in report_payload:
+                fixed_deliveries = []
+                for delivery in report_payload["deliveries"]:
+                    if delivery.get("type") == "DOWNLOAD":
+                        fixed_deliveries.append({"type": "DOWNLOAD"})
+                    else:
+                        fixed_deliveries.append(delivery)
+                report_payload["deliveries"] = fixed_deliveries
 
             # Field group normalization remains the same
             fixed_field_groups = []
