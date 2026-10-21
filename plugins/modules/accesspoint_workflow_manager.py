@@ -2315,7 +2315,10 @@ class Accesspoint(CatalystCenterBase):
 
         if site:
             if site_required_changes:
-                if self.have.get("wlc_provision_status") != "success":
+                if self.have.get("wlc_provision_status") not in (
+                    "success",
+                    "non_fabric",
+                ):
                     self.msg = "Wireless Controller {0} not provisioned at the site {1}.".format(
                         self.have.get("associated_wlc_ip"),
                         self.have.get("site_name_hierarchy"),
@@ -3974,13 +3977,14 @@ class Accesspoint(CatalystCenterBase):
             wlc_ip_address (str): The management IP address of the Wireless LAN Controller (WLC).
 
         Returns:
-            tuple: A tuple containing the provisioning status ("success" or "failed") and
-            the provisioning details or error message.
+            tuple: A tuple containing the provisioning status ("success", "non_fabric"
+            or "failed") and the provisioning details or error message.
 
         Description:
             Checks if the WLC specified by the management IP address is provisioned.
-            Returns "success" and details if provisioned, otherwise logs an error
-            and returns "failed" with error details.
+            Returns "success" and details if provisioned. A controller that is managed
+            but not part of an SDA fabric returns "non_fabric", because access point
+            provisioning does not require a fabric. Any other failure returns "failed".
         """
 
         provision_status = "failed"
@@ -4004,13 +4008,24 @@ class Accesspoint(CatalystCenterBase):
                 provision_details = self.pprint(response)
 
         except Exception as e:
-            msg = "Wireles controller is not provisioned:"
-            self.log(msg + str(e), "ERROR")
             provision_details = str(e)
-            self.status = "failed"
-            self.set_operation_result(
-                "failed", False, msg, "ERROR", provision_details
-            ).check_return_status()
+            # AP provisioning has no fabric prerequisite, so a WLC outside a fabric is valid.
+            if "does not have any fabric role" in provision_details:
+                provision_status = "non_fabric"
+                self.log(
+                    "Wireless controller {0} is not part of a fabric; continuing because "
+                    "access point provisioning does not require one.".format(
+                        wlc_ip_address
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "Unable to verify provisioning of wireless controller {0}: {1}".format(
+                        wlc_ip_address, provision_details
+                    ),
+                    "ERROR",
+                )
 
         return provision_status, provision_details
 

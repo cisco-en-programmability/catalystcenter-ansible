@@ -19,20 +19,20 @@
                     "view_name": "Network Device Compliance",
                     "field_groups": [
                         {
-                            "name": "inventoryAllData",
-                            "display_name": "All Data"
+                            "field_group_name": "Compliance",
+                            "field_group_display_name": "Compliance",
+                            "fields": [
+                                {
+                                    "name": "hostname",
+                                    "display_name": "Device Name"
+                                }
+                            ]
                         }
                     ],
                     "format": {
                         "format_type": "CSV"
                     },
-                    "filters": [
-                        {
-                            "name": "Location",
-                            "display_name": "Location",
-                            "filter_type": "MULTI_SELECT_TREE"
-                        }
-                    ]
+                    "filters": []
                 },
                 "tags": []
             }
@@ -183,20 +183,20 @@
                 "view_name": "Network Device Compliance",
                 "field_groups": [
                     {
-                        "name": "inventoryAllData",
-                        "display_name": "All Data"
+                        "field_group_name": "Compliance",
+                        "field_group_display_name": "Compliance",
+                        "fields": [
+                            {
+                                "name": "hostname",
+                                "display_name": "Device Name"
+                            }
+                        ]
                     }
                 ],
                 "format": {
                     "format_type": "CSV"
                 },
-                "filters": [
-                    {
-                        "name": "Location",
-                        "display_name": "Location",
-                        "filter_type": "MULTI_SELECT_TREE"
-                    }
-                ]
+                "filters": []
             },
             "tags": []
         }
@@ -219,7 +219,7 @@
             "schedule": {
                 "time_zone": "Asia/Calcutta",
                 "schedule_type": "SCHEDULE_RECURRENCE",
-                "date_time": "2025-08-12 12:40 PM",
+                "date_time": "2099-08-12 12:40 PM",
                 "recurrence": {
                     "recurrence_type": "MONTHLY",
                     "day_of_month": 12,
@@ -230,20 +230,20 @@
                 "view_name": "Network Device Compliance",
                 "field_groups": [
                     {
-                        "name": "inventoryAllData",
-                        "display_name": "All Data"
+                        "field_group_name": "Compliance",
+                        "field_group_display_name": "Compliance",
+                        "fields": [
+                            {
+                                "name": "hostname",
+                                "display_name": "Device Name"
+                            }
+                        ]
                     }
                 ],
                 "format": {
                     "format_type": "CSV"
                 },
-                "filters": [
-                    {
-                        "name": "Location",
-                        "display_name": "Location",
-                        "filter_type": "MULTI_SELECT_TREE"
-                    }
-                ]
+                "filters": []
             },
             "tags": []
         }
@@ -266,7 +266,7 @@
             "schedule": {
                 "time_zone": "Asia/Calcutta",
                 "schedule_type": "SCHEDULE_RECURRENCE",
-                "date_time": "2025-08-12 12:40 PM",
+                "date_time": "2099-08-12 12:40 PM",
                 "recurrence": {
                     "recurrence_type": "WEEKLY",
                     "days": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
@@ -276,20 +276,20 @@
                 "view_name": "Network Device Compliance",
                 "field_groups": [
                     {
-                        "name": "inventoryAllData",
-                        "display_name": "All Data"
+                        "field_group_name": "Compliance",
+                        "field_group_display_name": "Compliance",
+                        "fields": [
+                            {
+                                "name": "hostname",
+                                "display_name": "Device Name"
+                            }
+                        ]
                     }
                 ],
                 "format": {
                     "format_type": "CSV"
                 },
-                "filters": [
-                    {
-                        "name": "Location",
-                        "display_name": "Location",
-                        "filter_type": "MULTI_SELECT_TREE"
-                    }
-                ]
+                "filters": []
             },
             "tags": []
         }
@@ -311,7 +311,7 @@
       ],
       "schedule": {
         "schedule_type": "SCHEDULE_RECURRENCE",
-        "date_time": "2025-09-26 05:45 PM",
+        "date_time": "2099-09-26 05:45 PM",
         "time_zone": "Asia/Calcutta",
         "recurrence": {
           "recurrence_type": "WEEKLY",
@@ -322,19 +322,20 @@
         "view_name": "Network Device Compliance",
         "field_groups": [
           {
-            "name": "inventoryAllData",
-            "display_name": "All Data"
+            "field_group_name": "Compliance",
+            "field_group_display_name": "Compliance",
+            "fields": [
+              {
+                "name": "hostname",
+                "display_name": "Device Name"
+              }
+            ]
           }
         ],
         "format": {
           "format_type": "CSV"
         },
-        "filters": [
-          {
-            "name": "Location",
-            "filter_type": "MULTI_SELECT_TREE"
-          }
-        ]
+        "filters": []
       },
       "tags": []
     }

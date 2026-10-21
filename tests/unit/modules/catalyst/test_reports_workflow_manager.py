@@ -26,7 +26,8 @@ except ImportError:
     HAS_PYTZ = False
     pytz = None
 import unittest
-from unittest.mock import patch
+from copy import deepcopy
+from unittest.mock import MagicMock, patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     reports_workflow_manager,
 )
@@ -113,7 +114,9 @@ class TestCatalystCenterreportsWorkflow(TestCatalystModule):
                 self.test_data.get(
                     "create_get_view_details_for_a_given_view_group_and_view"
                 ),
+                self.test_data.get("create_n_schedule_reports"),
                 self.test_data.get("download_get_execution_id_for_report"),
+                Exception(),
             ]
 
         if "missing_schedule_type " in self._testMethodName:
@@ -197,15 +200,50 @@ class TestCatalystCenterreportsWorkflow(TestCatalystModule):
             ]
 
         if "parallel_report_creation" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("create_get_all_view_groups"),
-                self.test_data.get("create_get_views_for_a_given_view_group"),
-                self.test_data.get("create_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
-                self.test_data.get("create_first_report_response"),
-            ]
+            first_response = self.test_data.get("create_first_report_response")
+            inventory_view = first_response.get("view")
+            inventory_views = {
+                "viewGroupId": first_response.get("viewGroupId"),
+                "views": [
+                    {
+                        "viewId": inventory_view.get("viewId"),
+                        "viewName": inventory_view.get("name"),
+                    }
+                ],
+            }
+
+            def parallel_report_response(*args, **kwargs):
+                function = kwargs.get("function")
+                params = kwargs.get("params", {})
+
+                if function == "get_all_view_groups":
+                    return self.test_data.get("create_get_all_view_groups")
+                if function == "get_views_for_a_given_view_group":
+                    return inventory_views
+                if function == "get_list_of_scheduled_reports":
+                    return []
+                if function == "get_view_details_for_a_given_view_group_and_view":
+                    return inventory_view
+                if function == "create_or_schedule_a_report":
+                    response = deepcopy(first_response)
+                    response["name"] = params.get("name")
+                    response["reportId"] = "report-id-{0}".format(params.get("name"))
+                    return response
+
+                raise AssertionError("Unexpected SDK function: {0}".format(function))
+
+            self.run_catalystcenter_exec.side_effect = parallel_report_response
+
+    def _new_reports_helper(self):
+        report_manager = reports_workflow_manager.Reports.__new__(
+            reports_workflow_manager.Reports
+        )
+        report_manager.status = "success"
+        report_manager.msg = ""
+        report_manager.result = {}
+        report_manager.log = MagicMock()
+        report_manager.catalystcenter = MagicMock()
+        return report_manager
 
     @unittest.skipIf(not HAS_PYTZ, "pytz is not installed")
     def test_reports_workflow_manager_create_n_schedule_reports_download(self):
@@ -446,6 +484,184 @@ class TestCatalystCenterreportsWorkflow(TestCatalystModule):
                 config=self.playbook_parallel_report_creation,
             )
         )
-        result = self.execute_module(changed=True, failed=True)
-        print(result["response"])
-        self.assertEqual([], result["response"])
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(2, len(result["response"]))
+        self.assertIn(
+            "Successfully created or scheduled report "
+            "'Port_Reclaim_Email_CSV_27100_first'.",
+            result["response"][0]["create_report"]["msg"],
+        )
+        self.assertIn(
+            "Successfully created or scheduled report "
+            "'Port_Reclaim_Email_CSV_27100_second'.",
+            result["response"][1]["create_report"]["msg"],
+        )
+
+    def test_location_filter_resolves_hierarchy_to_leaf_uuid(self):
+        report_manager = self._new_reports_helper()
+        report_manager.get_site_id = MagicMock(return_value=(True, "leaf-id"))
+        location_filter = {
+            "name": "Location",
+            "type": "MULTI_SELECT_TREE",
+            "value": [
+                {
+                    "value": "Global/India/Bengaluru",
+                    "display_value": "Bengaluru campus",
+                }
+            ],
+        }
+
+        result = report_manager._process_location_filter(location_filter, 0)
+
+        self.assertTrue(result)
+        self.assertEqual(
+            [
+                {
+                    "value": "leaf-id",
+                    "display_value": "Bengaluru campus",
+                }
+            ],
+            location_filter["value"],
+        )
+        report_manager.get_site_id.assert_called_once_with(
+            "Global/India/Bengaluru"
+        )
+
+    def test_predefined_time_range_uses_canonical_api_shape(self):
+        report_manager = self._new_reports_helper()
+        time_range_filter = {
+            "name": "TimeRange",
+            "display_name": "Time Range",
+            "value": {"time_range_option": "LAST_7_DAYS"},
+        }
+
+        result = report_manager._process_time_range_filter(
+            time_range_filter, 0, "Asia/Calcutta"
+        )
+
+        self.assertTrue(result)
+        self.assertEqual(
+            {
+                "timeRangeOption": "LAST_7_DAYS",
+                "startDateTime": 0,
+                "endDateTime": 0,
+                "timeZoneId": "Asia/Calcutta",
+            },
+            time_range_filter["value"],
+        )
+
+    def test_custom_time_range_uses_time_zone_id(self):
+        report_manager = self._new_reports_helper()
+        report_manager.convert_to_epoch = MagicMock(
+            side_effect=[1786471000000, 1786472000000]
+        )
+        time_range_filter = {
+            "name": "TimeRange",
+            "value": {
+                "time_range_option": "CUSTOM",
+                "start_date_time": "2026-08-11 11:00 PM",
+                "end_date_time": "2026-08-11 11:30 PM",
+                "time_zone": "Asia/Calcutta",
+            },
+        }
+
+        result = report_manager._process_time_range_filter(
+            time_range_filter, 0, "UTC"
+        )
+
+        self.assertTrue(result)
+        self.assertEqual(
+            {
+                "timeRangeOption": "CUSTOM",
+                "startDateTime": 1786471000000,
+                "endDateTime": 1786472000000,
+                "timeZoneId": "Asia/Calcutta",
+            },
+            time_range_filter["value"],
+        )
+
+    def test_report_payload_excludes_internal_fields_and_download_options(self):
+        report_manager = self._new_reports_helper()
+        report_entry = {
+            "name": "ap-report",
+            "new_report": True,
+            "view_group_name": "Access Point",
+            "exists": False,
+            "report_id": "internal-report-id",
+            "tags": [],
+            "schedule": {
+                "type": "SCHEDULE_NOW",
+                "time_zone": "Asia/Calcutta",
+            },
+            "deliveries": [
+                {
+                    "type": "DOWNLOAD",
+                    "email_attach": False,
+                    "file_path": "/tmp/reports",
+                }
+            ],
+            "view": {
+                "view_name": "AP",
+                "view_id": "view-id",
+                "format": {"format_type": "CSV"},
+                "field_groups": [],
+                "filters": [
+                    {
+                        "name": "Location",
+                        "type": "MULTI_SELECT_TREE",
+                        "display_name": "Location",
+                        "display_value": "Location",
+                        "value": [
+                            {
+                                "value": "leaf-id",
+                                "display_value": "Global/Site",
+                            }
+                        ],
+                    },
+                    {
+                        "name": "TimeRange",
+                        "type": "TIME_RANGE",
+                        "display_name": "Time Range",
+                        "value": {
+                            "timeRangeOption": "LAST_7_DAYS",
+                            "startDateTime": 0,
+                            "endDateTime": 0,
+                            "timeZoneId": "Asia/Calcutta",
+                        },
+                    },
+                ],
+            },
+            "view_group_id": "group-id",
+            "view_group_version": "2.0.0",
+            "data_category": "AP",
+        }
+
+        payload = report_manager._prepare_report_payload(report_entry)
+
+        self.assertEqual(
+            {
+                "tags",
+                "deliveries",
+                "name",
+                "schedule",
+                "view",
+                "viewGroupId",
+                "viewGroupVersion",
+                "dataCategory",
+            },
+            set(payload),
+        )
+        self.assertEqual([{"type": "DOWNLOAD"}], payload["deliveries"])
+        self.assertNotIn("displayValue", payload["view"]["filters"][0])
+        self.assertEqual(
+            "leaf-id", payload["view"]["filters"][0]["value"][0]["value"]
+        )
+        self.assertEqual(
+            {
+                "timeRangeOption": "LAST_7_DAYS",
+                "startDateTime": 0,
+                "endDateTime": 0,
+                "timeZoneId": "Asia/Calcutta",
+            },
+            payload["view"]["filters"][1]["value"],
+        )

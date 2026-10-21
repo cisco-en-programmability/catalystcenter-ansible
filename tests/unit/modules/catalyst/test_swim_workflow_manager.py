@@ -818,7 +818,7 @@ class TestswimWorkflowManager(TestCatalystModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
-            "Device Family: None not found. Valid SWIM image family name(s):",
+            "Device Family: None not found in Cisco Catalyst Center.",
             result.get('msg')
         )
 
@@ -2160,3 +2160,91 @@ class TestswimWorkflowManager(TestCatalystModule):
         self.assertIn("204.1.2.8", summary)
         self.assertIn("204.1.2.9", summary)
         self.assertNotIn("on device: 204.1.2.8", summary)
+
+    def test_rank_device_family_suggestions_resolves_renamed_c9350(self):
+        """A renamed C9350 family is suggested by shared model token, not unrelated families."""
+        swim = self._swim_instance()
+        catalog = [
+            "Cisco 9350 Switch",
+            "Cisco Catalyst 9300 Switch",
+            "Cisco Catalyst 9500 Switch",
+            "Cisco ASR 1001-X",
+        ]
+        suggestions = swim.rank_device_family_suggestions(
+            "Cisco C9350 Smart Switch", catalog
+        )
+        self.assertIn("Cisco 9350 Switch", suggestions)
+        self.assertNotIn("Cisco Catalyst 9300 Switch", suggestions)
+        self.assertNotIn("Cisco ASR 1001-X", suggestions)
+
+    def test_rank_device_family_suggestions_caps_at_limit(self):
+        """Suggestions are capped at 'limit'."""
+        swim = self._swim_instance()
+        catalog = ["Cisco 9350 Switch {0}".format(i) for i in range(15)]
+        suggestions = swim.rank_device_family_suggestions(
+            "Cisco C9350 Smart Switch", catalog, limit=10
+        )
+        self.assertEqual(len(suggestions), 10)
+
+    def test_rank_device_family_suggestions_garbage_returns_empty(self):
+        """Input with no model token and no fuzzy match yields no suggestions (no dumping the catalog)."""
+        swim = self._swim_instance()
+        catalog = [
+            "Cisco Catalyst 9300 Switch",
+            "Cisco ASR 1001-X",
+            "Cisco IE-3300-8T2S",
+        ]
+        suggestions = swim.rank_device_family_suggestions("zzzzzzzz", catalog)
+        self.assertEqual(suggestions, [])
+
+    def test_rank_device_family_suggestions_does_not_cross_suffix_families(self):
+        """Suffix-differentiated families are not collapsed; only the token-sharing family is suggested."""
+        swim = self._swim_instance()
+        catalog = ["Cisco ASR 1001-X", "Cisco ASR 1001-HX", "Cisco Catalyst 9300 Switch"]
+        suggestions = swim.rank_device_family_suggestions("Cisco ASR 1001-X", catalog)
+        self.assertIn("Cisco ASR 1001-X", suggestions)
+        self.assertNotIn("Cisco Catalyst 9300 Switch", suggestions)
+
+    def test_rank_device_family_suggestions_wrong_number_offers_single_closest(self):
+        """A model number that matches nothing yields only the single closest name, not a family spread."""
+        swim = self._swim_instance()
+        catalog = [
+            "Cisco Catalyst 9000 Switch",
+            "Cisco Catalyst 9300 Switch",
+            "Cisco Catalyst 9400 Switch",
+            "Cisco Catalyst 9500 Switch",
+        ]
+        suggestions = swim.rank_device_family_suggestions("Cisco 90000 Switch", catalog)
+        self.assertLessEqual(len(suggestions), 1)
+        self.assertNotIn("Cisco Catalyst 9300 Switch", suggestions)
+        self.assertNotIn("Cisco Catalyst 9500 Switch", suggestions)
+
+    def test_rank_device_family_suggestions_no_digit_lists_word_matches(self):
+        """With no model number, families sharing a word token are surfaced (capped at 'limit')."""
+        swim = self._swim_instance()
+        catalog = [
+            "Cisco Catalyst 9300 Switch",
+            "Cisco Catalyst 9500 Switch",
+            "Cisco ASR 1001-X",
+            "Juniper EX4300",
+        ]
+        suggestions = swim.rank_device_family_suggestions("Cisco Catalyst Switch", catalog, limit=10)
+        self.assertIn("Cisco Catalyst 9300 Switch", suggestions)
+        self.assertIn("Cisco Catalyst 9500 Switch", suggestions)
+        self.assertNotIn("Juniper EX4300", suggestions)
+        self.assertLessEqual(len(suggestions), 10)
+
+    def test_rank_device_family_suggestions_model_token_is_whole_not_substring(self):
+        """A short model number must not substring-match a longer one (960 != 2960/9600/9606)."""
+        swim = self._swim_instance()
+        catalog = [
+            "Cisco Catalyst 2960-24TC Switch",
+            "Cisco Catalyst 9600 SVL Switch",
+            "Cisco Catalyst 9606R Switch",
+            "Cisco Catalyst 960 Switch",
+        ]
+        suggestions = swim.rank_device_family_suggestions("Juniper MX960", catalog)
+        self.assertIn("Cisco Catalyst 960 Switch", suggestions)
+        self.assertNotIn("Cisco Catalyst 2960-24TC Switch", suggestions)
+        self.assertNotIn("Cisco Catalyst 9600 SVL Switch", suggestions)
+        self.assertNotIn("Cisco Catalyst 9606R Switch", suggestions)
