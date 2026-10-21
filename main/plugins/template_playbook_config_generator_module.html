@@ -1653,7 +1653,7 @@
 <h1>cisco.catalystcenter.template_playbook_config_generator module -- Generate YAML playbook for <code class="docutils literal notranslate"><span class="pre">template_workflow_manager</span></code> module.<a class="headerlink" href="#cisco-catalystcenter-template-playbook-config-generator-module-generate-yaml-playbook-for-template-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.13.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.14.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-template-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2042,6 +2042,11 @@ manager module applies only the last config entry because
 yaml.safe_load uses last-key-wins semantics for duplicate
 keys in a single YAML document.</p>
 </li>
+<li><p>Template version is not included in the generated configuration:
+Catalyst Center assigns a version number only when a template is committed, so a
+version is only a record of the source template at the time of generation.
+Replaying a generated configuration creates a new version instead of restoring
+the captured one, and including the field would break idempotency.</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
 <li><p>Requires Python &gt;= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)</p></li>

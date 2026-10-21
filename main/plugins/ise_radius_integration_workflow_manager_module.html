@@ -1653,7 +1653,7 @@
 <h1>cisco.catalystcenter.ise_radius_integration_workflow_manager module -- Resource module for Authentication and Policy Servers<a class="headerlink" href="#cisco-catalystcenter-ise-radius-integration-workflow-manager-module-resource-module-for-authentication-and-policy-servers" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.13.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.14.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-ise-radius-integration-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2001,8 +2001,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <div class="ansibleOptionAnchor" id="parameter-config/authentication_policy_server/ise_integration_wait_time"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-ise-radius-integration-workflow-manager-module-parameter-config-authentication-policy-server-ise-integration-wait-time"><strong>ise_integration_wait_time</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/authentication_policy_server/ise_integration_wait_time" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Indicates the sleep time after initiating the Cisco ISE integration process.</p>
-<p>Maximum sleep time should be less or equal to 120 seconds.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Maximum time, in seconds, to wait for the Cisco ISE integration process to reach the ACTIVE state.</p>
+<p>The integration status is polled every five seconds and returns as soon as it completes.</p>
+<p>Valid values are from 1 to 600 seconds.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id39"><span class="problematic" id="id40">:ansible-option-default:`20`</span></a></p>
 </div></td>
 </tr>
