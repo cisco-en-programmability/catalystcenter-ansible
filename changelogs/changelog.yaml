@@ -481,3 +481,20 @@ releases:
         - location_servers_cmx_servers - ``connectionAddress`` argspec and docs typed as ``dict`` instead of ``str``.
         - wireless_access_points_configurations - ``dnsIpAddress``, ``primaryControllerIpAddress``, ``secondaryControllerIpAddress`` and ``tertiaryControllerIpAddress`` argspec and docs typed as ``dict`` instead of ``str``.
         - wireless_policies_ip_access_control_lists_protocol - ``protocol`` argspec and docs typed as ``dict`` instead of ``str``.
+  2.14.0:
+    release_date: "2026-10-21"
+    changes:
+      release_summary: Added SDK telemetry User-Agent and fixes across SWIM, device credential, ISE RADIUS, reports, and access point workflows.
+      minor_changes:
+        - module_utils/catalystcenter - Added a custom SDK ``User-Agent`` (``ansible-catalystcenter-<module>``) via the new ``build_user_agent`` helper so Cisco Catalyst Center can identify Ansible-originated API traffic per module; also wired through plugin_utils and the inventory plugin.
+        - device_credential_workflow_manager - Bumped minimum requirement to ``catalystcentersdk >= 3.2.3.0.3`` and documented that an omitted credential type keeps the site's current setting, ``null`` inherits from the parent site, and ``{}`` unsets a credential.
+        - ise_radius_integration_workflow_manager - Documented that ``ise_integration_wait_time`` now accepts 1 to 600 seconds and is polled every 5 seconds until the integration completes.
+        - reports_workflow_manager - Added ``pytz`` as a documented requirement for time zone validation.
+        - template_playbook_config_generator - Documented why the template version field is intentionally excluded from generated configurations to preserve idempotency.
+      bugfixes:
+        - swim_workflow_manager - Resolve golden-tag device families from the global product-name catalog with pagination instead of the site-scoped API, and return a bounded "Did you mean" suggestion list when a family name is not found.
+        - device_credential_workflow_manager - Build a complete per-site credential payload that preserves each site's own settings for omitted credential types and correctly distinguishes inherit (``null``) from unset (``{}``).
+        - ise_radius_integration_workflow_manager - Replace the fixed sleep (capped at 120 seconds) with status polling up to 600 seconds, and honor per-server ``trusted_server`` and ``ise_integration_wait_time`` values.
+        - reports_workflow_manager - Fixed the ``pytz`` import guard (previously keyed off a ``pyzipper`` flag), validate time zones for predefined and custom time-range filters, and normalize the report-create payload to only canonical API fields.
+        - accesspoint_workflow_manager - Treat a wireless controller that is managed but not part of an SDA fabric as valid ("non_fabric") since access point provisioning has no fabric prerequisite, instead of failing the play.
+        - sda_host_port_onboarding_playbook_config_generator - Accept a list for the ``wireless_ssids`` ``fabric_site_name_hierarchy`` filter instead of only a single string.

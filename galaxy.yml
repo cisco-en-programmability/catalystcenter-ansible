@@ -1,7 +1,7 @@
 ---
 namespace: cisco
 name: catalystcenter
-version: 2.13.1
+version: 2.14.0
 readme: README.md
 authors:
   - Rafael Campos <rcampos@cloverhound.com>
