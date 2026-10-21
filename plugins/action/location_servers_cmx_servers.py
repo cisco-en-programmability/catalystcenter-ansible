@@ -38,7 +38,7 @@ def _build_action_module():
         dict(
             state=dict(type="str", default="present", choices=["present", "absent"]),
             id=dict(type="str"),
-            connectionAddress=dict(type="dict"),
+            connectionAddress=dict(type="str"),
             username=dict(type="str"),
             password=dict(type="str", no_log=True),
         )

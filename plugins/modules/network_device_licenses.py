@@ -136,7 +136,7 @@ options:
     type: list
   managementAddress:
     description: Either an IP address or a fully-qualified domain name.
-    type: dict
+    type: str
   networkDeviceId:
     description: A unique identifier for the network device.
     type: str
@@ -228,7 +228,7 @@ EXAMPLES = r"""
         owned: true
         status: string
         type: string
-    managementAddress: {}
+    managementAddress: 1.1.1.1
     networkDeviceId: string
     registrationStatus: string
     series: string

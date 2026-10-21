@@ -32,7 +32,7 @@ def _build_action_module():
     argument_spec.update(
         dict(
             category=dict(type="str"),
-            managementAddress=dict(type="dict"),
+            managementAddress=dict(type="str"),
             credentials=dict(type="dict"),
             id=dict(type="str"),
         )
