@@ -38,7 +38,7 @@ def _build_action_module():
         dict(
             state=dict(type="str", default="present", choices=["present"]),
             id=dict(type="str"),
-            managementAddress=dict(type="dict"),
+            managementAddress=dict(type="str"),
             hostname=dict(type="str"),
             family=dict(type="str"),
             series=dict(type="str"),
@@ -56,7 +56,7 @@ def _build_action_module():
             customerTags=dict(type="dict"),
             authCodeStatus=dict(type="str"),
             throughputValue=dict(type="str"),
-            lastSuccessfulUsageReportingTime=dict(type="dict"),
+            lastSuccessfulUsageReportingTime=dict(type="int"),
             licenseManagedBy=dict(type="str"),
             wirelessCapable=dict(type="bool"),
             networkDeviceId=dict(type="str"),
