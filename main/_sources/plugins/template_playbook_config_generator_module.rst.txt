@@ -42,7 +42,7 @@ cisco.catalystcenter.template_playbook_config_generator module -- Generate YAML 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.13.1).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -1291,6 +1291,11 @@ Notes
      manager module applies only the last config entry because
      yaml.safe\_load uses last-key-wins semantics for duplicate
      keys in a single YAML document.
+   - Template version is not included in the generated configuration:
+     Catalyst Center assigns a version number only when a template is committed, so a
+     version is only a record of the source template at the time of generation.
+     Replaying a generated configuration creates a new version instead of restoring
+     the captured one, and including the field would break idempotency.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)

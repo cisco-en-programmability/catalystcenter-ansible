@@ -1653,7 +1653,7 @@
 <h1>cisco.catalystcenter.reports_workflow_manager module -- Resource module for managing Reports in Cisco Catalyst Center.<a class="headerlink" href="#cisco-catalystcenter-reports-workflow-manager-module-resource-module-for-managing-reports-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.13.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.14.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-reports-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1688,6 +1688,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <ul class="simple">
 <li><p>catalystcentersdk &gt;= 3.2.3.0.0</p></li>
 <li><p>python &gt;= 3.12</p></li>
+<li><p>pytz</p></li>
 </ul>
 </section>
 <section id="parameters">
@@ -2101,6 +2102,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <a class="ansibleOptionLink" href="#parameter-config/generate_report/schedule/time_zone" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Time zone identifier for the schedule.</p>
+<p>Validation uses the IANA time zone database through <code class="docutils literal notranslate"><span class="pre">pytz</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">pytz</span></code> package must be installed on the Ansible control node.</p>
 <p>Uses standard time zone identifiers like <code class="docutils literal notranslate"><span class="pre">Asia/Calcutta</span></code>, <code class="docutils literal notranslate"><span class="pre">America/New_York</span></code>, etc. For a complete list of supported time zones, please refer to the time_zone field in the Inventory Workflow Manager documentation <a class="reference external" href="https://galaxy.ansible.com/ui/repo/published/cisco/catalystcenter/content/module/inventory_workflow_manager">https://galaxy.ansible.com/ui/repo/published/cisco/catalystcenter/content/module/inventory_workflow_manager</a>.</p>
 </div></td>
 </tr>
