@@ -366,9 +366,10 @@ options:
           priority:
             description: >
               Specifies the priority level of the issue.
+              If omitted, the existing priority is preserved.
             type: str
             choices: [P1, P2, P3, P4]
-            required: true
+            required: false
           issue_enabled:
             description: >
               A boolean value that determines whether
@@ -2780,9 +2781,15 @@ class AssuranceSettings(CatalystCenterBase):
                     not description or issue.get("description") == description
                 ):
                     if not issue_setting.get("issue_enabled") and (
-                        issue_setting.get("threshold_value")
-                        != issue.get("threshold_value")
-                        or issue_setting.get("priority") != issue.get("priority")
+                        (
+                            issue_setting.get("threshold_value") is not None
+                            and issue_setting.get("threshold_value")
+                            != issue.get("thresholdValue")
+                        )
+                        or (
+                            issue_setting.get("priority") is not None
+                            and issue_setting.get("priority") != issue.get("priority")
+                        )
                     ):
                         self.msg = "For disabled issues, threshold and priority values can't be updated '{0}'.".format(
                             name
