@@ -281,6 +281,10 @@ On macOS controllers, a task may fail with `[ERROR]: A worker was found in a dea
 
 Contributions are welcome. Please open issues or pull requests via the [Cisco CATALYST Center Ansible collection repository](https://github.com/cisco-en-programmability/catalystcenter-ansible/issues). All contributors must adhere to the project's Code of Conduct.
 
+Read the [contribution guide](CONTRIBUTING.md) and the
+[code review and development guidelines](docs/CODE_REVIEW_GUIDELINES.md) before
+submitting or reviewing changes.
+
 
 ## Code of Conduct
 
