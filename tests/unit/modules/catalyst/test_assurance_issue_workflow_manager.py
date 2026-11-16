@@ -325,6 +325,96 @@ class TestCatalystCenterAssuranceSettings(TestCatalystModule):
             {"AP Reboot Crash": "System issue Updated Successfully"},
         )
 
+    def _set_system_issue_args(self, **overrides):
+        issue_setting = {
+            "name": "High input/output discard on Switch interfaces",
+            "description": "Interface Output Discard",
+            "device_type": "SWITCH_AND_HUB",
+            "synchronize_to_health_threshold": True,
+            "issue_enabled": False,
+        }
+        issue_setting.update(overrides)
+        current_issue = {
+            "id": "system-issue-id",
+            "displayName": issue_setting["name"],
+            "description": issue_setting["description"],
+            "deviceType": "SWITCH_AND_HUB",
+            "synchronizeToHealthThreshold": True,
+            "issueEnabled": True,
+            "priority": "P3",
+            "thresholdValue": 10.0,
+        }
+        self.run_catalystcenter_init.side_effect = [None]
+        self.run_catalystcenter_exec.reset_mock()
+        self.run_catalystcenter_exec.side_effect = [
+            {"response": [current_issue]},
+            {"response": []},
+            {"response": dict(current_issue, issueEnabled=False)},
+        ]
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                state="merged",
+                config=[{"assurance_system_issue_settings": [issue_setting]}],
+            )
+        )
+        return issue_setting
+
+    def test_disable_system_issue_with_omitted_or_unchanged_values(self):
+        for overrides in (
+            {},
+            {"priority": None, "threshold_value": None},
+            {"priority": "P3"},
+            {"threshold_value": 10},
+            {"priority": "P3", "threshold_value": 10},
+        ):
+            with self.subTest(overrides=overrides):
+                issue_setting = self._set_system_issue_args(**overrides)
+
+                self.execute_module(changed=True, failed=False)
+
+                self.run_catalystcenter_exec.assert_called_with(
+                    family="issues",
+                    function="issue_trigger_definition_update",
+                    op_modifies=True,
+                    params={
+                        "id": "system-issue-id",
+                        "payload": {
+                            "priority": issue_setting.get("priority"),
+                            "issueEnabled": False,
+                            "thresholdValue": issue_setting.get("threshold_value"),
+                            "synchronizeToHealthThreshold": True,
+                        },
+                    },
+                )
+
+    def test_disable_system_issue_rejects_explicit_value_changes(self):
+        for overrides in (
+            {"priority": "P2"},
+            {"threshold_value": 20},
+            {"threshold_value": 0},
+        ):
+            with self.subTest(overrides=overrides):
+                issue_setting = self._set_system_issue_args(**overrides)
+
+                result = self.execute_module(changed=False, failed=True)
+
+                self.assertEqual(
+                    result["msg"],
+                    "For disabled issues, threshold and priority values can't be updated '{0}'.".format(
+                        issue_setting["name"]
+                    ),
+                )
+                self.assertEqual(self.run_catalystcenter_exec.call_count, 2)
+                for sdk_call in self.run_catalystcenter_exec.call_args_list:
+                    self.assertEqual(
+                        sdk_call.kwargs["function"],
+                        "returns_all_issue_trigger_definitions_for_given_filters",
+                    )
+
     def test_assurance_issue_workflow_manager_command_execution(self):
         """
         Test case for executing commands in Assurance Issue Settings.
