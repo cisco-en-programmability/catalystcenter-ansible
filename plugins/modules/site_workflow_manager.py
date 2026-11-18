@@ -588,6 +588,8 @@ class Site(CatalystCenterBase):
             [],
         )
         self.deleted_site_list, self.site_absent_list = [], []
+        # Floors appear in both the area-wide and building-wide listings.
+        self.deleted_floor_ids = set()
         self.keymap = {}
         self.handle_config = {}
 
@@ -2875,6 +2877,120 @@ class Site(CatalystCenterBase):
         )
         return task_id
 
+    def delete_floors(self, child_sites):
+        """
+        Deletes the given floor sites and waits for each deletion to complete.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            child_sites (list): Floor entries returned by 'get_sites', each holding
+                an 'id' and a 'nameHierarchy'.
+
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+
+        Description:
+            This function submits 'deletes_a_floor' for every floor that has not already
+            been deleted during this run and blocks on each task before returning. Waiting
+            here prevents a later listing from submitting a second delete for a floor whose
+            removal is still in progress, and ensures success is only recorded once the
+            task has actually completed.
+        """
+
+        total_floors = len(child_sites)
+        self.log(
+            "Starting 'delete_floors' for {0} floor site(s). Floors already deleted in this run: {1}".format(
+                total_floors, len(self.deleted_floor_ids)
+            ),
+            "DEBUG",
+        )
+
+        if not child_sites:
+            self.log("No floor sites supplied to 'delete_floors'. Nothing to do.", "DEBUG")
+            return self
+
+        for index, child in enumerate(child_sites, start=1):
+            child_site_id = child.get("id")
+            child_site_name_hierarchy = child.get("nameHierarchy")
+            self.log(
+                "Processing floor {0} of {1}: '{2}' with ID: '{3}'".format(
+                    index, total_floors, child_site_name_hierarchy, child_site_id
+                ),
+                "DEBUG",
+            )
+
+            if not child_site_id:
+                self.log(
+                    "Skipping floor {0} of {1}: no site ID found for '{2}'.".format(
+                        index, total_floors, child_site_name_hierarchy
+                    ),
+                    "WARNING",
+                )
+                continue
+
+            if child_site_id in self.deleted_floor_ids:
+                self.log(
+                    "Skipping floor {0} of {1}: '{2}' with ID '{3}' was already deleted in this run.".format(
+                        index, total_floors, child_site_name_hierarchy, child_site_id
+                    ),
+                    "DEBUG",
+                )
+                continue
+
+            self.log(
+                "Deleting floor: {0} with ID: {1}".format(
+                    child_site_name_hierarchy, child_site_id
+                ),
+                "INFO",
+            )
+            del_task_id = self.delete_floor(child_site_name_hierarchy, child_site_id)
+
+            if not del_task_id:
+                self.msg = "Unable to delete child site: {0}".format(
+                    child_site_name_hierarchy
+                )
+                self.log(
+                    "No task ID returned for floor {0} of {1}: '{2}'.".format(
+                        index, total_floors, child_site_name_hierarchy
+                    ),
+                    "ERROR",
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+            self.log(
+                "Waiting for task '{0}' to complete for floor: {1}".format(
+                    del_task_id, child_site_name_hierarchy
+                ),
+                "DEBUG",
+            )
+            success_msg = "Deleted floor: {0}. Task Id: {1}".format(
+                child_site_name_hierarchy, del_task_id
+            )
+            self.get_task_status_from_tasks_by_id(
+                del_task_id, "delete_floor", success_msg
+            ).check_return_status()
+            self.deleted_floor_ids.add(child_site_id)
+            self.log(
+                "Deleted child floor: {0} with ID: {1}".format(
+                    child_site_name_hierarchy, child_site_id
+                ),
+                "INFO",
+            )
+            self.deleted_site_list.append(
+                "floor: {0}".format(str(child_site_name_hierarchy))
+            )
+
+        self.log(
+            "Completed 'delete_floors'. Total floors deleted in this run: {0}".format(
+                len(self.deleted_floor_ids)
+            ),
+            "DEBUG",
+        )
+
+        return self
+
     def delete_building(self, site_name_hierarchy, site_id):
         """
         Deletes a building site by ID, including all associated floors.
@@ -2912,44 +3028,7 @@ class Site(CatalystCenterBase):
                     "Received response from get_sites: {}".format(response), "DEBUG"
                 )
 
-                child_sites = response.get("response", [])
-                for child in child_sites:
-                    child_site_id = child.get("id")
-                    child_site_name_hierarchy = child.get("nameHierarchy")
-
-                    if child_site_id:
-                        self.log(
-                            "Deleting floor: {0} with ID: {1}".format(
-                                child_site_name_hierarchy, child_site_id
-                            ),
-                            "INFO",
-                        )
-                        del_task_id = self.delete_floor(
-                            child_site_name_hierarchy, child_site_id
-                        )
-                        if del_task_id:
-                            success_msg = "Deleted floor: {0}. Task Id: {1}".format(
-                                child_site_name_hierarchy, del_task_id
-                            )
-                            self.get_task_status_from_tasks_by_id(
-                                del_task_id, "delete_floor", success_msg
-                            ).check_return_status()
-                            self.log(
-                                "Deleted child floor: {0} with ID: {1}".format(
-                                    child_site_name_hierarchy, child_site_id
-                                ),
-                                "INFO",
-                            )
-                            self.deleted_site_list.append(
-                                "floor: {0}".format(str(child_site_name_hierarchy))
-                            )
-                        else:
-                            self.msg = "Unable to delete child site: {0}".format(
-                                child_site_name_hierarchy
-                            )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            ).check_return_status()
+                self.delete_floors(response.get("response", []))
 
             self.log(
                 "Deleting building site: '{0}' with ID: '{1}'".format(
@@ -3035,6 +3114,13 @@ class Site(CatalystCenterBase):
                         ),
                         "DEBUG",
                     )
+
+                    # Floors are removed first and awaited here, so the building
+                    # pass cannot re-list and delete the same floors again.
+                    if delete_type == "floor":
+                        self.delete_floors(child_sites)
+                        continue
+
                     for child in child_sites:
                         child_site_id = child.get("id")
                         child_site_name_hierarchy = child.get("nameHierarchy")
@@ -3054,10 +3140,7 @@ class Site(CatalystCenterBase):
                                 ),
                                 "INFO",
                             )
-                            delete_method = getattr(
-                                self, "delete_{}".format(delete_type)
-                            )
-                            del_response = delete_method(
+                            del_response = self.delete_building(
                                 child_site_name_hierarchy, child_site_id
                             )
                             self.log(
@@ -3067,6 +3150,18 @@ class Site(CatalystCenterBase):
                                 "DEBUG",
                             )
                             if del_response:
+                                task_id = del_response.get("response", {}).get(
+                                    "taskId"
+                                )
+                                if task_id:
+                                    success_msg = (
+                                        "Deleted building: {0}. Task Id: {1}".format(
+                                            child_site_name_hierarchy, task_id
+                                        )
+                                    )
+                                    self.get_task_status_from_tasks_by_id(
+                                        task_id, "delete_building", success_msg
+                                    ).check_return_status()
                                 self.log(
                                     "Successfully deleted: {0}".format(
                                         child_site_name_hierarchy
@@ -3075,7 +3170,7 @@ class Site(CatalystCenterBase):
                                 )
                                 self.log(
                                     "Deleted: {0} and  response: {1}".format(
-                                        child_site_name_hierarchy, response
+                                        child_site_name_hierarchy, del_response
                                     ),
                                     "INFO",
                                 )
