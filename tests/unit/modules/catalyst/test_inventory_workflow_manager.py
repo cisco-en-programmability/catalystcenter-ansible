@@ -844,3 +844,73 @@ class TestCatalystCenterInventoryWorkflow(TestCatalystModule):
         logged = " ".join(str(call.args[0]) for call in inventory.log.call_args_list)
         self.assertIn("1 row(s)", logged)
         self.assertNotIn("dummy-cli-password", logged)
+
+    def test_inventory_workflow_manager_mask_credentials(self):
+        """
+        Test case for masking credential values before they are logged.
+
+        This test case checks that password, passphrase, and community values are masked in nested
+        data and that the original data is not changed.
+        """
+
+        inventory = inventory_workflow_manager.Inventory.__new__(
+            inventory_workflow_manager.Inventory
+        )
+        config = [
+            {
+                "ip_address_list": ["192.0.2.1"],
+                "password": "dummy-cli-password",
+                "snmp_auth_passphrase": "dummy-auth-passphrase",
+                "snmpROCommunity": "dummy-community",
+                "http_password": None,
+                "snmp_mode": "AUTHPRIV",
+                "export_device_list": {"password": "dummy-file-password"},
+            }
+        ]
+
+        self.assertEqual(
+            inventory.mask_credentials(config),
+            [
+                {
+                    "ip_address_list": ["192.0.2.1"],
+                    "password": "********",
+                    "snmp_auth_passphrase": "********",
+                    "snmpROCommunity": "********",
+                    "http_password": None,
+                    "snmp_mode": "AUTHPRIV",
+                    "export_device_list": {"password": "********"},
+                }
+            ],
+        )
+        self.assertEqual(config[0]["password"], "dummy-cli-password")
+
+    def test_inventory_workflow_manager_playbook_add_device_log_masks_credentials(self):
+        """
+        Test case for logging while adding devices.
+
+        This test case checks that the device credentials from the playbook config are not
+        written to the log.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.6",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_add_device,
+            )
+        )
+        with patch.object(inventory_workflow_manager.Inventory, "log") as mock_log:
+            self.execute_module(changed=True, failed=False)
+
+        logged = " ".join(str(call.args[0]) for call in mock_log.call_args_list)
+        credentials = [
+            self.playbook_add_device[0][key]
+            for key in ("password", "enable_password", "snmp_ro_community", "snmp_rw_community")
+        ]
+        self.assertTrue(all(credentials))
+        for value in credentials:
+            self.assertNotIn(value, logged)
