@@ -1069,8 +1069,7 @@
                 management_settings:
                   access_point_authentication: "EAP-PEAP"
                   dot1x_username: "admin"
-                  # password changed
-                  dot1x_password: "mblfhlfghjghn"
+                  dot1x_password: "asdfasdfasdfsdf"
                   ssh_enabled: false
                   telnet_enabled: true
                   management_username: "admin"

@@ -381,15 +381,15 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/device_credentials/playbo
 
 ```bash
 TASK [Create or Update existing Credentials with provided details in "../vars/device_credentials_vars.yml"] ***
-task path: /auto/dna-sol/ws/thanduong/dnac-auto/dnac_ansible_cvp/cvp/device_credentials/playbook/device_credentials_playbook.yml:53
-<catalyst_center220> ESTABLISH LOCAL CONNECTION FOR USER: thanduon
-<catalyst_center220> EXEC /bin/sh -c 'echo ~thanduon && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /users/thanduon/.ansible/tmp `"&& mkdir "` echo /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834 `" && echo ansible-tmp-1740126079.5517635-1320856-85222477229834="` echo /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834 `" ) && sleep 0'
-Using module file /users/thanduon/.ansible/collections/ansible_collections/cisco/catalystcenter/plugins/modules/device_credential_workflow_manager.py
-<catalyst_center220> PUT /users/thanduon/.ansible/tmp/ansible-local-1320371l8ksx2_1/tmpf1medyzg TO /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/AnsiballZ_device_credential_workflow_manager.py
-<catalyst_center220> EXEC /bin/sh -c 'chmod u+x /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/ /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c '/auto/dna-sol/pyats-ws/pyats-thanduong/bin/python /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c 'rm -f -r /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/ > /dev/null 2>&1 && sleep 0'
+task path: /auto/dna-sol/ws/username/dnac-auto/dnac_ansible_cvp/cvp/device_credentials/playbook/device_credentials_playbook.yml:53
+<catalyst_center220> ESTABLISH LOCAL CONNECTION FOR USER: username
+<catalyst_center220> EXEC /bin/sh -c 'echo ~username && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /users/username/.ansible/tmp `"&& mkdir "` echo /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834 `" && echo ansible-tmp-1740126079.5517635-1320856-85222477229834="` echo /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834 `" ) && sleep 0'
+Using module file /users/username/.ansible/collections/ansible_collections/cisco/catalystcenter/plugins/modules/device_credential_workflow_manager.py
+<catalyst_center220> PUT /users/username/.ansible/tmp/ansible-local-1320371l8ksx2_1/tmpf1medyzg TO /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/AnsiballZ_device_credential_workflow_manager.py
+<catalyst_center220> EXEC /bin/sh -c 'chmod u+x /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/ /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c '/auto/dna-sol/pyats-ws/pyats-username/bin/python /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c 'rm -f -r /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/ > /dev/null 2>&1 && sleep 0'
 changed: [catalyst_center220] => {
     "changed": true,
     "diff": [],
@@ -445,7 +445,7 @@ changed: [catalyst_center220] => {
             "config_verify": false,
             "catalystcenter_api_task_timeout": 1200,
             "catalystcenter_debug": true,
-            "catalystcenter_host": "10.22.40.214",
+            "catalystcenter_host": "xx.xx.xx.xx",
             "catalystcenter_log": true,
             "catalystcenter_log_append": true,
             "catalystcenter_log_file_path": "catalystcenter.log",
@@ -453,7 +453,7 @@ changed: [catalyst_center220] => {
             "catalystcenter_password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
             "catalystcenter_port": "443",
             "catalystcenter_task_poll_interval": 2,
-            "catalystcenter_username": "thanduon",
+            "catalystcenter_username": "admin",
             "catalystcenter_verify": false,
             "catalystcenter_version": "2.3.7.6",
             "state": "merged",
@@ -523,15 +523,15 @@ changed: [catalyst_center220] => {
 Read vars_file '{{ VARS_FILE_PATH }}'
 
 TASK [Assign Credentials to sites for credentials and sites maps in variables file "../vars/device_credentials_vars.yml"] ***
-task path: /auto/dna-sol/ws/thanduong/dnac-auto/dnac_ansible_cvp/cvp/device_credentials/playbook/device_credentials_playbook.yml:61
-<catalyst_center220> ESTABLISH LOCAL CONNECTION FOR USER: thanduon
-<catalyst_center220> EXEC /bin/sh -c 'echo ~thanduon && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /users/thanduon/.ansible/tmp `"&& mkdir "` echo /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816 `" && echo ansible-tmp-1740126102.9772413-1322165-162826310557816="` echo /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816 `" ) && sleep 0'
-Using module file /users/thanduon/.ansible/collections/ansible_collections/cisco/catalystcenter/plugins/modules/device_credential_workflow_manager.py
-<catalyst_center220> PUT /users/thanduon/.ansible/tmp/ansible-local-1320371l8ksx2_1/tmpog0uoozu TO /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/AnsiballZ_device_credential_workflow_manager.py
-<catalyst_center220> EXEC /bin/sh -c 'chmod u+x /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/ /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c '/auto/dna-sol/pyats-ws/pyats-thanduong/bin/python /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c 'rm -f -r /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/ > /dev/null 2>&1 && sleep 0'
+task path: /auto/dna-sol/ws/username/dnac-auto/dnac_ansible_cvp/cvp/device_credentials/playbook/device_credentials_playbook.yml:61
+<catalyst_center220> ESTABLISH LOCAL CONNECTION FOR USER: username
+<catalyst_center220> EXEC /bin/sh -c 'echo ~username && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /users/username/.ansible/tmp `"&& mkdir "` echo /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816 `" && echo ansible-tmp-1740126102.9772413-1322165-162826310557816="` echo /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816 `" ) && sleep 0'
+Using module file /users/username/.ansible/collections/ansible_collections/cisco/catalystcenter/plugins/modules/device_credential_workflow_manager.py
+<catalyst_center220> PUT /users/username/.ansible/tmp/ansible-local-1320371l8ksx2_1/tmpog0uoozu TO /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/AnsiballZ_device_credential_workflow_manager.py
+<catalyst_center220> EXEC /bin/sh -c 'chmod u+x /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/ /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c '/auto/dna-sol/pyats-ws/pyats-username/bin/python /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c 'rm -f -r /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/ > /dev/null 2>&1 && sleep 0'
 changed: [catalyst_center220] => {
     "changed": true,
     "diff": [],
@@ -566,7 +566,7 @@ changed: [catalyst_center220] => {
             "config_verify": false,
             "catalystcenter_api_task_timeout": 1200,
             "catalystcenter_debug": true,
-            "catalystcenter_host": "10.22.40.214",
+            "catalystcenter_host": "xx.xx.xx.xx",
             "catalystcenter_log": true,
             "catalystcenter_log_append": true,
             "catalystcenter_log_file_path": "catalystcenter.log",
@@ -574,7 +574,7 @@ changed: [catalyst_center220] => {
             "catalystcenter_password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
             "catalystcenter_port": "443",
             "catalystcenter_task_poll_interval": 2,
-            "catalystcenter_username": "thanduon",
+            "catalystcenter_username": "admin",
             "catalystcenter_verify": false,
             "catalystcenter_version": "2.3.7.6",
             "state": "merged",
@@ -640,15 +640,15 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/device_credentials/playbo
 
 ```bash
 TASK [Create or Update existing Credentials with provided details in "../vars/device_credentials_vars.yml"] ***
-task path: /auto/dna-sol/ws/thanduong/dnac-auto/dnac_ansible_cvp/cvp/device_credentials/playbook/delete_device_credentials_playbook.yml:36
-<catalyst_center220> ESTABLISH LOCAL CONNECTION FOR USER: thanduon
-<catalyst_center220> EXEC /bin/sh -c 'echo ~thanduon && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /users/thanduon/.ansible/tmp `"&& mkdir "` echo /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581 `" && echo ansible-tmp-1740129405.6199465-1431951-27769327087581="` echo /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581 `" ) && sleep 0'
-Using module file /users/thanduon/.ansible/collections/ansible_collections/cisco/catalystcenter/plugins/modules/device_credential_workflow_manager.py
-<catalyst_center220> PUT /users/thanduon/.ansible/tmp/ansible-local-1430199wc5qelwj/tmptr7r6kkp TO /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py
-<catalyst_center220> EXEC /bin/sh -c 'chmod u+x /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/ /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c '/auto/dna-sol/pyats-ws/pyats-thanduong/bin/python /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c 'rm -f -r /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/ > /dev/null 2>&1 && sleep 0'
+task path: /auto/dna-sol/ws/username/dnac-auto/dnac_ansible_cvp/cvp/device_credentials/playbook/delete_device_credentials_playbook.yml:36
+<catalyst_center220> ESTABLISH LOCAL CONNECTION FOR USER: username
+<catalyst_center220> EXEC /bin/sh -c 'echo ~username && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /users/username/.ansible/tmp `"&& mkdir "` echo /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581 `" && echo ansible-tmp-1740129405.6199465-1431951-27769327087581="` echo /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581 `" ) && sleep 0'
+Using module file /users/username/.ansible/collections/ansible_collections/cisco/catalystcenter/plugins/modules/device_credential_workflow_manager.py
+<catalyst_center220> PUT /users/username/.ansible/tmp/ansible-local-1430199wc5qelwj/tmptr7r6kkp TO /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py
+<catalyst_center220> EXEC /bin/sh -c 'chmod u+x /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/ /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c '/auto/dna-sol/pyats-ws/pyats-username/bin/python /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c 'rm -f -r /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/ > /dev/null 2>&1 && sleep 0'
 changed: [catalyst_center220] => (item={'global_credential_details': {'cli_credential': [{'description': 'CLI Sample 1', 'username': 'cli-1', 'password': '5!meh', 'enable_password': 'q4^t^'}, {'description': 'CLI2', 'username': 'cli-2', 'password': 'sbs2@', 'enable_password': '8b!rn'}], 'snmp_v3': [{'description': 'snmpV3 Sample 1', 'auth_password': 'hp!x6px&#@2xi5', 'auth_type': 'SHA', 'snmp_mode': 'AUTHPRIV', 'privacy_password': 'ai7tpci3j@*j5g', 'privacy_type': 'AES128', 'username': 'admin'}], 'https_read': [{'description': 'httpsRead Sample 1', 'username': 'admin', 'password': '2!x88yvqz*7', 'port': 443}], 'https_write': [{'description': 'httpsWrite Sample 1', 'username': 'admin', 'password': 'j@5wgm%s2g%', 'port': 443}]}}) => {
     "ansible_loop_var": "item",
     "changed": true,
@@ -705,7 +705,7 @@ changed: [catalyst_center220] => (item={'global_credential_details': {'cli_crede
             "config_verify": false,
             "catalystcenter_api_task_timeout": 1200,
             "catalystcenter_debug": true,
-            "catalystcenter_host": "10.22.40.214",
+            "catalystcenter_host": "xx.xx.xx.xx",
             "catalystcenter_log": true,
             "catalystcenter_log_append": true,
             "catalystcenter_log_file_path": "catalystcenter.log",
@@ -713,7 +713,7 @@ changed: [catalyst_center220] => (item={'global_credential_details': {'cli_crede
             "catalystcenter_password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
             "catalystcenter_port": "443",
             "catalystcenter_task_poll_interval": 2,
-            "catalystcenter_username": "thanduon",
+            "catalystcenter_username": "admin",
             "catalystcenter_verify": false,
             "catalystcenter_version": "2.3.7.6",
             "state": "deleted",
