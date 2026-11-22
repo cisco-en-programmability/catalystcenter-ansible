@@ -1520,7 +1520,7 @@ class Inventory(CatalystCenterBase):
 
         self.validated_config = valid_temp
         self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
-            str(valid_temp)
+            str(self.mask_credentials(valid_temp))
         )
         self.log(self.msg, "INFO")
         self.status = "success"
@@ -1677,7 +1677,7 @@ class Inventory(CatalystCenterBase):
             "DEBUG",
         )
         udf = response.get("response")
-        self.log(self.config, "DEBUG")
+        self.log(self.mask_credentials(self.config), "DEBUG")
         if len(udf) == 1:
             return True
 
@@ -1800,6 +1800,34 @@ class Inventory(CatalystCenterBase):
         ]
         secrets.SystemRandom().shuffle(password_chars)
         return "".join(password_chars)
+
+    def mask_credentials(self, data):
+        """
+        Masks credential values in data before it is logged.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            data (dict | list): Data that can hold device credentials, such as the playbook config.
+        Returns:
+            dict | list: A copy of the data in which the values of password, passphrase, community,
+            and secret fields are replaced with "********".
+        """
+        if isinstance(data, list):
+            return [self.mask_credentials(item) for item in data]
+
+        if not isinstance(data, dict):
+            return data
+
+        masked = {}
+        for key, value in data.items():
+            if value and any(
+                word in str(key).lower()
+                for word in ("password", "passphrase", "community", "secret")
+            ):
+                masked[key] = "********"
+            else:
+                masked[key] = self.mask_credentials(value)
+
+        return masked
 
     def trigger_export_api(self, payload_params):
         """
@@ -5721,7 +5749,10 @@ class Inventory(CatalystCenterBase):
         self.want = want
         self.msg = "Successfully collected all parameters from the playbook "
         self.status = "success"
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        self.log(
+            "Desired State (want): {0}".format(str(self.mask_credentials(self.want))),
+            "INFO",
+        )
 
         return self
 
@@ -5742,7 +5773,7 @@ class Inventory(CatalystCenterBase):
         """
         self.log(
             "Parsing network device parameters for: {0}".format(
-                self.pprint(device_params)
+                self.pprint(self.mask_credentials(device_params))
             ),
             "INFO",
         )
@@ -5794,7 +5825,9 @@ class Inventory(CatalystCenterBase):
             device_params["type"] = type
 
         self.log(
-            "Parsed network device parameters: {0}".format(self.pprint(device_params)),
+            "Parsed network device parameters: {0}".format(
+                self.pprint(self.mask_credentials(device_params))
+            ),
             "INFO",
         )
         return device_params
@@ -5816,7 +5849,7 @@ class Inventory(CatalystCenterBase):
         """
         self.log(
             "Parsing compute device parameters for: {0}".format(
-                self.pprint(device_params)
+                self.pprint(self.mask_credentials(device_params))
             ),
             "INFO",
         )
@@ -5840,7 +5873,9 @@ class Inventory(CatalystCenterBase):
 
         device_params["type"] = "COMPUTE_DEVICE"
         self.log(
-            "Parsed compute device parameters: {0}".format(self.pprint(device_params)),
+            "Parsed compute device parameters: {0}".format(
+                self.pprint(self.mask_credentials(device_params))
+            ),
             "INFO",
         )
         return device_params
@@ -5858,7 +5893,10 @@ class Inventory(CatalystCenterBase):
             object: An instance of the class with updated results and status.
         """
         self.log(
-            "Adding device to inventory: {0}".format(self.pprint(device_params)), "INFO"
+            "Adding device to inventory: {0}".format(
+                self.pprint(self.mask_credentials(device_params))
+            ),
+            "INFO",
         )
 
         try:
@@ -5971,7 +6009,7 @@ class Inventory(CatalystCenterBase):
         """
         self.log(
             "Parsing network device parameters for update: {0}".format(
-                self.pprint(playbook_params)
+                self.pprint(self.mask_credentials(playbook_params))
             ),
             "INFO",
         )
@@ -6536,7 +6574,7 @@ class Inventory(CatalystCenterBase):
                         else:
                             self.log(
                                 "Playbook parameter for updating device new management ip address: {0}".format(
-                                    str(playbook_params)
+                                    str(self.mask_credentials(playbook_params))
                                 ),
                                 "DEBUG",
                             )
@@ -6562,7 +6600,7 @@ class Inventory(CatalystCenterBase):
                     else:
                         self.log(
                             "Playbook parameter for updating devices: {0}".format(
-                                str(playbook_params)
+                                str(self.mask_credentials(playbook_params))
                             ),
                             "DEBUG",
                         )
@@ -6609,7 +6647,7 @@ class Inventory(CatalystCenterBase):
             ).check_return_status()
 
         # If User defined field(UDF) not present then create it and add multiple udf to specific or list of devices
-        self.log(self.config[0])
+        self.log(self.mask_credentials(self.config[0]))
         if self.config[0].get("add_user_defined_field"):
             udf_field_list = self.config[0].get("add_user_defined_field")
             self.log("udf_field_list")
@@ -7441,7 +7479,10 @@ class Inventory(CatalystCenterBase):
         """
         self.log("verify starts here verify diff merged")
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        self.log(
+            "Desired State (want): {0}".format(str(self.mask_credentials(self.want))),
+            "INFO",
+        )
 
         devices_to_add = self.have["device_not_in_ccc"]
         credential_update = self.config[0].get("credential_update", False)
@@ -7610,7 +7651,10 @@ class Inventory(CatalystCenterBase):
 
         self.get_have(config)
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        self.log(
+            "Desired State (want): {0}".format(str(self.mask_credentials(self.want))),
+            "INFO",
+        )
         input_devices = self.have["want_device"]
 
         if self.config[0].get("add_user_defined_field"):
