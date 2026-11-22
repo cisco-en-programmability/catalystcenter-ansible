@@ -1073,7 +1073,7 @@ numbers, periods, underscores, and hyphens.",
             dict(
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_version="2.3.7.6",
                 catalystcenter_log=True,
                 state="merged",
@@ -1084,7 +1084,7 @@ numbers, periods, underscores, and hyphens.",
                             first_name="Test",
                             last_name="User",
                             email="test@example.com",
-                            password="ValidPass@1",
+                            password="DummyDumm@1",
                             password_update="true",  # string, not bool
                             role_list=["OBSERVER-ROLE"],
                         )

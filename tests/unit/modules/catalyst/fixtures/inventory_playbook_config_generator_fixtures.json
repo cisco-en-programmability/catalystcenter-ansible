@@ -56,8 +56,8 @@
         "snmpUsername": "",
         "snmpAuthProtocol": "",
         "snmpPrivProtocol": "",
-        "snmpRoCommunity": "public",
-        "snmpRwCommunity": "private",
+        "snmpRoCommunity": "dummyd",
+        "snmpRwCommunity": "dummydu",
         "snmpRetry": 3,
         "snmpTimeout": 5
       },
