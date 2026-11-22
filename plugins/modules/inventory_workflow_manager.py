@@ -1351,6 +1351,8 @@ except ImportError:
     pyzipper = None
 
 import csv
+import secrets
+import string
 import time
 from datetime import datetime
 from io import BytesIO, StringIO
@@ -1776,6 +1778,28 @@ class Inventory(CatalystCenterBase):
                 self.result["changed"] = False
 
         return self
+
+    @staticmethod
+    def generate_export_password():
+        """
+        Generates a random password for encrypting a device credential export file.
+        Returns:
+            str: A 16-character password with uppercase and lowercase letters, digits, and one special character.
+        Description:
+            Cisco Catalyst Center requires the export file password to have at least 8 characters, with mixed
+            case, numbers, and symbols. A new password is generated for each export.
+        """
+        password_chars = [
+            secrets.choice(string.ascii_uppercase),
+            secrets.choice(string.ascii_lowercase),
+            secrets.choice(string.digits),
+            secrets.choice("!@#$%^&*"),
+        ]
+        password_chars += [
+            secrets.choice(string.ascii_letters + string.digits) for _ in range(12)
+        ]
+        secrets.SystemRandom().shuffle(password_chars)
+        return "".join(password_chars)
 
     def trigger_export_api(self, payload_params):
         """
@@ -3941,7 +3965,7 @@ class Inventory(CatalystCenterBase):
 
         device_ips = self.get_device_ips_from_config_priority()
         device_uuids = self.get_device_ids(device_ips)
-        password = "Testing@123"
+        password = self.generate_export_password()
         # Split the payload into 500 devices(by default) only to match the device credentials
         device_batch_size = self.config[0].get("export_device_details_limit", 500)
         device_ids_list = device_uuids[0:device_batch_size]
@@ -6440,7 +6464,7 @@ class Inventory(CatalystCenterBase):
 
             # Update Device details and credentails
             device_uuids = self.get_device_ids(device_to_update)
-            password = "Testing@123"
+            password = self.generate_export_password()
             start = 0
             device_batch_size = self.config[0].get("export_device_details_limit", 500)
             device_details = {}
