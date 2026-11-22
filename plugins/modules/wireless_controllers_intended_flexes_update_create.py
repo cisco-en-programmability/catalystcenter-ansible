@@ -91,21 +91,21 @@ EXAMPLES = r"""
           - configType: LOCAL_AUTH_USER
             deviceVersion: '17.18'
             flexPolicyName: Enterprise-FlexProfile-001
-            localAuthUserPassword: SecureP@ssw0rd123!
+            localAuthUserPassword: "{{ wireless_controller_local_auth_user_password }}"
             localAuthUserPasswordType: CLEAR
             localAuthUserUserName: admin_user
             op: CREATE
           - configType: LOCAL_AUTH_USER
             deviceVersion: '17.18'
             flexPolicyName: Enterprise-FlexProfile-001
-            localAuthUserPassword: GuestAccess2024!
+            localAuthUserPassword: "{{ wireless_controller_local_auth_user_password }}"
             localAuthUserPasswordType: CLEAR
             localAuthUserUserName: guest_user
             op: CREATE
           - configType: LOCAL_AUTH_USER
             deviceVersion: '17.18'
             flexPolicyName: Enterprise-FlexProfile-001
-            localAuthUserPassword: ServiceAcc0unt#2024
+            localAuthUserPassword: "{{ wireless_controller_local_auth_user_password }}"
             localAuthUserPasswordType: CLEAR
             localAuthUserUserName: service_account
             op: CREATE
