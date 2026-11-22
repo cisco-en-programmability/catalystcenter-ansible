@@ -85,13 +85,13 @@ The following image is copied from the workflow documentation to help map the ro
             settings:
               network_aaa:
                 server_type: ISE
-                shared_secret: Maglev123
+                shared_secret: "{{ vault_network_settings_network_aaa_shared_secret }}"
                 pan_address: 82.2.2.3
                 primary_server_address: 10.195.243.31
                 protocol: RADIUS
               client_and_endpoint_aaa:
                 server_type: ISE
-                shared_secret: Maglev123
+                shared_secret: "{{ vault_network_settings_client_and_endpoint_aaa_shared_secret }}"
                 pan_address: 82.2.2.3
                 primary_server_address: 10.195.243.31
                 protocol: RADIUS

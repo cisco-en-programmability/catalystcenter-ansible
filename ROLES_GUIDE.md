@@ -25,6 +25,8 @@ vault_catalystcenter_username: "admin"
 vault_catalystcenter_password: "your_password"
 ```
 
+If a role's README example uses other `vault_` variables, such as `vault_discovery_cli_password`, add them to the same file.
+
 ### 3. Run a Playbook
 
 ```bash

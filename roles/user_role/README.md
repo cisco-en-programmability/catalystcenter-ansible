@@ -144,7 +144,7 @@ The following image is copied from the workflow documentation to help map the ro
             first_name: ajith
             last_name: Andrew1
             email: ajith_andrew@example.com
-            password: Password@2025
+            password: "{{ vault_user_role_user_password }}"
             password_update: true
             role_list:
             - Assurance-role

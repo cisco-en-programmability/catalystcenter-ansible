@@ -97,14 +97,14 @@ The following image is copied from the workflow documentation to help map the ro
               nfs_version: nfs4
               nfs_portmapper_port: 111
             data_retention_period: 30
-            encryption_passphrase: YourSecurePassphrase123!
+            encryption_passphrase: "{{ vault_backup_and_restore_encryption_passphrase }}"
           backup:
           - name: BACKUP1
             scope: CISCO_DNA_DATA_WITH_ASSURANCE
             generate_new_backup: false
           restore_operations:
           - name: BACKUP1
-            encryption_passphrase: YourSecurePassphrase123!
+            encryption_passphrase: "{{ vault_backup_and_restore_encryption_passphrase }}"
 ```
 
 <!-- END WORKFLOW README ENHANCEMENTS -->
