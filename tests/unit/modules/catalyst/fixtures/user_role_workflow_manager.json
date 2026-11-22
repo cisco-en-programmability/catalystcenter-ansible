@@ -38,7 +38,7 @@
             "last_name": "andrew ",
             "username": "ajithandrewj ",
             "email": "ajith.andrewexample.com",
-            "password": "Ajith123",
+            "password": "Dummy123",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -78,7 +78,7 @@
             "last_name": "andrew",
             "username": "ajithandrewj",
             "email": "ajith.andrew@example.com",
-            "password": "Ajith123",
+            "password": "Dummy123",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -1470,7 +1470,7 @@
     "playbook_new_version_user_create": {
         "user_details": [
             {
-            "password": "Pbalaku2@16",
+            "password": "Dummydu1@23",
             "password_update": false,
             "role_list": [
                 "Test_role_1"
