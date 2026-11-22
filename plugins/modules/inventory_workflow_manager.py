@@ -1796,7 +1796,7 @@ class Inventory(CatalystCenterBase):
             secrets.choice("!@#$%^&*"),
         ]
         password_chars += [
-            secrets.choice(string.ascii_letters + string.digits) for _ in range(12)
+            secrets.choice(string.ascii_letters + string.digits) for dummy in range(12)
         ]
         secrets.SystemRandom().shuffle(password_chars)
         return "".join(password_chars)
@@ -1955,7 +1955,7 @@ class Inventory(CatalystCenterBase):
         file_content_text = file_content_binary.decode("utf-8")
 
         # Now 'file_content_text' contains the text content of the decrypted file
-        row_count = sum(1 for _ in csv.DictReader(StringIO(file_content_text)))
+        row_count = len(list(csv.DictReader(StringIO(file_content_text))))
         self.log(
             "Decrypted file '{0}' with {1} row(s).".format(file_name, row_count),
             "DEBUG",
