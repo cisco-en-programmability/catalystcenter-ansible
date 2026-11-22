@@ -10,9 +10,9 @@ Any variabe can be encrypted and stored in the ansible vault using key/value key
 ---
 passwords_details:
 - password_key: testuser1password
-  password_value: 'testuser1@123'
+  password_value: '<password>'
 - password_key: testuser2password
-  password_value: 'testuser2@123'
+  password_value: '<password>'
 
 Execute the playbook to store new keys with encrypted values in the ansible vault. Then reference the variable directly in your ansible imput using the {{variable}} reference the value. Ansible at time of execution will decode and replace the original value.
 
@@ -20,9 +20,9 @@ Execute the playbook to store new keys with encrypted values in the ansible vaul
 ---
 passwords_details:
 - password_key: testuser1password
-  password_value: 'testuser1@123!!123'  #Updated
+  password_value: '<new_password>'  #Updated
 - password_key: testuser2password
-  password_value: 'testuser2@123'
+  password_value: '<password>'
 
 ## Executing the playbook to add variables and encrypt to the playbook:
 

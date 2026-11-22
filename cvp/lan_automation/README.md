@@ -251,7 +251,7 @@ lan_automation_details:
         multicast_enabled: true
         redistribute_isis_to_bgp: true
         host_name_prefix: null
-        isis_domain_pwd: "cisco"
+        isis_domain_pwd: "{{ lan_automation_isis_domain_password }}"
         discovery_level: 4
         discovery_timeout: 40
         discovery_devices:

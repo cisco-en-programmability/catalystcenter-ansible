@@ -213,7 +213,7 @@ backup_restore_details:
           server_ip: 172.27.17.90
           source_path: /home/nfsshare/backups/TB23
         data_retention_period: 3
-        encryption_passphrase: "SecurePass123!"
+        encryption_passphrase: "{{ backup_and_restore_encryption_passphrase }}"
 ```
 
 ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/backup_and_restore/images/image-2.png)
@@ -260,7 +260,7 @@ Restoring data from previously created backups
 backup_restore_details:
   - restore_operations:
       - name: DAILY_BACKUP_20241230_143052
-        encryption_passphrase: "SecurePass123!"
+        encryption_passphrase: "{{ backup_and_restore_encryption_passphrase }}"
 ```
 
 
@@ -471,7 +471,7 @@ backup_restore_details:
           server_ip: 172.27.17.90
           source_path: /home/nfsshare/backups/TB23
         data_retention_period: 30
-        encryption_passphrase: "Enterprise2024!"
+        encryption_passphrase: "{{ backup_and_restore_encryption_passphrase }}"
     backup:
       - name: DAILY_BACKUP
         scope: CISCO_DNA_DATA_WITH_ASSURANCE
@@ -581,7 +581,7 @@ backup_restore_details:
 backup_restore_details:
   - restore_operations:
       - name: DAILY_BACKUP_20241230_143052
-        encryption_passphrase: "Enterprise2024!"
+        encryption_passphrase: "{{ backup_and_restore_encryption_passphrase }}"
 ```
 
 ### Example 10: Long-Term Compliance Backup
@@ -598,7 +598,7 @@ backup_restore_details:
           server_ip: 172.27.17.90
           source_path: /home/nfsshare/backups/TB23
         data_retention_period: 60
-        encryption_passphrase: "Compliance2024!"
+        encryption_passphrase: "{{ backup_and_restore_encryption_passphrase }}"
   - backup:
       - name: MONTHLY_COMPLIANCE
         scope: CISCO_DNA_DATA_WITH_ASSURANCE
