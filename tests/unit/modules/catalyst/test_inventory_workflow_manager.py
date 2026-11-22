@@ -18,7 +18,14 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from unittest.mock import patch
+import unittest
+from io import BytesIO
+from unittest.mock import MagicMock, patch
+
+try:
+    import pyzipper
+except ImportError:
+    pyzipper = None
 
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     inventory_workflow_manager,
@@ -799,3 +806,41 @@ class TestCatalystCenterInventoryWorkflow(TestCatalystModule):
             self.assertTrue(any(c.isdigit() for c in password))
             self.assertEqual(sum(c in "!@#$%^&*" for c in password), 1)
             self.assertTrue(all(c.isalnum() or c in "!@#$%^&*" for c in password))
+
+    @unittest.skipIf(pyzipper is None, "pyzipper is not installed")
+    def test_inventory_workflow_manager_decrypt_and_read_csv_log(self):
+        """
+        Test case for reading an encrypted device credential export file.
+
+        This test case checks that the rows are read from the decrypted file and that
+        the file content is not written to the log.
+        """
+
+        password = inventory_workflow_manager.Inventory.generate_export_password()
+        zip_data = BytesIO()
+        with pyzipper.AESZipFile(
+            zip_data, "w", compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES
+        ) as zip_file:
+            zip_file.setpassword(password.encode("utf-8"))
+            zip_file.writestr(
+                "devices.csv", "ip_address,password\n192.0.2.1,dummy-cli-password\n"
+            )
+
+        inventory = inventory_workflow_manager.Inventory.__new__(
+            inventory_workflow_manager.Inventory
+        )
+        inventory.config = [{"snmp_priv_protocol": "AES128"}]
+        inventory.log = MagicMock()
+
+        rows = list(
+            inventory.decrypt_and_read_csv(
+                MagicMock(data=zip_data.getvalue()), password
+            )
+        )
+
+        self.assertEqual(
+            rows, [{"ip_address": "192.0.2.1", "password": "dummy-cli-password"}]
+        )
+        logged = " ".join(str(call.args[0]) for call in inventory.log.call_args_list)
+        self.assertIn("1 row(s)", logged)
+        self.assertNotIn("dummy-cli-password", logged)

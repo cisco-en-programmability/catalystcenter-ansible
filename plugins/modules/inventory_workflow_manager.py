@@ -1927,8 +1927,10 @@ class Inventory(CatalystCenterBase):
         file_content_text = file_content_binary.decode("utf-8")
 
         # Now 'file_content_text' contains the text content of the decrypted file
+        row_count = sum(1 for _ in csv.DictReader(StringIO(file_content_text)))
         self.log(
-            "Text content of decrypted file: {0}".format(file_content_text), "DEBUG"
+            "Decrypted file '{0}' with {1} row(s).".format(file_name, row_count),
+            "DEBUG",
         )
 
         # Parse the CSV-like string into a list of dictionaries
