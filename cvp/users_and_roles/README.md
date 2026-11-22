@@ -71,7 +71,7 @@ user_details:
     first_name: "Rama"
     last_name: "Krishna" 
     email: "xxxxxxxxx@example.com"
-    password: "Example@0101"
+    password: "{{ user_role_user_password }}"
     role_list: ["SUPER-ADMIN-ROLE"]
 ```
 
@@ -102,7 +102,7 @@ user_details:
     first_name: Rama
     last_name: Krishna
     email: xxxxxxw@example.com
-    password: xxxxx@123!45
+    password: "{{ user_role_user_password }}"
     role_list: 
     - Admin_customized_role
 ```
@@ -194,7 +194,7 @@ Run the create Playbook
       last_name: Andrew1
       email: ajith_andrew@example.com
       #Password Restrictions: Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character, no white spaces, no more than 2 identical characters in a row, no more than 3 consecutive characters,
-      password: "Password@2025"
+      password: "{{ user_role_user_password }}"
       password_update: true
       # Only one role can be assigned to a user at a time. Please select a single role before proceeding
       role_list: 
@@ -205,7 +205,7 @@ Run the create Playbook
       last_name: Krishna
       email: rkraj@example.com
       #Password Restrictions: Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character, no white spaces, no more than 2 identical characters in a row, no more than 3 consecutive characters,
-      password: "Password@2025"
+      password: "{{ user_role_user_password }}"
       password_update: true
       # Only one role can be assigned to a user at a time. Please select a single role before proceeding
       role_list: 
@@ -216,7 +216,7 @@ Run the create Playbook
       last_name: Sumanth
       email: Sai_sumanth@example.com
       #Password Restrictions: Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character, no white spaces, no more than 2 identical characters in a row, no more than 3 consecutive characters,
-      password: "Password@2025"
+      password: "{{ user_role_user_password }}"
       password_update: true
       # Only one role can be assigned to a user at a time. Please select a single role before proceeding
       role_list: 
@@ -227,7 +227,7 @@ Run the create Playbook
       last_name: Amit
       email: Sai_Amit@example.com
       #Password Restrictions: Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character, no white spaces, no more than 2 identical characters in a row, no more than 3 consecutive characters,
-      password: "Password@2025"
+      password: "{{ user_role_user_password }}"
       password_update: true
       # Only one role can be assigned to a user at a time. Please select a single role before proceeding
       role_list: 
@@ -238,7 +238,7 @@ Run the create Playbook
       last_name: Nikesh
       email: Sai_Nikesh@example.com
       #Password Restrictions: Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character, no white spaces, no more than 2 identical characters in a row, no more than 3 consecutive characters,
-      password: "Password@2025"
+      password: "{{ user_role_user_password }}"
       password_update: true
       # Only one role can be assigned to a user at a time. Please select a single role before proceeding
       role_list: 
@@ -262,7 +262,7 @@ Create your password file in the folder: vaulted_passwords/<filename>
 and write your password in yaml format as shown below.
 
 ---
-test_password: sample123
+user_role_user_password: "<password>"
 
 ### Generate and encrypt the password file
 ```bash

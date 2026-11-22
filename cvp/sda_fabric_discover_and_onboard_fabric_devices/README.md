@@ -231,16 +231,16 @@ sda_fabric_discover_and_onboard_fabric_devices:
             discovery_specific_credentials:
               cli_credentials_list:
                 - username: "wlcadmin"
-                  password: "Cisco#123"
-                  enable_password: "Cisco#123"
+                  password: "{{ discovery_cli_password }}"
+                  enable_password: "{{ discovery_cli_enable_password }}"
               snmp_v3_credential:
                 description: "snmpv3_wlc"
                 username: "wlcadmin"
                 snmp_mode: "AUTHPRIV"
-                auth_password: "Cisco#123"
+                auth_password: "{{ discovery_snmp_v3_auth_password }}"
                 auth_type: "SHA"
                 privacy_type: "AES128"
-                privacy_password: "Cisco#123"
+                privacy_password: "{{ discovery_snmp_v3_privacy_password }}"
               net_conf_port: "830"
             retry: 2
 
@@ -375,7 +375,7 @@ sda_fabric_discover_and_onboard_fabric_devices:
                   ip_pool_role: "PHYSICAL_LINK_POOL"
               multicast_enabled: true
               redistribute_isis_to_bgp: true
-              isis_domain_pwd: "cisco"
+              isis_domain_pwd: "{{ lan_automation_isis_domain_password }}"
               discovery_level: 5
               discovery_timeout: 40
               discovery_devices:
@@ -513,7 +513,7 @@ sda_fabric_discover_and_onboard_fabric_devices:
                 - description: "httpwrite"
                   username: "admin"
             enable_password_list:
-              - "Cisco#123"
+              - "{{ discovery_cli_enable_password }}"
 
       # Stage 2: LAN Automation — use discovered seeds to bring up greenfield devices
       lan_automation:
@@ -533,7 +533,7 @@ sda_fabric_discover_and_onboard_fabric_devices:
                   ip_pool_role: "PHYSICAL_LINK_POOL"
               multicast_enabled: true
               redistribute_isis_to_bgp: true
-              isis_domain_pwd: "cisco"
+              isis_domain_pwd: "{{ lan_automation_isis_domain_password }}"
               discovery_level: 3
               discovery_timeout: 40
               discovery_devices:

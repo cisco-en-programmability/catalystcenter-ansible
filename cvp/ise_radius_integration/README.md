@@ -98,7 +98,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
     - authentication_policy_server:
       - server_type: ISE
         server_ip_address: 172.23.241.229
-        shared_secret: abcd
+        shared_secret: "{{ ise_radius_integration_shared_secret }}"
         protocol: RADIUS_TACACS
         encryption_scheme: KEYWRAP
         encryption_key: dnacsolutions123
@@ -112,7 +112,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
         pxgrid_enabled: True
         cisco_ise_dtos:
           - user_name: abcd
-            password: Abc123!
+            password: "{{ ise_radius_integration_ise_password }}"
             fqdn: IAC2-ISE-VM-1.cisco.local
             ip_address: 172.23.241.229
             description: Cisco ISE
@@ -128,10 +128,10 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
     - authentication_policy_server:
       - server_type: ISE
         server_ip_address: 172.23.241.229
-        shared_secret: abcd
+        shared_secret: "{{ ise_radius_integration_shared_secret }}"
         cisco_ise_dtos:
           - user_name: abcd
-            password: Abc123!
+            password: "{{ ise_radius_integration_ise_password }}"
             fqdn: IAC2-ISE-VM-1.cisco.local
             ip_address: 172.23.241.229
         trusted_server: True
@@ -151,7 +151,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
         pxgrid_enabled: False
         cisco_ise_dtos:
           - user_name: abcd
-            password: Abc123!
+            password: "{{ ise_radius_integration_ise_password }}"
             fqdn: IAC2-ISE-VM-1.cisco.local
             ip_address: 172.23.241.229
 
@@ -169,15 +169,15 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
     - authentication_policy_server:
       - server_type: AAA
         server_ip_address: 204.192.1.251
-        shared_secret: abcd
+        shared_secret: "{{ ise_radius_integration_shared_secret }}"
         protocol: RADIUS   
       - server_type: AAA
         server_ip_address: 10.195.247.251
-        shared_secret: abcd
+        shared_secret: "{{ ise_radius_integration_shared_secret }}"
         protocol: RADIUS
       - server_type: AAA
         server_ip_address: 204.192.1.252
-        shared_secret: abcd
+        shared_secret: "{{ ise_radius_integration_shared_secret }}"
         protocol: RADIUS_TACACS
         authentication_port: 1812
         accounting_port: 1813
@@ -186,7 +186,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
         role: secondary
       - server_type: ISE
         server_ip_address: 172.23.241.229
-        shared_secret: abcd
+        shared_secret: "{{ ise_radius_integration_shared_secret }}"
         protocol: RADIUS_TACACS
         encryption_scheme: KEYWRAP
         encryption_key: dnacsolutions123
@@ -200,7 +200,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
         pxgrid_enabled: True
         cisco_ise_dtos:
           - user_name: abcd
-            password: Abc123!
+            password: "{{ ise_radius_integration_ise_password }}"
             fqdn: IAC2-ISE-VM-1.cisco.local
             ip_address: 172.23.241.229
             description: Cisco ISE

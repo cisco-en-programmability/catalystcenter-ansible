@@ -133,12 +133,12 @@ catalyst_center_hosts:
         cli_credential: #Create CLI credentials list
         - description: CLI Sample 1
           username: cli-1
-          password: "5!meh"
-          enable_password: "q4^t^"
+          password: "{{device_credential_cli_password}}"
+          enable_password: "{{device_credential_cli_enable_password}}"
         - description: CLI2
           username: cli-2
-          password: "sbs2@"
-          enable_password: "8b!rn"
+          password: "{{device_credential_cli_password}}"
+          enable_password: "{{device_credential_cli_enable_password}}"
   ```
 
 -  Create all credentials
@@ -151,35 +151,35 @@ device_credentials:
       cli_credential: #Create CLI credentials list
       - description: CLI Sample 1
         username: cli-1
-        password: "5!meh"
-        enable_password: "q4^t^"
+        password: "{{device_credential_cli_password}}"
+        enable_password: "{{device_credential_cli_enable_password}}"
       - description: CLI2
         username: cli-2
-        password: "sbs2@"
-        enable_password: "8b!rn"
+        password: "{{device_credential_cli_password}}"
+        enable_password: "{{device_credential_cli_enable_password}}"
       snmp_v2c_read:
       - description: snmpRead-1
-        read_community: "@123"
+        read_community: "{{device_credential_snmp_v2c_read_community}}"
       snmp_v2c_write:
       - description: snmpWrite-1
-        write_community: "#mea@"
+        write_community: "{{device_credential_snmp_v2c_write_community}}"
       snmp_v3: #Create SNMPv3 credentials list
       - description: snmpV3 Sample 1 
-        auth_password: "hp!x6px&#@2xi5"
+        auth_password: "{{device_credential_snmp_v3_auth_password}}"
         auth_type: SHA
         snmp_mode: AUTHPRIV
-        privacy_password: "ai7tpci3j@*j5g"
+        privacy_password: "{{device_credential_snmp_v3_privacy_password}}"
         privacy_type: AES128
         username: admin
       https_read: #Create HTTPS Read credentials list
       - description: httpsRead Sample 1
         username: admin
-        password: "2!x88yvqz*7"
+        password: "{{device_credential_https_read_password}}"
         port: 443
       https_write: #Create HTTPS Write credentials list
       - description: httpsWrite Sample 1
         username: admin
-        password: "j@5wgm%s2g%"
+        password: "{{device_credential_https_write_password}}"
         port: 443
   ```
 
@@ -210,12 +210,12 @@ device_credentials:
         cli_credential:
         - description: CLI Sample 1
           username: cli-1
-          password: "5!meh"
-          enable_password: "q4^t^"
+          password: "{{device_credential_cli_password}}"
+          enable_password: "{{device_credential_cli_enable_password}}"
         - description: CLI2
           username: cli-2
-          password: "sbs2@"
-          enable_password: "8b!rn"
+          password: "{{device_credential_cli_password}}"
+          enable_password: "{{device_credential_cli_enable_password}}"
   ```
 
   **Input example with update device credential name/description using old name and description**:
@@ -229,8 +229,8 @@ device_credentials:
         cli_credential:
         - description: CLISample1
           username: cli1
-          password: "5!meh"
-          enable_password: "q4^t^"
+          password: "{{device_credential_cli_password}}"
+          enable_password: "{{device_credential_cli_enable_password}}"
           old_description: CLI Sample 1
           old_username: cli-1
   ```
@@ -401,21 +401,21 @@ changed: [catalyst_center220] => {
                         "cli_credential": [
                             {
                                 "description": "CLI Sample 1",
-                                "enable_password": "q4^t^",
-                                "password": "5!meh",
+                                "enable_password": "********",
+                                "password": "********",
                                 "username": "cli-1"
                             },
                             {
                                 "description": "CLI2",
-                                "enable_password": "8b!rn",
-                                "password": "sbs2@",
+                                "enable_password": "********",
+                                "password": "********",
                                 "username": "cli-2"
                             }
                         ],
                         "https_read": [
                             {
                                 "description": "httpsRead Sample 1",
-                                "password": "2!x88yvqz*7",
+                                "password": "********",
                                 "port": 443,
                                 "username": "admin"
                             }
@@ -423,17 +423,17 @@ changed: [catalyst_center220] => {
                         "https_write": [
                             {
                                 "description": "httpsWrite Sample 1",
-                                "password": "j@5wgm%s2g%",
+                                "password": "********",
                                 "port": 443,
                                 "username": "admin"
                             }
                         ],
                         "snmp_v3": [
                             {
-                                "auth_password": "hp!x6px&#@2xi5",
+                                "auth_password": "********",
                                 "auth_type": "SHA",
                                 "description": "snmpV3 Sample 1",
-                                "privacy_password": "ai7tpci3j@*j5g",
+                                "privacy_password": "********",
                                 "privacy_type": "AES128",
                                 "snmp_mode": "AUTHPRIV",
                                 "username": "admin"
@@ -472,21 +472,21 @@ changed: [catalyst_center220] => {
                         "cliCredential": [
                             {
                                 "description": "CLI Sample 1",
-                                "enablePassword": "q4^t^",
-                                "password": "5!meh",
+                                "enablePassword": "********",
+                                "password": "********",
                                 "username": "cli-1"
                             },
                             {
                                 "description": "CLI2",
-                                "enablePassword": "8b!rn",
-                                "password": "sbs2@",
+                                "enablePassword": "********",
+                                "password": "********",
                                 "username": "cli-2"
                             }
                         ],
                         "httpsRead": [
                             {
                                 "description": "httpsRead Sample 1",
-                                "password": "2!x88yvqz*7",
+                                "password": "********",
                                 "port": 443,
                                 "username": "admin"
                             }
@@ -494,17 +494,17 @@ changed: [catalyst_center220] => {
                         "httpsWrite": [
                             {
                                 "description": "httpsWrite Sample 1",
-                                "password": "j@5wgm%s2g%",
+                                "password": "********",
                                 "port": 443,
                                 "username": "admin"
                             }
                         ],
                         "snmpV3": [
                             {
-                                "authPassword": "hp!x6px&#@2xi5",
+                                "authPassword": "********",
                                 "authType": "SHA",
                                 "description": "snmpV3 Sample 1",
-                                "privacyPassword": "ai7tpci3j@*j5g",
+                                "privacyPassword": "********",
                                 "privacyType": "AES128",
                                 "snmpMode": "AUTHPRIV",
                                 "username": "admin"
@@ -649,7 +649,7 @@ Using module file /users/username/.ansible/collections/ansible_collections/cisco
 <catalyst_center220> EXEC /bin/sh -c 'chmod u+x /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/ /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
 <catalyst_center220> EXEC /bin/sh -c '/auto/dna-sol/pyats-ws/pyats-username/bin/python /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
 <catalyst_center220> EXEC /bin/sh -c 'rm -f -r /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/ > /dev/null 2>&1 && sleep 0'
-changed: [catalyst_center220] => (item={'global_credential_details': {'cli_credential': [{'description': 'CLI Sample 1', 'username': 'cli-1', 'password': '5!meh', 'enable_password': 'q4^t^'}, {'description': 'CLI2', 'username': 'cli-2', 'password': 'sbs2@', 'enable_password': '8b!rn'}], 'snmp_v3': [{'description': 'snmpV3 Sample 1', 'auth_password': 'hp!x6px&#@2xi5', 'auth_type': 'SHA', 'snmp_mode': 'AUTHPRIV', 'privacy_password': 'ai7tpci3j@*j5g', 'privacy_type': 'AES128', 'username': 'admin'}], 'https_read': [{'description': 'httpsRead Sample 1', 'username': 'admin', 'password': '2!x88yvqz*7', 'port': 443}], 'https_write': [{'description': 'httpsWrite Sample 1', 'username': 'admin', 'password': 'j@5wgm%s2g%', 'port': 443}]}}) => {
+changed: [catalyst_center220] => (item={'global_credential_details': {'cli_credential': [{'description': 'CLI Sample 1', 'username': 'cli-1', 'password': '********', 'enable_password': '********'}, {'description': 'CLI2', 'username': 'cli-2', 'password': '********', 'enable_password': '********'}], 'snmp_v3': [{'description': 'snmpV3 Sample 1', 'auth_password': '********', 'auth_type': 'SHA', 'snmp_mode': 'AUTHPRIV', 'privacy_password': '********', 'privacy_type': 'AES128', 'username': 'admin'}], 'https_read': [{'description': 'httpsRead Sample 1', 'username': 'admin', 'password': '********', 'port': 443}], 'https_write': [{'description': 'httpsWrite Sample 1', 'username': 'admin', 'password': '********', 'port': 443}]}}) => {
     "ansible_loop_var": "item",
     "changed": true,
     "diff": [],
@@ -661,21 +661,21 @@ changed: [catalyst_center220] => (item={'global_credential_details': {'cli_crede
                         "cli_credential": [
                             {
                                 "description": "CLI Sample 1",
-                                "enable_password": "q4^t^",
-                                "password": "5!meh",
+                                "enable_password": "********",
+                                "password": "********",
                                 "username": "cli-1"
                             },
                             {
                                 "description": "CLI2",
-                                "enable_password": "8b!rn",
-                                "password": "sbs2@",
+                                "enable_password": "********",
+                                "password": "********",
                                 "username": "cli-2"
                             }
                         ],
                         "https_read": [
                             {
                                 "description": "httpsRead Sample 1",
-                                "password": "2!x88yvqz*7",
+                                "password": "********",
                                 "port": 443,
                                 "username": "admin"
                             }
@@ -683,17 +683,17 @@ changed: [catalyst_center220] => (item={'global_credential_details': {'cli_crede
                         "https_write": [
                             {
                                 "description": "httpsWrite Sample 1",
-                                "password": "j@5wgm%s2g%",
+                                "password": "********",
                                 "port": 443,
                                 "username": "admin"
                             }
                         ],
                         "snmp_v3": [
                             {
-                                "auth_password": "hp!x6px&#@2xi5",
+                                "auth_password": "********",
                                 "auth_type": "SHA",
                                 "description": "snmpV3 Sample 1",
-                                "privacy_password": "ai7tpci3j@*j5g",
+                                "privacy_password": "********",
                                 "privacy_type": "AES128",
                                 "snmp_mode": "AUTHPRIV",
                                 "username": "admin"
@@ -725,21 +725,21 @@ changed: [catalyst_center220] => (item={'global_credential_details': {'cli_crede
             "cli_credential": [
                 {
                     "description": "CLI Sample 1",
-                    "enable_password": "q4^t^",
-                    "password": "5!meh",
+                    "enable_password": "********",
+                    "password": "********",
                     "username": "cli-1"
                 },
                 {
                     "description": "CLI2",
-                    "enable_password": "8b!rn",
-                    "password": "sbs2@",
+                    "enable_password": "********",
+                    "password": "********",
                     "username": "cli-2"
                 }
             ],
             "https_read": [
                 {
                     "description": "httpsRead Sample 1",
-                    "password": "2!x88yvqz*7",
+                    "password": "********",
                     "port": 443,
                     "username": "admin"
                 }
@@ -747,17 +747,17 @@ changed: [catalyst_center220] => (item={'global_credential_details': {'cli_crede
             "https_write": [
                 {
                     "description": "httpsWrite Sample 1",
-                    "password": "j@5wgm%s2g%",
+                    "password": "********",
                     "port": 443,
                     "username": "admin"
                 }
             ],
             "snmp_v3": [
                 {
-                    "auth_password": "hp!x6px&#@2xi5",
+                    "auth_password": "********",
                     "auth_type": "SHA",
                     "description": "snmpV3 Sample 1",
-                    "privacy_password": "ai7tpci3j@*j5g",
+                    "privacy_password": "********",
                     "privacy_type": "AES128",
                     "snmp_mode": "AUTHPRIV",
                     "username": "admin"
