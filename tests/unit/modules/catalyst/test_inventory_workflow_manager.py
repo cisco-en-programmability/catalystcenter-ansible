@@ -778,3 +778,24 @@ class TestCatalystCenterInventoryWorkflow(TestCatalystModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn("deleted successfully", result.get("msg"))
+
+    def test_inventory_workflow_manager_generate_export_password(self):
+        """
+        Test case for the password used to encrypt device credential export files.
+
+        This test case checks that each generated password meets the Cisco Catalyst Center
+        complexity rules and that passwords differ between exports.
+        """
+
+        passwords = [
+            inventory_workflow_manager.Inventory.generate_export_password()
+            for dummy in range(50)
+        ]
+        self.assertEqual(len(set(passwords)), len(passwords))
+        for password in passwords:
+            self.assertEqual(len(password), 16)
+            self.assertTrue(any(c.isupper() for c in password))
+            self.assertTrue(any(c.islower() for c in password))
+            self.assertTrue(any(c.isdigit() for c in password))
+            self.assertEqual(sum(c in "!@#$%^&*" for c in password), 1)
+            self.assertTrue(all(c.isalnum() or c in "!@#$%^&*" for c in password))
