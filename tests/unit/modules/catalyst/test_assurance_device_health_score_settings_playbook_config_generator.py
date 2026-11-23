@@ -33,7 +33,7 @@ def get_mock_module():
     mock_module.params = {
         "catalystcenter_host": "198.18.129.100",
         "catalystcenter_username": "admin",
-        "catalystcenter_password": "dummy123",
+        "catalystcenter_password": "dummy",
         "catalystcenter_verify": False,
         "catalystcenter_port": 443,
         "catalystcenter_version": "2.3.7.6",
@@ -179,7 +179,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         valid_params = {
             "catalystcenter_host": "198.18.129.100",
             "catalystcenter_username": "admin",
-            "catalystcenter_password": "D1umm23456",
+            "catalystcenter_password": "dummy",
             "catalystcenter_verify": False,
             "catalystcenter_version": "2.3.7.6",
             "state": "gathered",
@@ -220,7 +220,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         set_module_args(
             catalystcenter_host="198.18.129.100",
             catalystcenter_username="admin",
-            catalystcenter_password="D1umm23456",
+            catalystcenter_password="dummy",
             catalystcenter_verify=False,
             catalystcenter_version="2.3.7.6",
             state="gathered",
