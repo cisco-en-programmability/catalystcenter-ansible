@@ -1476,9 +1476,10 @@ The Jinja template in the wireless design playbook is designed to dynamically ge
 
 ### Example Jinja Template
 
-Below is an example of how the Jinja template is structured to generate bulk configurations for wireless design:
+Below is an example of how the Jinja template is structured to generate bulk configurations for wireless design. The `#jinja2: lstrip_blocks: True` first line removes the spaces in front of the `{% for %}` and `{% if %}` tags, so the generated YAML keeps its indentation:
 
 ```bash
+#jinja2: lstrip_blocks: True
 wireless_design_details:
   # Example SSIDs
   - ssids:
