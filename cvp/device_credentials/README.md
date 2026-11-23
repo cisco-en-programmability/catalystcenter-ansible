@@ -133,12 +133,12 @@ catalyst_center_hosts:
         cli_credential: #Create CLI credentials list
         - description: CLI Sample 1
           username: cli-1
-          password: "{{device_credential_cli_password}}"
-          enable_password: "{{device_credential_cli_enable_password}}"
+          password: "{{ device_credential_cli_password }}"
+          enable_password: "{{ device_credential_cli_enable_password }}"
         - description: CLI2
           username: cli-2
-          password: "{{device_credential_cli_password}}"
-          enable_password: "{{device_credential_cli_enable_password}}"
+          password: "{{ device_credential_cli_password }}"
+          enable_password: "{{ device_credential_cli_enable_password }}"
   ```
 
 -  Create all credentials
@@ -151,35 +151,35 @@ device_credentials:
       cli_credential: #Create CLI credentials list
       - description: CLI Sample 1
         username: cli-1
-        password: "{{device_credential_cli_password}}"
-        enable_password: "{{device_credential_cli_enable_password}}"
+        password: "{{ device_credential_cli_password }}"
+        enable_password: "{{ device_credential_cli_enable_password }}"
       - description: CLI2
         username: cli-2
-        password: "{{device_credential_cli_password}}"
-        enable_password: "{{device_credential_cli_enable_password}}"
+        password: "{{ device_credential_cli_password }}"
+        enable_password: "{{ device_credential_cli_enable_password }}"
       snmp_v2c_read:
       - description: snmpRead-1
-        read_community: "{{device_credential_snmp_v2c_read_community}}"
+        read_community: "{{ device_credential_snmp_v2c_read_community }}"
       snmp_v2c_write:
       - description: snmpWrite-1
-        write_community: "{{device_credential_snmp_v2c_write_community}}"
+        write_community: "{{ device_credential_snmp_v2c_write_community }}"
       snmp_v3: #Create SNMPv3 credentials list
       - description: snmpV3 Sample 1 
-        auth_password: "{{device_credential_snmp_v3_auth_password}}"
+        auth_password: "{{ device_credential_snmp_v3_auth_password }}"
         auth_type: SHA
         snmp_mode: AUTHPRIV
-        privacy_password: "{{device_credential_snmp_v3_privacy_password}}"
+        privacy_password: "{{ device_credential_snmp_v3_privacy_password }}"
         privacy_type: AES128
         username: admin
       https_read: #Create HTTPS Read credentials list
       - description: httpsRead Sample 1
         username: admin
-        password: "{{device_credential_https_read_password}}"
+        password: "{{ device_credential_https_read_password }}"
         port: 443
       https_write: #Create HTTPS Write credentials list
       - description: httpsWrite Sample 1
         username: admin
-        password: "{{device_credential_https_write_password}}"
+        password: "{{ device_credential_https_write_password }}"
         port: 443
   ```
 
@@ -210,12 +210,12 @@ device_credentials:
         cli_credential:
         - description: CLI Sample 1
           username: cli-1
-          password: "{{device_credential_cli_password}}"
-          enable_password: "{{device_credential_cli_enable_password}}"
+          password: "{{ device_credential_cli_password }}"
+          enable_password: "{{ device_credential_cli_enable_password }}"
         - description: CLI2
           username: cli-2
-          password: "{{device_credential_cli_password}}"
-          enable_password: "{{device_credential_cli_enable_password}}"
+          password: "{{ device_credential_cli_password }}"
+          enable_password: "{{ device_credential_cli_enable_password }}"
   ```
 
   **Input example with update device credential name/description using old name and description**:
@@ -229,8 +229,8 @@ device_credentials:
         cli_credential:
         - description: CLISample1
           username: cli1
-          password: "{{device_credential_cli_password}}"
-          enable_password: "{{device_credential_cli_enable_password}}"
+          password: "{{ device_credential_cli_password }}"
+          enable_password: "{{ device_credential_cli_enable_password }}"
           old_description: CLI Sample 1
           old_username: cli-1
   ```
