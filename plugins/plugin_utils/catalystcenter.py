@@ -9,6 +9,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 try:
     from catalystcentersdk import api, exceptions
+    from requests.exceptions import RequestException
 except ImportError:
     CATALYST_SDK_IS_INSTALLED = False
 else:
@@ -205,19 +206,34 @@ class CatalystCenterSDK(object):
     def __init__(self, params, user_agent=None):
         self.result = dict(changed=False, result="")
         self.validate_response_schema = params.get("validate_response_schema")
+        self.api = None
         if CATALYST_SDK_IS_INSTALLED:
-            self.api = api.CatalystCenterAPI(
-                username=params.get("catalystcenter_username"),
-                password=params.get("catalystcenter_password"),
-                base_url="https://{catalystcenter_host}:{catalystcenter_port}".format(
-                    catalystcenter_host=params.get("catalystcenter_host"),
-                    catalystcenter_port=params.get("catalystcenter_port"),
-                ),
-                version=params.get("catalystcenter_version"),
-                verify=params.get("catalystcenter_verify"),
-                debug=params.get("catalystcenter_debug"),
-                user_agent=user_agent or COLLECTION_USER_AGENT,
-            )
+            # Creating the API object already requests an access token. Catch
+            # authentication and connection errors here so the action plugin
+            # returns a failed result instead of raising, which lets
+            # failed_when, ignore_errors and until/retries work.
+            try:
+                self.api = api.CatalystCenterAPI(
+                    username=params.get("catalystcenter_username"),
+                    password=params.get("catalystcenter_password"),
+                    base_url="https://{catalystcenter_host}:{catalystcenter_port}".format(
+                        catalystcenter_host=params.get("catalystcenter_host"),
+                        catalystcenter_port=params.get("catalystcenter_port"),
+                    ),
+                    version=params.get("catalystcenter_version"),
+                    verify=params.get("catalystcenter_verify"),
+                    debug=params.get("catalystcenter_debug"),
+                    user_agent=user_agent or COLLECTION_USER_AGENT,
+                )
+            except (exceptions.catalystcentersdkException, RequestException) as e:
+                self.fail_json(
+                    msg=(
+                        "An error occured when connecting to Cisco Catalyst Center."
+                        " The error was: {error}"
+                    ).format(error=to_native(e)),
+                    status=getattr(e, "status_code", None),
+                )
+                return
             if params.get("catalystcenter_debug") and LOGGING_IN_STANDARD:
                 logging.getLogger("catalystcentersdk").addHandler(
                     logging.StreamHandler()
@@ -227,18 +243,33 @@ class CatalystCenterSDK(object):
                 msg="Catalyst Center Python SDK is not installed. Execute 'pip install catalystcentersdk'"
             )
 
+    @property
+    def connection_failed(self):
+        # True when no API object could be created, e.g. wrong credentials or
+        # an unreachable host. The failure is already stored in self.result
+        # and must not be overwritten by the result helpers below.
+        return self.api is None
+
     def changed(self):
+        if self.connection_failed:
+            return
         self.result["changed"] = True
 
     def object_created(self):
+        if self.connection_failed:
+            return
         self.changed()
         self.result["result"] = "Object created"
 
     def object_updated(self):
+        if self.connection_failed:
+            return
         self.changed()
         self.result["result"] = "Object updated"
 
     def object_deleted(self):
+        if self.connection_failed:
+            return
         self.changed()
         self.result["result"] = "Object deleted"
 
@@ -249,25 +280,35 @@ class CatalystCenterSDK(object):
         non-mutating outcome, any such error left behind by exec() must not
         leak into the final task result.
         """
+        if self.connection_failed:
+            return
         self.result["failed"] = False
         self.result["msg"] = None
         self.result["status"] = ANSIBLE_SUCCESS_STATUS
 
     def object_already_absent(self):
+        if self.connection_failed:
+            return
         self._clear_stale_failure()
         self.result["result"] = "Object already absent"
 
     def object_already_present(self):
+        if self.connection_failed:
+            return
         self._clear_stale_failure()
         self.result["result"] = "Object already present"
 
     def object_present_and_different(self):
+        if self.connection_failed:
+            return
         self._clear_stale_failure()
         self.result["result"] = (
             "Object already present, but it has different values to the requested"
         )
 
     def object_modify_result(self, changed=None, result=None):
+        if self.connection_failed:
+            return
         if result is not None:
             self.result["result"] = result
         if changed:
@@ -280,11 +321,14 @@ class CatalystCenterSDK(object):
         return os.path.basename(file_path)
 
     def exec(self, family, function, params=None, op_modifies=False, **kwargs):
+        if self.connection_failed:
+            return None
         try:
             family = getattr(self.api, family)
             func = getattr(family, function)
         except Exception as e:
-            self.fail_json(msg=e)
+            self.fail_json(msg=to_native(e))
+            return None
 
         try:
             if params:
@@ -317,7 +361,7 @@ class CatalystCenterSDK(object):
                 )
             else:
                 response = func()
-        except exceptions.catalystcentersdkException as e:
+        except (exceptions.catalystcentersdkException, RequestException) as e:
             self.fail_json(
                 msg=(
                     "An error occured when executing operation."
