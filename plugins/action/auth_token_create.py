@@ -66,7 +66,12 @@ def _build_action_module():
                 raise AnsibleActionFail(errors)
 
         def get_object(self, params):
-            new_object = dict()
+            # The SDK's authentication_api() requires the credentials, the API
+            # object does not reuse the ones it was created with.
+            new_object = dict(
+                username=params.get("catalystcenter_username"),
+                password=params.get("catalystcenter_password"),
+            )
             return new_object
 
         def run(self, tmp=None, task_vars=None):
@@ -80,7 +85,7 @@ def _build_action_module():
             response = catalystcenter.exec(
                 family="authentication",
                 function="authentication_api",
-                op_modifies=True,
+                op_modifies=False,
                 params=self.get_object(self._task.args),
             )
             self._result.update(
