@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           path: cisco-en-programmability/catalystcenter-ansible
           # Only pull real git history when we can use it (see the
