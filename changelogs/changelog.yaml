@@ -498,3 +498,17 @@ releases:
         - reports_workflow_manager - Fixed the ``pytz`` import guard (previously keyed off a ``pyzipper`` flag), validate time zones for predefined and custom time-range filters, and normalize the report-create payload to only canonical API fields.
         - accesspoint_workflow_manager - Treat a wireless controller that is managed but not part of an SDA fabric as valid ("non_fabric") since access point provisioning has no fabric prerequisite, instead of failing the play.
         - sda_host_port_onboarding_playbook_config_generator - Accept a list for the ``wireless_ssids`` ``fabric_site_name_hierarchy`` filter instead of only a single string.
+  2.15.0:
+    release_date: "2026-11-23"
+    changes:
+      release_summary: Improvements to examples, sample playbooks and logging, new contribution guidelines, and fixes in site, assurance issue and CVP sample workflows.
+      minor_changes:
+        - Examples, sample playbooks, CVP inputs, role documentation and tests now use variables and placeholder values, with guidance for supplying them through Ansible Vault.
+        - inventory_workflow_manager - Improved logging and export handling.
+        - assurance_issue_workflow_manager - ``priority`` is now optional; when omitted, the existing priority is preserved.
+        - Added contribution and code review guidelines (``CONTRIBUTING.md`` and ``docs/CODE_REVIEW_GUIDELINES.md``).
+      bugfixes:
+        - site_workflow_manager - Deleting an area no longer submits duplicate delete requests for its floors, and floor and building deletions now wait for their tasks to complete before reporting success.
+        - assurance_issue_workflow_manager - Disabling a system issue without ``threshold_value`` or ``priority`` no longer fails, and the threshold is now compared against the value returned by Catalyst Center.
+        - CVP wireless_design - The Jinja template no longer leaves indentation from block tags in the generated YAML.
+        - CVP users_and_roles - The Jinja template no longer defines ``user_details`` twice, which dropped the first user.

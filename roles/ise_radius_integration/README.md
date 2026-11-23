@@ -92,7 +92,7 @@ The following image is copied from the workflow documentation to help map the ro
             role: secondary
           - server_type: ISE
             server_ip_address: 10.195.243.31
-            shared_secret: Labab123
+            shared_secret: "{{ vault_ise_radius_integration_shared_secret }}"
             protocol: RADIUS_TACACS
             authentication_port: 1812
             accounting_port: 1813
@@ -103,7 +103,7 @@ The following image is copied from the workflow documentation to help map the ro
             pxgrid_enabled: true
             cisco_ise_dtos:
             - user_name: admin
-              password: Maglev#123
+              password: "{{ vault_ise_radius_integration_ise_password }}"
               fqdn: IBSTE-ISE1.cisco.com
               ip_address: 10.195.243.31
               description: Cisco ISE

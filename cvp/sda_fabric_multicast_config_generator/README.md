@@ -136,7 +136,7 @@ catalyst_center_hosts:
     catalyst_center_primary:
       catalystcenter_host: 10.10.10.10
       catalystcenter_username: admin
-      catalystcenter_password: "password"
+      catalystcenter_password: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_PASSWORD') }}"
       catalystcenter_verify: false
       catalystcenter_port: 443
       catalystcenter_version: "2.3.7.9"

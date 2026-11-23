@@ -53,6 +53,9 @@ class TestCatalystCenterSiteWorkflow(TestCatalystModule):
     upload_floor_map_playbook = test_data.get("upload_floor_map_playbook")
     delete_config_playbook = test_data.get("delete_config_playbook")
     playbook_site_delete_2376 = test_data.get("playbook_site_delete_2376")
+    playbook_site_delete_duplicate_floor = test_data.get(
+        "playbook_site_delete_duplicate_floor"
+    )
     playbook_config_update_site_2376 = test_data.get("playbook_config_update_site_2376")
 
     def setUp(self):
@@ -232,6 +235,23 @@ class TestCatalystCenterSiteWorkflow(TestCatalystModule):
                 self.test_data.get("delete_get_membership"),
                 self.test_data.get("delete_response2"),
                 self.test_data.get("delete_response_detail_invalid"),
+            ]
+
+        elif "delete_duplicate_floor" in self._testMethodName:
+            # 'get_sites_response3' is served twice: the floor is listed once area-wide
+            # and again when its parent building is deleted.
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_response1"),
+                self.test_data.get("get_sites_response3"),
+                self.test_data.get("delete_floor_response1"),
+                self.test_data.get("delete_task_status_success"),
+                self.test_data.get("get_sites_response2"),
+                self.test_data.get("get_sites_response3"),
+                self.test_data.get("delete_response22"),
+                self.test_data.get("delete_task_status_success"),
+                self.test_data.get("delete_response3"),
+                self.test_data.get("delete_response4"),
+                self.test_data.get("task_response_3"),
             ]
 
         if "verify_diff" in self._testMethodName:
@@ -665,4 +685,33 @@ class TestCatalystCenterSiteWorkflow(TestCatalystModule):
         self.maxDiff = None
         self.assertIn(
             "not needs any update in Cisco Catalyst Center.", result.get("msg")
+        )
+
+    def test_Site_workflow_manager_delete_duplicate_floor(self):
+        """
+        Test case for deleting an area whose floor is listed twice.
+
+        Deleting an area lists its floors area-wide, then deletes each building, which
+        lists the same floors again. This verifies the floor is deleted only once and
+        recorded only once, instead of being deleted a second time while the first
+        deletion is still in progress.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.6",
+                catalystcenter_log=True,
+                state="deleted",
+                config_verify=True,
+                config=self.playbook_site_delete_duplicate_floor,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.maxDiff = None
+        self.assertEqual(
+            result.get("msg"),
+            "Given site(s) '['floor: Global/bangalore/s1/cherry', "
+            "'area: Global/bangalore']' deleted successfully from Cisco Catalyst Center",
         )

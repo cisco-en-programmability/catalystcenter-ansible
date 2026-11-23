@@ -29,7 +29,7 @@ backup_restore_details:
           nfs_version: nfs4
           nfs_portmapper_port: 111
         data_retention_period: 30
-        encryption_passphrase: "YourSecurePassphrase123!"
+        encryption_passphrase: "{{ backup_and_restore_encryption_passphrase }}"
 
     # Create backup with exact name (idempotent)
     backup:
@@ -40,7 +40,7 @@ backup_restore_details:
     # Restore from backup (uncomment when needed)
     restore_operations:
       - name: BACKUP1
-        encryption_passphrase: "YourSecurePassphrase123!"
+        encryption_passphrase: "{{ backup_and_restore_encryption_passphrase }}"
 
 # ============================================================================
 # Additional Examples
@@ -67,7 +67,7 @@ backup_restore_details:
 #           server_ip: 192.168.1.100
 #           source_path: /backup/catalyst_center
 #         data_retention_period: 51
-#         encryption_passphrase: "Enterprise@Backup2024"
+#         encryption_passphrase: "{{ backup_and_restore_encryption_passphrase }}"
 
 # Multiple NFS servers for redundancy
 # backup_restore_details:
@@ -88,7 +88,7 @@ backup_restore_details:
 #           server_ip: 192.168.1.100
 #           source_path: /backup/enterprise
 #         data_retention_period: 60
-#         encryption_passphrase: "Enterprise@Backup2024"
+#         encryption_passphrase: "{{ backup_and_restore_encryption_passphrase }}"
 #     backup:
 #       - name: ENTERPRISE_BACKUP
 #         scope: CISCO_DNA_DATA_WITH_ASSURANCE
