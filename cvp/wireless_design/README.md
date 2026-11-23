@@ -550,12 +550,12 @@ wireless_design_details:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
     - access_point_profile_name: "iac_Authenticated-EAP-FAST-AP"
       management_settings:
         access_point_authentication: "EAP-FAST"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
     - access_point_profile_name: "iac_Authenticated-NO-AUTH-AP"
       remote_teleworker: true
       management_settings:
@@ -563,8 +563,8 @@ wireless_design_details:
         ssh_enabled: true
         telnet_enabled: false
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
 ```
 
 #### b. Update
@@ -1020,12 +1020,12 @@ wireless_design_details:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
     - access_point_profile_name: "iac_Authenticated-EAP-FAST-AP"
       management_settings:
         access_point_authentication: "EAP-FAST"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
     - access_point_profile_name: "iac_Authenticated-NO-AUTH-AP"
       remote_teleworker: true
       management_settings:
@@ -1033,8 +1033,8 @@ wireless_design_details:
         ssh_enabled: true
         telnet_enabled: false
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
 
   #Define the RF profiles for the wireless network
   - radio_frequency_profiles:
@@ -1476,9 +1476,10 @@ The Jinja template in the wireless design playbook is designed to dynamically ge
 
 ### Example Jinja Template
 
-Below is an example of how the Jinja template is structured to generate bulk configurations for wireless design:
+Below is an example of how the Jinja template is structured to generate bulk configurations for wireless design. The `#jinja2: lstrip_blocks: True` first line removes the spaces in front of the `{% for %}` and `{% if %}` tags, so the generated YAML keeps its indentation:
 
 ```bash
+#jinja2: lstrip_blocks: True
 wireless_design_details:
   # Example SSIDs
   - ssids:
@@ -1539,8 +1540,8 @@ wireless_design_details:
         ssh_enabled: true
         telnet_enabled: false
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "enablePass"
+        management_password: {{ wireless_design_ap_management_password | to_json }}
+        management_enable_password: {{ wireless_design_ap_management_enable_password | to_json }}
       {% endif %}
     {% endfor %}
 

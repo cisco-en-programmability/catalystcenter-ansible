@@ -34,7 +34,7 @@ def _set_options(plugin, **kwargs):
         "host": "catalyst.example.com",
         "port": 443,
         "username": "admin",
-        "password": "secret",
+        "password": "dummy",
         "validate_certs": False,
         "api_version": "3.1.6.0",
         "debug": False,
@@ -127,7 +127,7 @@ class TestGetClient:
         client = inventory_plugin._get_client()
         mock_sdk.assert_called_once_with(
             username="admin",
-            password="secret",
+            password="dummy",
             base_url="https://catalyst.example.com:443",
             version="3.1.6.0",
             verify=False,

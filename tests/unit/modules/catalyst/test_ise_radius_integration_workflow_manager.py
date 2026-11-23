@@ -346,7 +346,7 @@ class TestIseRadiusIntegrationWaitTimeValidation(TestCase):
         return {
             "server_type": "ISE",
             "server_ip_address": "10.4.20.240",
-            "shared_secret": "shared-secret",
+            "shared_secret": "dummy-shared-secret",
             "protocol": "RADIUS_TACACS",
             "cisco_ise_dtos": [
                 {
