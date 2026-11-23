@@ -368,21 +368,21 @@ roles_users_details:
       first_name: ajith
       last_name: Andrew1
       email: ajith.andrew@example.com
-      password: "{{ testuser1_vault_password }}"
+      password: {{ testuser1_vault_password | to_json }}
       role_list: 
         - Admin_customized_role
     - username: net_ai_automate
       first_name: ai_users
       last_name: Solutions
       email: 'net_ai_automate@cisco.com'
-      password: "{{ ai_users_vault_password }}"
+      password: {{ ai_users_vault_password | to_json }}
       role_list: 
         - NETWORK-ADMIN-ROLE
     - username: testuser2
       first_name: ai_users2
       last_name: Solutions2
       email: 'net_ai_user2@cisco.com'
-      password: "{{ testuser2_vault_password }}"
+      password: {{ testuser2_vault_password | to_json }}
       role_list: 
         - Assurance-role
 ```
