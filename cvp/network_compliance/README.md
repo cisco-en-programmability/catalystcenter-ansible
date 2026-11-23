@@ -414,7 +414,7 @@ changed: [catalyst_center220] => {
             "config_verify": false,
             "catalystcenter_api_task_timeout": 1200,
             "catalystcenter_debug": true,
-            "catalystcenter_host": "10.195.227.14",
+            "catalystcenter_host": "xx.xx.xx.xx",
             "catalystcenter_log": true,
             "catalystcenter_log_append": true,
             "catalystcenter_log_file_path": "catalystcenter.log",

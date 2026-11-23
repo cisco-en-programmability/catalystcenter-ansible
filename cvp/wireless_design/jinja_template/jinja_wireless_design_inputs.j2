@@ -1,3 +1,4 @@
+#jinja2: lstrip_blocks: True
 ---
 # Select Catalyst Center version, this will overwrite the default version from host file
 catalystcenter_version: 2.3.7.9
@@ -84,8 +85,8 @@ wireless_design_details:
         ssh_enabled: true
         telnet_enabled: false
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "enablePass"
+        management_password: {{ wireless_design_ap_management_password | to_json }}
+        management_enable_password: {{ wireless_design_ap_management_enable_password | to_json }}
       {% endif %}
     {% endfor %}
 
