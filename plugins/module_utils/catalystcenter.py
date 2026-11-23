@@ -15,6 +15,7 @@ except ImportError:
     HAS_FERNET = False
 try:
     from catalystcentersdk import api, exceptions
+    from requests.exceptions import RequestException
 except ImportError:
     CATALYST_SDK_IS_INSTALLED = False
 else:
@@ -68,10 +69,23 @@ class CatalystCenterBase:
         self.status = "success"
         catalystcenter_params = self.get_catalystcenter_params(self.params)
         self.user_agent = build_user_agent(getattr(module, "_name", None))
-        self.catalystcenter = CatalystCenterSDK(
-            params=catalystcenter_params,
-            user_agent=self.user_agent,
-        )
+        # Creating the SDK object already requests an access token. Report
+        # authentication and connection errors through fail_json() instead of
+        # a module traceback, so the message and HTTP status are available to
+        # failed_when and until/retries.
+        try:
+            self.catalystcenter = CatalystCenterSDK(
+                params=catalystcenter_params,
+                user_agent=self.user_agent,
+            )
+        except (exceptions.catalystcentersdkException, RequestException) as e:
+            self.module.fail_json(
+                msg=(
+                    "An error occured when connecting to Cisco Catalyst Center."
+                    " The error was: {error}"
+                ).format(error=to_native(e)),
+                status=getattr(e, "status_code", None),
+            )
         self.catalystcenter_apply = {"exec": self.catalystcenter._exec}
         self.get_diff_state_apply = {
             "merged": self.get_diff_merged,
