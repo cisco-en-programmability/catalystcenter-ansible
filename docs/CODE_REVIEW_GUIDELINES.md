@@ -377,6 +377,14 @@ response = self.catalystcenter._exec(
 - Start YAML documents with `---` and use two-space indentation.
 - Give every task a clear, action-oriented name.
 - Prefer variables and defaults over hardcoded deployment values.
+- Prefer a space inside Jinja delimiters, for example `{{ variable }}` and
+  `{% if condition %}`, as checked by the ansible-lint `jinja[spacing]` rule.
+  CI does not run ansible-lint on `cvp/` or `tests/`, so check those files
+  during review.
+- In a Jinja template that generates YAML, insert passwords and other free-form
+  strings as `{{ value | to_json }}`, without surrounding quotes. Inside
+  `"{{ value }}"`, a `"` or `\` in the value breaks the YAML or changes the
+  value.
 - Use `when`, `failed_when`, and `ignore_errors` deliberately. Do not hide failures
   that prevent the requested state from being achieved.
 - Prefer tags as YAML lists for consistency. Scalar tags are valid Ansible
@@ -406,6 +414,10 @@ tags: playbook
 - Add or update tests for changed behavior, including relevant normal, edge,
   failure, and idempotency paths.
 - Use realistic inputs and verify both changed and unchanged results explicitly.
+- Use obvious placeholders such as `<password>` for secrets in fixtures and
+  tests, even where other inputs are realistic. When the module validates a
+  secret's format, choose a placeholder that still passes the rule, such as
+  `<File_Password_1>`, or that still fails it in negative tests.
 - When a module supports multiple backend API paths, cover affected older and
   newer paths without assuming their response structures are identical.
 - For modules that support check mode, declare `supports_check_mode=True` and
@@ -451,6 +463,8 @@ Center resources, and identify those tests separately from local static checks.
 - [ ] Do filter docs explain matching across types, within a type, per-entry
   scope, and omitted or empty filters?
 - [ ] Are secrets protected with `no_log`, including custom logging wrappers?
+- [ ] Do code, fixtures, examples, and CVP inputs use placeholders or variables
+  instead of real-looking secrets?
 - [ ] Are raw payloads and unsanitized exceptions excluded from logs and errors?
 - [ ] Is duplicated logic removed or intentionally retained for clarity?
 - [ ] Are public interfaces and supported backend paths compatible?
