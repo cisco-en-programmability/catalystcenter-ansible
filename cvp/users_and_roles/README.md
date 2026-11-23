@@ -259,10 +259,17 @@ Figure 3: Customized Role 2 creation with the permissions.
 
 ## Run the playbook with password in Ansible vault. 
 Create your password file in the folder: vaulted_passwords/<filename>
-and write your password in yaml format as shown below.
+and write your passwords in yaml format as shown below. The vars file
+examples above read `user_role_user_password`, and the Jinja template
+example below reads the other three.
 
+```yaml
 ---
 user_role_user_password: "<password>"
+testuser1_vault_password: "<password>"
+ai_users_vaule_password: "<password>"
+testuser2_vault_password: "<password>"
+```
 
 ### Generate and encrypt the password file
 ```bash
@@ -375,7 +382,7 @@ roles_users_details:
       first_name: ai_users
       last_name: Solutions
       email: 'net_ai_automate@cisco.com'
-      password: {{ ai_users_vault_password | to_json }}
+      password: {{ ai_users_vaule_password | to_json }}
       role_list: 
         - NETWORK-ADMIN-ROLE
     - username: testuser2
