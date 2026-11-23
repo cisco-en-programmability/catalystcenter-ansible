@@ -1653,7 +1653,7 @@
 <h1>cisco.catalystcenter.discovery_workflow_manager module -- A resource module for handling device discovery tasks.<a class="headerlink" href="#cisco-catalystcenter-discovery-workflow-manager-module-a-resource-module-for-handling-device-discovery-tasks" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.14.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.15.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-discovery-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2453,31 +2453,31 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">        </span><span class="nt">discovery_specific_credentials</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">cli_credentials_list</span><span class="p">:</span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cisco</span>
-<span class="w">              </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco123</span>
-<span class="w">              </span><span class="nt">enable_password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco123</span>
+<span class="w">              </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_cli_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">              </span><span class="nt">enable_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_cli_enable_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">          </span><span class="nt">http_read_credential</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cisco</span>
-<span class="w">            </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco123</span>
+<span class="w">            </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_http_read_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">            </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">443</span>
 <span class="w">            </span><span class="nt">secure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">          </span><span class="nt">http_write_credential</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cisco</span>
-<span class="w">            </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco123</span>
+<span class="w">            </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_http_write_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">            </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">443</span>
 <span class="w">            </span><span class="nt">secure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">          </span><span class="nt">snmp_v2_read_credential</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snmp_v2-new</span>
-<span class="w">            </span><span class="nt">community</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco123</span>
+<span class="w">            </span><span class="nt">community</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_snmp_v2_read_community</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">          </span><span class="nt">snmp_v2_write_credential</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snmp_v2-new</span>
-<span class="w">            </span><span class="nt">community</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco123</span>
+<span class="w">            </span><span class="nt">community</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_snmp_v2_write_community</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">          </span><span class="nt">snmp_v3_credential</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v3Public2</span>
 <span class="w">            </span><span class="nt">snmp_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AUTHPRIV</span>
 <span class="w">            </span><span class="nt">auth_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SHA</span>
-<span class="w">            </span><span class="nt">auth_password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Lablab123</span>
+<span class="w">            </span><span class="nt">auth_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_snmp_v3_auth_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">            </span><span class="nt">privacy_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AES256</span>
-<span class="w">            </span><span class="nt">privacy_password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Lablab123</span>
+<span class="w">            </span><span class="nt">privacy_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_snmp_v3_privacy_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">          </span><span class="nt">net_conf_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">750</span>
 <span class="w">        </span><span class="nt">global_credentials</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">cli_credentials_list</span><span class="p">:</span>
@@ -2528,31 +2528,31 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">        </span><span class="nt">discovery_specific_credentials</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">cli_credentials_list</span><span class="p">:</span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cisco</span>
-<span class="w">              </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco123</span>
-<span class="w">              </span><span class="nt">enable_password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco123</span>
+<span class="w">              </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_cli_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">              </span><span class="nt">enable_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_cli_enable_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">          </span><span class="nt">http_read_credential</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cisco</span>
-<span class="w">            </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco123</span>
+<span class="w">            </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_http_read_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">            </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">443</span>
 <span class="w">            </span><span class="nt">secure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">          </span><span class="nt">http_write_credential</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cisco</span>
-<span class="w">            </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco123</span>
+<span class="w">            </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_http_write_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">            </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">443</span>
 <span class="w">            </span><span class="nt">secure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">          </span><span class="nt">snmp_v2_read_credential</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snmp_v2-new</span>
-<span class="w">            </span><span class="nt">community</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco123</span>
+<span class="w">            </span><span class="nt">community</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_snmp_v2_read_community</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">          </span><span class="nt">snmp_v2_write_credential</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snmp_v2-new</span>
-<span class="w">            </span><span class="nt">community</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco123</span>
+<span class="w">            </span><span class="nt">community</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_snmp_v2_write_community</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">          </span><span class="nt">snmp_v3_credential</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v3Public2</span>
 <span class="w">            </span><span class="nt">snmp_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AUTHPRIV</span>
 <span class="w">            </span><span class="nt">auth_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SHA</span>
-<span class="w">            </span><span class="nt">auth_password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Lablab123</span>
+<span class="w">            </span><span class="nt">auth_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_snmp_v3_auth_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">            </span><span class="nt">privacy_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AES256</span>
-<span class="w">            </span><span class="nt">privacy_password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Lablab123</span>
+<span class="w">            </span><span class="nt">privacy_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">discovery_snmp_v3_privacy_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">          </span><span class="nt">net_conf_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">750</span>
 <span class="w">        </span><span class="nt">use_global_credentials</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">start_index</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
@@ -2655,7 +2655,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id110" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
-<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v14)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible vdevel)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Key</p></th>

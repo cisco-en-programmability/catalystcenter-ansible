@@ -42,7 +42,7 @@ cisco.catalystcenter.assurance_issue_workflow_manager module -- Resource module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.14.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.15.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -1394,7 +1394,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1404,7 +1404,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the priority level of the issue.
+      Specifies the priority level of the issue. If omitted, the existing priority is preserved.
           
 
 

@@ -1,0 +1,704 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code review and development guidelines &mdash; CATALYSTCenterAnsibleActions  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/ansible-basic-sphinx-ext.css" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            CATALYSTCenterAnsibleActions
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="plugins/index.html">Cisco.Catalystcenter</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CATALYSTCenterAnsibleActions</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Code review and development guidelines</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/CODE_REVIEW_GUIDELINES.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="code-review-and-development-guidelines">
+<h1>Code review and development guidelines<a class="headerlink" href="#code-review-and-development-guidelines" title="Permalink to this heading"></a></h1>
+<p>These guidelines apply to Ansible modules, action plugins, shared helpers, roles,
+and playbooks in the <code class="docutils literal notranslate"><span class="pre">cisco.catalystcenter</span></code> collection. Contributors and reviewers
+should use them to check correctness, idempotency, security, compatibility,
+readability, logging, documentation, and test coverage.</p>
+<section id="applying-the-guidelines">
+<h2>Applying the guidelines<a class="headerlink" href="#applying-the-guidelines" title="Permalink to this heading"></a></h2>
+<p>Apply the relevant requirements to the contribution being developed or reviewed.
+Read related code and tests when needed to understand the behavior. Preserve
+existing public contracts and supported API behavior when suggesting changes.
+Avoid expanding a focused contribution into unrelated cleanup.</p>
+<p>Requirements using <strong>must</strong> or <strong>never</strong> describe required behavior. Guidance
+using <strong>prefer</strong> describes a recommendation to weigh against clarity,
+compatibility, and the surrounding code. A valid alternative is not a syntax
+error. Existing code is useful context, but does not override correctness or
+security requirements.</p>
+<p>During review, report confirmed defects separately from optional improvements.
+For each finding, give a severity, file and line reference, triggering condition,
+impact, relevant guideline, and an actionable recommendation. Explain expected
+and actual behavior for defects. Report checks performed and verification gaps.
+A review does not authorize changes to the code being reviewed.</p>
+</section>
+<section id="core-guidelines">
+<h2>1 Core guidelines<a class="headerlink" href="#core-guidelines" title="Permalink to this heading"></a></h2>
+<section id="code-structure-and-readability">
+<h3>1.1 Code structure and readability<a class="headerlink" href="#code-structure-and-readability" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Keep logic linear and easy to follow.</p></li>
+<li><p>Prefer early returns to reduce nesting only when exiting the whole method
+preserves its intended behavior. Do not skip later workflow steps.</p></li>
+<li><p>Extract helpers when logic is reused or the main flow becomes hard to read.
+Avoid splitting simple logic without a clear benefit.</p></li>
+<li><p>Avoid redundant checks, repeated lookups, and repeated API calls.</p></li>
+<li><p>Store frequently reused nested values in local variables instead of repeating
+chained <code class="docutils literal notranslate"><span class="pre">.get()</span></code> calls. Validate nested types before using dictionary methods.</p></li>
+<li><p>Use descriptive names for functions, variables, and results.</p></li>
+<li><p>Use &quot;Catalyst Center&quot; in user-facing text. Preserve legacy terms in API fields,
+SDK identifiers, existing public parameters, and compatibility references when
+changing them would be inaccurate or break callers.</p></li>
+</ul>
+</section>
+<section id="idempotency">
+<h3>1.2 Idempotency<a class="headerlink" href="#idempotency" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Modules must not report changes when the desired state is already met.</p></li>
+<li><p>Compare current and desired state before create, update, or delete operations.</p></li>
+<li><p>Report <code class="docutils literal notranslate"><span class="pre">changed=True</span></code> only for actual changes, or predicted changes in supported
+check mode. Keep <code class="docutils literal notranslate"><span class="pre">changed</span></code> and applicable <code class="docutils literal notranslate"><span class="pre">failed</span></code> results Boolean.</p></li>
+<li><p>Treat deletion of a confirmed non-existent resource as a successful no-op with
+<code class="docutils literal notranslate"><span class="pre">changed=False</span></code>.</p></li>
+<li><p>Never treat authentication, permission, timeout, or other retrieval failures as
+proof that a resource is absent.</p></li>
+<li><p>Use positive, state-based messages for no-op delete cases.</p></li>
+</ul>
+<p>For example: <code class="docutils literal notranslate"><span class="pre">Template</span> <span class="pre">'Onboard-Access'</span> <span class="pre">is</span> <span class="pre">already</span> <span class="pre">absent.</span> <span class="pre">Nothing</span> <span class="pre">to</span> <span class="pre">delete.</span></code></p>
+<p>Avoid describing confirmed absence as a failure, such as
+<code class="docutils literal notranslate"><span class="pre">Unable</span> <span class="pre">to</span> <span class="pre">delete</span> <span class="pre">the</span> <span class="pre">item</span> <span class="pre">as</span> <span class="pre">it</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">found.</span></code></p>
+</section>
+<section id="performance-and-efficiency">
+<h3>1.3 Performance and efficiency<a class="headerlink" href="#performance-and-efficiency" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Minimize unnecessary API calls. Cache fetched state when it avoids repeated
+work, and refresh it when later operations require up-to-date state.</p></li>
+<li><p>Prefer bulk operations when supported by the API and consistent with the
+required error handling and per-resource results.</p></li>
+<li><p>Polling loops must have a timeout or another bounded exit condition.</p></li>
+<li><p>Use asynchronous or parallel work only when it materially improves throughput
+while preserving correctness, ordering requirements, and traceability.</p></li>
+</ul>
+</section>
+</section>
+<section id="python-module-guidelines">
+<h2>2 Python module guidelines<a class="headerlink" href="#python-module-guidelines" title="Permalink to this heading"></a></h2>
+<section id="layout-and-formatting">
+<h3>2.1 Layout and formatting<a class="headerlink" href="#layout-and-formatting" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Use four spaces for indentation, with no tabs.</p></li>
+<li><p>Follow PEP 8 for spacing, naming, and readability. The collection's maximum
+Python code line length is 100 characters.</p></li>
+<li><p>Keep lines in YAML <code class="docutils literal notranslate"><span class="pre">DOCUMENTATION</span></code>, <code class="docutils literal notranslate"><span class="pre">EXAMPLES</span></code>, and <code class="docutils literal notranslate"><span class="pre">RETURN</span></code> blocks at 80
+characters or fewer.</p></li>
+<li><p>Use two blank lines around top-level classes and functions, and one blank line
+between methods in a class.</p></li>
+<li><p>Do not leave trailing whitespace.</p></li>
+<li><p>Use LF line endings and UTF-8 without a byte order mark.</p></li>
+<li><p>End files with a single newline.</p></li>
+</ul>
+</section>
+<section id="imports">
+<h3>2.2 Imports<a class="headerlink" href="#imports" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>In Ansible modules, place normal imports below <code class="docutils literal notranslate"><span class="pre">DOCUMENTATION</span></code>, <code class="docutils literal notranslate"><span class="pre">EXAMPLES</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">RETURN</span></code>. Preserve any required <code class="docutils literal notranslate"><span class="pre">__future__</span></code> imports in their valid position.</p></li>
+<li><p>Group imports as standard library, third-party, and collection-local imports.</p></li>
+<li><p>Prefer one import per line and absolute imports where practical.</p></li>
+<li><p>Preserve established handling of optional dependencies so missing dependencies
+produce useful module errors.</p></li>
+</ul>
+</section>
+<section id="naming-conventions">
+<h3>2.3 Naming conventions<a class="headerlink" href="#naming-conventions" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">snake_case</span></code> for variables and functions, <code class="docutils literal notranslate"><span class="pre">PascalCase</span></code> for classes, and
+<code class="docutils literal notranslate"><span class="pre">UPPER_CASE_WITH_UNDERSCORES</span></code> for constants.</p></li>
+<li><p>Avoid vague names such as <code class="docutils literal notranslate"><span class="pre">response1</span></code>, <code class="docutils literal notranslate"><span class="pre">result_msg_list_1</span></code>, or <code class="docutils literal notranslate"><span class="pre">rmkey</span></code>.</p></li>
+<li><p>Prefer names that describe the value, such as <code class="docutils literal notranslate"><span class="pre">response_device_details</span></code>,
+<code class="docutils literal notranslate"><span class="pre">device_provision_results</span></code>, <code class="docutils literal notranslate"><span class="pre">key_to_remove</span></code>, and <code class="docutils literal notranslate"><span class="pre">filtered_data</span></code>.</p></li>
+<li><p>Keep related counters and results consistent, such as <code class="docutils literal notranslate"><span class="pre">success_count</span></code> and
+<code class="docutils literal notranslate"><span class="pre">failed_count</span></code>.</p></li>
+</ul>
+</section>
+<section id="comments">
+<h3>2.4 Comments<a class="headerlink" href="#comments" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Add comments when the reason for a branch or operation is not obvious.</p></li>
+<li><p>Explain why the code exists, rather than narrating each line.</p></li>
+<li><p>Use sentence case and start ordinary comments with <code class="docutils literal notranslate"><span class="pre">#</span> </code>.</p></li>
+<li><p>Avoid style-only rules that reduce readability without a clear benefit.</p></li>
+</ul>
+</section>
+<section id="error-handling">
+<h3>2.5 Error handling<a class="headerlink" href="#error-handling" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>At the module boundary, use <code class="docutils literal notranslate"><span class="pre">module.exit_json()</span></code> for success and
+<code class="docutils literal notranslate"><span class="pre">module.fail_json()</span></code> for failures, directly or through the established wrapper.</p></li>
+<li><p>Helper and workflow classes may use the established project result object.
+Keep its structure consistent across code paths and propagate failures to the
+module boundary.</p></li>
+<li><p>Do not expose unhandled exceptions or raw tracebacks to users.</p></li>
+<li><p>Wrap API failures with actionable context. Include relevant identifiers only
+when they are safe to disclose.</p></li>
+<li><p>Return only selected, sanitized error details. Raw exception text can contain
+secrets, request headers, or payloads.</p></li>
+<li><p>Keep return types consistent. A function documented to return <code class="docutils literal notranslate"><span class="pre">bool</span></code> must
+return <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> on every normal return path.</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">module</span><span class="o">.</span><span class="n">fail_json</span><span class="p">(</span>
+    <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;Failed to fetch the template. Check connectivity and permissions.&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="string-formatting">
+<h3>2.6 String formatting<a class="headerlink" href="#string-formatting" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Avoid repeated string concatenation when formatting or joining values makes
+the code clearer.</p></li>
+<li><p>Prefer the formatting style already established in the file or module.</p></li>
+<li><p>Be consistent within a file and preserve supported Python versions.</p></li>
+</ul>
+</section>
+<section id="variable-shadowing">
+<h3>2.7 Variable shadowing<a class="headerlink" href="#variable-shadowing" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Never reuse an outer loop's index variable in a nested <code class="docutils literal notranslate"><span class="pre">enumerate()</span></code> loop.</p></li>
+<li><p>Use descriptive inner names such as <code class="docutils literal notranslate"><span class="pre">param_idx</span></code>, <code class="docutils literal notranslate"><span class="pre">device_idx</span></code>, <code class="docutils literal notranslate"><span class="pre">member_idx</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">site_idx</span></code>.</p></li>
+</ul>
+<p>Avoid:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">member</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">members</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">member</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>Prefer:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">member_idx</span><span class="p">,</span> <span class="n">member</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">members</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">param_idx</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">member</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="logging-guidelines">
+<h2>3 Logging guidelines<a class="headerlink" href="#logging-guidelines" title="Permalink to this heading"></a></h2>
+<section id="general-rules">
+<h3>3.1 General rules<a class="headerlink" href="#general-rules" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>In modules, use <code class="docutils literal notranslate"><span class="pre">module.log()</span></code>. In existing helper or workflow classes, use the
+project's logging wrapper consistently. Do not use <code class="docutils literal notranslate"><span class="pre">print()</span></code> for diagnostics
+in module execution; it can corrupt the JSON result.</p></li>
+<li><p>Log actions and major decisions. A function name alone does not explain what
+happened or why.</p></li>
+<li><p>Log only selected, reviewed fields. Never log passwords, tokens, authorization
+headers, or raw request and response payloads.</p></li>
+<li><p>Custom logging wrappers must honor <code class="docutils literal notranslate"><span class="pre">module.no_log</span></code> and mask sensitive values.
+Do not assume <code class="docutils literal notranslate"><span class="pre">argument_spec</span></code> settings with <code class="docutils literal notranslate"><span class="pre">no_log=True</span></code> automatically protect
+a separate logging system.</p></li>
+<li><p>Log before and after external API calls when the call materially affects
+control flow or debugging.</p></li>
+<li><p>Log before <code class="docutils literal notranslate"><span class="pre">sleep()</span></code> or retry waits, with the reason and duration.</p></li>
+<li><p>Explain <code class="docutils literal notranslate"><span class="pre">continue</span></code>, <code class="docutils literal notranslate"><span class="pre">break</span></code>, or early returns in loops and validation flows
+when that reason helps debugging.</p></li>
+<li><p>Avoid excessive logging. Each message should add debugging value.</p></li>
+</ul>
+</section>
+<section id="log-levels">
+<h3>3.2 Log levels<a class="headerlink" href="#log-levels" title="Permalink to this heading"></a></h3>
+<p>| Level | Use |
+| --- | --- |
+| <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> | Selected, sanitized metadata, computed state, filters, and retries. |
+| <code class="docutils literal notranslate"><span class="pre">INFO</span></code> | Major milestones, successful actions, and high-level progress. |
+| <code class="docutils literal notranslate"><span class="pre">WARNING</span></code> | Recoverable or unexpected conditions. |
+| <code class="docutils literal notranslate"><span class="pre">ERROR</span></code> or <code class="docutils literal notranslate"><span class="pre">CRITICAL</span></code> | Failed operations, according to their severity. |</p>
+<p>Log levels do not make sensitive data safe. Apply the same protection at every
+level and avoid duplicating severity prefixes in the message text.</p>
+</section>
+<section id="logging-examples">
+<h3>3.3 Logging examples<a class="headerlink" href="#logging-examples" title="Permalink to this heading"></a></h3>
+<p>These fragments assume an existing logging wrapper that honors <code class="docutils literal notranslate"><span class="pre">module.no_log</span></code>
+and masks sensitive values:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Validating site input for site_name=&#39;HQ&#39;.&quot;</span><span class="p">,</span> <span class="s2">&quot;DEBUG&quot;</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Calling &#39;get_site&#39; for site name &#39;HQ&#39;.&quot;</span><span class="p">,</span> <span class="s2">&quot;DEBUG&quot;</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+    <span class="s2">&quot;Skipping device &#39;192.0.2.10&#39;: management IP does not match the filter.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Polling task status; waiting 10 seconds before retrying.&quot;</span><span class="p">,</span> <span class="s2">&quot;DEBUG&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Avoid messages such as <code class="docutils literal notranslate"><span class="pre">Entering</span> <span class="pre">get_site_id()</span></code> with no useful action context,
+or an <code class="docutils literal notranslate"><span class="pre">INFO</span></code> message that starts with <code class="docutils literal notranslate"><span class="pre">Warning:</span></code>.</p>
+</section>
+</section>
+<section id="documentation-guidelines">
+<h2>4 Documentation guidelines<a class="headerlink" href="#documentation-guidelines" title="Permalink to this heading"></a></h2>
+<section id="python-docstrings">
+<h3>4.1 Python docstrings<a class="headerlink" href="#python-docstrings" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Use docstrings for public modules, classes, functions, and methods.</p></li>
+<li><p>Prefer a consistent format with a short description, any necessary longer
+description, <code class="docutils literal notranslate"><span class="pre">Args</span></code>, and <code class="docutils literal notranslate"><span class="pre">Returns</span></code> as applicable.</p></li>
+<li><p>Describe actual runtime types, including optional values.</p></li>
+<li><p>Update all affected docstrings when parameter structures change.</p></li>
+<li><p>Return descriptions must match every normal return path.</p></li>
+</ul>
+</section>
+<section id="yaml-documentation-blocks">
+<h3>4.2 YAML documentation blocks<a class="headerlink" href="#yaml-documentation-blocks" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Keep <code class="docutils literal notranslate"><span class="pre">DOCUMENTATION</span></code> concise, accurate, action-oriented, and valid YAML.</p></li>
+<li><p>Include <code class="docutils literal notranslate"><span class="pre">module</span></code>, <code class="docutils literal notranslate"><span class="pre">short_description</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, <code class="docutils literal notranslate"><span class="pre">version_added</span></code>, <code class="docutils literal notranslate"><span class="pre">options</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">author</span></code>, as applicable to the module. Shared options may come from
+documentation fragments.</p></li>
+<li><p>Document <code class="docutils literal notranslate"><span class="pre">type</span></code>, <code class="docutils literal notranslate"><span class="pre">required</span></code>, <code class="docutils literal notranslate"><span class="pre">default</span></code>, <code class="docutils literal notranslate"><span class="pre">choices</span></code>, and <code class="docutils literal notranslate"><span class="pre">elements</span></code> where
+applicable. These values must match the argument specification and runtime
+behavior.</p></li>
+<li><p>Ensure each option description matches its actual type.</p></li>
+<li><p>When child options belong to a list of dictionaries, explain that users add
+multiple entries to the parent list.</p></li>
+<li><p>New parameters must explain their purpose, omitted behavior, and scope, with an
+example value where useful. For filters, state what is matched.</p></li>
+<li><p>Parent descriptions must summarize all child filtering capabilities.</p></li>
+<li><p>Avoid inline severity prefixes such as <code class="docutils literal notranslate"><span class="pre">Warning:</span></code> in option descriptions.</p></li>
+<li><p>Keep <code class="docutils literal notranslate"><span class="pre">RETURN</span></code> fields, types, and sample values consistent with the result.</p></li>
+<li><p>Document check mode support and any limits on its predictions.</p></li>
+</ul>
+</section>
+<section id="filter-combination-semantics">
+<h3>4.3 Filter combination semantics<a class="headerlink" href="#filter-combination-semantics" title="Permalink to this heading"></a></h3>
+<p>When multiple filters act on the same items, document:</p>
+<ul class="simple">
+<li><p>Whether different filter types combine with AND or OR logic.</p></li>
+<li><p>Whether multiple values within one type use AND or OR logic.</p></li>
+<li><p>The scope of each filter, including whether it applies only to its parent list
+entry.</p></li>
+<li><p>What omitted and explicitly empty filters mean, including any difference.</p></li>
+<li><p>Evaluation order and short-circuit behavior when they affect results or errors.</p></li>
+</ul>
+<p>Explain the overall contract in the parent description and each child's role in
+its option description. Demonstrate it in <code class="docutils literal notranslate"><span class="pre">EXAMPLES</span></code>. Methods that build or
+consume the filters must describe the same behavior in their docstrings.</p>
+<p>For an implementation that uses AND across types, OR within a type, and rejects
+explicitly empty lists, a parent description could say:</p>
+<blockquote>
+<div><p>Filters apply within each list entry. A device must match any supplied IP
+address and any supplied hostname. An omitted filter type imposes no
+restriction. Explicitly empty filter lists are invalid.</p>
+</div></blockquote>
+<p>This is an example contract. Describe the implementation's actual behavior;
+do not change existing semantics merely to match this example.</p>
+</section>
+<section id="examples">
+<h3>4.4 Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Give every example a unique, descriptive task name.</p></li>
+<li><p>Use valid YAML, realistic inputs, and idempotent usage where supported.</p></li>
+<li><p>When adding a filter, show it alone, combined with existing filters, and in a
+multi-entry example that demonstrates per-entry scope.</p></li>
+<li><p>Use fictional resource names, documentation IP addresses, and placeholders or
+variable references for credentials. Exclude internal-only links and local
+workstation paths from public examples.</p></li>
+</ul>
+<p>These YAML lists have different meanings:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="c1"># One string containing a comma; not two feature names.</span>
+<span class="nt">features</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;port_assignments,</span><span class="nv"> </span><span class="s">port_channels&quot;</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="c1"># Two feature names.</span>
+<span class="nt">features</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;port_assignments&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;port_channels&quot;</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="function-and-api-design">
+<h2>5 Function and API design<a class="headerlink" href="#function-and-api-design" title="Permalink to this heading"></a></h2>
+<section id="consistent-return-values">
+<h3>5.1 Consistent return values<a class="headerlink" href="#consistent-return-values" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>All normal return paths must match the documented type and structure.</p></li>
+<li><p>If a function returns a tuple, preserve its arity and field meanings across
+branches.</p></li>
+<li><p>If a function returns <code class="docutils literal notranslate"><span class="pre">bool</span></code>, do not return <code class="docutils literal notranslate"><span class="pre">None</span></code> on another path.</p></li>
+<li><p>Include useful result data for both changed and unchanged outcomes.</p></li>
+</ul>
+</section>
+<section id="compatible-method-changes">
+<h3>5.2 Compatible method changes<a class="headerlink" href="#compatible-method-changes" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>When adding parameters to shared methods, provide safe defaults when needed to
+preserve existing callers. Review positional and keyword callers.</p></li>
+<li><p>Preserve public parameter names, defaults, and behavior unless an intentional
+compatibility change follows the project's release process.</p></li>
+</ul>
+<p>For example, an optional optimization input can preserve existing calls:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Before</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_device_details_from_site</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site_name</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># After</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_device_details_from_site</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site_name</span><span class="p">,</span> <span class="n">site_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="friendly-names-first">
+<h3>5.3 Friendly names first<a class="headerlink" href="#friendly-names-first" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Prefer human-readable public inputs such as <code class="docutils literal notranslate"><span class="pre">site_name</span></code> or <code class="docutils literal notranslate"><span class="pre">image_name</span></code>.</p></li>
+<li><p>Accept technical IDs as optional optimization inputs when helpful and
+compatible with the API contract.</p></li>
+</ul>
+</section>
+<section id="read-and-write-operations">
+<h3>5.4 Read and write operations<a class="headerlink" href="#read-and-write-operations" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Classify API operations by their actual effect.</p></li>
+<li><p>Do not mark read-only GET operations as modifying operations.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">op_modifies=True</span></code> only for operations that modify state through wrappers
+that support this flag. Omit it only when the wrapper's default is read-only.</p></li>
+<li><p>Do not assume classifying an operation as a write automatically guards it in
+check mode. Verify the execution path.</p></li>
+</ul>
+<p>For example, the collection's <code class="docutils literal notranslate"><span class="pre">_exec()</span></code> wrapper accepts an explicit read-only
+classification:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalystcenter</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span>
+    <span class="n">family</span><span class="o">=</span><span class="s2">&quot;devices&quot;</span><span class="p">,</span>
+    <span class="n">function</span><span class="o">=</span><span class="s2">&quot;get_device_list&quot;</span><span class="p">,</span>
+    <span class="n">op_modifies</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;management_ip_address&quot;</span><span class="p">:</span> <span class="n">management_ip_address</span><span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="polling-loops">
+<h3>5.5 Polling loops<a class="headerlink" href="#polling-loops" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Refresh task state inside the loop.</p></li>
+<li><p>Handle success, failure, timeout, and unexpected responses explicitly.</p></li>
+<li><p>Use a timeout or another bounded exit condition.</p></li>
+<li><p>Log the reason and duration before waiting.</p></li>
+</ul>
+</section>
+</section>
+<section id="security-and-validation">
+<h2>6 Security and validation<a class="headerlink" href="#security-and-validation" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Never hardcode credentials or tokens in code, playbooks, fixtures, or examples.
+Use clearly identified placeholders or variable references in public examples.</p></li>
+<li><p>Mark sensitive parameters with <code class="docutils literal notranslate"><span class="pre">no_log=True</span></code>.</p></li>
+<li><p>Never expose secrets, authorization headers, raw sensitive payloads, or
+unsanitized exception details through logs or results.</p></li>
+<li><p>Validate input types, especially nested lists and dictionaries, before
+accessing their contents.</p></li>
+<li><p>Validate domain-specific constraints, ranges, and relationships where needed.</p></li>
+<li><p>Prefer <code class="docutils literal notranslate"><span class="pre">argument_spec</span></code> and Ansible's validation features for required
+parameters, types, choices, and supported parameter relationships. Use
+additional validation for constraints they cannot express.</p></li>
+<li><p>Preserve missing, empty, zero, and <code class="docutils literal notranslate"><span class="pre">False</span></code> values according to the input
+contract. Do not use truthiness as a substitute for validation.</p></li>
+</ul>
+</section>
+<section id="playbook-guidelines">
+<h2>7 Playbook guidelines<a class="headerlink" href="#playbook-guidelines" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Start YAML documents with <code class="docutils literal notranslate"><span class="pre">---</span></code> and use two-space indentation.</p></li>
+<li><p>Give every task a clear, action-oriented name.</p></li>
+<li><p>Prefer variables and defaults over hardcoded deployment values.</p></li>
+<li><p>Prefer a space inside Jinja delimiters, for example <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">variable</span> <span class="pre">}}</span></code> and
+<code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">if</span> <span class="pre">condition</span> <span class="pre">%}</span></code>, as checked by the ansible-lint <code class="docutils literal notranslate"><span class="pre">jinja[spacing]</span></code> rule.
+CI does not run ansible-lint on <code class="docutils literal notranslate"><span class="pre">cvp/</span></code> or <code class="docutils literal notranslate"><span class="pre">tests/</span></code>, so check those files
+during review.</p></li>
+<li><p>In a Jinja template that generates YAML, insert passwords and other free-form
+strings as <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">value</span> <span class="pre">|</span> <span class="pre">to_json</span> <span class="pre">}}</span></code>, without surrounding quotes. Inside
+<code class="docutils literal notranslate"><span class="pre">&quot;{{</span> <span class="pre">value</span> <span class="pre">}}&quot;</span></code>, a <code class="docutils literal notranslate"><span class="pre">&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">\</span></code> in the value breaks the YAML or changes the
+value.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">when</span></code>, <code class="docutils literal notranslate"><span class="pre">failed_when</span></code>, and <code class="docutils literal notranslate"><span class="pre">ignore_errors</span></code> deliberately. Do not hide failures
+that prevent the requested state from being achieved.</p></li>
+<li><p>Prefer tags as YAML lists for consistency. Scalar tags are valid Ansible
+syntax and must not be reported as syntax errors.</p></li>
+<li><p>Follow the surrounding directory's <code class="docutils literal notranslate"><span class="pre">.yml</span></code> or <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> naming convention.</p></li>
+</ul>
+<p>Preferred tag form:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="nt">tags</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">playbook</span>
+</pre></div>
+</div>
+<p>Also valid Ansible syntax:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">playbook</span>
+</pre></div>
+</div>
+</section>
+<section id="testing-and-sanity">
+<h2>8 Testing and sanity<a class="headerlink" href="#testing-and-sanity" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Before submitting code changes, run <code class="docutils literal notranslate"><span class="pre">ansible-test</span> <span class="pre">sanity</span></code> and the relevant
+tests. Reviewers should inspect available CI results and run focused checks
+when needed to verify a finding.</p></li>
+<li><p>Add or update tests for changed behavior, including relevant normal, edge,
+failure, and idempotency paths.</p></li>
+<li><p>Use realistic inputs and verify both changed and unchanged results explicitly.</p></li>
+<li><p>Use obvious placeholders such as <code class="docutils literal notranslate"><span class="pre">&lt;password&gt;</span></code> for secrets in fixtures and
+tests, even where other inputs are realistic. When the module validates a
+secret's format, choose a placeholder that still passes the rule, such as
+<code class="docutils literal notranslate"><span class="pre">&lt;File_Password_1&gt;</span></code>, or that still fails it in negative tests.</p></li>
+<li><p>When a module supports multiple backend API paths, cover affected older and
+newer paths without assuming their response structures are identical.</p></li>
+<li><p>For modules that support check mode, declare <code class="docutils literal notranslate"><span class="pre">supports_check_mode=True</span></code> and
+guard every mutating operation with <code class="docutils literal notranslate"><span class="pre">module.check_mode</span></code>, directly or through a
+verified shared implementation. Read-only calls may compute the plan.</p></li>
+<li><p>In check mode, predict whether a change is required without sending create,
+update, or delete requests. Document any limits on that prediction.</p></li>
+<li><p>Test supported check mode with both already-correct state and state requiring
+changes. Assert <code class="docutils literal notranslate"><span class="pre">changed</span></code> and verify that no mutating API calls occur.</p></li>
+<li><p>Do not declare check mode support unless the implementation provides it.</p></li>
+<li><p>Record the checks run, their results, and anything not verified. Missing tools
+or credentials must not be reported as passing checks.</p></li>
+<li><p>For documentation-only changes, check formatting, links, and affected examples.
+Run code tests when the change also affects executable behavior.</p></li>
+</ul>
+<p>Run commands from the collection root, under
+<code class="docutils literal notranslate"><span class="pre">ansible_collections/cisco/catalystcenter</span></code>, using a supported <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>
+environment. Container-based sanity checks require Docker or a supported
+container runtime:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># All sanity checks, matching the container-based CI approach.</span>
+ansible-test<span class="w"> </span>sanity<span class="w"> </span>--docker
+
+<span class="c1"># Focus sanity checks on a module being changed.</span>
+ansible-test<span class="w"> </span>sanity<span class="w"> </span>plugins/modules/site_workflow_manager.py<span class="w"> </span>--docker
+</pre></div>
+</div>
+<p>Use an isolated test environment for integration tests that modify Catalyst
+Center resources, and identify those tests separately from local static checks.</p>
+</section>
+<section id="code-review-checklist">
+<h2>9 Code review checklist<a class="headerlink" href="#code-review-checklist" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>[ ] Is the module idempotent, including confirmed no-op deletions?</p></li>
+<li><p>[ ] Are <code class="docutils literal notranslate"><span class="pre">changed=True</span></code> and <code class="docutils literal notranslate"><span class="pre">changed=False</span></code> both correct?</p></li>
+<li><p>[ ] Where check mode is supported, are writes prevented and predictions tested?</p></li>
+<li><p>[ ] Are required parameters and nested inputs validated appropriately?</p></li>
+<li><p>[ ] Are logs useful, safe, and correctly leveled?</p></li>
+<li><p>[ ] Are API calls necessary and correctly classified as reads or writes?</p></li>
+<li><p>[ ] Are polling loops bounded and refreshed on each iteration?</p></li>
+<li><p>[ ] Are return values consistent across all normal return paths?</p></li>
+<li><p>[ ] Do docstrings, <code class="docutils literal notranslate"><span class="pre">DOCUMENTATION</span></code>, <code class="docutils literal notranslate"><span class="pre">EXAMPLES</span></code>, and <code class="docutils literal notranslate"><span class="pre">RETURN</span></code> match the code?</p></li>
+<li><p>[ ] Do filter docs explain matching across types, within a type, per-entry
+scope, and omitted or empty filters?</p></li>
+<li><p>[ ] Are secrets protected with <code class="docutils literal notranslate"><span class="pre">no_log</span></code>, including custom logging wrappers?</p></li>
+<li><p>[ ] Do code, fixtures, examples, and CVP inputs use placeholders or variables
+instead of real-looking secrets?</p></li>
+<li><p>[ ] Are raw payloads and unsanitized exceptions excluded from logs and errors?</p></li>
+<li><p>[ ] Is duplicated logic removed or intentionally retained for clarity?</p></li>
+<li><p>[ ] Are public interfaces and supported backend paths compatible?</p></li>
+<li><p>[ ] Are relevant tests updated and sanity results available?</p></li>
+</ul>
+<p>Mark items that do not apply as not applicable in review notes rather than
+inventing findings or requiring unrelated changes.</p>
+</section>
+<section id="practical-patterns-and-examples">
+<h2>10 Practical patterns and examples<a class="headerlink" href="#practical-patterns-and-examples" title="Permalink to this heading"></a></h2>
+<p>The following fragments illustrate individual patterns. They assume surrounding
+module setup and validation where stated.</p>
+<section id="early-returns-and-local-variables">
+<h3>10.1 Early returns and local variables<a class="headerlink" href="#early-returns-and-local-variables" title="Permalink to this heading"></a></h3>
+<p>Extract repeated lookups without changing which later workflow steps execute.</p>
+<p>Before:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">want</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lan_automation&quot;</span><span class="p">):</span>
+    <span class="n">seed_ip_address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">want</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lan_automation&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s2">&quot;primaryDeviceManagmentIPAddress&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>After validating <code class="docutils literal notranslate"><span class="pre">lan_automation</span></code> as an optional dictionary:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lan_automation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">want</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lan_automation&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">lan_automation</span><span class="p">:</span>
+    <span class="n">seed_ip_address</span> <span class="o">=</span> <span class="n">lan_automation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;primaryDeviceManagmentIPAddress&quot;</span><span class="p">)</span>
+<span class="c1"># Continue with any remaining workflow steps.</span>
+</pre></div>
+</div>
+<p>An early return when <code class="docutils literal notranslate"><span class="pre">lan_automation</span></code> is absent is appropriate only if the whole
+method handles LAN automation and no later work should run. The API field's
+spelling is preserved intentionally.</p>
+</section>
+<section id="logging-around-api-calls">
+<h3>10.2 Logging around API calls<a class="headerlink" href="#logging-around-api-calls" title="Permalink to this heading"></a></h3>
+<p>Use meaningful milestones without exposing raw payloads. This fragment assumes
+the logging wrapper honors <code class="docutils literal notranslate"><span class="pre">module.no_log</span></code> and masks sensitive values:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Fetching the device list for the requested management IP.&quot;</span><span class="p">,</span> <span class="s2">&quot;DEBUG&quot;</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalystcenter</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span>
+    <span class="n">family</span><span class="o">=</span><span class="s2">&quot;devices&quot;</span><span class="p">,</span>
+    <span class="n">function</span><span class="o">=</span><span class="s2">&quot;get_device_list&quot;</span><span class="p">,</span>
+    <span class="n">op_modifies</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;management_ip_address&quot;</span><span class="p">:</span> <span class="n">management_ip_address</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Received the device list response.&quot;</span><span class="p">,</span> <span class="s2">&quot;DEBUG&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Handle API failures with safe, actionable messages. If more detail is needed,
+log only explicitly selected and sanitized metadata. Never use
+<code class="docutils literal notranslate"><span class="pre">self.pprint(response)</span></code> to log the complete API response.</p>
+</section>
+<section id="optional-integer-values">
+<h3>10.3 Optional integer values<a class="headerlink" href="#optional-integer-values" title="Permalink to this heading"></a></h3>
+<p>An optional integer may be <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">None</span></code>; document both possibilities. Do not
+use truthiness to detect missing numeric values.</p>
+<p>Avoid:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">port</span> <span class="o">=</span> <span class="n">netflow_details</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;collector&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;port&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">port</span><span class="p">:</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</pre></div>
+</div>
+<p>After validating <code class="docutils literal notranslate"><span class="pre">netflow_details</span></code> and <code class="docutils literal notranslate"><span class="pre">collector</span></code> as dictionaries, and <code class="docutils literal notranslate"><span class="pre">port</span></code> as
+an optional integer in the allowed range:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">collector</span> <span class="o">=</span> <span class="n">netflow_details</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;collector&quot;</span><span class="p">,</span> <span class="p">{})</span>
+<span class="n">port</span> <span class="o">=</span> <span class="n">collector</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;port&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the input contract also accepts numeric strings, validate and convert them
+explicitly. Define how empty strings, explicit nulls, Boolean values, and
+out-of-range values are handled. Do not silently treat every falsy value as
+absent.</p>
+</section>
+<section id="no-op-delete-behavior">
+<h3>10.4 No-op delete behavior<a class="headerlink" href="#no-op-delete-behavior" title="Permalink to this heading"></a></h3>
+<p>When absence has been confirmed, return <code class="docutils literal notranslate"><span class="pre">changed=False</span></code> and a state-based message
+such as:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Requested item is already absent. Nothing to delete.
+</pre></div>
+</div>
+<p>Authentication, permission, timeout, and other retrieval failures are not
+evidence of absence and must follow the error path.</p>
+</section>
+<section id="preserving-boolean-comparison-semantics">
+<h3>10.5 Preserving Boolean comparison semantics<a class="headerlink" href="#preserving-boolean-comparison-semantics" title="Permalink to this heading"></a></h3>
+<p>Reorder conditions only when both the result and evaluation behavior remain
+correct. Preserve an explicit <code class="docutils literal notranslate"><span class="pre">True</span></code> comparison unless validation guarantees a
+Boolean.</p>
+<p>Before:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">pool_values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ipv4PrefixLength&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">pool_values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ipv4Prefix&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>For a validated dictionary with no side effects in these lookups, the following
+preserves the Boolean test:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">pool_values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ipv4Prefix&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pool_values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ipv4PrefixLength&quot;</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Replacing <code class="docutils literal notranslate"><span class="pre">is</span> <span class="pre">True</span></code> with a truthiness check also accepts values such as <code class="docutils literal notranslate"><span class="pre">1</span></code> and
+non-empty strings, including <code class="docutils literal notranslate"><span class="pre">&quot;false&quot;</span></code>. Simplify only after validating or
+normalizing the value as a Boolean. Separately define whether prefix length <code class="docutils literal notranslate"><span class="pre">0</span></code>
+is valid; if it is, test explicitly for a missing value instead of using <code class="docutils literal notranslate"><span class="pre">not</span></code>.</p>
+</section>
+</section>
+<section id="ansible-references">
+<h2>Ansible references<a class="headerlink" href="#ansible-references" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/dev_guide/developing_modules_documenting.html">Module format and documentation</a></p></li>
+<li><p><a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/dev_guide/developing_program_flow_modules.html">Module architecture and argument validation</a></p></li>
+<li><p><a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/dev_guide/testing_sanity.html">Sanity tests</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright (c) 2021 Cisco Systems.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

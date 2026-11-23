@@ -1653,7 +1653,7 @@
 <h1>cisco.catalystcenter.device_configs_backup_workflow_manager module -- Device Configs Backup module for taking configuration backups of reachable devices in the Cisco Catalyst Center.<a class="headerlink" href="#cisco-catalystcenter-device-configs-backup-workflow-manager-module-device-configs-backup-module-for-taking-configuration-backups-of-reachable-devices-in-the-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.14.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.15.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-device-configs-backup-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2054,7 +2054,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">    </span><span class="nt">catalystcenter_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catalystcenter_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">file_password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">qsaA12!asdasd</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">file_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">device_configs_backup_file_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Take backup of device(s) using hostname(s)</span>
 <span class="w">  </span><span class="nt">cisco.catalystcenter.device_configs_backup_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">catalystcenter_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catalystcenter_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2087,7 +2087,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;DC-T-9300.cisco.local&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">backup</span>
-<span class="w">        </span><span class="nt">file_password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">qsaA12!asdasd</span>
+<span class="w">        </span><span class="nt">file_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">device_configs_backup_file_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">        </span><span class="nt">unzip_backup</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Take backup of all devices in a site(s)</span>
 <span class="w">  </span><span class="nt">cisco.catalystcenter.device_configs_backup_workflow_manager</span><span class="p">:</span>
@@ -2264,7 +2264,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id66" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
-<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v14)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible vdevel)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Key</p></th>

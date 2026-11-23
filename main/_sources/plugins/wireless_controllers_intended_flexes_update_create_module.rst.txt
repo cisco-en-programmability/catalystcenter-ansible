@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_controllers_intended_flexes_update_create module -
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.14.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.15.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -616,21 +616,21 @@ Examples
               - configType: LOCAL_AUTH_USER
                 deviceVersion: '17.18'
                 flexPolicyName: Enterprise-FlexProfile-001
-                localAuthUserPassword: SecureP@ssw0rd123!
+                localAuthUserPassword: "{{ wireless_controller_local_auth_user_password }}"
                 localAuthUserPasswordType: CLEAR
                 localAuthUserUserName: admin_user
                 op: CREATE
               - configType: LOCAL_AUTH_USER
                 deviceVersion: '17.18'
                 flexPolicyName: Enterprise-FlexProfile-001
-                localAuthUserPassword: GuestAccess2024!
+                localAuthUserPassword: "{{ wireless_controller_local_auth_user_password }}"
                 localAuthUserPasswordType: CLEAR
                 localAuthUserUserName: guest_user
                 op: CREATE
               - configType: LOCAL_AUTH_USER
                 deviceVersion: '17.18'
                 flexPolicyName: Enterprise-FlexProfile-001
-                localAuthUserPassword: ServiceAcc0unt#2024
+                localAuthUserPassword: "{{ wireless_controller_local_auth_user_password }}"
                 localAuthUserPasswordType: CLEAR
                 localAuthUserUserName: service_account
                 op: CREATE

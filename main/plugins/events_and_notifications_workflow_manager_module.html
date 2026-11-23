@@ -1653,7 +1653,7 @@
 <h1>cisco.catalystcenter.events_and_notifications_workflow_manager module -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.<a class="headerlink" href="#cisco-catalystcenter-events-and-notifications-workflow-manager-module-configure-various-types-of-destinations-to-deliver-event-notifications-from-cisco-catalyst-center-platform" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.14.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.15.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-events-and-notifications-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2748,9 +2748,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">          </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cisco</span>
 <span class="w">          </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AUTH_PRIVACY</span>
 <span class="w">          </span><span class="nt">auth_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SHA</span>
-<span class="w">          </span><span class="nt">auth_password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">authpass123</span>
+<span class="w">          </span><span class="nt">auth_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">events_and_notifications_snmp_auth_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">          </span><span class="nt">privacy_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AES128</span>
-<span class="w">          </span><span class="nt">privacy_password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">privacy123</span>
+<span class="w">          </span><span class="nt">privacy_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">events_and_notifications_snmp_privacy_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update SNMP destination with given name.</span>
 <span class="w">  </span><span class="nt">cisco.catalystcenter.events_and_notifications_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">catalystcenter_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catalystcenter_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2771,7 +2771,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">          </span><span class="nt">server_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.30.0.23&quot;</span>
 <span class="w">          </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;25&quot;</span>
 <span class="w">          </span><span class="nt">snmp_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;V2C&quot;</span>
-<span class="w">          </span><span class="nt">community</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;public123&quot;</span>
+<span class="w">          </span><span class="nt">community</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">events_and_notifications_snmp_community</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create ITSM Integration Setting with given name</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">in the system.</span>
 <span class="w">  </span><span class="nt">cisco.catalystcenter.events_and_notifications_workflow_manager</span><span class="p">:</span>
@@ -2792,7 +2792,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">          </span><span class="nt">connection_settings</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http/catalystcenter.com&quot;</span>
 <span class="w">            </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;catalyst&quot;</span>
-<span class="w">            </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;catalyst@123&quot;</span>
+<span class="w">            </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">events_and_notifications_itsm_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Updating ITSM Integration Setting with given</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">name in the system.</span>
 <span class="w">  </span><span class="nt">cisco.catalystcenter.events_and_notifications_workflow_manager</span><span class="p">:</span>
@@ -2811,7 +2811,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">          </span><span class="nt">instance_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ITSM</span><span class="nv"> </span><span class="s">test&quot;</span>
 <span class="w">          </span><span class="nt">connection_settings</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http/catalystcenterupdate.com&quot;</span>
-<span class="w">            </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;catalyst@123&quot;</span>
+<span class="w">            </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">events_and_notifications_itsm_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Creating Webhook Notification with the list</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">of names of subscribed events in the system.</span>
 <span class="w">  </span><span class="nt">cisco.catalystcenter.events_and_notifications_workflow_manager</span><span class="p">:</span>
@@ -3012,7 +3012,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id62" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
-<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v14)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible vdevel)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Key</p></th>
