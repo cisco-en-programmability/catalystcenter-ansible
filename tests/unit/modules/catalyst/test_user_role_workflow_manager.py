@@ -1084,7 +1084,7 @@ numbers, periods, underscores, and hyphens.",
                             first_name="Test",
                             last_name="User",
                             email="test@example.com",
-                            password="DummyDumm@1",
+                            password="<User_Password_1>",
                             password_update="true",  # string, not bool
                             role_list=["OBSERVER-ROLE"],
                         )
