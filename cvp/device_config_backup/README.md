@@ -114,7 +114,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/device_config_backup/play
 
 ```
 hostname:
-  - file_password: qsaA12!asdasd
+  - file_password: "{{ device_configs_backup_file_password }}"
     hostname_list: ['DC-T-9300','SJ-IM-1-9300','SJ-EN-10-9300']
     file_path: "./"
 ```

@@ -2,7 +2,7 @@
   "playbook_config_generate_all": {
     "catalystcenter_host": "198.18.129.100",
     "catalystcenter_username": "admin",
-    "catalystcenter_password": "C1sco12345",
+    "catalystcenter_password": "dummy",
     "catalystcenter_verify": false,
     "catalystcenter_version": "2.3.7.6",
     "state": "merged",
@@ -15,7 +15,7 @@
   "playbook_config_specific_families": {
     "catalystcenter_host": "198.18.129.100",
     "catalystcenter_username": "admin",
-    "catalystcenter_password": "C1sco12345",
+    "catalystcenter_password": "dummy",
     "catalystcenter_verify": false,
     "catalystcenter_version": "2.3.7.6",
     "state": "merged",
@@ -33,7 +33,7 @@
   "playbook_config_specific_kpis": {
     "catalystcenter_host": "198.18.129.100",
     "catalystcenter_username": "admin",
-    "catalystcenter_password": "C1sco12345",
+    "catalystcenter_password": "dummy",
     "catalystcenter_verify": false,
     "catalystcenter_version": "2.3.7.6",
     "state": "merged",
@@ -52,7 +52,7 @@
   "playbook_config_combined_filters": {
     "catalystcenter_host": "198.18.129.100",
     "catalystcenter_username": "admin",
-    "catalystcenter_password": "C1sco12345",
+    "catalystcenter_password": "dummy",
     "catalystcenter_verify": false,
     "catalystcenter_version": "2.3.7.6",
     "state": "merged",
@@ -74,7 +74,7 @@
   "playbook_config_invalid_filters": {
     "catalystcenter_host": "198.18.129.100",
     "catalystcenter_username": "admin",
-    "catalystcenter_password": "C1sco12345",
+    "catalystcenter_password": "dummy",
     "catalystcenter_verify": false,
     "catalystcenter_version": "2.3.7.6",
     "state": "merged",

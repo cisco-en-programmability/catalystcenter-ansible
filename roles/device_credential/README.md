@@ -84,35 +84,35 @@ The following image is copied from the workflow documentation to help map the ro
             cli_credential:
             - description: Device Administrator
               username: netadmin1
-              password: Lablab#123
-              enable_password: Cisco#123
+              password: "{{ vault_device_credential_cli_password }}"
+              enable_password: "{{ vault_device_credential_cli_enable_password }}"
             - description: CLI Sample 1
               username: cli-1
-              password: 5!meh
-              enable_password: q4^t^
+              password: "{{ vault_device_credential_cli_password }}"
+              enable_password: "{{ vault_device_credential_cli_enable_password }}"
             snmp_v2c_read:
             - description: snmpRead-1
-              read_community: '@123'
+              read_community: "{{ vault_device_credential_snmp_v2c_read_community }}"
             snmp_v2c_write:
             - description: snmpWrite-1
-              write_community: '#mea@'
+              write_community: "{{ vault_device_credential_snmp_v2c_write_community }}"
             snmp_v3:
             - description: snmpV3 Sample 1
-              auth_password: hp!x6px&#@2xi5
+              auth_password: "{{ vault_device_credential_snmp_v3_auth_password }}"
               auth_type: SHA
               snmp_mode: AUTHPRIV
-              privacy_password: ai7tpci3j@*j5g
+              privacy_password: "{{ vault_device_credential_snmp_v3_privacy_password }}"
               privacy_type: AES128
               username: admin
             https_read:
             - description: httpsRead Sample 1
               username: admin
-              password: 2!x88yvqz*7
+              password: "{{ vault_device_credential_https_read_password }}"
               port: 443
             https_write:
             - description: httpsWrite Sample 1
               username: admin
-              password: j@5wgm%s2g%
+              password: "{{ vault_device_credential_https_write_password }}"
               port: 443
 ```
 

@@ -133,12 +133,12 @@ catalyst_center_hosts:
         cli_credential: #Create CLI credentials list
         - description: CLI Sample 1
           username: cli-1
-          password: "5!meh"
-          enable_password: "q4^t^"
+          password: "{{ device_credential_cli_password }}"
+          enable_password: "{{ device_credential_cli_enable_password }}"
         - description: CLI2
           username: cli-2
-          password: "sbs2@"
-          enable_password: "8b!rn"
+          password: "{{ device_credential_cli_password }}"
+          enable_password: "{{ device_credential_cli_enable_password }}"
   ```
 
 -  Create all credentials
@@ -151,35 +151,35 @@ device_credentials:
       cli_credential: #Create CLI credentials list
       - description: CLI Sample 1
         username: cli-1
-        password: "5!meh"
-        enable_password: "q4^t^"
+        password: "{{ device_credential_cli_password }}"
+        enable_password: "{{ device_credential_cli_enable_password }}"
       - description: CLI2
         username: cli-2
-        password: "sbs2@"
-        enable_password: "8b!rn"
+        password: "{{ device_credential_cli_password }}"
+        enable_password: "{{ device_credential_cli_enable_password }}"
       snmp_v2c_read:
       - description: snmpRead-1
-        read_community: "@123"
+        read_community: "{{ device_credential_snmp_v2c_read_community }}"
       snmp_v2c_write:
       - description: snmpWrite-1
-        write_community: "#mea@"
+        write_community: "{{ device_credential_snmp_v2c_write_community }}"
       snmp_v3: #Create SNMPv3 credentials list
       - description: snmpV3 Sample 1 
-        auth_password: "hp!x6px&#@2xi5"
+        auth_password: "{{ device_credential_snmp_v3_auth_password }}"
         auth_type: SHA
         snmp_mode: AUTHPRIV
-        privacy_password: "ai7tpci3j@*j5g"
+        privacy_password: "{{ device_credential_snmp_v3_privacy_password }}"
         privacy_type: AES128
         username: admin
       https_read: #Create HTTPS Read credentials list
       - description: httpsRead Sample 1
         username: admin
-        password: "2!x88yvqz*7"
+        password: "{{ device_credential_https_read_password }}"
         port: 443
       https_write: #Create HTTPS Write credentials list
       - description: httpsWrite Sample 1
         username: admin
-        password: "j@5wgm%s2g%"
+        password: "{{ device_credential_https_write_password }}"
         port: 443
   ```
 
@@ -210,12 +210,12 @@ device_credentials:
         cli_credential:
         - description: CLI Sample 1
           username: cli-1
-          password: "5!meh"
-          enable_password: "q4^t^"
+          password: "{{ device_credential_cli_password }}"
+          enable_password: "{{ device_credential_cli_enable_password }}"
         - description: CLI2
           username: cli-2
-          password: "sbs2@"
-          enable_password: "8b!rn"
+          password: "{{ device_credential_cli_password }}"
+          enable_password: "{{ device_credential_cli_enable_password }}"
   ```
 
   **Input example with update device credential name/description using old name and description**:
@@ -229,8 +229,8 @@ device_credentials:
         cli_credential:
         - description: CLISample1
           username: cli1
-          password: "5!meh"
-          enable_password: "q4^t^"
+          password: "{{ device_credential_cli_password }}"
+          enable_password: "{{ device_credential_cli_enable_password }}"
           old_description: CLI Sample 1
           old_username: cli-1
   ```
@@ -381,15 +381,15 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/device_credentials/playbo
 
 ```bash
 TASK [Create or Update existing Credentials with provided details in "../vars/device_credentials_vars.yml"] ***
-task path: /auto/dna-sol/ws/thanduong/dnac-auto/dnac_ansible_cvp/cvp/device_credentials/playbook/device_credentials_playbook.yml:53
-<catalyst_center220> ESTABLISH LOCAL CONNECTION FOR USER: thanduon
-<catalyst_center220> EXEC /bin/sh -c 'echo ~thanduon && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /users/thanduon/.ansible/tmp `"&& mkdir "` echo /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834 `" && echo ansible-tmp-1740126079.5517635-1320856-85222477229834="` echo /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834 `" ) && sleep 0'
-Using module file /users/thanduon/.ansible/collections/ansible_collections/cisco/catalystcenter/plugins/modules/device_credential_workflow_manager.py
-<catalyst_center220> PUT /users/thanduon/.ansible/tmp/ansible-local-1320371l8ksx2_1/tmpf1medyzg TO /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/AnsiballZ_device_credential_workflow_manager.py
-<catalyst_center220> EXEC /bin/sh -c 'chmod u+x /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/ /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c '/auto/dna-sol/pyats-ws/pyats-thanduong/bin/python /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c 'rm -f -r /users/thanduon/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/ > /dev/null 2>&1 && sleep 0'
+task path: /auto/dna-sol/ws/username/dnac-auto/dnac_ansible_cvp/cvp/device_credentials/playbook/device_credentials_playbook.yml:53
+<catalyst_center220> ESTABLISH LOCAL CONNECTION FOR USER: username
+<catalyst_center220> EXEC /bin/sh -c 'echo ~username && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /users/username/.ansible/tmp `"&& mkdir "` echo /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834 `" && echo ansible-tmp-1740126079.5517635-1320856-85222477229834="` echo /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834 `" ) && sleep 0'
+Using module file /users/username/.ansible/collections/ansible_collections/cisco/catalystcenter/plugins/modules/device_credential_workflow_manager.py
+<catalyst_center220> PUT /users/username/.ansible/tmp/ansible-local-1320371l8ksx2_1/tmpf1medyzg TO /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/AnsiballZ_device_credential_workflow_manager.py
+<catalyst_center220> EXEC /bin/sh -c 'chmod u+x /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/ /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c '/auto/dna-sol/pyats-ws/pyats-username/bin/python /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c 'rm -f -r /users/username/.ansible/tmp/ansible-tmp-1740126079.5517635-1320856-85222477229834/ > /dev/null 2>&1 && sleep 0'
 changed: [catalyst_center220] => {
     "changed": true,
     "diff": [],
@@ -401,21 +401,21 @@ changed: [catalyst_center220] => {
                         "cli_credential": [
                             {
                                 "description": "CLI Sample 1",
-                                "enable_password": "q4^t^",
-                                "password": "5!meh",
+                                "enable_password": "********",
+                                "password": "********",
                                 "username": "cli-1"
                             },
                             {
                                 "description": "CLI2",
-                                "enable_password": "8b!rn",
-                                "password": "sbs2@",
+                                "enable_password": "********",
+                                "password": "********",
                                 "username": "cli-2"
                             }
                         ],
                         "https_read": [
                             {
                                 "description": "httpsRead Sample 1",
-                                "password": "2!x88yvqz*7",
+                                "password": "********",
                                 "port": 443,
                                 "username": "admin"
                             }
@@ -423,17 +423,17 @@ changed: [catalyst_center220] => {
                         "https_write": [
                             {
                                 "description": "httpsWrite Sample 1",
-                                "password": "j@5wgm%s2g%",
+                                "password": "********",
                                 "port": 443,
                                 "username": "admin"
                             }
                         ],
                         "snmp_v3": [
                             {
-                                "auth_password": "hp!x6px&#@2xi5",
+                                "auth_password": "********",
                                 "auth_type": "SHA",
                                 "description": "snmpV3 Sample 1",
-                                "privacy_password": "ai7tpci3j@*j5g",
+                                "privacy_password": "********",
                                 "privacy_type": "AES128",
                                 "snmp_mode": "AUTHPRIV",
                                 "username": "admin"
@@ -445,7 +445,7 @@ changed: [catalyst_center220] => {
             "config_verify": false,
             "catalystcenter_api_task_timeout": 1200,
             "catalystcenter_debug": true,
-            "catalystcenter_host": "10.22.40.214",
+            "catalystcenter_host": "xx.xx.xx.xx",
             "catalystcenter_log": true,
             "catalystcenter_log_append": true,
             "catalystcenter_log_file_path": "catalystcenter.log",
@@ -453,7 +453,7 @@ changed: [catalyst_center220] => {
             "catalystcenter_password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
             "catalystcenter_port": "443",
             "catalystcenter_task_poll_interval": 2,
-            "catalystcenter_username": "thanduon",
+            "catalystcenter_username": "admin",
             "catalystcenter_verify": false,
             "catalystcenter_version": "2.3.7.6",
             "state": "merged",
@@ -472,21 +472,21 @@ changed: [catalyst_center220] => {
                         "cliCredential": [
                             {
                                 "description": "CLI Sample 1",
-                                "enablePassword": "q4^t^",
-                                "password": "5!meh",
+                                "enablePassword": "********",
+                                "password": "********",
                                 "username": "cli-1"
                             },
                             {
                                 "description": "CLI2",
-                                "enablePassword": "8b!rn",
-                                "password": "sbs2@",
+                                "enablePassword": "********",
+                                "password": "********",
                                 "username": "cli-2"
                             }
                         ],
                         "httpsRead": [
                             {
                                 "description": "httpsRead Sample 1",
-                                "password": "2!x88yvqz*7",
+                                "password": "********",
                                 "port": 443,
                                 "username": "admin"
                             }
@@ -494,17 +494,17 @@ changed: [catalyst_center220] => {
                         "httpsWrite": [
                             {
                                 "description": "httpsWrite Sample 1",
-                                "password": "j@5wgm%s2g%",
+                                "password": "********",
                                 "port": 443,
                                 "username": "admin"
                             }
                         ],
                         "snmpV3": [
                             {
-                                "authPassword": "hp!x6px&#@2xi5",
+                                "authPassword": "********",
                                 "authType": "SHA",
                                 "description": "snmpV3 Sample 1",
-                                "privacyPassword": "ai7tpci3j@*j5g",
+                                "privacyPassword": "********",
                                 "privacyType": "AES128",
                                 "snmpMode": "AUTHPRIV",
                                 "username": "admin"
@@ -523,15 +523,15 @@ changed: [catalyst_center220] => {
 Read vars_file '{{ VARS_FILE_PATH }}'
 
 TASK [Assign Credentials to sites for credentials and sites maps in variables file "../vars/device_credentials_vars.yml"] ***
-task path: /auto/dna-sol/ws/thanduong/dnac-auto/dnac_ansible_cvp/cvp/device_credentials/playbook/device_credentials_playbook.yml:61
-<catalyst_center220> ESTABLISH LOCAL CONNECTION FOR USER: thanduon
-<catalyst_center220> EXEC /bin/sh -c 'echo ~thanduon && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /users/thanduon/.ansible/tmp `"&& mkdir "` echo /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816 `" && echo ansible-tmp-1740126102.9772413-1322165-162826310557816="` echo /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816 `" ) && sleep 0'
-Using module file /users/thanduon/.ansible/collections/ansible_collections/cisco/catalystcenter/plugins/modules/device_credential_workflow_manager.py
-<catalyst_center220> PUT /users/thanduon/.ansible/tmp/ansible-local-1320371l8ksx2_1/tmpog0uoozu TO /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/AnsiballZ_device_credential_workflow_manager.py
-<catalyst_center220> EXEC /bin/sh -c 'chmod u+x /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/ /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c '/auto/dna-sol/pyats-ws/pyats-thanduong/bin/python /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c 'rm -f -r /users/thanduon/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/ > /dev/null 2>&1 && sleep 0'
+task path: /auto/dna-sol/ws/username/dnac-auto/dnac_ansible_cvp/cvp/device_credentials/playbook/device_credentials_playbook.yml:61
+<catalyst_center220> ESTABLISH LOCAL CONNECTION FOR USER: username
+<catalyst_center220> EXEC /bin/sh -c 'echo ~username && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /users/username/.ansible/tmp `"&& mkdir "` echo /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816 `" && echo ansible-tmp-1740126102.9772413-1322165-162826310557816="` echo /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816 `" ) && sleep 0'
+Using module file /users/username/.ansible/collections/ansible_collections/cisco/catalystcenter/plugins/modules/device_credential_workflow_manager.py
+<catalyst_center220> PUT /users/username/.ansible/tmp/ansible-local-1320371l8ksx2_1/tmpog0uoozu TO /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/AnsiballZ_device_credential_workflow_manager.py
+<catalyst_center220> EXEC /bin/sh -c 'chmod u+x /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/ /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c '/auto/dna-sol/pyats-ws/pyats-username/bin/python /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c 'rm -f -r /users/username/.ansible/tmp/ansible-tmp-1740126102.9772413-1322165-162826310557816/ > /dev/null 2>&1 && sleep 0'
 changed: [catalyst_center220] => {
     "changed": true,
     "diff": [],
@@ -566,7 +566,7 @@ changed: [catalyst_center220] => {
             "config_verify": false,
             "catalystcenter_api_task_timeout": 1200,
             "catalystcenter_debug": true,
-            "catalystcenter_host": "10.22.40.214",
+            "catalystcenter_host": "xx.xx.xx.xx",
             "catalystcenter_log": true,
             "catalystcenter_log_append": true,
             "catalystcenter_log_file_path": "catalystcenter.log",
@@ -574,7 +574,7 @@ changed: [catalyst_center220] => {
             "catalystcenter_password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
             "catalystcenter_port": "443",
             "catalystcenter_task_poll_interval": 2,
-            "catalystcenter_username": "thanduon",
+            "catalystcenter_username": "admin",
             "catalystcenter_verify": false,
             "catalystcenter_version": "2.3.7.6",
             "state": "merged",
@@ -640,16 +640,16 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/device_credentials/playbo
 
 ```bash
 TASK [Create or Update existing Credentials with provided details in "../vars/device_credentials_vars.yml"] ***
-task path: /auto/dna-sol/ws/thanduong/dnac-auto/dnac_ansible_cvp/cvp/device_credentials/playbook/delete_device_credentials_playbook.yml:36
-<catalyst_center220> ESTABLISH LOCAL CONNECTION FOR USER: thanduon
-<catalyst_center220> EXEC /bin/sh -c 'echo ~thanduon && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /users/thanduon/.ansible/tmp `"&& mkdir "` echo /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581 `" && echo ansible-tmp-1740129405.6199465-1431951-27769327087581="` echo /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581 `" ) && sleep 0'
-Using module file /users/thanduon/.ansible/collections/ansible_collections/cisco/catalystcenter/plugins/modules/device_credential_workflow_manager.py
-<catalyst_center220> PUT /users/thanduon/.ansible/tmp/ansible-local-1430199wc5qelwj/tmptr7r6kkp TO /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py
-<catalyst_center220> EXEC /bin/sh -c 'chmod u+x /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/ /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c '/auto/dna-sol/pyats-ws/pyats-thanduong/bin/python /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
-<catalyst_center220> EXEC /bin/sh -c 'rm -f -r /users/thanduon/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/ > /dev/null 2>&1 && sleep 0'
-changed: [catalyst_center220] => (item={'global_credential_details': {'cli_credential': [{'description': 'CLI Sample 1', 'username': 'cli-1', 'password': '5!meh', 'enable_password': 'q4^t^'}, {'description': 'CLI2', 'username': 'cli-2', 'password': 'sbs2@', 'enable_password': '8b!rn'}], 'snmp_v3': [{'description': 'snmpV3 Sample 1', 'auth_password': 'hp!x6px&#@2xi5', 'auth_type': 'SHA', 'snmp_mode': 'AUTHPRIV', 'privacy_password': 'ai7tpci3j@*j5g', 'privacy_type': 'AES128', 'username': 'admin'}], 'https_read': [{'description': 'httpsRead Sample 1', 'username': 'admin', 'password': '2!x88yvqz*7', 'port': 443}], 'https_write': [{'description': 'httpsWrite Sample 1', 'username': 'admin', 'password': 'j@5wgm%s2g%', 'port': 443}]}}) => {
+task path: /auto/dna-sol/ws/username/dnac-auto/dnac_ansible_cvp/cvp/device_credentials/playbook/delete_device_credentials_playbook.yml:36
+<catalyst_center220> ESTABLISH LOCAL CONNECTION FOR USER: username
+<catalyst_center220> EXEC /bin/sh -c 'echo ~username && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /users/username/.ansible/tmp `"&& mkdir "` echo /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581 `" && echo ansible-tmp-1740129405.6199465-1431951-27769327087581="` echo /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581 `" ) && sleep 0'
+Using module file /users/username/.ansible/collections/ansible_collections/cisco/catalystcenter/plugins/modules/device_credential_workflow_manager.py
+<catalyst_center220> PUT /users/username/.ansible/tmp/ansible-local-1430199wc5qelwj/tmptr7r6kkp TO /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py
+<catalyst_center220> EXEC /bin/sh -c 'chmod u+x /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/ /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c '/auto/dna-sol/pyats-ws/pyats-username/bin/python /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/AnsiballZ_device_credential_workflow_manager.py && sleep 0'
+<catalyst_center220> EXEC /bin/sh -c 'rm -f -r /users/username/.ansible/tmp/ansible-tmp-1740129405.6199465-1431951-27769327087581/ > /dev/null 2>&1 && sleep 0'
+changed: [catalyst_center220] => (item={'global_credential_details': {'cli_credential': [{'description': 'CLI Sample 1', 'username': 'cli-1', 'password': '********', 'enable_password': '********'}, {'description': 'CLI2', 'username': 'cli-2', 'password': '********', 'enable_password': '********'}], 'snmp_v3': [{'description': 'snmpV3 Sample 1', 'auth_password': '********', 'auth_type': 'SHA', 'snmp_mode': 'AUTHPRIV', 'privacy_password': '********', 'privacy_type': 'AES128', 'username': 'admin'}], 'https_read': [{'description': 'httpsRead Sample 1', 'username': 'admin', 'password': '********', 'port': 443}], 'https_write': [{'description': 'httpsWrite Sample 1', 'username': 'admin', 'password': '********', 'port': 443}]}}) => {
     "ansible_loop_var": "item",
     "changed": true,
     "diff": [],
@@ -661,21 +661,21 @@ changed: [catalyst_center220] => (item={'global_credential_details': {'cli_crede
                         "cli_credential": [
                             {
                                 "description": "CLI Sample 1",
-                                "enable_password": "q4^t^",
-                                "password": "5!meh",
+                                "enable_password": "********",
+                                "password": "********",
                                 "username": "cli-1"
                             },
                             {
                                 "description": "CLI2",
-                                "enable_password": "8b!rn",
-                                "password": "sbs2@",
+                                "enable_password": "********",
+                                "password": "********",
                                 "username": "cli-2"
                             }
                         ],
                         "https_read": [
                             {
                                 "description": "httpsRead Sample 1",
-                                "password": "2!x88yvqz*7",
+                                "password": "********",
                                 "port": 443,
                                 "username": "admin"
                             }
@@ -683,17 +683,17 @@ changed: [catalyst_center220] => (item={'global_credential_details': {'cli_crede
                         "https_write": [
                             {
                                 "description": "httpsWrite Sample 1",
-                                "password": "j@5wgm%s2g%",
+                                "password": "********",
                                 "port": 443,
                                 "username": "admin"
                             }
                         ],
                         "snmp_v3": [
                             {
-                                "auth_password": "hp!x6px&#@2xi5",
+                                "auth_password": "********",
                                 "auth_type": "SHA",
                                 "description": "snmpV3 Sample 1",
-                                "privacy_password": "ai7tpci3j@*j5g",
+                                "privacy_password": "********",
                                 "privacy_type": "AES128",
                                 "snmp_mode": "AUTHPRIV",
                                 "username": "admin"
@@ -705,7 +705,7 @@ changed: [catalyst_center220] => (item={'global_credential_details': {'cli_crede
             "config_verify": false,
             "catalystcenter_api_task_timeout": 1200,
             "catalystcenter_debug": true,
-            "catalystcenter_host": "10.22.40.214",
+            "catalystcenter_host": "xx.xx.xx.xx",
             "catalystcenter_log": true,
             "catalystcenter_log_append": true,
             "catalystcenter_log_file_path": "catalystcenter.log",
@@ -713,7 +713,7 @@ changed: [catalyst_center220] => (item={'global_credential_details': {'cli_crede
             "catalystcenter_password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
             "catalystcenter_port": "443",
             "catalystcenter_task_poll_interval": 2,
-            "catalystcenter_username": "thanduon",
+            "catalystcenter_username": "admin",
             "catalystcenter_verify": false,
             "catalystcenter_version": "2.3.7.6",
             "state": "deleted",
@@ -725,21 +725,21 @@ changed: [catalyst_center220] => (item={'global_credential_details': {'cli_crede
             "cli_credential": [
                 {
                     "description": "CLI Sample 1",
-                    "enable_password": "q4^t^",
-                    "password": "5!meh",
+                    "enable_password": "********",
+                    "password": "********",
                     "username": "cli-1"
                 },
                 {
                     "description": "CLI2",
-                    "enable_password": "8b!rn",
-                    "password": "sbs2@",
+                    "enable_password": "********",
+                    "password": "********",
                     "username": "cli-2"
                 }
             ],
             "https_read": [
                 {
                     "description": "httpsRead Sample 1",
-                    "password": "2!x88yvqz*7",
+                    "password": "********",
                     "port": 443,
                     "username": "admin"
                 }
@@ -747,17 +747,17 @@ changed: [catalyst_center220] => (item={'global_credential_details': {'cli_crede
             "https_write": [
                 {
                     "description": "httpsWrite Sample 1",
-                    "password": "j@5wgm%s2g%",
+                    "password": "********",
                     "port": 443,
                     "username": "admin"
                 }
             ],
             "snmp_v3": [
                 {
-                    "auth_password": "hp!x6px&#@2xi5",
+                    "auth_password": "********",
                     "auth_type": "SHA",
                     "description": "snmpV3 Sample 1",
-                    "privacy_password": "ai7tpci3j@*j5g",
+                    "privacy_password": "********",
                     "privacy_type": "AES128",
                     "snmp_mode": "AUTHPRIV",
                     "username": "admin"
@@ -826,25 +826,25 @@ device_credentials:
       cli_credential: #Create CLI credentials list
       - description: switchandwlc credentials
         username: wlcaccess
-        password: {{ wlcaccess_password }}
-        enable_password: {{ wlcaccess_enable_password }}
+        password: {{ wlcaccess_password | to_json }}
+        enable_password: {{ wlcaccess_enable_password | to_json }}
       snmp_v3: #Create SNMPv3 credentials list
       - description: snmpV3 Sample 1 
-        auth_password: {{ snmpV3_Sample_1_auth_password }}
+        auth_password: {{ snmpV3_Sample_1_auth_password | to_json }}
         auth_type: SHA
         snmp_mode: AUTHPRIV
-        privacy_password: {{ snmpV3_Sample_1_privacy_password }}
+        privacy_password: {{ snmpV3_Sample_1_privacy_password | to_json }}
         privacy_type: AES128
         username: admin
       https_read: #Create HTTPS Read credentials list
       - description: httpsRead Sample 1
         username: admin
-        password: {{ httpsRead_Sample_1_password }}
+        password: {{ httpsRead_Sample_1_password | to_json }}
         port: 443
       https_write: #Create HTTPS Write credentials list
       - description: httpsWrite Sample 1
         username: admin
-        password: {{ httpsWrite_Sample_1_password }}
+        password: {{ httpsWrite_Sample_1_password | to_json }}
         port: 443
   credentials_site_assignment: #Assign credentials to sites list of all sites mappings
   - assign_credentials_to_site: # Assign device credentials to sites

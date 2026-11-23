@@ -157,6 +157,13 @@ Execute the playbook:
 ansible-playbook -i hosts myplaybook.yml
 ```
 
+The sample playbooks also read device, wireless, and user passwords from variables in `credentials.yml`. [credentials.template](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks/vars/credentials.template) lists them. Keep `credentials.yml` out of version control and encrypt it with Ansible Vault:
+
+```bash
+ansible-vault encrypt vars/credentials.yml
+ansible-playbook -i hosts myplaybook.yml --ask-vault-pass
+```
+
 In the `playbooks` [directory](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks) you can find more examples and use cases.
 
 
@@ -280,6 +287,10 @@ On macOS controllers, a task may fail with `[ERROR]: A worker was found in a dea
 ## Contributing
 
 Contributions are welcome. Please open issues or pull requests via the [Cisco CATALYST Center Ansible collection repository](https://github.com/cisco-en-programmability/catalystcenter-ansible/issues). All contributors must adhere to the project's Code of Conduct.
+
+Read the [contribution guide](CONTRIBUTING.md) and the
+[code review and development guidelines](docs/CODE_REVIEW_GUIDELINES.md) before
+submitting or reviewing changes.
 
 
 ## Code of Conduct

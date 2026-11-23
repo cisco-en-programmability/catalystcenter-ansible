@@ -20,27 +20,27 @@ discovery_details:
       discovery_specific_credentials:
         cli_credentials_list:
             - username: wlcaccess
-              password: Lablab#123
-              enable_password: Cisco#123
+              password: "{{ discovery_cli_password }}"
+              enable_password: "{{ discovery_cli_enable_password }}"
             - username: cisco
-              password: Cisco#123
-              enable_password: Cisco#123
+              password: "{{ discovery_cli_password }}"
+              enable_password: "{{ discovery_cli_enable_password }}"
         http_read_credential:
             username: wlcaccess
-            password: Lablab#123
+            password: "{{ discovery_http_read_password }}"
             port: 443
             secure: true
         http_write_credential:
             username: wlcaccess
-            password: Lablab#123
+            password: "{{ discovery_http_write_password }}"
             port: 443
             secure: true
         snmp_v2_read_credential:
             description: snmpV2 Sample 1
-            community: public
+            community: "{{ discovery_snmp_v2_read_community }}"
         snmp_v2_write_credential:
             description: snmpV2 Sample 1
-            community: public
+            community: "{{ discovery_snmp_v2_write_community }}"
         net_conf_port: "830"
       retry: 2
     - ip_address_list:
@@ -52,29 +52,29 @@ discovery_details:
       discovery_specific_credentials:
         cli_credentials_list:
             - username: wlcaccess
-              password: Lablab#123
-              enable_password: Cisco#123
+              password: "{{ discovery_cli_password }}"
+              enable_password: "{{ discovery_cli_enable_password }}"
             - username: cisco
-              password: Cisco#123
-              enable_password: Cisco#123
+              password: "{{ discovery_cli_password }}"
+              enable_password: "{{ discovery_cli_enable_password }}"
         http_read_credential:
             username: wlcaccess
-            password: Lablab#123
+            password: "{{ discovery_http_read_password }}"
             port: 443
             secure: true
         http_write_credential:
             username: wlcaccess
-            password: Lablab#123
+            password: "{{ discovery_http_write_password }}"
             port: 443
             secure: true
         snmp_v3_credential:
             description: snmpv3Credentials
             username: wlcaccess
             snmp_mode: AUTHPRIV
-            auth_password: Lablab#123
+            auth_password: "{{ discovery_snmp_v3_auth_password }}"
             auth_type: SHA
             privacy_type: AES128
-            privacy_password: Lablab#123
+            privacy_password: "{{ discovery_snmp_v3_privacy_password }}"
         net_conf_port: "830"
       retry: 2
   range:
@@ -86,29 +86,29 @@ discovery_details:
       discovery_specific_credentials:
         cli_credentials_list:
             - username: wlcaccess
-              password: Lablab#123
-              enable_password: Cisco#123
+              password: "{{ discovery_cli_password }}"
+              enable_password: "{{ discovery_cli_enable_password }}"
             - username: cisco
-              password: Cisco#123
-              enable_password: Cisco#123
+              password: "{{ discovery_cli_password }}"
+              enable_password: "{{ discovery_cli_enable_password }}"
         http_read_credential:
             username: wlcaccess
-            password: Lablab#123
+            password: "{{ discovery_http_read_password }}"
             port: 443
             secure: true
         http_write_credential:
             username: wlcaccess
-            password: Lablab#123
+            password: "{{ discovery_http_write_password }}"
             port: 443
             secure: true
         snmp_v3_credential:
             description: snmpV3 Sample 1
             username: wlcaccess
             snmp_mode: AUTHPRIV
-            auth_password: Lablab#123
+            auth_password: "{{ discovery_snmp_v3_auth_password }}"
             auth_type: SHA
             privacy_type: AES128
-            privacy_password: Lablab#123
+            privacy_password: "{{ discovery_snmp_v3_privacy_password }}"
         net_conf_port: "830"
       retry: 2
   multi_range:
@@ -121,29 +121,29 @@ discovery_details:
       discovery_specific_credentials:
         cli_credentials_list:
             - username: wlcaccess
-              password: Lablab#123
-              enable_password: Cisco#123
+              password: "{{ discovery_cli_password }}"
+              enable_password: "{{ discovery_cli_enable_password }}"
             - username: cisco
-              password: Cisco#123
-              enable_password: Cisco#123
+              password: "{{ discovery_cli_password }}"
+              enable_password: "{{ discovery_cli_enable_password }}"
         http_read_credential:
             username: wlcaccess
-            password: Lablab#123
+            password: "{{ discovery_http_read_password }}"
             port: 443
             secure: true
         http_write_credential:
             username: wlcaccess
-            password: Lablab#123
+            password: "{{ discovery_http_write_password }}"
             port: 443
             secure: true
         snmp_v3_credential:
             description: snmpV3 Sample 1
             username: wlcaccess
             snmp_mode: AUTHPRIV
-            auth_password: Lablab#123
+            auth_password: "{{ discovery_snmp_v3_auth_password }}"
             auth_type: SHA
             privacy_type: AES128
-            privacy_password: Lablab#123
+            privacy_password: "{{ discovery_snmp_v3_privacy_password }}"
         net_conf_port: "830"
       timeout: 30
       retry: 2

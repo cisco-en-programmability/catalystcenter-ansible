@@ -154,7 +154,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.9",
@@ -175,7 +175,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -198,7 +198,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -220,7 +220,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -242,7 +242,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -268,7 +268,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -290,7 +290,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -314,7 +314,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="invalid_state",
@@ -334,7 +334,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -353,7 +353,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -375,7 +375,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -398,7 +398,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -419,7 +419,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -441,7 +441,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -464,7 +464,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -486,7 +486,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -508,7 +508,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_debug=True,
                 catalystcenter_version="2.3.7.9",
@@ -531,7 +531,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="created",  # Unsupported state
@@ -555,7 +555,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -578,7 +578,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -601,7 +601,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -627,7 +627,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -650,7 +650,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -676,7 +676,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -703,7 +703,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -730,7 +730,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -757,7 +757,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -780,7 +780,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -806,7 +806,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -829,7 +829,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
@@ -855,7 +855,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
             dict(
                 catalystcenter_host="192.168.1.1",
                 catalystcenter_username="admin",
-                catalystcenter_password="admin",
+                catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 catalystcenter_debug=True,
                 catalystcenter_version="2.3.7.9",
