@@ -71,7 +71,9 @@ export CATALYST_CENTER_PASSWORD='<password>'
 ```
 
 Workflow inputs that need device, SNMP, AAA, or user passwords read them from
-variables, for example `password: "{{ discovery_cli_password }}"`. Each
+variables, for example `password: "{{ discovery_cli_password }}"`. In a Jinja
+template, write `password: {{ discovery_cli_password | to_json }}` instead,
+without quotes, so quotes and backslashes in the password are kept. Each
 workflow's input file shows the names it uses. Define them in an Ansible
 Vault-encrypted group vars file next to the inventory, and add
 `--ask-vault-pass` when you run a playbook:

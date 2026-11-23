@@ -84,8 +84,8 @@ wireless_design_details:
         ssh_enabled: true
         telnet_enabled: false
         management_username: "admin"
-        management_password: "{{ wireless_design_ap_management_password }}"
-        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
+        management_password: {{ wireless_design_ap_management_password | to_json }}
+        management_enable_password: {{ wireless_design_ap_management_enable_password | to_json }}
       {% endif %}
     {% endfor %}
 
